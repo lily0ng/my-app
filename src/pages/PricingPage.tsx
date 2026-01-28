@@ -7,6 +7,7 @@ import {
   ChevronDown,
   ChevronUp,
   Boxes,
+  Calculator,
   Cpu,
   Database,
   Globe,
@@ -14,15 +15,17 @@ import {
   Layers,
   Network,
   Plus,
+  Search,
   Server,
   Shield,
+  Trash2,
+  X,
 } from 'lucide-react';
 export function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'hour' | 'second'>(
     'second'
   );
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [usage, setUsage] = useState(50);
   const [activeCatalogSection, setActiveCatalogSection] = useState('vx1');
   const gpuTasks = [
   {
@@ -357,6 +360,172 @@ export function PricingPage() {
     ],
     []
   );
+
+  type CalculatorLineItem = {
+    key: string;
+    label: string;
+    unit: string;
+    monthlyRate: number;
+    defaultQuantity: number;
+  };
+
+  type CalculatorServiceTemplate = {
+    id: string;
+    name: string;
+    description: string;
+    Icon: typeof Server;
+    items: CalculatorLineItem[];
+  };
+
+  type CalculatorSelectedService = {
+    instanceId: string;
+    templateId: string;
+    quantities: Record<string, number>;
+  };
+
+  const calculatorTemplates: CalculatorServiceTemplate[] = useMemo(
+    () => [
+      {
+        id: 'compute',
+        name: 'Cloud Compute',
+        description: 'General purpose VMs for web apps, APIs, and background jobs.',
+        Icon: Server,
+        items: [
+          { key: 'vcpuHours', label: 'vCPU-hours', unit: 'hours', monthlyRate: 0.015, defaultQuantity: 720 },
+          { key: 'memoryGiBHours', label: 'Memory GiB-hours', unit: 'GiB-hours', monthlyRate: 0.0025, defaultQuantity: 720 },
+          { key: 'egressGB', label: 'Data egress', unit: 'GB', monthlyRate: 0.01, defaultQuantity: 100 },
+        ],
+      },
+      {
+        id: 'gpu',
+        name: 'Cloud GPU',
+        description: 'On-demand GPUs for training, fine-tuning, and inference.',
+        Icon: Shield,
+        items: [
+          { key: 'gpuHours', label: 'GPU-hours', unit: 'hours', monthlyRate: 1.1, defaultQuantity: 40 },
+          { key: 'storageGB', label: 'Local NVMe', unit: 'GB', monthlyRate: 0.12, defaultQuantity: 200 },
+        ],
+      },
+      {
+        id: 'databases',
+        name: 'Managed Databases',
+        description: 'Managed Postgres/Redis with backups and monitoring.',
+        Icon: Database,
+        items: [
+          { key: 'dbHours', label: 'Database runtime', unit: 'hours', monthlyRate: 0.06, defaultQuantity: 720 },
+          { key: 'dbStorageGB', label: 'Storage', unit: 'GB', monthlyRate: 0.12, defaultQuantity: 100 },
+          { key: 'backupGB', label: 'Backups', unit: 'GB', monthlyRate: 0.04, defaultQuantity: 50 },
+        ],
+      },
+      {
+        id: 'blockStorage',
+        name: 'Block Storage',
+        description: 'Persistent volumes for stateful services and databases.',
+        Icon: HardDrive,
+        items: [
+          { key: 'volumeGB', label: 'Provisioned storage', unit: 'GB', monthlyRate: 0.10, defaultQuantity: 200 },
+          { key: 'snapshotsGB', label: 'Snapshots', unit: 'GB', monthlyRate: 0.05, defaultQuantity: 50 },
+        ],
+      },
+      {
+        id: 'objectStorage',
+        name: 'Object Storage',
+        description: 'S3-compatible storage for assets, logs, and datasets.',
+        Icon: Boxes,
+        items: [
+          { key: 'storageGB', label: 'Storage', unit: 'GB', monthlyRate: 0.02, defaultQuantity: 500 },
+          { key: 'requestsM', label: 'Requests', unit: 'million', monthlyRate: 0.40, defaultQuantity: 2 },
+          { key: 'egressGB', label: 'Egress', unit: 'GB', monthlyRate: 0.01, defaultQuantity: 100 },
+        ],
+      },
+      {
+        id: 'cdn',
+        name: 'CDN',
+        description: 'Content delivery with caching and TLS.',
+        Icon: Globe,
+        items: [
+          { key: 'egressGB', label: 'Egress', unit: 'GB', monthlyRate: 0.01, defaultQuantity: 250 },
+          { key: 'requestsM', label: 'Requests', unit: 'million', monthlyRate: 0.30, defaultQuantity: 5 },
+        ],
+      },
+      {
+        id: 'kubernetes',
+        name: 'Kubernetes Engine',
+        description: 'Managed Kubernetes control plane + nodes from compute.',
+        Icon: Layers,
+        items: [
+          { key: 'clusters', label: 'Clusters', unit: 'count', monthlyRate: 0, defaultQuantity: 1 },
+          { key: 'nodes', label: 'Worker nodes', unit: 'count', monthlyRate: 12, defaultQuantity: 3 },
+        ],
+      },
+      {
+        id: 'loadBalancers',
+        name: 'Load Balancers',
+        description: 'Traffic distribution with health checks and TLS.',
+        Icon: Network,
+        items: [
+          { key: 'lbs', label: 'Load balancers', unit: 'count', monthlyRate: 10, defaultQuantity: 1 },
+          { key: 'processedGB', label: 'Processed data', unit: 'GB', monthlyRate: 0.008, defaultQuantity: 300 },
+        ],
+      },
+    ],
+    []
+  );
+
+  const [calculatorQuery, setCalculatorQuery] = useState('');
+  const [calculatorPickerOpen, setCalculatorPickerOpen] = useState(false);
+  const [calculatorServices, setCalculatorServices] = useState<CalculatorSelectedService[]>([]);
+
+  const addCalculatorService = (templateId: string) => {
+    const template = calculatorTemplates.find((t) => t.id === templateId);
+    if (!template) return;
+
+    const instanceId = `${templateId}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    const quantities: Record<string, number> = {};
+    template.items.forEach((i) => {
+      quantities[i.key] = i.defaultQuantity;
+    });
+
+    setCalculatorServices((prev) => [...prev, { instanceId, templateId, quantities }]);
+    setCalculatorPickerOpen(false);
+    setCalculatorQuery('');
+    setCatalogHash(templateId);
+  };
+
+  const removeCalculatorService = (instanceId: string) => {
+    setCalculatorServices((prev) => prev.filter((s) => s.instanceId !== instanceId));
+  };
+
+  const updateCalculatorQuantity = (instanceId: string, key: string, value: number) => {
+    setCalculatorServices((prev) =>
+      prev.map((s) =>
+        s.instanceId === instanceId
+          ? { ...s, quantities: { ...s.quantities, [key]: Number.isFinite(value) ? value : 0 } }
+          : s
+      )
+    );
+  };
+
+  const formatMoney = (value: number) => {
+    return value.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+  };
+
+  const calculatorEstimate = useMemo(() => {
+    const serviceBreakdown = calculatorServices.map((svc) => {
+      const template = calculatorTemplates.find((t) => t.id === svc.templateId);
+      if (!template) return { instanceId: svc.instanceId, name: svc.templateId, total: 0 };
+
+      const total = template.items.reduce((sum, item) => {
+        const qty = svc.quantities[item.key] ?? 0;
+        return sum + qty * item.monthlyRate;
+      }, 0);
+
+      return { instanceId: svc.instanceId, name: template.name, total };
+    });
+
+    const total = serviceBreakdown.reduce((sum, s) => sum + s.total, 0);
+    return { serviceBreakdown, total };
+  }, [calculatorServices, calculatorTemplates]);
 
   const setCatalogHash = (id: string) => {
     window.history.replaceState(null, '', `#${id}`);
@@ -778,41 +947,247 @@ export function PricingPage() {
 
           {/* Cost Calculator */}
           <section className="py-32 px-6 bg-[#050505] -mx-6 mb-32">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-4xl font-bold mb-12 text-center">
-                Estimate your costs
-              </h2>
-              <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-10 shadow-2xl">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                  <div>
-                    <label className="block text-lg font-bold mb-4">
-                      GPU Usage (A100 hours/month)
-                    </label>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1000"
-                      value={usage}
-                      onChange={(e) => setUsage(parseInt(e.target.value))}
-                      className="w-full accent-[#00ff88] h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer" />
+            <div className="max-w-7xl mx-auto">
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+                <div>
+                  <div className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    <Calculator size={16} className="text-[color:var(--accent)]" />
+                    Pricing Calculator
+                  </div>
+                  <h2 className="mt-3 text-4xl font-bold">Build your estimate</h2>
+                  <p className="mt-2 text-gray-400 max-w-2xl">
+                    Add services, customize usage, and get an instant monthly estimate across your stack.
+                  </p>
+                </div>
 
-                    <div className="mt-4 text-4xl font-bold text-white">
-                      {usage} hours
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    <div className="text-gray-400 mb-2">
-                      Estimated Monthly Cost
-                    </div>
-                    <div className="text-5xl font-bold text-[#00ff88]">
-                      ${(usage * 3.95).toFixed(2)}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-2">
-                      *Based on A100 pricing. Actual costs may vary.
-                    </p>
-                  </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => setCalculatorPickerOpen(true)}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                  >
+                    <Plus size={18} />
+                    Add service
+                  </button>
+                  <button
+                    onClick={() => setCalculatorServices([])}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 text-white font-bold hover:bg-white/5 transition-colors"
+                  >
+                    Clear
+                    <X size={18} className="text-gray-400" />
+                  </button>
                 </div>
               </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="lg:col-span-8">
+                  {calculatorServices.length === 0 ? (
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-10 text-center">
+                      <div className="text-2xl font-bold">Start an estimate</div>
+                      <p className="mt-2 text-gray-400">
+                        Add one or more services and customize the usage to see monthly totals.
+                      </p>
+                      <button
+                        onClick={() => setCalculatorPickerOpen(true)}
+                        className="mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                      >
+                        <Plus size={18} />
+                        Add your first service
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {calculatorServices.map((svc) => {
+                        const template = calculatorTemplates.find((t) => t.id === svc.templateId);
+                        if (!template) return null;
+                        const serviceTotal = template.items.reduce((sum, item) => {
+                          const qty = svc.quantities[item.key] ?? 0;
+                          return sum + qty * item.monthlyRate;
+                        }, 0);
+
+                        return (
+                          <div
+                            key={svc.instanceId}
+                            className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6"
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex items-start gap-3 min-w-0">
+                                <div className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
+                                  <template.Icon size={18} className="text-[color:var(--accent)]" />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="text-xl font-bold truncate">{template.name}</div>
+                                  <div className="mt-1 text-sm text-gray-400">{template.description}</div>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-3 shrink-0">
+                                <div className="text-right">
+                                  <div className="text-xs text-gray-500">Monthly subtotal</div>
+                                  <div className="text-lg font-bold text-[color:var(--accent)]">
+                                    {formatMoney(serviceTotal)}
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => removeCalculatorService(svc.instanceId)}
+                                  className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] hover:bg-white/5 transition-colors flex items-center justify-center"
+                                >
+                                  <Trash2 size={16} className="text-gray-400" />
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {template.items.map((item) => (
+                                <div
+                                  key={item.key}
+                                  className="rounded-2xl border border-white/10 bg-[#050505] p-4"
+                                >
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                      <div className="font-bold truncate">{item.label}</div>
+                                      <div className="mt-1 text-xs text-gray-500">
+                                        {formatMoney(item.monthlyRate)} / {item.unit}
+                                      </div>
+                                    </div>
+                                    <div className="text-right">
+                                      <div className="text-xs text-gray-500">Estimated</div>
+                                      <div className="font-mono text-sm text-white">
+                                        {formatMoney((svc.quantities[item.key] ?? 0) * item.monthlyRate)}
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="mt-3 flex items-center gap-3">
+                                    <input
+                                      type="number"
+                                      min={0}
+                                      value={svc.quantities[item.key] ?? 0}
+                                      onChange={(e) =>
+                                        updateCalculatorQuantity(
+                                          svc.instanceId,
+                                          item.key,
+                                          Number(e.target.value)
+                                        )
+                                      }
+                                      className="w-full px-4 py-2.5 rounded-xl bg-[#0a0a0a] border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-[rgba(var(--accent-rgb),0.45)]"
+                                    />
+                                    <div className="text-xs text-gray-500 whitespace-nowrap">
+                                      {item.unit}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                <aside className="lg:col-span-4">
+                  <div className="sticky top-28 space-y-4">
+                    <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6">
+                      <div className="text-sm font-bold text-gray-500 uppercase tracking-wider">
+                        Monthly estimate
+                      </div>
+                      <div className="mt-3 text-4xl font-bold text-white">
+                        {formatMoney(calculatorEstimate.total)}
+                      </div>
+                      <div className="mt-2 text-xs text-gray-500">
+                        Totals are estimates for planning purposes and may vary by region and configuration.
+                      </div>
+                    </div>
+
+                    {calculatorEstimate.serviceBreakdown.length > 0 && (
+                      <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6">
+                        <div className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">
+                          Services
+                        </div>
+                        <div className="space-y-3">
+                          {calculatorEstimate.serviceBreakdown.map((s) => (
+                            <div key={s.instanceId} className="flex items-center justify-between gap-3">
+                              <div className="text-sm text-gray-300 truncate">{s.name}</div>
+                              <div className="font-mono text-sm text-[color:var(--accent)] font-bold whitespace-nowrap">
+                                {formatMoney(s.total)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </aside>
+              </div>
+
+              {calculatorPickerOpen && (
+                <div className="fixed inset-0 z-50">
+                  <button
+                    className="absolute inset-0 bg-black/60"
+                    onClick={() => setCalculatorPickerOpen(false)}
+                  />
+                  <div className="absolute left-1/2 top-24 -translate-x-1/2 w-[min(920px,calc(100%-24px))] bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                    <div className="p-6 border-b border-white/10 flex items-center justify-between gap-4">
+                      <div className="min-w-0">
+                        <div className="text-xl font-bold">Add a service</div>
+                        <div className="text-sm text-gray-400">
+                          Search and select services to include in your estimate.
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setCalculatorPickerOpen(false)}
+                        className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] hover:bg-white/5 transition-colors flex items-center justify-center"
+                      >
+                        <X size={18} className="text-gray-400" />
+                      </button>
+                    </div>
+
+                    <div className="p-6">
+                      <div className="relative">
+                        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                        <input
+                          value={calculatorQuery}
+                          onChange={(e) => setCalculatorQuery(e.target.value)}
+                          placeholder="Search services"
+                          className="w-full pl-12 pr-4 py-3 rounded-xl bg-[#050505] border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-[rgba(var(--accent-rgb),0.45)]"
+                          autoFocus
+                        />
+                      </div>
+
+                      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {calculatorTemplates
+                          .filter((t) => {
+                            const q = calculatorQuery.trim().toLowerCase();
+                            if (!q) return true;
+                            return (
+                              t.name.toLowerCase().includes(q) ||
+                              t.description.toLowerCase().includes(q)
+                            );
+                          })
+                          .map((t) => (
+                            <button
+                              key={t.id}
+                              onClick={() => addCalculatorService(t.id)}
+                              className="text-left p-4 rounded-2xl border border-white/10 bg-[#050505] hover:bg-white/5 hover:border-[rgba(var(--accent-rgb),0.35)] transition-colors"
+                            >
+                              <div className="flex items-start gap-3">
+                                <div className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
+                                  <t.Icon size={18} className="text-[color:var(--accent)]" />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="font-bold truncate">{t.name}</div>
+                                  <div className="mt-1 text-xs text-gray-500 line-clamp-2">
+                                    {t.description}
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
 
