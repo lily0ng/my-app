@@ -122,32 +122,24 @@ export function CustomersPage() {
         </section>
 
         {/* Customer Feedback */}
-        <section className="py-32 px-6 relative overflow-hidden border-y border-white/5 bg-black">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#00ff88]/10 via-transparent to-transparent opacity-60 pointer-events-none" />
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:70px_70px] [background-position:0_0] pointer-events-none" />
+        <section className="py-32 px-6 relative overflow-hidden border-y border-[color:var(--border-color)] bg-[color:var(--bg-primary)] text-[color:var(--text-primary)]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.14)] via-transparent to-transparent opacity-60 pointer-events-none" />
+          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.28)_1px,transparent_1px)] [background-size:70px_70px] [background-position:0_0] pointer-events-none" />
 
           <div className="max-w-7xl mx-auto relative">
             <div className="flex items-center justify-between gap-6 mb-14">
               <div>
-                <div className="flex items-center gap-2 text-sm font-semibold text-gray-300">
-                  <span className="text-[#00ff88]">›</span>
+                <div className="flex items-center gap-2 text-sm font-semibold text-[color:var(--text-secondary)]">
+                  <span className="text-[color:var(--accent)]">›</span>
                   What People Say
                 </div>
                 <h2 className="mt-4 text-5xl md:text-6xl font-bold tracking-tight">
-                  <span className="text-[#00ff88]">›</span> Shoutouts
+                  <span className="text-[color:var(--accent)]">›</span> Shoutouts
                 </h2>
-                <p className="mt-4 text-gray-400 max-w-2xl">
+                <p className="mt-4 text-[color:var(--text-secondary)] max-w-2xl">
                   What the community is saying about 1CloudNG
                 </p>
               </div>
-
-              <a
-                href="#"
-                className="text-sm font-semibold text-gray-300 hover:text-white transition-colors flex items-center gap-2"
-              >
-                View all
-                <ArrowRight size={16} />
-              </a>
             </div>
 
             <div className="space-y-6">
@@ -156,10 +148,10 @@ export function CustomersPage() {
                   {marqueeItems.map((t, idx) => (
                     <div
                       key={`${t.handle}-${idx}`}
-                      className="w-[360px] md:w-[420px] shrink-0 rounded-2xl border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.55)] px-6 py-5 hover:border-white/20 transition-colors"
+                      className="w-[360px] md:w-[420px] shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] shadow-[0_20px_70px_rgba(0,0,0,0.18)] px-6 py-5 hover:border-[rgba(var(--accent-rgb),0.35)] transition-colors"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#111] border border-white/10 flex items-center justify-center text-sm font-bold text-white">
+                        <div className="w-10 h-10 rounded-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] flex items-center justify-center text-sm font-bold text-[color:var(--text-primary)]">
                           {t.name
                             .split(' ')
                             .slice(0, 2)
@@ -169,13 +161,13 @@ export function CustomersPage() {
                         <div className="min-w-0">
                           <div className="flex items-center justify-between gap-3">
                             <div className="min-w-0">
-                              <div className="font-semibold text-white truncate">{t.name}</div>
+                              <div className="font-semibold text-[color:var(--text-primary)] truncate">{t.name}</div>
                               <div className="text-xs text-[#ff5a5a] font-semibold">{t.handle}</div>
                             </div>
-                            <Quote size={18} className="text-white/15 shrink-0" />
+                            <Quote size={18} className="text-[color:var(--text-tertiary)]/40 shrink-0" />
                           </div>
 
-                          <div className="mt-3 text-sm text-gray-300 leading-relaxed line-clamp-5">
+                          <div className="mt-3 text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-5">
                             {t.text}
                           </div>
                         </div>
@@ -193,10 +185,10 @@ export function CustomersPage() {
                     .map((t, idx) => (
                       <div
                         key={`${t.handle}-rev-${idx}`}
-                        className="w-[320px] md:w-[380px] shrink-0 rounded-2xl border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.55)] px-6 py-5 hover:border-white/20 transition-colors"
+                        className="w-[320px] md:w-[380px] shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] shadow-[0_20px_70px_rgba(0,0,0,0.18)] px-6 py-5 hover:border-[rgba(var(--accent-rgb),0.35)] transition-colors"
                       >
                         <div className="flex items-start gap-3">
-                          <div className="w-9 h-9 rounded-full bg-[#111] border border-white/10 flex items-center justify-center text-xs font-bold text-white">
+                          <div className="w-9 h-9 rounded-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] flex items-center justify-center text-xs font-bold text-[color:var(--text-primary)]">
                             {t.name
                               .split(' ')
                               .slice(0, 2)
@@ -206,12 +198,12 @@ export function CustomersPage() {
                           <div className="min-w-0">
                             <div className="flex items-center justify-between gap-3">
                               <div className="min-w-0">
-                                <div className="font-semibold text-white truncate">{t.name}</div>
+                                <div className="font-semibold text-[color:var(--text-primary)] truncate">{t.name}</div>
                                 <div className="text-xs text-[#ff5a5a] font-semibold">{t.handle}</div>
                               </div>
-                              <Quote size={18} className="text-white/15 shrink-0" />
+                              <Quote size={18} className="text-[color:var(--text-tertiary)]/40 shrink-0" />
                             </div>
-                            <div className="mt-3 text-sm text-gray-300 leading-relaxed line-clamp-4">
+                            <div className="mt-3 text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-4">
                               {t.text}
                             </div>
                           </div>

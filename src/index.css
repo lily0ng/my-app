@@ -287,12 +287,12 @@ html.light .bg-gradient-to-b.from-black.to-\[\#05150d\] {
 
  .marquee::before {
    left: 0;
-   background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+   background: linear-gradient(to right, var(--bg-primary), rgba(0, 0, 0, 0));
  }
 
  .marquee::after {
    right: 0;
-   background: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+   background: linear-gradient(to left, var(--bg-primary), rgba(0, 0, 0, 0));
  }
 
  .marquee__track {
