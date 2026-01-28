@@ -191,3 +191,80 @@ html.dark .border-accent-green {
 html.light .bg-gradient-to-b.from-black.to-\[\#05150d\] {
   background: linear-gradient(to bottom, var(--bg-primary), var(--bg-secondary)) !important;
 }
+
+ .ui-preview-frame {
+   position: relative;
+   border-radius: 1.5rem;
+   border: 1px solid rgba(var(--accent-rgb), 0.28);
+   overflow: hidden;
+   transform: translateZ(0);
+ }
+
+ .ui-preview-frame::before {
+   content: '';
+   position: absolute;
+   inset: 0;
+   padding: 1px;
+   border-radius: inherit;
+   background: linear-gradient(
+     90deg,
+     rgba(125, 184, 255, 0.0),
+     var(--ui-preview-ring),
+     rgba(125, 184, 255, 0.0)
+   );
+   background-size: 220% 220%;
+   filter: blur(0px);
+   animation: ui-preview-ring-move 3.2s linear infinite,
+     ui-preview-ring-color 9.6s steps(1, end) infinite;
+   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+   -webkit-mask-composite: xor;
+   mask-composite: exclude;
+   pointer-events: none;
+ }
+
+ .ui-preview-frame::after {
+   content: '';
+   position: absolute;
+   inset: 1px;
+   border-radius: inherit;
+   background: radial-gradient(
+     900px circle at 20% 12%,
+     rgba(125, 184, 255, 0.12),
+     rgba(0, 0, 0, 0)
+   );
+   opacity: 1;
+   animation: ui-preview-ring-color 9.6s steps(1, end) infinite;
+   pointer-events: none;
+ }
+
+ @keyframes ui-preview-ring-move {
+   0% {
+     background-position: 0% 50%;
+   }
+   100% {
+     background-position: 200% 50%;
+   }
+ }
+
+ @keyframes ui-preview-ring-color {
+   0%,
+   33.333% {
+     --ui-preview-ring: rgba(125, 184, 255, 0.82);
+   }
+   33.334%,
+   66.666% {
+     --ui-preview-ring: rgba(181, 164, 255, 0.78);
+   }
+   66.667%,
+   100% {
+     --ui-preview-ring: rgba(122, 231, 220, 0.74);
+   }
+ }
+
+ .ui-preview-frame:hover {
+   box-shadow:
+     0 26px 85px rgba(0, 0, 0, 0.55),
+     0 0 0 1px rgba(var(--accent-rgb), 0.14),
+     0 0 30px rgba(var(--accent-rgb), 0.18);
+ }

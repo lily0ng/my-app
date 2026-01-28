@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
 import { useTheme } from "../contexts/ThemeContext";
+import { motion } from "framer-motion";
 import uiDark from "../assets/images/UI Dark Thmes.png";
 import uiLight from "../assets/images/UI Light Thmes.png";
 import {
@@ -82,14 +83,18 @@ export function LandingPage() {
             <div className="relative w-full max-w-5xl">
               <div className="absolute -inset-10 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.14),transparent_60%)] blur-2xl" />
               <div className="absolute -inset-6 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.10),transparent_65%)] blur-xl" />
-              <div className="relative rounded-3xl overflow-hidden border border-[rgba(var(--accent-rgb),0.16)] bg-[rgba(0,0,0,0.08)] shadow-[0_24px_70px_rgba(0,0,0,0.45)]">
+              <motion.div
+                whileHover={{ scale: 1.04, y: -2 }}
+                transition={{ duration: 0.24, ease: "easeOut" }}
+                className="ui-preview-frame relative rounded-3xl bg-[rgba(0,0,0,0.08)] shadow-[0_24px_70px_rgba(0,0,0,0.45)]"
+              >
                 <img
                   src={theme === 'dark' ? uiDark : uiLight}
                   alt="Product UI"
                   className="w-full h-auto block"
                   loading="lazy"
                 />
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
