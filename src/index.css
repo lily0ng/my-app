@@ -12,21 +12,8 @@ body {
   overflow-x: hidden;
 }
 
-/* Dark theme (default) */
+/* Light theme (default) */
 :root {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --bg-tertiary: #0a0a0a;
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --text-tertiary: #666666;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --accent: #00ff88;
-  --accent-hover: #00cc6a;
-}
-
-/* Light theme */
-html.light {
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --bg-tertiary: #f1f3f4;
@@ -34,8 +21,24 @@ html.light {
   --text-secondary: #5a5a5a;
   --text-tertiary: #8a8a8a;
   --border-color: rgba(0, 0, 0, 0.1);
-  --accent: #00cc66;
-  --accent-hover: #00aa55;
+  /* Brand colors (from logo) */
+  --accent: #2f5bd3;
+  --accent-hover: #2449aa;
+  --accent-rgb: 47, 91, 211;
+}
+
+/* Dark theme */
+html.dark {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --accent: #3F5EBC;
+  --accent-hover: #2f4aa0;
+  --accent-rgb: 63, 94, 188;
 }
 
 /* Apply theme variables */

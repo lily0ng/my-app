@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
 import {
-  ArrowRight,
   Terminal,
   Cpu,
   Zap,
@@ -13,15 +12,10 @@ import {
   ChevronUp,
   Check,
   Play,
-  BarChart,
   Users,
   Shield,
-  Code,
-  Server,
   Layers,
-  Activity,
 } from "lucide-react";
-import { motion } from "framer-motion";
 export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const faqs = [
@@ -44,28 +38,28 @@ export function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white selection:bg-[#00ff88] selection:text-black font-sans">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[var(--accent)] selection:text-black font-sans transition-colors duration-300">
       <Nav />
 
       <main>
         {/* 1. Hero Section */}
         <section className="pt-32 pb-20 px-6 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00ff88]/10 via-black to-black pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.10)] via-[var(--bg-primary)] to-[var(--bg-primary)] pointer-events-none transition-colors duration-300" />
           <div className="max-w-5xl mx-auto relative z-10">
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
               AI infrastructure that <br />
-              <span className="text-[#00ff88]">Next Generation Cloud </span>
+              <span className="text-[var(--accent)]">Next Generation Cloud </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
+            <p className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto mb-12 leading-relaxed font-light">
               Deploy powerful cloud instances with ultra-fast NVMe SSD storage
               and flexible pay-as-you-go pricing. Powered by One Cloud Next-Gen
               — with 99.95% uptime.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="px-8 py-4 rounded-full bg-[#00ff88] text-black font-bold text-lg hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
+              <button className="px-8 py-4 rounded-full bg-[var(--accent)] text-black font-bold text-lg hover:bg-[var(--accent-hover)] transition-all hover:scale-105 shadow-[0_0_30px_rgba(var(--accent-rgb),0.25)]">
                 Start Free Trial
               </button>
-              <button className="px-8 py-4 rounded-full border border-white/20 text-white font-medium text-lg hover:bg-white/5 transition-all hover:scale-105">
+              <button className="px-8 py-4 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-lg hover:bg-black/5 transition-all hover:scale-105">
                 Views Pricing
               </button>
             </div>
@@ -73,30 +67,30 @@ export function LandingPage() {
 
           {/* Hero Visual - Code Block */}
           <div className="mt-24 max-w-5xl mx-auto relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#00ff88] to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-            <div className="relative bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-[#111]">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[rgba(var(--accent-rgb),0.9)] to-blue-600 rounded-2xl blur opacity-15 group-hover:opacity-30 transition duration-1000"></div>
+            <div className="relative bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-2xl transition-colors duration-300">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border-color)] bg-[var(--bg-secondary)] transition-colors duration-300">
                 <div className="flex gap-1.5">
                   <div className="w-3 h-3 rounded-full bg-red-500/20" />
                   <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
                   <div className="w-3 h-3 rounded-full bg-green-500/20" />
                 </div>
-                <div className="text-xs text-gray-500 font-mono ml-2">
+                <div className="text-xs text-[var(--text-tertiary)] font-mono ml-2">
                   train_model.py
                 </div>
               </div>
               <div className="p-8 text-left overflow-x-auto">
                 <pre className="font-mono text-sm md:text-base leading-relaxed">
-                  <code className="text-gray-300">
-                    <span className="text-[#00ff88]">import</span> modal{"\n\n"}
+                  <code className="text-[var(--text-primary)]">
+                    <span className="text-[var(--accent)]">import</span> modal{"\n\n"}
                     app = modal.App(
                     <span className="text-yellow-300">
                       "example-get-started"
                     </span>
                     ){"\n\n"}
-                    <span className="text-[#00ff88]">@app.function</span>(gpu=
+                    <span className="text-[var(--accent)]">@app.function</span>(gpu=
                     <span className="text-yellow-300">"A100"</span>){"\n"}
-                    <span className="text-[#00ff88]">def</span>{" "}
+                    <span className="text-[var(--accent)]">def</span>{" "}
                     <span className="text-blue-400">square</span>(x):{"\n"}
                     {"    "}print(
                     <span className="text-yellow-300">
@@ -104,11 +98,11 @@ export function LandingPage() {
                     </span>
                     ){"\n"}
                     {"    "}return x**2{"\n\n"}
-                    <span className="text-[#00ff88]">
+                    <span className="text-[var(--accent)]">
                       @app.local_entrypoint
                     </span>
                     (){"\n"}
-                    <span className="text-[#00ff88]">def</span>{" "}
+                    <span className="text-[var(--accent)]">def</span>{" "}
                     <span className="text-blue-400">main</span>():{"\n"}
                     {"    "}print(
                     <span className="text-yellow-300">"the square is"</span>,
@@ -121,7 +115,7 @@ export function LandingPage() {
         </section>
 
         {/* 2. Customer Logos */}
-        <section className="py-16 border-y border-white/5 bg-[#050505]">
+        <section className="py-16 border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
           <div className="max-w-7xl mx-auto px-6">
             <p className="text-center text-sm text-gray-500 mb-10 uppercase tracking-wider font-semibold">
               Trusted by engineering teams at
@@ -137,7 +131,7 @@ export function LandingPage() {
               ].map((name) => (
                 <div
                   key={name}
-                  className="text-2xl font-bold text-gray-400 hover:text-white transition-colors cursor-default"
+                  className="text-2xl font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-default"
                 >
                   {name}
                 </div>

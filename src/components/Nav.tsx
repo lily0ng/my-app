@@ -15,11 +15,6 @@ import {
   Activity,
   Image as ImageIcon,
   BookOpen,
-  Users,
-  Calendar,
-  MessageSquare,
-  Briefcase,
-  FileText,
   Play,
   Zap,
   BoxIcon,
@@ -32,7 +27,7 @@ export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const { theme, toggleTheme } = useTheme();
-  const location = useLocation();
+  useLocation();
   const productItems = [
   {
     name: 'Inference',
@@ -179,14 +174,14 @@ export function Nav() {
   }];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a] dark:bg-[#0a0a0a] light:bg-[#f8f9fa] border-b border-white/10 dark:border-white/10 light:border-gray-200 transition-colors duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0a0a0a]/90 border-b border-gray-200 dark:border-white/10 backdrop-blur-xl transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 rounded bg-[#00ff88] flex items-center justify-center">
             <span className="font-bold text-black text-lg">1C</span>
           </div>
-          <span className="font-bold text-xl tracking-tight text-white">
+          <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white transition-colors duration-300">
             Next-Gen
           </span>
         </Link>
@@ -363,7 +358,7 @@ export function Nav() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+        {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen &&
         <motion.div
@@ -379,7 +374,7 @@ export function Nav() {
             opacity: 0,
             height: 0
           }}
-          className="md:hidden bg-[#0a0a0a] border-b border-white/10 overflow-hidden">
+          className="md:hidden bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-white/10 overflow-hidden transition-colors duration-300">
 
             <div className="px-6 py-4 space-y-4">
               <Link
