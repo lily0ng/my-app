@@ -6,10 +6,14 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronUp,
+  Boxes,
   Cpu,
   Database,
+  Globe,
   HardDrive,
+  Layers,
   Network,
+  Plus,
   Server,
   Shield,
 } from 'lucide-react';
@@ -19,7 +23,7 @@ export function PricingPage() {
   );
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [usage, setUsage] = useState(50);
-  const [activeCatalogSection, setActiveCatalogSection] = useState('cloud-gpu');
+  const [activeCatalogSection, setActiveCatalogSection] = useState('vx1');
   const gpuTasks = [
   {
     name: 'Nvidia B200',
@@ -65,61 +69,212 @@ export function PricingPage() {
     return `$${price.toFixed(6)} / sec`;
   };
 
-  const catalogItems = useMemo(
+  type CatalogColumn = { key: string; label: string };
+  type CatalogRow = Record<string, string>;
+  type CatalogGroup = {
+    title: string;
+    description: string;
+    columns: CatalogColumn[];
+    rows: CatalogRow[];
+  };
+  type CatalogItem = {
+    id: string;
+    title: string;
+    description: string;
+    Icon: typeof Server;
+    heroTitle?: string;
+    heroDescription?: string[];
+    useCases?: string;
+    groups?: CatalogGroup[];
+    columns?: string[];
+    rows?: CatalogRow[];
+  };
+
+  const catalogItems: CatalogItem[] = useMemo(
     () => [
       {
-        id: 'cloud-compute',
-        title: 'Cloud Compute',
-        description: 'General purpose VMs for web apps, APIs, and background jobs.',
+        id: 'vx1',
+        title: 'VX1™',
+        description: 'VMs optimized for affordable core infrastructure workloads.',
         Icon: Server,
-        columns: ['vCPUs', 'Memory', 'Bandwidth', 'Storage', 'Hourly Price'],
-        rows: [
-          { vcpus: '2 vCPUs', memory: '8 GB', bandwidth: '5 TB', storage: 'Block Storage', price: '$0.06 / hr' },
-          { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '6 TB', storage: 'Block Storage', price: '$0.12 / hr' },
-          { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '7 TB', storage: 'Block Storage', price: '$0.24 / hr' },
+        heroTitle: 'VX1™',
+        heroDescription: [
+          'VX1 plans boast up to 82% better performance per dollar compared to leading cost efficiency-optimized compute plans.',
+          'VX1 instances support fast storage and networking with dedicated CPU resources and support for features such as virtualization and instant provisioning.',
+          'VX1 instances are billed on actual hours used each month and are not capped at 672 hours.',
+        ],
+        useCases: 'cloud-native and enterprise workloads.',
+        groups: [
+          {
+            title: 'General Purpose',
+            description:
+              'These virtual machines offer a typical balance of CPU and RAM resources suitable for common workloads.',
+            columns: [
+              { key: 'vcpus', label: 'vCPUs' },
+              { key: 'memory', label: 'Memory' },
+              { key: 'bandwidth', label: 'Bandwidth' },
+              { key: 'storage', label: 'Storage' },
+              { key: 'price', label: 'Hourly Price' },
+            ],
+            rows: [
+              { vcpus: '2 vCPUs', memory: '8 GB', bandwidth: '5.00 TB', storage: 'Block Storage', price: '$0.060 / hr' },
+              { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '6.00 TB', storage: 'Block Storage', price: '$0.120 / hr' },
+              { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '7.00 TB', storage: 'Block Storage', price: '$0.240 / hr' },
+              { vcpus: '16 vCPUs', memory: '64 GB', bandwidth: '8.00 TB', storage: 'Block Storage', price: '$0.480 / hr' },
+              { vcpus: '32 vCPUs', memory: '128 GB', bandwidth: '9.00 TB', storage: 'Block Storage', price: '$0.960 / hr' },
+              { vcpus: '48 vCPUs', memory: '192 GB', bandwidth: '9.00 TB', storage: 'Block Storage', price: '$1.440 / hr' },
+              { vcpus: '64 vCPUs', memory: '256 GB', bandwidth: '10.00 TB', storage: 'Block Storage', price: '$1.920 / hr' },
+              { vcpus: '96 vCPUs', memory: '384 GB', bandwidth: '10.00 TB', storage: 'Block Storage', price: '$2.880 / hr' },
+            ],
+          },
+          {
+            title: 'Memory Optimized',
+            description:
+              'Higher RAM per core for memory-heavy workloads such as caching, analytics, and in-memory databases.',
+            columns: [
+              { key: 'vcpus', label: 'vCPUs' },
+              { key: 'memory', label: 'Memory' },
+              { key: 'bandwidth', label: 'Bandwidth' },
+              { key: 'storage', label: 'Storage' },
+              { key: 'price', label: 'Hourly Price' },
+            ],
+            rows: [
+              { vcpus: '2 vCPUs', memory: '16 GB', bandwidth: '5.00 TB', storage: '120 GB NVMe', price: '$0.076 / hr' },
+              { vcpus: '4 vCPUs', memory: '32 GB', bandwidth: '6.00 TB', storage: '240 GB NVMe', price: '$0.153 / hr' },
+              { vcpus: '8 vCPUs', memory: '64 GB', bandwidth: '7.00 TB', storage: '480 GB NVMe', price: '$0.306 / hr' },
+              { vcpus: '16 vCPUs', memory: '128 GB', bandwidth: '8.00 TB', storage: '960 GB NVMe', price: '$0.612 / hr' },
+              { vcpus: '32 vCPUs', memory: '256 GB', bandwidth: '9.00 TB', storage: '1920 GB NVMe', price: '$1.233 / hr' },
+              { vcpus: '48 vCPUs', memory: '384 GB', bandwidth: '9.00 TB', storage: '2880 GB NVMe', price: '$1.835 / hr' },
+            ],
+          },
         ],
       },
       {
-        id: 'optimized-compute',
-        title: 'Optimized Compute',
-        description: 'Higher sustained performance for build pipelines and data processing.',
-        Icon: Cpu,
+        id: 'cloud-compute',
+        title: 'Cloud Compute',
+        description: 'Easy-to-use, affordable VMs for many common workloads.',
+        Icon: Server,
+        heroTitle: 'Cloud Compute',
+        heroDescription: [
+          'General purpose compute for web apps, APIs, CI/CD runners, and background tasks.',
+          'Choose a size that fits your workload and scale as needed.',
+        ],
+        useCases: 'web apps, microservices, and internal tools.',
         columns: ['vCPUs', 'Memory', 'Bandwidth', 'Storage', 'Hourly Price'],
         rows: [
-          { vcpus: '4 vCPUs', memory: '8 GB', bandwidth: '6 TB', storage: 'NVMe', price: '$0.14 / hr' },
-          { vcpus: '8 vCPUs', memory: '16 GB', bandwidth: '8 TB', storage: 'NVMe', price: '$0.28 / hr' },
-          { vcpus: '16 vCPUs', memory: '32 GB', bandwidth: '10 TB', storage: 'NVMe', price: '$0.56 / hr' },
+          { vcpus: '1 vCPU', memory: '2 GB', bandwidth: '2.00 TB', storage: 'Block Storage', price: '$0.015 / hr' },
+          { vcpus: '2 vCPUs', memory: '4 GB', bandwidth: '3.00 TB', storage: 'Block Storage', price: '$0.030 / hr' },
+          { vcpus: '4 vCPUs', memory: '8 GB', bandwidth: '4.00 TB', storage: 'Block Storage', price: '$0.060 / hr' },
+          { vcpus: '8 vCPUs', memory: '16 GB', bandwidth: '5.00 TB', storage: 'Block Storage', price: '$0.120 / hr' },
+          { vcpus: '16 vCPUs', memory: '32 GB', bandwidth: '6.00 TB', storage: 'Block Storage', price: '$0.240 / hr' },
+          { vcpus: '32 vCPUs', memory: '64 GB', bandwidth: '7.00 TB', storage: 'Block Storage', price: '$0.480 / hr' },
+        ],
+      },
+      {
+        id: 'optimized-cloud-compute',
+        title: 'Optimized Cloud Compute',
+        description: 'No noisy neighbors on powerful VMs with built-in NVMe SSD.',
+        Icon: Cpu,
+        heroTitle: 'Optimized Cloud Compute',
+        heroDescription: [
+          'Compute optimized instances designed for consistent CPU performance.',
+          'Ideal for build pipelines, compilers, ETL, and latency-sensitive services.',
+        ],
+        useCases: 'batch jobs, build pipelines, and high-CPU services.',
+        columns: ['vCPUs', 'Memory', 'NVMe', 'Bandwidth', 'Hourly Price'],
+        rows: [
+          { vcpus: '4 vCPUs', memory: '8 GB', nvme: '160 GB', bandwidth: '6.00 TB', price: '$0.070 / hr' },
+          { vcpus: '8 vCPUs', memory: '16 GB', nvme: '320 GB', bandwidth: '8.00 TB', price: '$0.140 / hr' },
+          { vcpus: '16 vCPUs', memory: '32 GB', nvme: '640 GB', bandwidth: '10.00 TB', price: '$0.280 / hr' },
+          { vcpus: '32 vCPUs', memory: '64 GB', nvme: '1280 GB', bandwidth: '10.00 TB', price: '$0.560 / hr' },
         ],
       },
       {
         id: 'cloud-gpu',
         title: 'Cloud GPU',
-        description: 'On-demand GPUs for training, fine-tuning, and high-throughput inference.',
+        description: 'VMs with affordable, virtualized NVIDIA GPUs.',
         Icon: Shield,
+        heroTitle: 'Cloud GPU',
+        heroDescription: [
+          'Provision GPUs for training, fine-tuning, and production inference.',
+          'Pick cost-effective instances for experimentation or scale up for throughput.',
+        ],
+        useCases: 'training, inference, and batch rendering.',
         columns: ['GPU', 'vCPUs', 'Memory', 'Storage', 'Hourly Price'],
         rows: [
-          { gpu: 'L4', vcpus: '8 vCPUs', memory: '32 GB', storage: 'NVMe', price: '$0.80 / hr' },
-          { gpu: 'A10', vcpus: '16 vCPUs', memory: '64 GB', storage: 'NVMe', price: '$1.10 / hr' },
-          { gpu: 'H100', vcpus: '32 vCPUs', memory: '192 GB', storage: 'NVMe', price: '$3.60 / hr' },
+          { gpu: 'T4', vcpus: '8 vCPUs', memory: '32 GB', storage: 'NVMe', price: '$0.65 / hr' },
+          { gpu: 'L4', vcpus: '16 vCPUs', memory: '64 GB', storage: 'NVMe', price: '$0.95 / hr' },
+          { gpu: 'A10', vcpus: '24 vCPUs', memory: '96 GB', storage: 'NVMe', price: '$1.35 / hr' },
+          { gpu: 'A100', vcpus: '32 vCPUs', memory: '192 GB', storage: 'NVMe', price: '$3.20 / hr' },
+          { gpu: 'H100', vcpus: '48 vCPUs', memory: '384 GB', storage: 'NVMe', price: '$5.90 / hr' },
+        ],
+      },
+      {
+        id: 'bare-metal',
+        title: 'Bare Metal',
+        description: 'Single-tenant dedicated servers.',
+        Icon: Server,
+        heroTitle: 'Bare Metal',
+        heroDescription: [
+          'Dedicated servers for maximum performance, isolation, and compliance requirements.',
+          'Run your own hypervisor, storage stack, or specialized networking on dedicated hardware.',
+        ],
+        useCases: 'compliance, storage systems, and custom networking.',
+        columns: ['CPU', 'Memory', 'Storage', 'Network', 'Monthly Price'],
+        rows: [
+          { cpu: '12 cores', memory: '64 GB', storage: '2× 960 GB NVMe', network: '10 Gbps', price: '$199 / mo' },
+          { cpu: '24 cores', memory: '128 GB', storage: '2× 1.92 TB NVMe', network: '10 Gbps', price: '$349 / mo' },
+          { cpu: '48 cores', memory: '256 GB', storage: '2× 3.84 TB NVMe', network: '25 Gbps', price: '$699 / mo' },
+        ],
+      },
+      {
+        id: 'kubernetes-engine',
+        title: 'Kubernetes Engine',
+        description: 'Managed Kubernetes clusters.',
+        Icon: Layers,
+        heroTitle: 'Kubernetes Engine',
+        heroDescription: [
+          'Provision production-ready Kubernetes clusters with a managed control plane.',
+          'Attach compute plans from the catalog and scale nodes as demand grows.',
+        ],
+        useCases: 'container platforms and multi-service deployments.',
+        columns: ['Tier', 'Control plane', 'Included features', 'Monthly Price'],
+        rows: [
+          { tier: 'Standard', controlplane: 'Managed', features: 'Upgrades, RBAC, API access', price: '$0 / mo' },
+          { tier: 'Pro', controlplane: 'HA Managed', features: 'Multi-zone, autoscaling', price: '$99 / mo' },
+          { tier: 'Enterprise', controlplane: 'Custom', features: 'Dedicated support + compliance', price: 'Contact sales' },
         ],
       },
       {
         id: 'databases',
         title: 'Databases',
-        description: 'Managed Postgres and Redis to ship faster with built-in backups.',
+        description: 'Databases that just work right out of the box.',
         Icon: Database,
+        heroTitle: 'Databases',
+        heroDescription: [
+          'Managed Postgres and Redis designed for reliable backups, monitoring, and upgrades.',
+          'Start small and scale without re-architecting your platform.',
+        ],
+        useCases: 'production data stores and caching layers.',
         columns: ['Plan', 'Storage', 'Backups', 'HA', 'Monthly Price'],
         rows: [
           { plan: 'Starter', storage: '20 GB', backups: 'Daily', ha: '—', price: '$15 / mo' },
           { plan: 'Standard', storage: '100 GB', backups: 'Hourly', ha: 'Optional', price: '$59 / mo' },
           { plan: 'Pro', storage: '500 GB', backups: 'Continuous', ha: 'Included', price: '$199 / mo' },
+          { plan: 'Enterprise', storage: 'Custom', backups: 'Custom', ha: 'Included', price: 'Contact sales' },
         ],
       },
       {
         id: 'block-storage',
         title: 'Block Storage',
-        description: 'Attach durable volumes to any workload for predictable performance.',
+        description: 'Network-attached volumes for persistent workloads.',
         Icon: HardDrive,
+        heroTitle: 'Block Storage',
+        heroDescription: [
+          'Attach durable volumes to instances for predictable performance and simple expansion.',
+          'Ideal for databases, stateful services, and shared storage needs.',
+        ],
+        useCases: 'databases, queues, and persistent workloads.',
         columns: ['Tier', 'IOPS', 'Use case', 'Price'],
         rows: [
           { tier: 'Standard', iops: '3k', use: 'General workloads', price: '$0.10 / GB-mo' },
@@ -128,15 +283,75 @@ export function PricingPage() {
         ],
       },
       {
-        id: 'networking',
-        title: 'Networking',
-        description: 'Secure private networking, gateways, and traffic controls.',
-        Icon: Network,
-        columns: ['Feature', 'Included', 'Notes'],
+        id: 'object-storage',
+        title: 'Object Storage',
+        description: 'S3-compatible asset storage.',
+        Icon: Boxes,
+        heroTitle: 'Object Storage',
+        heroDescription: [
+          'Store and serve large datasets, media, logs, and backups with S3-compatible APIs.',
+          'Designed for durability and throughput with simple pricing.',
+        ],
+        useCases: 'backups, datasets, and static assets.',
+        columns: ['Metric', 'Included', 'Price'],
         rows: [
-          { feature: 'Private networking', included: 'Yes', notes: 'Isolated VPC-style connectivity' },
-          { feature: 'Static IP', included: 'Optional', notes: 'Reserve addresses per environment' },
-          { feature: 'Traffic policies', included: 'Yes', notes: 'Rate limits, allowlists, and routing' },
+          { metric: 'Storage', included: '—', price: '$0.02 / GB-mo' },
+          { metric: 'Requests', included: '1M / mo', price: '$0.40 / 1M' },
+          { metric: 'Egress', included: '1 TB / mo', price: '$0.01 / GB' },
+        ],
+      },
+      {
+        id: 'cdn',
+        title: 'CDN',
+        description: 'Advanced CDN with push and pull zones.',
+        Icon: Globe,
+        heroTitle: 'CDN',
+        heroDescription: [
+          'Deliver content globally with caching, TLS, and simple purge controls.',
+          'Reduce latency for static assets and streaming workloads.',
+        ],
+        useCases: 'static websites, media, and API caching.',
+        columns: ['Metric', 'Included', 'Price'],
+        rows: [
+          { metric: 'Requests', included: '1M / mo', price: '$0.30 / 1M' },
+          { metric: 'Egress', included: '1 TB / mo', price: '$0.01 / GB' },
+          { metric: 'Rules', included: 'Basic', price: 'Included' },
+        ],
+      },
+      {
+        id: 'load-balancers',
+        title: 'Load Balancers',
+        description: 'Network load balancing service.',
+        Icon: Network,
+        heroTitle: 'Load Balancers',
+        heroDescription: [
+          'Distribute traffic across services with health checks, TLS termination, and flexible routing.',
+          'Deploy with your compute plans and scale as demand grows.',
+        ],
+        useCases: 'high availability and traffic routing.',
+        columns: ['Tier', 'Health checks', 'TLS', 'Monthly Price'],
+        rows: [
+          { tier: 'Standard', healthchecks: 'Included', tls: 'Included', price: '$10 / mo' },
+          { tier: 'Advanced', healthchecks: 'Custom', tls: 'Included', price: '$25 / mo' },
+          { tier: 'Enterprise', healthchecks: 'Custom', tls: 'Custom', price: 'Contact sales' },
+        ],
+      },
+      {
+        id: 'add-on-services',
+        title: 'Add-on Services',
+        description: 'Additional product offerings.',
+        Icon: Plus,
+        heroTitle: 'Add-on Services',
+        heroDescription: [
+          'Add capabilities like enhanced support, compliance controls, and enterprise integrations.',
+          'Bundle add-ons per environment or across your organization.',
+        ],
+        useCases: 'security, compliance, and support.',
+        columns: ['Add-on', 'What you get', 'Price'],
+        rows: [
+          { addon: 'Advanced support', what: 'Priority response + guidance', price: 'Contact sales' },
+          { addon: 'Compliance pack', what: 'Controls + reporting', price: 'Contact sales' },
+          { addon: 'Enterprise SSO', what: 'SAML, SCIM, policy controls', price: 'Contact sales' },
         ],
       },
     ],
@@ -389,7 +604,7 @@ export function PricingPage() {
               <div>
                 <h2 className="text-4xl font-bold">Pricing catalog</h2>
                 <p className="mt-2 text-gray-400 max-w-2xl">
-                  Explore product categories and pricing details. Click any item on the left to jump to its section.
+                  Explore product categories and pricing details. Select any item on the left to view pricing.
                 </p>
               </div>
             </div>
@@ -439,51 +654,122 @@ export function PricingPage() {
 
               <div className="lg:col-span-8">
                 <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center">
-                      <activeCatalogItem.Icon size={18} className="text-[color:var(--accent)]" />
+                  <div className="flex items-start gap-4">
+                    <div className="h-12 w-12 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
+                      <activeCatalogItem.Icon size={20} className="text-[color:var(--accent)]" />
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold">{activeCatalogItem.title}</h3>
-                      <p className="mt-1 text-sm text-gray-400">{activeCatalogItem.description}</p>
+                    <div className="min-w-0">
+                      <h3 className="text-3xl md:text-4xl font-bold tracking-tight">
+                        {activeCatalogItem.heroTitle ?? activeCatalogItem.title}
+                      </h3>
+                      <div className="mt-4 space-y-3 text-sm md:text-base text-gray-400 leading-relaxed">
+                        {(activeCatalogItem.heroDescription ?? [activeCatalogItem.description]).map((p) => (
+                          <p key={p}>{p}</p>
+                        ))}
+                      </div>
+                      {activeCatalogItem.useCases && (
+                        <div className="mt-4 text-sm text-gray-400">
+                          <span className="font-bold text-gray-300">Use cases:</span>{' '}
+                          {activeCatalogItem.useCases}
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  <div className="bg-[#050505] border border-white/10 rounded-2xl overflow-hidden">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
-                        <thead>
-                          <tr className="border-b border-white/10">
-                            {activeCatalogItem.columns.map((c) => (
-                              <th
-                                key={c}
-                                className="py-4 px-4 text-gray-400 font-medium uppercase tracking-wider text-xs whitespace-nowrap"
-                              >
-                                {c}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/5">
-                          {activeCatalogItem.rows.map((row: Record<string, string>, idx: number) => (
-                            <tr key={idx} className="hover:bg-white/5 transition-colors">
-                              {Object.values(row).map((val, i) => (
-                                <td
-                                  key={i}
-                                  className={
-                                    i === Object.values(row).length - 1
-                                      ? 'py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap'
-                                      : 'py-4 px-4 text-gray-300 whitespace-nowrap'
-                                  }
-                                >
-                                  {val}
-                                </td>
-                              ))}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                  <div className="mt-10 space-y-10">
+                    {Array.isArray(activeCatalogItem.groups) && activeCatalogItem.groups.length > 0 ? (
+                      activeCatalogItem.groups.map((group) => (
+                        <div key={group.title}>
+                          <div className="flex items-start gap-3 mb-4">
+                            <div className="h-8 w-8 rounded-lg border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
+                              <activeCatalogItem.Icon size={16} className="text-[color:var(--accent)]" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-xl font-bold">{group.title}</div>
+                              <div className="mt-1 text-sm text-gray-400">{group.description}</div>
+                            </div>
+                          </div>
+
+                          <div className="bg-[#050505] border border-white/10 rounded-2xl overflow-hidden">
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left border-collapse">
+                                <thead>
+                                  <tr className="border-b border-white/10">
+                                    {group.columns.map((c) => (
+                                      <th
+                                        key={c.key}
+                                        className="py-4 px-4 text-gray-400 font-medium uppercase tracking-wider text-xs whitespace-nowrap"
+                                      >
+                                        {c.label}
+                                      </th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-white/5">
+                                  {group.rows.map((row, idx) => (
+                                    <tr key={idx} className="hover:bg-white/5 transition-colors">
+                                      {group.columns.map((c, i) => (
+                                        <td
+                                          key={c.key}
+                                          className={
+                                            i === group.columns.length - 1
+                                              ? 'py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap'
+                                              : 'py-4 px-4 text-gray-300 whitespace-nowrap'
+                                          }
+                                        >
+                                          {row[c.key] ?? ''}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : activeCatalogItem.columns && activeCatalogItem.rows ? (
+                      <div>
+                        <div className="bg-[#050505] border border-white/10 rounded-2xl overflow-hidden">
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                              <thead>
+                                <tr className="border-b border-white/10">
+                                  {activeCatalogItem.columns.map((c) => (
+                                    <th
+                                      key={c}
+                                      className="py-4 px-4 text-gray-400 font-medium uppercase tracking-wider text-xs whitespace-nowrap"
+                                    >
+                                      {c}
+                                    </th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-white/5">
+                                {activeCatalogItem.rows.map((row: Record<string, string>, idx: number) => (
+                                  <tr key={idx} className="hover:bg-white/5 transition-colors">
+                                    {Object.values(row).map((val, i) => (
+                                      <td
+                                        key={i}
+                                        className={
+                                          i === Object.values(row).length - 1
+                                            ? 'py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap'
+                                            : 'py-4 px-4 text-gray-300 whitespace-nowrap'
+                                        }
+                                      >
+                                        {val}
+                                      </td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-gray-500">No pricing data available.</div>
+                    )}
                   </div>
                 </div>
               </div>
