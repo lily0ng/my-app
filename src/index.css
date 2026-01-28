@@ -1,0 +1,150 @@
+/* URL IMPORTS (SUCH AS FONT IMPORTS) SHOULD BE KEPT ABOVE TAILWIND IMPORTS - DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* PLEASE NOTE: THESE TAILWIND IMPORTS SHOULD NEVER BE DELETED - DO NOT DELETE THIS COMMENT */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+/* DO NOT DELETE THESE TAILWIND IMPORTS, OTHERWISE THE STYLING WILL NOT RENDER AT ALL - DO NOT DELETE THIS COMMENT */
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Dark theme (default) */
+:root {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --accent: #00ff88;
+  --accent-hover: #00cc6a;
+}
+
+/* Light theme */
+html.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f4;
+  --text-primary: #1a1a1a;
+  --text-secondary: #5a5a5a;
+  --text-tertiary: #8a8a8a;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --accent: #00cc66;
+  --accent-hover: #00aa55;
+}
+
+/* Apply theme variables */
+html {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light theme specific fixes */
+html.light .bg-black {
+  background-color: var(--bg-primary) !important;
+}
+
+html.light .bg-\[\#000000\] {
+  background-color: var(--bg-primary) !important;
+}
+
+html.light .bg-\[\#0a0a0a\] {
+  background-color: var(--bg-tertiary) !important;
+}
+
+html.light .bg-\[\#111\] {
+  background-color: var(--bg-secondary) !important;
+}
+
+html.light .bg-\[\#050505\] {
+  background-color: var(--bg-tertiary) !important;
+}
+
+html.light .text-white {
+  color: var(--text-primary) !important;
+}
+
+html.light .text-gray-300,
+html.light .text-gray-400,
+html.light .text-gray-500 {
+  color: var(--text-secondary) !important;
+}
+
+html.light .border-white\/10,
+html.light .border-white\/5 {
+  border-color: var(--border-color) !important;
+}
+
+html.light .hover\:bg-white\/5:hover {
+  background-color: var(--border-color) !important;
+}
+
+html.light .hover\:text-white:hover {
+  color: var(--text-primary) !important;
+}
+
+/* Enhanced light theme support */
+html.light .selection\:bg-\[\#00ff88\]:selection {
+  background-color: var(--accent) !important;
+}
+
+html.light .selection\:text-black:selection {
+  color: black !important;
+}
+
+/* Nav component light theme */
+html.light nav {
+  background-color: var(--bg-tertiary) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+html.light .bg-\[\#0a0a0a\] {
+  background-color: var(--bg-tertiary) !important;
+}
+
+/* Form elements */
+html.light input,
+html.light textarea {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Buttons in light theme */
+html.light button {
+  color: var(--text-primary);
+}
+
+/* Links in light theme */
+html.light a {
+  color: var(--text-primary);
+}
+
+/* Hover states for light theme */
+html.light .group:hover .group-hover\:text-\[\#00ff88\] {
+  color: var(--accent) !important;
+}
+
+/* Accent colors in light theme */
+html.light .text-\[\#00ff88\] {
+  color: var(--accent) !important;
+}
+
+html.light .bg-\[\#00ff88\] {
+  background-color: var(--accent) !important;
+}
+
+html.light .hover\:bg-\[\#00cc6a\]:hover {
+  background-color: var(--accent-hover) !important;
+}
+
+/* Specific component fixes */
+html.light .bg-gradient-to-b.from-black.to-\[\#05150d\] {
+  background: linear-gradient(to bottom, var(--bg-primary), var(--bg-secondary)) !important;
+}
