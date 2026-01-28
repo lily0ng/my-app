@@ -48,14 +48,17 @@ export function LandingPage() {
       <main>
         {/* 1. Hero Section */}
         <section className="pt-32 pb-16 px-6 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.18)] via-[rgba(0,0,0,0)] to-[rgba(0,0,0,0)] pointer-events-none transition-colors duration-300" />
-          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.35)_1px,transparent_1px)] [background-size:44px_44px] [background-position:0_0] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.12)] via-[rgba(0,0,0,0)] to-[rgba(0,0,0,0)] pointer-events-none transition-colors duration-300" />
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.22)_1px,transparent_1px)] [background-size:44px_44px] [background-position:0_0] pointer-events-none" />
 
           <div className="max-w-3xl mx-auto relative z-10">
             <h1 className="text-5xl md:text-6xl font-semibold tracking-tight mb-6 leading-[1.05]">
               AI infrastructure that
               <br />
-              developers <span className="text-[var(--accent)]">love</span>
+              developers{' '}
+              <span className="text-[var(--accent)]">
+                love
+              </span>
             </h1>
             <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 leading-relaxed">
               Run inference, training, and batch processing with sub-second cold
@@ -63,7 +66,9 @@ export function LandingPage() {
               local.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <button className="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors shadow-[0_0_30px_rgba(var(--accent-rgb),0.25)]">
+              <button
+                className="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors shadow-[0_0_22px_rgba(var(--accent-rgb),0.16)]"
+              >
                 Get Started
               </button>
               <button className="px-6 py-2.5 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-sm hover:bg-[rgba(var(--accent-rgb),0.06)] transition-colors">
@@ -75,9 +80,9 @@ export function LandingPage() {
           {/* Hero Visual - Code Block */}
           <div className="mt-16 flex justify-center relative">
             <div className="relative w-full max-w-5xl">
-              <div className="absolute -inset-10 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.22),transparent_60%)] blur-2xl" />
-              <div className="absolute -inset-6 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.14),transparent_65%)] blur-xl" />
-              <div className="relative rounded-3xl overflow-hidden border border-[rgba(var(--accent-rgb),0.22)] bg-[rgba(0,0,0,0.10)] shadow-[0_30px_90px_rgba(0,0,0,0.55)]">
+              <div className="absolute -inset-10 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.14),transparent_60%)] blur-2xl" />
+              <div className="absolute -inset-6 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.10),transparent_65%)] blur-xl" />
+              <div className="relative rounded-3xl overflow-hidden border border-[rgba(var(--accent-rgb),0.16)] bg-[rgba(0,0,0,0.08)] shadow-[0_24px_70px_rgba(0,0,0,0.45)]">
                 <img
                   src={theme === 'dark' ? uiDark : uiLight}
                   alt="Product UI"

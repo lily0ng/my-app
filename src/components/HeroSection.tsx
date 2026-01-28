@@ -32,8 +32,8 @@ export function HeroSection({
     <section
       className="relative min-h-[70vh] flex items-center justify-center px-6 pt-32 pb-16 z-10 bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] transition-colors duration-300 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.18)] via-[rgba(0,0,0,0)] to-[rgba(0,0,0,0)] pointer-events-none transition-colors duration-300" />
-      <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.35)_1px,transparent_1px)] [background-size:44px_44px] [background-position:0_0] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.12)] via-[rgba(0,0,0,0)] to-[rgba(0,0,0,0)] pointer-events-none transition-colors duration-300" />
+      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.22)_1px,transparent_1px)] [background-size:44px_44px] [background-position:0_0] pointer-events-none" />
       <motion.div
         initial={{
           opacity: 0,
@@ -84,7 +84,7 @@ export function HeroSection({
             <motion.button
               whileHover={{
                 scale: 1.03,
-                boxShadow: '0 0 30px rgba(var(--accent-rgb),0.28)'
+                boxShadow: '0 0 22px rgba(var(--accent-rgb),0.18)'
               }}
               whileTap={{
                 scale: 0.98,
@@ -111,9 +111,9 @@ export function HeroSection({
 
           <div className="mt-14 hidden md:block w-full max-w-5xl mx-auto">
             <div className="relative">
-              <div className="absolute -inset-10 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.22),transparent_60%)] blur-2xl" />
-              <div className="absolute -inset-6 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.14),transparent_65%)] blur-xl" />
-              <div className="relative rounded-3xl overflow-hidden border border-[rgba(var(--accent-rgb),0.22)] bg-[rgba(0,0,0,0.10)] shadow-[0_30px_90px_rgba(0,0,0,0.55)]">
+              <div className="absolute -inset-10 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.14),transparent_60%)] blur-2xl" />
+              <div className="absolute -inset-6 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.10),transparent_65%)] blur-xl" />
+              <div className="relative rounded-3xl overflow-hidden border border-[rgba(var(--accent-rgb),0.16)] bg-[rgba(0,0,0,0.08)] shadow-[0_24px_70px_rgba(0,0,0,0.45)]">
                 <img
                   src={theme === 'dark' ? uiDark : uiLight}
                   alt="Product UI"

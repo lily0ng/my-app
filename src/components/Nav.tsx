@@ -23,6 +23,7 @@ import {
 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import logo from '../assets/images/Logo.png';
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -198,12 +199,12 @@ export function Nav() {
         <div className="w-full px-5 h-12 flex items-center gap-6">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded bg-[color:var(--accent)] flex items-center justify-center">
-                <span className="font-bold text-white text-lg">1C</span>
-              </div>
-              <span className="font-semibold text-lg tracking-tight text-[color:var(--text-primary)] transition-colors duration-300">
-                Next-Gen
-              </span>
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-8 w-auto max-w-[220px] block"
+                loading="eager"
+              />
             </Link>
 
             {/* Desktop Links */}

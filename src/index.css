@@ -22,9 +22,11 @@ body {
   --text-tertiary: #8a8a8a;
   --border-color: rgba(0, 0, 0, 0.1);
   /* Brand colors (from logo) */
-  --accent: #283E80;
-  --accent-hover: #1E2E63;
-  --accent-rgb: 40, 62, 128;
+  --accent: #3C4F86;
+  --accent-hover: #334576;
+  --accent-rgb: 60, 79, 134;
+  --accent-2: #0EA36E;
+  --accent-2-hover: #0B7F55;
 }
 
 /* Dark theme */
@@ -39,6 +41,8 @@ html.dark {
   --accent: #4D5B92;
   --accent-hover: #34416E;
   --accent-rgb: 77, 91, 146;
+  --accent-2: #7F84B3;
+  --accent-2-hover: #646A98;
 }
 
 /* Apply theme variables */
@@ -97,6 +101,10 @@ html.light .selection\:bg-\[\#00ff88\]:selection {
   background-color: var(--accent) !important;
 }
 
+html.dark .selection\:bg-\[\#00ff88\]:selection {
+  background-color: var(--accent) !important;
+}
+
 html.light .selection\:text-black:selection {
   color: black !important;
 }
@@ -134,8 +142,16 @@ html.light .group:hover .group-hover\:text-\[\#00ff88\] {
   color: var(--accent) !important;
 }
 
+html.dark .group:hover .group-hover\:text-\[\#00ff88\] {
+  color: var(--accent) !important;
+}
+
 /* Accent colors in light theme */
 html.light .text-\[\#00ff88\] {
+  color: var(--accent) !important;
+}
+
+html.dark .text-\[\#00ff88\] {
   color: var(--accent) !important;
 }
 
@@ -143,8 +159,32 @@ html.light .bg-\[\#00ff88\] {
   background-color: var(--accent) !important;
 }
 
+html.dark .bg-\[\#00ff88\] {
+  background-color: var(--accent) !important;
+}
+
 html.light .hover\:bg-\[\#00cc6a\]:hover {
   background-color: var(--accent-hover) !important;
+}
+
+html.dark .hover\:bg-\[\#00cc6a\]:hover {
+  background-color: var(--accent-hover) !important;
+}
+
+/* Tailwind custom accent-green utilities should follow theme accent */
+html.light .text-accent-green,
+html.dark .text-accent-green {
+  color: var(--accent) !important;
+}
+
+html.light .bg-accent-green,
+html.dark .bg-accent-green {
+  background-color: var(--accent) !important;
+}
+
+html.light .border-accent-green,
+html.dark .border-accent-green {
+  border-color: var(--accent) !important;
 }
 
 /* Specific component fixes */
