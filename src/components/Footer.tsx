@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Twitter, Github, Linkedin, Slack } from 'lucide-react';
+import logo from '../assets/images/Logo.png';
 export function Footer() {
   const links = {
     product: [
@@ -207,9 +207,12 @@ export function Footer() {
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-[#00ff88] flex items-center justify-center">
-              <span className="font-bold text-black text-xs">M</span>
-            </div>
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-6 w-auto max-w-[160px] block"
+              loading="lazy"
+            />
             <span className="text-sm text-gray-500">
               © 2024 Modal Labs, Inc.
             </span>
