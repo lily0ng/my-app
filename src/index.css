@@ -310,6 +310,75 @@ html.light .bg-gradient-to-b.from-black.to-\[\#05150d\] {
    animation-play-state: paused;
  }
 
+ .shoutout-card {
+   position: relative;
+   overflow: hidden;
+   transform: translateZ(0);
+   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+ }
+
+ .shoutout-card::before {
+   content: '';
+   position: absolute;
+   inset: 0;
+   background: linear-gradient(
+     110deg,
+     rgba(var(--accent-rgb), 0.00),
+     rgba(var(--accent-rgb), 0.08),
+     rgba(var(--accent-rgb), 0.00)
+   );
+   transform: translate3d(-35%, 0, 0);
+   opacity: 0;
+   transition: opacity 240ms ease, transform 520ms ease;
+   pointer-events: none;
+ }
+
+ .shoutout-card:hover {
+   transform: translate3d(0, -3px, 0) scale(1.01);
+   box-shadow:
+     0 22px 70px rgba(0, 0, 0, 0.24),
+     0 0 0 1px rgba(var(--accent-rgb), 0.16),
+     0 0 34px rgba(var(--accent-rgb), 0.18);
+   border-color: rgba(var(--accent-rgb), 0.35);
+ }
+
+ .shoutout-card:hover::before {
+   opacity: 1;
+   transform: translate3d(35%, 0, 0);
+ }
+
+ .shoutout-avatar {
+   transition: transform 220ms ease, box-shadow 220ms ease;
+   box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.10);
+ }
+
+ .shoutout-card:hover .shoutout-avatar {
+   transform: scale(1.04);
+   box-shadow:
+     0 0 0 1px rgba(var(--accent-rgb), 0.22),
+     0 0 18px rgba(var(--accent-rgb), 0.18);
+ }
+
+ .shoutout-quote {
+   opacity: 0.35;
+   transition: opacity 220ms ease, transform 220ms ease;
+ }
+
+ .shoutout-card:hover .shoutout-quote {
+   opacity: 0.6;
+   transform: rotate(-6deg) scale(1.06);
+ }
+
+ @media (prefers-reduced-motion: reduce) {
+   .shoutout-card,
+   .shoutout-card::before,
+   .shoutout-avatar,
+   .shoutout-quote {
+     transition: none !important;
+     animation: none !important;
+   }
+ }
+
  @keyframes marquee-scroll {
    from {
      transform: translate3d(0, 0, 0);

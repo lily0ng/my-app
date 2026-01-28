@@ -148,10 +148,10 @@ export function CustomersPage() {
                   {marqueeItems.map((t, idx) => (
                     <div
                       key={`${t.handle}-${idx}`}
-                      className="w-[360px] md:w-[420px] shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] shadow-[0_20px_70px_rgba(0,0,0,0.18)] px-6 py-5 hover:border-[rgba(var(--accent-rgb),0.35)] transition-colors"
+                      className="shoutout-card w-[360px] md:w-[420px] shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] shadow-[0_20px_70px_rgba(0,0,0,0.18)] px-6 py-5"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] flex items-center justify-center text-sm font-bold text-[color:var(--text-primary)]">
+                        <div className="shoutout-avatar w-10 h-10 rounded-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] flex items-center justify-center text-sm font-bold text-[color:var(--text-primary)]">
                           {t.name
                             .split(' ')
                             .slice(0, 2)
@@ -164,7 +164,7 @@ export function CustomersPage() {
                               <div className="font-semibold text-[color:var(--text-primary)] truncate">{t.name}</div>
                               <div className="text-xs text-[#ff5a5a] font-semibold">{t.handle}</div>
                             </div>
-                            <Quote size={18} className="text-[color:var(--text-tertiary)]/40 shrink-0" />
+                            <Quote size={18} className="shoutout-quote text-[color:var(--text-tertiary)] shrink-0" />
                           </div>
 
                           <div className="mt-3 text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-5">
@@ -185,10 +185,10 @@ export function CustomersPage() {
                     .map((t, idx) => (
                       <div
                         key={`${t.handle}-rev-${idx}`}
-                        className="w-[320px] md:w-[380px] shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] shadow-[0_20px_70px_rgba(0,0,0,0.18)] px-6 py-5 hover:border-[rgba(var(--accent-rgb),0.35)] transition-colors"
+                        className="shoutout-card w-[320px] md:w-[380px] shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] shadow-[0_20px_70px_rgba(0,0,0,0.18)] px-6 py-5"
                       >
                         <div className="flex items-start gap-3">
-                          <div className="w-9 h-9 rounded-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] flex items-center justify-center text-xs font-bold text-[color:var(--text-primary)]">
+                          <div className="shoutout-avatar w-9 h-9 rounded-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] flex items-center justify-center text-xs font-bold text-[color:var(--text-primary)]">
                             {t.name
                               .split(' ')
                               .slice(0, 2)
@@ -201,7 +201,7 @@ export function CustomersPage() {
                                 <div className="font-semibold text-[color:var(--text-primary)] truncate">{t.name}</div>
                                 <div className="text-xs text-[#ff5a5a] font-semibold">{t.handle}</div>
                               </div>
-                              <Quote size={18} className="text-[color:var(--text-tertiary)]/40 shrink-0" />
+                              <Quote size={18} className="shoutout-quote text-[color:var(--text-tertiary)] shrink-0" />
                             </div>
                             <div className="mt-3 text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-4">
                               {t.text}
