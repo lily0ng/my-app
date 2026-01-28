@@ -142,7 +142,7 @@ export function Nav() {
     name: 'Events',
     icon: Activity,
     desc: 'Talks, meetups, and community',
-    path: '/resources'
+    path: '/resources/events'
   },
   {
     name: 'Partners',

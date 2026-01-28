@@ -70,7 +70,7 @@ export function Footer() {
     },
     {
       name: 'Events',
-      path: '/resources'
+      path: '/resources/events'
     },
     {
       name: 'Slack Community',
@@ -80,7 +80,7 @@ export function Footer() {
     company: [
     {
       name: 'About',
-      path: '/resources'
+      path: '/resources/about'
     },
     {
       name: 'Careers',
@@ -96,7 +96,7 @@ export function Footer() {
     },
     {
       name: 'Contact',
-      path: '/resources'
+      path: '/contact'
     }],
 
     legal: [

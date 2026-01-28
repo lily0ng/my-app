@@ -16,6 +16,7 @@ import { SignupPage } from './pages/SignupPage';
 import { MarketplaceAppsPage } from './pages/MarketplaceAppsPage';
 import { ContactUsPage } from './pages/ContactUsPage';
 import { AboutUsPage } from './pages/AboutUs';
+import { EventsPage } from './pages/Event';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
 
@@ -43,6 +44,7 @@ export function App() {
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/resources/marketplace-apps" element={<MarketplaceAppsPage />} />
           <Route path="/resources/about" element={<AboutUsPage />} />
+          <Route path="/resources/events" element={<EventsPage />} />
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
