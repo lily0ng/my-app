@@ -101,16 +101,19 @@ export function Nav() {
   const resourceTools = [
   {
     name: 'Playground',
+    icon: Play,
     desc: 'Explore Modal in the browser',
     path: '/resources'
   },
   {
     name: 'GPU Glossary',
+    icon: BookOpen,
     desc: 'A fast guide to GPU concepts',
     path: '/resources'
   },
   {
     name: 'LLM Engine Advisor',
+    icon: Zap,
     desc: 'Pick the right model',
     path: '/resources'
   }];
@@ -118,34 +121,50 @@ export function Nav() {
   const resourceLinks = [
   {
     name: 'Blog',
+    icon: BookOpen,
+    desc: 'Product updates and technical deep dives',
     path: '/resources'
   },
   {
     name: 'Startup Credits',
+    icon: Layers,
+    desc: 'Get credits to start building',
     path: '/resources'
   },
   {
     name: 'Events',
+    icon: Activity,
+    desc: 'Talks, meetups, and community',
     path: '/resources'
   },
   {
     name: 'Partners',
+    icon: BoxIcon,
+    desc: 'Integrations and ecosystem partners',
     path: '/resources'
   },
   {
     name: 'Slack Community',
+    icon: Shield,
+    desc: 'Join the developer community',
     path: '/resources'
   }];
 
   const companyLinks = [
   {
     name: 'About',
+    icon: Terminal,
+    desc: 'Learn about the team and mission',
     path: '/resources'
   },
   {
     name: 'Careers',
+    icon: Cpu,
+    desc: 'We’re hiring across engineering',
     path: '/resources'
   }];
+
+  const resourceItems = [...resourceTools, ...resourceLinks, ...companyLinks];
 
   const docItems = [
   {
@@ -210,29 +229,10 @@ export function Nav() {
             activeId={activeDropdown}
             setActive={setActiveDropdown}>
 
-            <div className="w-[600px] p-4">
-              <div className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6">
-                {solutionItems.map((item) =>
-                <div key={item.name} className="group cursor-pointer">
-                    <h4 className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors mb-1">
-                      {item.name}
-                    </h4>
-                    <p className="text-sm text-[color:var(--text-secondary)]">{item.desc}</p>
-                  </div>
-                )}
-              </div>
-              <div className="pt-4 border-t border-[color:var(--border-color)]">
-                <Link
-                  to="/solutions"
-                  className="text-sm font-medium text-[color:var(--accent)] hover:text-[color:var(--accent-hover)] flex items-center gap-1">
-
-                  View all examples <ArrowUpRight size={14} />
-                </Link>
-                <p className="text-xs text-[color:var(--text-tertiary)] mt-1">
-                  Explore more ways teams use Modal to train models, run
-                  workloads, and serve applications.
-                </p>
-              </div>
+            <div className="w-[600px] p-2 grid grid-cols-2 gap-2">
+              {solutionItems.map((item) =>
+              <DropdownItem key={item.name} item={item} />
+              )}
             </div>
           </Dropdown>
 
@@ -243,56 +243,10 @@ export function Nav() {
             activeId={activeDropdown}
             setActive={setActiveDropdown}>
 
-            <div className="w-[700px] p-6 grid grid-cols-3 gap-8">
-              <div>
-                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">
-                  Tools
-                </h4>
-                <div className="space-y-4">
-                  {resourceTools.map((item) =>
-                  <div key={item.name} className="group cursor-pointer">
-                      <h5 className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors">
-                        {item.name}
-                      </h5>
-                      <p className="text-xs text-[color:var(--text-secondary)] mt-0.5">
-                        {item.desc}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">
-                  Resources
-                </h4>
-                <div className="space-y-3">
-                  {resourceLinks.map((item) =>
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className="block text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[rgba(var(--accent-rgb),0.08)] py-1 px-2 -mx-2 rounded transition-colors">
-
-                      {item.name}
-                    </Link>
-                  )}
-                </div>
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">
-                  Company
-                </h4>
-                <div className="space-y-3">
-                  {companyLinks.map((item) =>
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className="block text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[rgba(var(--accent-rgb),0.08)] py-1 px-2 -mx-2 rounded transition-colors">
-
-                      {item.name}
-                    </Link>
-                  )}
-                </div>
-              </div>
+            <div className="w-[700px] p-2 grid grid-cols-2 gap-2">
+              {resourceItems.map((item) =>
+              <DropdownItem key={item.name} item={item} />
+              )}
             </div>
           </Dropdown>
 
