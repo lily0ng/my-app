@@ -268,3 +268,62 @@ html.light .bg-gradient-to-b.from-black.to-\[\#05150d\] {
      0 0 0 1px rgba(var(--accent-rgb), 0.14),
      0 0 30px rgba(var(--accent-rgb), 0.18);
  }
+
+ .marquee {
+   position: relative;
+   overflow: hidden;
+ }
+
+ .marquee::before,
+ .marquee::after {
+   content: '';
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   width: 80px;
+   z-index: 10;
+   pointer-events: none;
+ }
+
+ .marquee::before {
+   left: 0;
+   background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+ }
+
+ .marquee::after {
+   right: 0;
+   background: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+ }
+
+ .marquee__track {
+   display: flex;
+   width: max-content;
+   will-change: transform;
+   animation: marquee-scroll var(--marquee-duration, 34s) linear infinite;
+ }
+
+ .marquee--reverse .marquee__track {
+   animation-name: marquee-scroll-reverse;
+ }
+
+ .marquee:hover .marquee__track {
+   animation-play-state: paused;
+ }
+
+ @keyframes marquee-scroll {
+   from {
+     transform: translate3d(0, 0, 0);
+   }
+   to {
+     transform: translate3d(-50%, 0, 0);
+   }
+ }
+
+ @keyframes marquee-scroll-reverse {
+   from {
+     transform: translate3d(-50%, 0, 0);
+   }
+   to {
+     transform: translate3d(0, 0, 0);
+   }
+ }

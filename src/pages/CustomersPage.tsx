@@ -1,20 +1,57 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 import {
   Quote,
   ChevronDown,
   ChevronUp,
-  TrendingUp,
   Globe,
-  Users,
-  Building,
-  BarChart,
   Play,
   ArrowRight } from
 'lucide-react';
 export function CustomersPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const shoutouts = [
+    {
+      name: 'Jon Ashp',
+      handle: '@jonashp_',
+      text: 'Setup @1cloudng by @sitepee yesterday. All I have to say is, wow. First I was using my Cloudex Max sub and I used all of my limit quickly, so today I had my cloud bot setup a proxy to route my Copilot subscription as an API endpoint… It just runs on that. If the fact that cloud can just keep building upon itself by talking to it in discord is crazy. The future is already here.',
+      company: 'Community'
+    },
+    {
+      name: 'Ayreh Dubois',
+      handle: '@AyrehDubois',
+      text: 'Tried Cloud by @sitepee. I tried to build my own AI assistant bots before, and I am very impressed how many hard things Cloud gets right. Persistent memory, persona onboarding, comms integration, heartbeats. A few minor wrinkles remain, but the end result is AWESOME.',
+      company: 'Developer'
+    },
+    {
+      name: 'Mark Jaquith',
+      handle: '@markjaquith',
+      text: 'I’ve been saying for like six months that even if LLMs suddenly stopped improving, we could spend “years” discovering new transformative uses. @1cloudng feels like that kind of “just had to glue all the parts together” leap forward. Incredible experience.',
+      company: 'Founder'
+    },
+    {
+      name: 'Dan Pequenne',
+      handle: '@danpequenne',
+      text: 'Why @1cloudng is nuts: your context and skills live on YOUR computer, not a walled garden. It’s open source. Growing community building skills. Only 19 days old and constantly improving. Personal assistant understands it’s a company assistant, family assistant, team tool. Proactive AI: cron jobs, reminders, background tasks. Memory is amazing, context persists 24/7.',
+      company: 'Engineer'
+    },
+    {
+      name: 'Nate Liason',
+      handle: '@nateliason',
+      text: 'Yeah this was 1,000% worth it. Separate Claude subscription + Cloud, managing Claude Code / Codex sessions I can kick off anywhere, autonomously running tests on my app and capturing errors through a sentry webhook then resolving them and opening PRs. The future is here.',
+      company: 'Creator'
+    },
+    {
+      name: 'Nathan Clark',
+      handle: '@nathanclark',
+      text: 'A smart model with eyes and hands at a desk with keyboard and mouse. You message it like a coworker and it does everything a person could do with that Mac mini. That’s what you have now.',
+      company: 'Community'
+    }
+  ];
+
+  const marqueeItems = [...shoutouts, ...shoutouts];
   return (
     <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
       <Nav />
@@ -80,6 +117,109 @@ export function CustomersPage() {
                 }} />
 
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* Customer Feedback */}
+        <section className="py-32 px-6 relative overflow-hidden border-y border-white/5 bg-black">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#00ff88]/10 via-transparent to-transparent opacity-60 pointer-events-none" />
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:70px_70px] [background-position:0_0] pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto relative">
+            <div className="flex items-center justify-between gap-6 mb-14">
+              <div>
+                <div className="flex items-center gap-2 text-sm font-semibold text-gray-300">
+                  <span className="text-[#00ff88]">›</span>
+                  What People Say
+                </div>
+                <h2 className="mt-4 text-5xl md:text-6xl font-bold tracking-tight">
+                  <span className="text-[#00ff88]">›</span> Shoutouts
+                </h2>
+                <p className="mt-4 text-gray-400 max-w-2xl">
+                  What the community is saying about 1CloudNG
+                </p>
+              </div>
+
+              <a
+                href="#"
+                className="text-sm font-semibold text-gray-300 hover:text-white transition-colors flex items-center gap-2"
+              >
+                View all
+                <ArrowRight size={16} />
+              </a>
+            </div>
+
+            <div className="space-y-6">
+              <div className="marquee" style={{ ['--marquee-duration' as any]: '36s' }}>
+                <div className="marquee__track gap-6 pr-6">
+                  {marqueeItems.map((t, idx) => (
+                    <div
+                      key={`${t.handle}-${idx}`}
+                      className="w-[360px] md:w-[420px] shrink-0 rounded-2xl border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.55)] px-6 py-5 hover:border-white/20 transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-full bg-[#111] border border-white/10 flex items-center justify-center text-sm font-bold text-white">
+                          {t.name
+                            .split(' ')
+                            .slice(0, 2)
+                            .map((p) => p[0])
+                            .join('')}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="min-w-0">
+                              <div className="font-semibold text-white truncate">{t.name}</div>
+                              <div className="text-xs text-[#ff5a5a] font-semibold">{t.handle}</div>
+                            </div>
+                            <Quote size={18} className="text-white/15 shrink-0" />
+                          </div>
+
+                          <div className="mt-3 text-sm text-gray-300 leading-relaxed line-clamp-5">
+                            {t.text}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="marquee marquee--reverse" style={{ ['--marquee-duration' as any]: '44s' }}>
+                <div className="marquee__track gap-6 pr-6">
+                  {marqueeItems
+                    .slice()
+                    .reverse()
+                    .map((t, idx) => (
+                      <div
+                        key={`${t.handle}-rev-${idx}`}
+                        className="w-[320px] md:w-[380px] shrink-0 rounded-2xl border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.55)] px-6 py-5 hover:border-white/20 transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="w-9 h-9 rounded-full bg-[#111] border border-white/10 flex items-center justify-center text-xs font-bold text-white">
+                            {t.name
+                              .split(' ')
+                              .slice(0, 2)
+                              .map((p) => p[0])
+                              .join('')}
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center justify-between gap-3">
+                              <div className="min-w-0">
+                                <div className="font-semibold text-white truncate">{t.name}</div>
+                                <div className="text-xs text-[#ff5a5a] font-semibold">{t.handle}</div>
+                              </div>
+                              <Quote size={18} className="text-white/15 shrink-0" />
+                            </div>
+                            <div className="mt-3 text-sm text-gray-300 leading-relaxed line-clamp-4">
+                              {t.text}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
