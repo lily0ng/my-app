@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
+import { useTheme } from "../contexts/ThemeContext";
+import uiDark from "../assets/images/UI Dark Thmes.png";
+import uiLight from "../assets/images/UI Light Thmes.png";
 import {
   Terminal,
   Cpu,
@@ -18,6 +21,7 @@ import {
 } from "lucide-react";
 export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { theme } = useTheme();
   const faqs = [
     {
       q: "How does billing work?",
@@ -43,81 +47,52 @@ export function LandingPage() {
 
       <main>
         {/* 1. Hero Section */}
-        <section className="pt-32 pb-20 px-6 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.10)] via-[var(--bg-primary)] to-[var(--bg-primary)] pointer-events-none transition-colors duration-300" />
-          <div className="max-w-5xl mx-auto relative z-10">
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-              AI infrastructure that <br />
-              <span className="text-[var(--accent)]">Next Generation Cloud </span>
+        <section className="pt-32 pb-16 px-6 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.18)] via-[rgba(0,0,0,0)] to-[rgba(0,0,0,0)] pointer-events-none transition-colors duration-300" />
+          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.35)_1px,transparent_1px)] [background-size:44px_44px] [background-position:0_0] pointer-events-none" />
+
+          <div className="max-w-3xl mx-auto relative z-10">
+            <h1 className="text-5xl md:text-6xl font-semibold tracking-tight mb-6 leading-[1.05]">
+              AI infrastructure that
+              <br />
+              developers <span className="text-[var(--accent)]">love</span>
             </h1>
-            <p className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto mb-12 leading-relaxed font-light">
-              Deploy powerful cloud instances with ultra-fast NVMe SSD storage
-              and flexible pay-as-you-go pricing. Powered by One Cloud Next-Gen
-              — with 99.95% uptime.
+            <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 leading-relaxed">
+              Run inference, training, and batch processing with sub-second cold
+              starts, instant autoscaling, and a developer experience that feels
+              local.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="px-8 py-4 rounded-full bg-[var(--accent)] text-black font-bold text-lg hover:bg-[var(--accent-hover)] transition-all hover:scale-105 shadow-[0_0_30px_rgba(var(--accent-rgb),0.25)]">
-                Start Free Trial
+            <div className="flex flex-col sm:flex-row justify-center gap-3">
+              <button className="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors shadow-[0_0_30px_rgba(var(--accent-rgb),0.25)]">
+                Get Started
               </button>
-              <button className="px-8 py-4 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-lg hover:bg-black/5 transition-all hover:scale-105">
-                Views Pricing
+              <button className="px-6 py-2.5 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-sm hover:bg-[rgba(var(--accent-rgb),0.06)] transition-colors">
+                Contact Us
               </button>
             </div>
           </div>
 
           {/* Hero Visual - Code Block */}
-          <div className="mt-24 max-w-5xl mx-auto relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[rgba(var(--accent-rgb),0.9)] to-blue-600 rounded-2xl blur opacity-15 group-hover:opacity-30 transition duration-1000"></div>
-            <div className="relative bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-2xl transition-colors duration-300">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border-color)] bg-[var(--bg-secondary)] transition-colors duration-300">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/20" />
-                </div>
-                <div className="text-xs text-[var(--text-tertiary)] font-mono ml-2">
-                  train_model.py
-                </div>
-              </div>
-              <div className="p-8 text-left overflow-x-auto">
-                <pre className="font-mono text-sm md:text-base leading-relaxed">
-                  <code className="text-[var(--text-primary)]">
-                    <span className="text-[var(--accent)]">import</span> modal{"\n\n"}
-                    app = modal.App(
-                    <span className="text-yellow-300">
-                      "example-get-started"
-                    </span>
-                    ){"\n\n"}
-                    <span className="text-[var(--accent)]">@app.function</span>(gpu=
-                    <span className="text-yellow-300">"A100"</span>){"\n"}
-                    <span className="text-[var(--accent)]">def</span>{" "}
-                    <span className="text-blue-400">square</span>(x):{"\n"}
-                    {"    "}print(
-                    <span className="text-yellow-300">
-                      "This code is running on a remote worker!"
-                    </span>
-                    ){"\n"}
-                    {"    "}return x**2{"\n\n"}
-                    <span className="text-[var(--accent)]">
-                      @app.local_entrypoint
-                    </span>
-                    (){"\n"}
-                    <span className="text-[var(--accent)]">def</span>{" "}
-                    <span className="text-blue-400">main</span>():{"\n"}
-                    {"    "}print(
-                    <span className="text-yellow-300">"the square is"</span>,
-                    square.remote(42))
-                  </code>
-                </pre>
+          <div className="mt-16 flex justify-center relative">
+            <div className="relative w-full max-w-5xl">
+              <div className="absolute -inset-10 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.22),transparent_60%)] blur-2xl" />
+              <div className="absolute -inset-6 bg-[radial-gradient(circle,rgba(var(--accent-rgb),0.14),transparent_65%)] blur-xl" />
+              <div className="relative rounded-3xl overflow-hidden border border-[rgba(var(--accent-rgb),0.22)] bg-[rgba(0,0,0,0.10)] shadow-[0_30px_90px_rgba(0,0,0,0.55)]">
+                <img
+                  src={theme === 'dark' ? uiDark : uiLight}
+                  alt="Product UI"
+                  className="w-full h-auto block"
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
         </section>
 
         {/* 2. Customer Logos */}
-        <section className="py-16 border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
+        <section className="py-10 border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
           <div className="max-w-7xl mx-auto px-6">
-            <p className="text-center text-sm text-gray-500 mb-10 uppercase tracking-wider font-semibold">
+            <p className="text-center text-sm text-[var(--text-tertiary)] mb-8 uppercase tracking-wider font-semibold">
               Trusted by engineering teams at
             </p>
             <div className="flex flex-wrap justify-center gap-12 md:gap-20 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">

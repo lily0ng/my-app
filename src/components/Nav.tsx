@@ -174,20 +174,21 @@ export function Nav() {
   }];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0a0a0a]/90 border-b border-gray-200 dark:border-white/10 backdrop-blur-xl transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded bg-[#00ff88] flex items-center justify-center">
-            <span className="font-bold text-black text-lg">1C</span>
-          </div>
-          <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white transition-colors duration-300">
-            Next-Gen
-          </span>
-        </Link>
+    <nav className="fixed top-4 left-0 right-0 z-50 px-4 transition-colors duration-300">
+      <div className="mx-auto pointer-events-auto w-full max-w-6xl rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)]/80 backdrop-blur-xl shadow-[0_14px_40px_rgba(0,0,0,0.18)]">
+        <div className="w-full px-5 h-12 flex items-center gap-6">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 rounded bg-[color:var(--accent)] flex items-center justify-center">
+                <span className="font-bold text-white text-lg">1C</span>
+              </div>
+              <span className="font-semibold text-lg tracking-tight text-[color:var(--text-primary)] transition-colors duration-300">
+                Next-Gen
+              </span>
+            </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-1 h-full">
+            {/* Desktop Links */}
+            <div className="hidden md:flex flex-1 items-center justify-center gap-1 h-full">
           {/* Product Dropdown */}
           <Dropdown
             title="Product"
@@ -213,21 +214,21 @@ export function Nav() {
               <div className="grid grid-cols-2 gap-x-8 gap-y-6 mb-6">
                 {solutionItems.map((item) =>
                 <div key={item.name} className="group cursor-pointer">
-                    <h4 className="font-semibold text-white group-hover:text-[#00ff88] transition-colors mb-1">
+                    <h4 className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors mb-1">
                       {item.name}
                     </h4>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
+                    <p className="text-sm text-[color:var(--text-secondary)]">{item.desc}</p>
                   </div>
                 )}
               </div>
-              <div className="pt-4 border-t border-white/10">
+              <div className="pt-4 border-t border-[color:var(--border-color)]">
                 <Link
                   to="/solutions"
-                  className="text-sm font-medium text-[#00ff88] hover:text-[#00cc6a] flex items-center gap-1">
+                  className="text-sm font-medium text-[color:var(--accent)] hover:text-[color:var(--accent-hover)] flex items-center gap-1">
 
                   View all examples <ArrowUpRight size={14} />
                 </Link>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-[color:var(--text-tertiary)] mt-1">
                   Explore more ways teams use Modal to train models, run
                   workloads, and serve applications.
                 </p>
@@ -250,10 +251,10 @@ export function Nav() {
                 <div className="space-y-4">
                   {resourceTools.map((item) =>
                   <div key={item.name} className="group cursor-pointer">
-                      <h5 className="font-semibold text-white group-hover:text-[#00ff88] transition-colors">
+                      <h5 className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors">
                         {item.name}
                       </h5>
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-[color:var(--text-secondary)] mt-0.5">
                         {item.desc}
                       </p>
                     </div>
@@ -269,7 +270,7 @@ export function Nav() {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className="block text-sm text-gray-300 hover:text-white hover:bg-white/5 py-1 px-2 -mx-2 rounded transition-colors">
+                    className="block text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[rgba(var(--accent-rgb),0.08)] py-1 px-2 -mx-2 rounded transition-colors">
 
                       {item.name}
                     </Link>
@@ -285,7 +286,7 @@ export function Nav() {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className="block text-sm text-gray-300 hover:text-white hover:bg-white/5 py-1 px-2 -mx-2 rounded transition-colors">
+                    className="block text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[rgba(var(--accent-rgb),0.08)] py-1 px-2 -mx-2 rounded transition-colors">
 
                       {item.name}
                     </Link>
@@ -297,13 +298,13 @@ export function Nav() {
 
           <Link
             to="/customers"
-            className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
+            className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
 
             Customers
           </Link>
           <Link
             to="/pricing"
-            className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
+            className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
 
             Pricing
           </Link>
@@ -324,104 +325,107 @@ export function Nav() {
         </div>
 
         {/* Auth Buttons */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3 ml-auto">
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-200 flex items-center justify-center group"
+            className="p-2 rounded-full bg-[color:var(--bg-secondary)] hover:bg-[color:var(--bg-secondary)]/80 border border-[color:var(--border-color)] transition-all duration-200 flex items-center justify-center"
             title="Toggle theme">
             {theme === 'dark' ? (
-              <Sun size={18} className="text-yellow-400 group-hover:text-yellow-300" />
+              <Sun size={18} className="text-[color:var(--text-secondary)]" />
             ) : (
-              <Moon size={18} className="text-blue-400 group-hover:text-blue-300" />
+              <Moon size={18} className="text-[color:var(--text-secondary)]" />
             )}
           </button>
           
           <Link
             to="/login"
-            className="text-sm font-medium text-gray-300 hover:text-white transition-colors">
+            className="text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
 
             Log In
           </Link>
-          <button className="px-4 py-1.5 rounded bg-[#00ff88] text-black text-sm font-bold hover:bg-[#00cc6a] transition-colors flex items-center gap-1">
+          <Link
+            to="/signup"
+            className="px-3 py-1.5 rounded-full bg-[color:var(--accent)] text-white text-sm font-semibold transition-colors flex items-center gap-1 hover:bg-[color:var(--accent-hover)]">
             Sign Up
             <ArrowUpRight size={16} />
-          </button>
+          </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden p-2 text-gray-300 hover:text-white"
-          onClick={() => setIsOpen(!isOpen)}>
+            {/* Mobile Menu Toggle */}
+            <button
+              className="md:hidden p-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+              onClick={() => setIsOpen(!isOpen)}>
 
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+        </div>
       </div>
 
         {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen &&
-        <motion.div
-          initial={{
-            opacity: 0,
-            height: 0
-          }}
-          animate={{
-            opacity: 1,
-            height: 'auto'
-          }}
-          exit={{
-            opacity: 0,
-            height: 0
-          }}
-          className="md:hidden bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-white/10 overflow-hidden transition-colors duration-300">
+        <AnimatePresence>
+          {isOpen &&
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: -6
+            }}
+            animate={{
+              opacity: 1,
+              y: 0
+            }}
+            exit={{
+              opacity: 0,
+              y: -6
+            }}
+            className="md:hidden mt-2 overflow-hidden rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)]/90 backdrop-blur-xl shadow-[0_14px_40px_rgba(0,0,0,0.18)] transition-colors duration-300">
 
-            <div className="px-6 py-4 space-y-4">
-              <Link
-              to="/product/inference"
-              className="block text-gray-300 hover:text-white">
+              <div className="px-6 py-4 space-y-4">
+                <Link
+                to="/product/inference"
+                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
-                Product
-              </Link>
-              <Link
-              to="/solutions"
-              className="block text-gray-300 hover:text-white">
+                  Product
+                </Link>
+                <Link
+                to="/solutions"
+                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
-                Solutions
-              </Link>
-              <Link
-              to="/resources"
-              className="block text-gray-300 hover:text-white">
+                  Solutions
+                </Link>
+                <Link
+                to="/resources"
+                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
-                Resources
-              </Link>
-              <Link
-              to="/customers"
-              className="block text-gray-300 hover:text-white">
+                  Resources
+                </Link>
+                <Link
+                to="/customers"
+                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
-                Customers
-              </Link>
-              <Link
-              to="/pricing"
-              className="block text-gray-300 hover:text-white">
+                  Customers
+                </Link>
+                <Link
+                to="/pricing"
+                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
-                Pricing
-              </Link>
-              <Link to="/docs" className="block text-gray-300 hover:text-white">
-                Docs
-              </Link>
-              <div className="pt-4 border-t border-white/10 flex gap-4">
-                <button className="flex-1 py-2 rounded bg-white/5 text-white font-medium">
-                  Log In
-                </button>
-                <button className="flex-1 py-2 rounded bg-[#00ff88] text-black font-bold">
-                  Sign Up
-                </button>
+                  Pricing
+                </Link>
+                <Link to="/docs" className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
+                  Docs
+                </Link>
+                <div className="pt-4 border-t border-[color:var(--border-color)] flex gap-4">
+                  <Link to="/login" className="flex-1 py-2 rounded bg-[color:var(--bg-secondary)] text-[color:var(--text-primary)] font-medium text-center border border-[color:var(--border-color)]">
+                    Log In
+                  </Link>
+                  <Link to="/signup" className="flex-1 py-2 rounded bg-[color:var(--accent)] text-white font-bold text-center">
+                    Sign Up
+                  </Link>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        }
-      </AnimatePresence>
+            </motion.div>
+          }
+        </AnimatePresence>
     </nav>);
 
 }
@@ -445,7 +449,7 @@ function Dropdown({
       onMouseLeave={() => setActive(null)}>
 
       <button
-        className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors ${activeId === id ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
+        className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors ${activeId === id ? 'text-[color:var(--text-primary)]' : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]'}`}>
 
         {title}
         <ChevronDown
@@ -474,7 +478,7 @@ function Dropdown({
           }}
           className="absolute top-full left-0 pt-2">
 
-            <div className="bg-[#111] border border-white/10 rounded-lg shadow-2xl overflow-hidden">
+            <div className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-lg shadow-2xl overflow-hidden">
               {children}
             </div>
           </motion.div>
@@ -487,16 +491,16 @@ function DropdownItem({ item }: {item: any;}) {
   return (
     <Link
       to={item.path}
-      className="flex items-start gap-3 p-3 rounded-md hover:bg-white/5 transition-colors group">
+      className="flex items-start gap-3 p-3 rounded-md hover:bg-[rgba(var(--accent-rgb),0.08)] transition-colors group">
 
-      <div className="mt-0.5 text-gray-400 group-hover:text-[#00ff88] transition-colors">
+      <div className="mt-0.5 text-[color:var(--text-tertiary)] group-hover:text-[color:var(--accent)] transition-colors">
         <item.icon size={20} />
       </div>
       <div>
-        <div className="font-semibold text-white group-hover:text-[#00ff88] transition-colors text-sm">
+        <div className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors text-sm">
           {item.name}
         </div>
-        <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+        <p className="text-xs text-[color:var(--text-secondary)] mt-1 leading-relaxed">
           {item.desc}
         </p>
       </div>

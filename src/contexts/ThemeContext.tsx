@@ -38,7 +38,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     if (typeof savedAccent === 'string' && savedAccent.trim().length > 0) {
       return savedAccent;
     }
-    return '#3F5EBC';
+    return '#4D5B92';
   });
 
   const hexToRgb = (hex: string) => {

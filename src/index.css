@@ -22,9 +22,9 @@ body {
   --text-tertiary: #8a8a8a;
   --border-color: rgba(0, 0, 0, 0.1);
   /* Brand colors (from logo) */
-  --accent: #2f5bd3;
-  --accent-hover: #2449aa;
-  --accent-rgb: 47, 91, 211;
+  --accent: #283E80;
+  --accent-hover: #1E2E63;
+  --accent-rgb: 40, 62, 128;
 }
 
 /* Dark theme */
@@ -36,9 +36,9 @@ html.dark {
   --text-secondary: #a0a0a0;
   --text-tertiary: #666666;
   --border-color: rgba(255, 255, 255, 0.1);
-  --accent: #3F5EBC;
-  --accent-hover: #2f4aa0;
-  --accent-rgb: 63, 94, 188;
+  --accent: #4D5B92;
+  --accent-hover: #34416E;
+  --accent-rgb: 77, 91, 146;
 }
 
 /* Apply theme variables */
