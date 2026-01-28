@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 import {
@@ -6,14 +6,20 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronUp,
-  } from
-'lucide-react';
+  Cpu,
+  Database,
+  HardDrive,
+  Network,
+  Server,
+  Shield,
+} from 'lucide-react';
 export function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'hour' | 'second'>(
     'second'
   );
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [usage, setUsage] = useState(50);
+  const [activeCatalogSection, setActiveCatalogSection] = useState('cloud-gpu');
   const gpuTasks = [
   {
     name: 'Nvidia B200',
@@ -58,6 +64,102 @@ export function PricingPage() {
     }
     return `$${price.toFixed(6)} / sec`;
   };
+
+  const catalogItems = useMemo(
+    () => [
+      {
+        id: 'cloud-compute',
+        title: 'Cloud Compute',
+        description: 'General purpose VMs for web apps, APIs, and background jobs.',
+        Icon: Server,
+        columns: ['vCPUs', 'Memory', 'Bandwidth', 'Storage', 'Hourly Price'],
+        rows: [
+          { vcpus: '2 vCPUs', memory: '8 GB', bandwidth: '5 TB', storage: 'Block Storage', price: '$0.06 / hr' },
+          { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '6 TB', storage: 'Block Storage', price: '$0.12 / hr' },
+          { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '7 TB', storage: 'Block Storage', price: '$0.24 / hr' },
+        ],
+      },
+      {
+        id: 'optimized-compute',
+        title: 'Optimized Compute',
+        description: 'Higher sustained performance for build pipelines and data processing.',
+        Icon: Cpu,
+        columns: ['vCPUs', 'Memory', 'Bandwidth', 'Storage', 'Hourly Price'],
+        rows: [
+          { vcpus: '4 vCPUs', memory: '8 GB', bandwidth: '6 TB', storage: 'NVMe', price: '$0.14 / hr' },
+          { vcpus: '8 vCPUs', memory: '16 GB', bandwidth: '8 TB', storage: 'NVMe', price: '$0.28 / hr' },
+          { vcpus: '16 vCPUs', memory: '32 GB', bandwidth: '10 TB', storage: 'NVMe', price: '$0.56 / hr' },
+        ],
+      },
+      {
+        id: 'cloud-gpu',
+        title: 'Cloud GPU',
+        description: 'On-demand GPUs for training, fine-tuning, and high-throughput inference.',
+        Icon: Shield,
+        columns: ['GPU', 'vCPUs', 'Memory', 'Storage', 'Hourly Price'],
+        rows: [
+          { gpu: 'L4', vcpus: '8 vCPUs', memory: '32 GB', storage: 'NVMe', price: '$0.80 / hr' },
+          { gpu: 'A10', vcpus: '16 vCPUs', memory: '64 GB', storage: 'NVMe', price: '$1.10 / hr' },
+          { gpu: 'H100', vcpus: '32 vCPUs', memory: '192 GB', storage: 'NVMe', price: '$3.60 / hr' },
+        ],
+      },
+      {
+        id: 'databases',
+        title: 'Databases',
+        description: 'Managed Postgres and Redis to ship faster with built-in backups.',
+        Icon: Database,
+        columns: ['Plan', 'Storage', 'Backups', 'HA', 'Monthly Price'],
+        rows: [
+          { plan: 'Starter', storage: '20 GB', backups: 'Daily', ha: '—', price: '$15 / mo' },
+          { plan: 'Standard', storage: '100 GB', backups: 'Hourly', ha: 'Optional', price: '$59 / mo' },
+          { plan: 'Pro', storage: '500 GB', backups: 'Continuous', ha: 'Included', price: '$199 / mo' },
+        ],
+      },
+      {
+        id: 'block-storage',
+        title: 'Block Storage',
+        description: 'Attach durable volumes to any workload for predictable performance.',
+        Icon: HardDrive,
+        columns: ['Tier', 'IOPS', 'Use case', 'Price'],
+        rows: [
+          { tier: 'Standard', iops: '3k', use: 'General workloads', price: '$0.10 / GB-mo' },
+          { tier: 'Performance', iops: '10k', use: 'Databases + queues', price: '$0.17 / GB-mo' },
+          { tier: 'Extreme', iops: '30k', use: 'Latency-sensitive', price: '$0.25 / GB-mo' },
+        ],
+      },
+      {
+        id: 'networking',
+        title: 'Networking',
+        description: 'Secure private networking, gateways, and traffic controls.',
+        Icon: Network,
+        columns: ['Feature', 'Included', 'Notes'],
+        rows: [
+          { feature: 'Private networking', included: 'Yes', notes: 'Isolated VPC-style connectivity' },
+          { feature: 'Static IP', included: 'Optional', notes: 'Reserve addresses per environment' },
+          { feature: 'Traffic policies', included: 'Yes', notes: 'Rate limits, allowlists, and routing' },
+        ],
+      },
+    ],
+    []
+  );
+
+  const setCatalogHash = (id: string) => {
+    window.history.replaceState(null, '', `#${id}`);
+  };
+
+  useEffect(() => {
+    const hash = window.location.hash?.replace('#', '');
+    if (!hash) return;
+
+    const exists = catalogItems.some((item) => item.id === hash);
+    if (!exists) return;
+
+    setActiveCatalogSection(hash);
+  }, [catalogItems]);
+
+  const activeCatalogItem = useMemo(() => {
+    return catalogItems.find((item) => item.id === activeCatalogSection) ?? catalogItems[0];
+  }, [activeCatalogSection, catalogItems]);
   return (
     <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
       <Nav />
@@ -280,6 +382,113 @@ export function PricingPage() {
               </div>
             </div>
           </div>
+
+          {/* Pricing Catalog */}
+          <section className="mb-32">
+            <div className="flex items-end justify-between gap-8 mb-10">
+              <div>
+                <h2 className="text-4xl font-bold">Pricing catalog</h2>
+                <p className="mt-2 text-gray-400 max-w-2xl">
+                  Explore product categories and pricing details. Click any item on the left to jump to its section.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              <aside className="lg:col-span-4">
+                <div className="sticky top-28 space-y-3">
+                  {catalogItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setActiveCatalogSection(item.id);
+                        setCatalogHash(item.id);
+                      }}
+                      className={`w-full text-left p-4 rounded-2xl border transition-colors flex items-start gap-3 ${
+                        activeCatalogSection === item.id
+                          ? 'border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]'
+                          : 'border-white/10 bg-[#0a0a0a] hover:border-[rgba(var(--accent-rgb),0.35)]'
+                      }`}
+                    >
+                      <div
+                        className={`mt-0.5 h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${
+                          activeCatalogSection === item.id
+                            ? 'border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.12)]'
+                            : 'border-white/10 bg-[#111]'
+                        }`}
+                      >
+                        <item.Icon
+                          size={18}
+                          className={
+                            activeCatalogSection === item.id
+                              ? 'text-[color:var(--accent)]'
+                              : 'text-gray-400'
+                          }
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-bold truncate">{item.title}</div>
+                        <div className="text-xs text-gray-500 mt-1 line-clamp-2">
+                          {item.description}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </aside>
+
+              <div className="lg:col-span-8">
+                <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center">
+                      <activeCatalogItem.Icon size={18} className="text-[color:var(--accent)]" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold">{activeCatalogItem.title}</h3>
+                      <p className="mt-1 text-sm text-gray-400">{activeCatalogItem.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#050505] border border-white/10 rounded-2xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="border-b border-white/10">
+                            {activeCatalogItem.columns.map((c) => (
+                              <th
+                                key={c}
+                                className="py-4 px-4 text-gray-400 font-medium uppercase tracking-wider text-xs whitespace-nowrap"
+                              >
+                                {c}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                          {activeCatalogItem.rows.map((row: Record<string, string>, idx: number) => (
+                            <tr key={idx} className="hover:bg-white/5 transition-colors">
+                              {Object.values(row).map((val, i) => (
+                                <td
+                                  key={i}
+                                  className={
+                                    i === Object.values(row).length - 1
+                                      ? 'py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap'
+                                      : 'py-4 px-4 text-gray-300 whitespace-nowrap'
+                                  }
+                                >
+                                  {val}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* Cost Calculator */}
           <section className="py-32 px-6 bg-[#050505] -mx-6 mb-32">
