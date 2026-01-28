@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
+import { motion, useInView } from 'framer-motion';
 import {
   Quote,
   ChevronDown,
@@ -11,6 +12,49 @@ import {
 'lucide-react';
 export function CustomersPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const globeDots = useMemo(
+    () =>
+      Array.from({ length: 10 }, () => ({
+        top: Math.random() * 80 + 10,
+        left: Math.random() * 80 + 10
+      })),
+    []
+  );
+
+  const statsRef = useRef<HTMLDivElement | null>(null);
+  const statsInView = useInView(statsRef, { once: true, amount: 0.25 });
+
+  const industryRef = useRef<HTMLDivElement | null>(null);
+  const industryInView = useInView(industryRef, { once: true, amount: 0.25 });
+
+  const useCountUp = (target: number, active: boolean, durationMs = 900) => {
+    const [value, setValue] = useState(0);
+
+    useEffect(() => {
+      if (!active) return;
+      let raf = 0;
+      const start = performance.now();
+
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / durationMs);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const base = target * eased;
+        const jitter = t < 0.98 ? Math.random() * (Math.max(1, target) * 0.06) : 0;
+        const next = Math.min(target, Math.floor(base + jitter));
+        setValue(next);
+        if (t < 1) raf = requestAnimationFrame(tick);
+      };
+
+      raf = requestAnimationFrame(tick);
+      return () => cancelAnimationFrame(raf);
+    }, [active, durationMs, target]);
+
+    return value;
+  };
+
+  const count60 = useCountUp(60, statsInView, 950);
+  const count10 = useCountUp(10, statsInView, 850);
 
   const shoutouts = [
     {
@@ -107,16 +151,16 @@ export function CustomersPage() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00ff88]/10 to-transparent opacity-50" />
               <Globe size={200} className="text-gray-800 opacity-50" />
               {/* Dots representing locations */}
-              {[...Array(10)].map((_, i) =>
-              <div
-                key={i}
-                className="absolute w-2 h-2 bg-[#00ff88] rounded-full animate-pulse"
-                style={{
-                  top: `${Math.random() * 80 + 10}%`,
-                  left: `${Math.random() * 80 + 10}%`
-                }} />
-
-              )}
+              {globeDots.map((d, i) => (
+                <div
+                  key={i}
+                  className="absolute w-2 h-2 bg-[#00ff88] rounded-full animate-pulse"
+                  style={{
+                    top: `${d.top}%`,
+                    left: `${d.left}%`
+                  }}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -243,9 +287,14 @@ export function CustomersPage() {
                 stat: 'Zero Ops Headcount'
               }].
               map((study, i) =>
-              <div
+              <motion.div
                 key={i}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center group">
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center group"
+              >
 
                   <div
                   className={`order-2 ${i % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
@@ -265,12 +314,19 @@ export function CustomersPage() {
                         <div className="text-sm text-gray-500">Key Result</div>
                       </div>
                     </div>
-                    <button className="text-[#00ff88] font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                    <motion.button
+                      whileHover={{ x: 3 }}
+                      transition={{ duration: 0.18, ease: 'easeOut' }}
+                      className="text-[#00ff88] font-bold flex items-center gap-2 hover:gap-3 transition-all"
+                    >
                       Read Case Study <ArrowRight size={20} />
-                    </button>
+                    </motion.button>
                   </div>
-                  <div
-                  className={`order-1 ${i % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} aspect-video bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden relative group-hover:border-[#00ff88]/50 transition-colors`}>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.22, ease: 'easeOut' }}
+                    className={`order-1 ${i % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} aspect-video bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden relative group-hover:border-[#00ff88]/50 transition-colors`}
+                  >
 
                     <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88]/10 to-transparent opacity-50" />
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -278,8 +334,8 @@ export function CustomersPage() {
                         {study.company}
                       </span>
                     </div>
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               )}
             </div>
           </div>
@@ -293,14 +349,25 @@ export function CustomersPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[1, 2, 3].map((i) =>
-              <div key={i} className="group cursor-pointer">
-                  <div className="aspect-video bg-[#111] rounded-xl border border-white/10 flex items-center justify-center mb-6 relative overflow-hidden">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.05 }}
+                className="group cursor-pointer"
+              >
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="aspect-video bg-[#111] rounded-xl border border-white/10 flex items-center justify-center mb-6 relative overflow-hidden"
+                  >
                     <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors" />
                     <Play
                     size={48}
                     className="text-white relative z-10 group-hover:scale-110 transition-transform" />
 
-                  </div>
+                  </motion.div>
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-8 h-8 rounded-full bg-gray-700" />
                     <div>
@@ -311,7 +378,7 @@ export function CustomersPage() {
                   <p className="text-gray-400 text-sm">
                     "Modal changed the way we think about infrastructure."
                   </p>
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
@@ -319,14 +386,19 @@ export function CustomersPage() {
 
         {/* ROI Stats */}
         <section className="py-32 px-6 border-y border-white/5">
-          <div className="max-w-7xl mx-auto">
+          <div ref={statsRef} className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold mb-16 text-center">
               Real Results
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10">
-                <div className="text-6xl font-bold text-[#00ff88] mb-4">
-                  60%
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={statsInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.45, ease: 'easeOut' }}
+                className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-[#00ff88]/40 hover:-translate-y-1 transition-all"
+              >
+                <div className="text-6xl font-bold text-[#00ff88] mb-4 tabular-nums">
+                  {count60}%
                 </div>
                 <div className="text-xl text-white font-bold mb-2">
                   Cost Reduction
@@ -334,32 +406,42 @@ export function CustomersPage() {
                 <div className="text-gray-400">
                   Average savings vs legacy cloud
                 </div>
-              </div>
-              <div className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10">
-                <div className="text-6xl font-bold text-[#00ff88] mb-4">
-                  10x
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={statsInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+                className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-[#00ff88]/40 hover:-translate-y-1 transition-all"
+              >
+                <div className="text-6xl font-bold text-[#00ff88] mb-4 tabular-nums">
+                  {count10}x
                 </div>
                 <div className="text-xl text-white font-bold mb-2">
                   Faster Deployment
                 </div>
                 <div className="text-gray-400">From code to production</div>
-              </div>
-              <div className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10">
-                <div className="text-6xl font-bold text-[#00ff88] mb-4">0</div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={statsInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.45, ease: 'easeOut', delay: 0.1 }}
+                className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-[#00ff88]/40 hover:-translate-y-1 transition-all"
+              >
+                <div className="text-6xl font-bold text-[#00ff88] mb-4 tabular-nums">0</div>
                 <div className="text-xl text-white font-bold mb-2">
                   Ops Headcount
                 </div>
                 <div className="text-gray-400">
                   Required to manage infrastructure
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
         {/* Industry Breakdown */}
         <section className="py-32 px-6">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div ref={industryRef} className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl font-bold mb-6">Diverse Use Cases</h2>
               <p className="text-xl text-gray-400 mb-8">
@@ -391,18 +473,25 @@ export function CustomersPage() {
                       <span>{item.pct}</span>
                     </div>
                     <div className="w-full bg-[#111] h-2 rounded-full overflow-hidden">
-                      <div
-                      className="bg-[#00ff88] h-full"
-                      style={{
-                        width: item.pct
-                      }} />
+                      <motion.div
+                        className="bg-[#00ff88] h-full"
+                        initial={{ width: 0 }}
+                        animate={industryInView ? { width: item.pct } : {}}
+                        transition={{ duration: 0.8, ease: 'easeOut', delay: 0.08 + i * 0.08 }}
+                      />
 
                     </div>
                   </div>
                 )}
               </ul>
             </div>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 flex items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={industryInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, ease: 'easeOut' }}
+              whileHover={{ scale: 1.02 }}
+              className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 flex items-center justify-center"
+            >
               {/* Placeholder for Pie Chart */}
               <div className="w-64 h-64 rounded-full border-8 border-[#111] relative flex items-center justify-center">
                 <div className="text-center">
@@ -410,7 +499,7 @@ export function CustomersPage() {
                   <div className="text-sm text-gray-500">Customers</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
