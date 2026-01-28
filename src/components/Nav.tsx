@@ -270,6 +270,13 @@ export function Nav() {
             Pricing
           </Link>
 
+          <Link
+            to="/contact"
+            className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
+
+            Contact
+          </Link>
+
           {/* Docs Dropdown */}
           <Dropdown
             title="Docs"
@@ -371,6 +378,12 @@ export function Nav() {
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
                   Pricing
+                </Link>
+                <Link
+                to="/contact"
+                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
+
+                  Contact
                 </Link>
                 <Link to="/docs" className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
                   Docs
