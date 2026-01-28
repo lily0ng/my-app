@@ -13,6 +13,7 @@ import { PricingPage } from './pages/PricingPage';
 import { DocsPage } from './pages/DocsPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
+import { MarketplaceAppsPage } from './pages/MarketplaceAppsPage';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
 
@@ -38,6 +39,7 @@ export function App() {
           {/* Main Routes */}
           <Route path="/solutions" element={<SolutionsPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/resources/marketplace-apps" element={<MarketplaceAppsPage />} />
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/docs" element={<DocsPage />} />

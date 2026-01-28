@@ -107,6 +107,12 @@ export function Nav() {
     path: '/resources'
   },
   {
+    name: 'Marketplace Apps',
+    icon: BoxIcon,
+    desc: 'Browse apps and deploy in one click',
+    path: '/resources/marketplace-apps'
+  },
+  {
     name: 'GPU Glossary',
     icon: BookOpen,
     desc: 'A fast guide to GPU concepts',

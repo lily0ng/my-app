@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import { useState } from 'react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 import {
@@ -17,8 +17,10 @@ import {
   Award,
   Zap,
   BarChart,
-  Server } from
+  Server,
+  Rocket } from
 'lucide-react';
+import { Link } from 'react-router-dom';
 export function ResourcesPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   return (
@@ -233,11 +235,24 @@ export function ResourcesPage() {
             {/* Tools */}
             <section className="mb-32">
               <h2 className="text-4xl font-bold mb-12">Tools & Utilities</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <Link
+                  to="/resources/marketplace-apps"
+                  className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group block flex flex-col"
+                >
+                  <Rocket className="text-[#00ff88] mb-6" size={40} />
+                  <h3 className="font-bold text-2xl mb-4">Marketplace Apps</h3>
+                  <p className="text-gray-400 mb-8 text-lg line-clamp-1">
+                    Browse ready-to-deploy apps and launch them in one click.
+                  </p>
+                  <div className="text-[#00ff88] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                    View Marketplace <ArrowRight size={16} />
+                  </div>
+                </Link>
+                <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group flex flex-col">
                   <Terminal className="text-[#00ff88] mb-6" size={40} />
                   <h3 className="font-bold text-2xl mb-4">GPU Glossary</h3>
-                  <p className="text-gray-400 mb-8 text-lg">
+                  <p className="text-gray-400 mb-8 text-lg line-clamp-1">
                     A comprehensive guide to understanding GPU specs, memory
                     types, and terminology.
                   </p>
@@ -245,12 +260,12 @@ export function ResourcesPage() {
                     Explore Glossary <ArrowRight size={16} />
                   </button>
                 </div>
-                <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group">
+                <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group flex flex-col">
                   <Zap className="text-[#00ff88] mb-6" size={40} />
                   <h3 className="font-bold text-2xl mb-4">
                     LLM Engine Advisor
                   </h3>
-                  <p className="text-gray-400 mb-8 text-lg">
+                  <p className="text-gray-400 mb-8 text-lg line-clamp-1">
                     Find the best inference engine (vLLM, TGI, TensorRT) for
                     your specific model and use case.
                   </p>
