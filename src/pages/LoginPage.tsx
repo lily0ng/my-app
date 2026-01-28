@@ -93,11 +93,26 @@ export function LoginPage() {
       <Nav />
 
       <main className="flex-1">
-        <section className="px-6 pt-16 pb-10 relative overflow-hidden">
+        <section className="px-6 pt-24 pb-10 relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full bg-[radial-gradient(circle_at_center,_rgba(var(--accent-rgb),0.16)_0%,_transparent_60%)]" />
           </div>
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              variants={sectionVariant}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className="text-center mb-10"
+            >
+              <div className="text-sm font-bold text-[color:var(--accent)]">Welcome back</div>
+              <div className="text-[color:var(--text-secondary)] mt-2">
+                Continue where you left off
+              </div>
+            </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <motion.div
               variants={sectionVariant}
               initial="hidden"
@@ -257,6 +272,7 @@ export function LoginPage() {
                 </div>
               </div>
             </motion.div>
+            </div>
           </div>
         </section>
 

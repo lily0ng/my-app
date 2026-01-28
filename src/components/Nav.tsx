@@ -162,7 +162,7 @@ export function Nav() {
     name: 'About',
     icon: Terminal,
     desc: 'Learn about the team and mission',
-    path: '/resources'
+    path: '/resources/about'
   },
   {
     name: 'Careers',

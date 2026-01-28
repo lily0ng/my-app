@@ -11,10 +11,7 @@ import {
   Play,
   FileText,
   Code,
-  Mic,
-  Video,
   Terminal,
-  Award,
   Zap,
   BarChart,
   Server,
@@ -273,6 +270,26 @@ export function ResourcesPage() {
                     Start Advisor <ArrowRight size={16} />
                   </button>
                 </div>
+              </div>
+            </section>
+
+            {/* Company */}
+            <section className="mb-32">
+              <h2 className="text-4xl font-bold mb-12">Company</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <Link
+                  to="/resources/about"
+                  className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group block flex flex-col"
+                >
+                  <Users className="text-[#00ff88] mb-6" size={40} />
+                  <h3 className="font-bold text-2xl mb-4">About</h3>
+                  <p className="text-gray-400 mb-8 text-lg line-clamp-1">
+                    Learn about the team structure, mission, and real-time platform vision.
+                  </p>
+                  <div className="text-[#00ff88] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                    Learn more <ArrowRight size={16} />
+                  </div>
+                </Link>
               </div>
             </section>
 
