@@ -125,6 +125,78 @@ export function LandingPage() {
           </div>
         </section>
 
+        <section className="py-28 px-6 bg-[#050505] border-b border-white/5">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-14">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Why Choose Us?</h2>
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+                Built for modern teams who need speed, reliability, and real-time visibility — without the ops burden.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: Zap,
+                  title: 'Instant autoscaling',
+                  desc: 'Scale from zero to peak traffic automatically — no pre-provisioning, no guesswork.'
+                },
+                {
+                  icon: Shield,
+                  title: 'Secure by default',
+                  desc: 'Strong isolation boundaries and best-practice controls for production workloads.'
+                },
+                {
+                  icon: Globe,
+                  title: 'Global performance',
+                  desc: 'Low-latency networking designed for real-time inference and data movement.'
+                },
+                {
+                  icon: Lock,
+                  title: 'Predictable costs',
+                  desc: 'Pay for what you use and track usage clearly — with no hidden overhead.'
+                },
+                {
+                  icon: Cpu,
+                  title: 'GPU access on demand',
+                  desc: 'Run H100/A100-class compute when you need it — without capacity planning.'
+                },
+                {
+                  icon: Layers,
+                  title: 'Real-time visibility',
+                  desc: 'See what is running, what changed, and what to fix next — instantly.'
+                }
+              ].map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.06 }}
+                  whileHover={{ y: -6 }}
+                  className="relative rounded-2xl bg-[#0a0a0a] border border-white/10 overflow-hidden p-8 group hover:border-[#00ff88]/45 hover:shadow-[0_18px_60px_rgba(0,0,0,0.55)] transition-all"
+                >
+                  <div className="absolute inset-0 pointer-events-none opacity-35 group-hover:opacity-55 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88]/4 to-transparent opacity-50" />
+                    <div className="absolute left-[-35%] top-1/2 w-[170%] h-[1px] rotate-45 blur-[0.5px] bg-[linear-gradient(90deg,transparent,rgba(0,255,136,0.16),transparent)]" />
+                    <div className="absolute left-[-35%] top-1/2 w-[170%] h-[1px] -rotate-45 blur-[0.5px] bg-[linear-gradient(90deg,transparent,rgba(0,255,136,0.16),transparent)]" />
+                    <div className="absolute left-[-35%] top-1/2 w-[170%] h-[8px] rotate-45 blur-[14px] bg-[linear-gradient(90deg,transparent,rgba(0,255,136,0.07),transparent)]" />
+                    <div className="absolute left-[-35%] top-1/2 w-[170%] h-[8px] -rotate-45 blur-[14px] bg-[linear-gradient(90deg,transparent,rgba(0,255,136,0.07),transparent)]" />
+                  </div>
+
+                  <div className="relative">
+                    <div className="w-14 h-14 rounded-xl bg-[#111] border border-white/10 flex items-center justify-center mb-6 text-[#00ff88] group-hover:scale-110 transition-transform shadow-inner">
+                      <item.icon size={28} />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3 text-white">{item.title}</h3>
+                    <p className="text-gray-400 leading-relaxed text-lg">{item.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* 3. Features Grid */}
         <section className="py-32 px-6 border-b border-white/5">
           <div className="max-w-7xl mx-auto">
