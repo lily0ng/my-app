@@ -23,6 +23,47 @@ export function MarketplaceAppsPage() {
   const [category, setCategory] = useState('All');
   const [hideDuplicates, setHideDuplicates] = useState(true);
 
+  const logoDataUriFor = (name: string) => {
+    let hash = 0;
+    for (let i = 0; i < name.length; i += 1) {
+      hash = (hash * 31 + name.charCodeAt(i)) % 360;
+    }
+
+    const hue = (hash + 360) % 360;
+    const hue2 = (hue + 18) % 360;
+    const initials = name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w) => w[0])
+      .join('')
+      .toUpperCase();
+
+    const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsl(${hue} 70% 58%)" />
+      <stop offset="100%" stop-color="hsl(${hue2} 70% 46%)" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="88" height="88" rx="18" fill="url(#g)" />
+  <text x="44" y="52" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system" font-size="28" font-weight="700" fill="white">${initials}</text>
+</svg>`;
+
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  };
+
+  const dashboardIconUrlFor = (appNameOrId: string) => {
+    const slug = appNameOrId
+      .toLowerCase()
+      .replace(/[^a-z0-9-]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    return `https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/${slug}.svg`;
+  };
+
   const apps: MarketplaceApp[] = useMemo(
     () => [
       {
@@ -606,39 +647,42 @@ export function MarketplaceAppsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredApps.map((app) => (
               <div
                 key={app.id}
-                className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform hover:-translate-y-0.5 hover:border-[rgba(var(--accent-rgb),0.35)] flex flex-col"
+                className="group rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.10)] transition-transform hover:-translate-y-0.5 hover:border-[rgba(var(--accent-rgb),0.35)]"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 min-w-0">
-                    <div className="w-11 h-11 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] flex items-center justify-center text-sm font-bold text-[color:var(--text-secondary)] shrink-0">
-                      {app.name
-                        .split(' ')
-                        .slice(0, 2)
-                        .map((w) => w[0])
-                        .join('')
-                        .toUpperCase()}
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="font-semibold truncate">{app.name}</h3>
-                      <div className="mt-0.5 text-xs text-[color:var(--text-tertiary)] truncate">
-                        {app.vendor}
-                      </div>
-                      <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-1">
-                        {app.description}
-                      </div>
-                    </div>
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-12 h-12 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] shrink-0 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={dashboardIconUrlFor(app.id)}
+                      alt={`${app.name} logo`}
+                      className="w-8 h-8 object-contain"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = logoDataUriFor(app.name);
+                        e.currentTarget.className = 'w-11 h-11 object-cover';
+                      }}
+                    />
                   </div>
 
-                  <span className="text-xs px-2 py-1 rounded-full border border-[color:var(--border-color)] text-[color:var(--text-tertiary)] bg-[color:var(--bg-tertiary)] shrink-0 whitespace-nowrap">
-                    {app.category}
-                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <h3 className="font-semibold truncate">{app.name}</h3>
+                      <span className="text-xs text-[color:var(--text-tertiary)] truncate">@ {app.vendor}</span>
+                    </div>
+                    <div className="mt-1 text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-1">
+                      {app.description}
+                    </div>
+                    <div className="mt-1 text-xs italic text-[color:var(--text-tertiary)] truncate">
+                      {app.category}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between">
+                <div className="mt-3 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
                   <button className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[color:var(--accent)] text-white text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors">
                     Deploy now
                     <Rocket size={16} />
@@ -657,6 +701,52 @@ export function MarketplaceAppsPage() {
               No apps found.
             </div>
           )}
+
+          <section className="mt-16 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 md:p-12 shadow-[0_18px_55px_rgba(0,0,0,0.10)]">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-2xl">
+                <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
+                  Powerful Marketplace App - Description - In 1 Click...
+                </h2>
+                <p className="mt-2 text-sm md:text-base text-[color:var(--text-secondary)]">
+                  Pick an app, review the defaults, and deploy instantly. Every card is pre-configured for a clean
+                  start with sensible settings, secure networking, and a fast path from idea to running service.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2">
+                <button className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--accent)] text-white text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors">
+                  Deploy in 1 Click
+                  <Rocket size={16} />
+                </button>
+                <button className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-secondary)] transition-colors">
+                  Browse categories
+                  <ChevronDown size={16} />
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] p-4">
+                <div className="text-sm font-semibold">Logos included</div>
+                <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                  Each app card has its own recognizable logo for faster scanning.
+                </div>
+              </div>
+              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] p-4">
+                <div className="text-sm font-semibold">Curated templates</div>
+                <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                  Deploy common stacks with sane defaults and consistent networking.
+                </div>
+              </div>
+              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] p-4">
+                <div className="text-sm font-semibold">One-click deploy</div>
+                <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                  Launch faster with a single action and iterate from a working baseline.
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
 
