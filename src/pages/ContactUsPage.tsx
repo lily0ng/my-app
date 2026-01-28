@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
+import { motion } from 'framer-motion';
 import {
   Building2,
   Clock,
@@ -56,6 +57,25 @@ export function ContactUsPage() {
     }
   ] as const;
 
+  const gridContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.07, delayChildren: 0.05 }
+    }
+  };
+
+  const gridItem = {
+    hidden: { opacity: 0, y: 14 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } }
+  };
+
+  const hoverCard = {
+    y: -3,
+    scale: 1.01,
+    transition: { duration: 0.16, ease: 'easeOut' }
+  };
+
   const selectTopic = (type: string, title: string) => {
     setInquiryType(type);
     setSubject(`${title} — ${type}`);
@@ -91,8 +111,19 @@ export function ContactUsPage() {
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
+            <motion.div
+              className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4"
+              variants={gridContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.25 }}
+            >
+              <motion.div
+                className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 shadow-[0_14px_45px_rgba(0,0,0,0.08)]"
+                variants={gridItem}
+                whileHover={hoverCard}
+                style={{ willChange: 'transform' }}
+              >
                 <div className="flex items-start gap-3">
                   <div className="h-10 w-10 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] flex items-center justify-center shrink-0">
                     <Phone size={18} className="text-[color:var(--accent)]" />
@@ -107,9 +138,14 @@ export function ContactUsPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
+              <motion.div
+                className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 shadow-[0_14px_45px_rgba(0,0,0,0.08)]"
+                variants={gridItem}
+                whileHover={hoverCard}
+                style={{ willChange: 'transform' }}
+              >
                 <div className="flex items-start gap-3">
                   <div className="h-10 w-10 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] flex items-center justify-center shrink-0">
                     <Mail size={18} className="text-[color:var(--accent)]" />
@@ -124,9 +160,14 @@ export function ContactUsPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
+              <motion.div
+                className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 shadow-[0_14px_45px_rgba(0,0,0,0.08)]"
+                variants={gridItem}
+                whileHover={hoverCard}
+                style={{ willChange: 'transform' }}
+              >
                 <div className="flex items-start gap-3">
                   <div className="h-10 w-10 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] flex items-center justify-center shrink-0">
                     <MapPin size={18} className="text-[color:var(--accent)]" />
@@ -138,11 +179,22 @@ export function ContactUsPage() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
-              <div className="lg:col-span-7 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden">
+            <motion.div
+              className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-4"
+              variants={gridContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.18 }}
+            >
+              <motion.div
+                className="lg:col-span-7 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden shadow-[0_18px_55px_rgba(0,0,0,0.10)]"
+                variants={gridItem}
+                whileHover={hoverCard}
+                style={{ willChange: 'transform' }}
+              >
                 <div className="p-6 flex items-center justify-between gap-4">
                   <div>
                     <div className="text-sm font-semibold">Map</div>
@@ -169,10 +221,14 @@ export function ContactUsPage() {
                     src="https://www.google.com/maps?q=Tower%20A%2C%20Room%20304%2C%204th%20floor%2C%20Shwe%20Zabu%20River%20View%20Complex%2C%20Strand%20Road%2C%20Ahlone%20Township%2C%20Yangon&z=15&output=embed"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="lg:col-span-5 grid grid-cols-1 gap-4">
-                <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
+              <motion.div className="lg:col-span-5 grid grid-cols-1 gap-4" variants={gridItem}>
+                <motion.div
+                  className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 shadow-[0_18px_55px_rgba(0,0,0,0.10)]"
+                  whileHover={hoverCard}
+                  style={{ willChange: 'transform' }}
+                >
                   <div className="flex items-start gap-3">
                     <div className="h-10 w-10 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] flex items-center justify-center shrink-0">
                       <Clock size={18} className="text-[color:var(--accent)]" />
@@ -184,9 +240,13 @@ export function ContactUsPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
+                <motion.div
+                  className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 shadow-[0_18px_55px_rgba(0,0,0,0.10)]"
+                  whileHover={hoverCard}
+                  style={{ willChange: 'transform' }}
+                >
                   <div className="text-sm font-semibold">Quick contacts</div>
                   <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <a
@@ -214,9 +274,9 @@ export function ContactUsPage() {
                       Docs
                     </a>
                   </div>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </section>
 
           <section className="mb-14">
@@ -227,13 +287,22 @@ export function ContactUsPage() {
                   Whether you need pricing guidance, technical support, or an enterprise plan, send a message and we’ll route it to the right team.
                 </p>
 
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <motion.div
+                  className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3"
+                  variants={gridContainer}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.25 }}
+                >
                   {supportTopics.map((t) => (
-                    <button
+                    <motion.button
                       key={t.title}
                       type="button"
                       onClick={() => selectTopic(t.type, t.title)}
-                      className="text-left rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4 hover:bg-[color:var(--bg-tertiary)] transition-colors"
+                      className="text-left rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4 shadow-[0_14px_45px_rgba(0,0,0,0.08)] hover:bg-[color:var(--bg-tertiary)] transition-colors"
+                      variants={gridItem}
+                      whileHover={hoverCard}
+                      style={{ willChange: 'transform' }}
                     >
                       <div className="flex items-start gap-3">
                         <div className="h-9 w-9 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] flex items-center justify-center shrink-0">
@@ -246,9 +315,9 @@ export function ContactUsPage() {
                           </div>
                         </div>
                       </div>
-                    </button>
+                    </motion.button>
                   ))}
-                </div>
+                </motion.div>
 
                 <div className="mt-4 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
                   <div className="text-sm font-semibold">What you’ll get</div>
