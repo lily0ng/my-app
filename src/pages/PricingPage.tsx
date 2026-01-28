@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 import {
@@ -6,11 +6,7 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronUp,
-  Calculator,
-  CreditCard,
-  Shield,
-  Zap,
-  HelpCircle } from
+  } from
 'lucide-react';
 export function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'hour' | 'second'>(
@@ -169,7 +165,7 @@ export function PricingPage() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Starter */}
-              <div className="bg-gradient-to-b from-[#0a2a1a] to-[#05150d] border border-white/10 rounded-2xl p-10 flex flex-col hover:border-[#00ff88]/30 transition-all duration-300 hover:scale-105 group">
+              <div className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl p-10 flex flex-col hover:border-[rgba(var(--accent-rgb),0.35)] transition-all duration-300 hover:scale-105 group">
                 <h3 className="text-2xl font-bold text-white mb-2">Starter</h3>
                 <div className="flex items-baseline gap-2 mb-4">
                   <span className="text-6xl font-bold text-white">$0</span>
@@ -181,7 +177,7 @@ export function PricingPage() {
                   Built for small teams and independent developers looking to
                   level up.
                 </p>
-                <button className="w-full py-4 rounded-full bg-[#00ff88] text-black font-bold text-sm mb-8 hover:bg-[#00cc6a] transition-colors shadow-[0_0_20px_rgba(0,255,136,0.2)]">
+                <button className="w-full py-4 rounded-full bg-[color:var(--accent)] text-white font-bold text-sm mb-8 hover:bg-[color:var(--accent-hover)] transition-colors shadow-[0_0_18px_rgba(var(--accent-rgb),0.14)]">
                   Get started with $30 / month free credit
                 </button>
                 <ul className="space-y-4">
@@ -197,8 +193,8 @@ export function PricingPage() {
                     key={item}
                     className="flex items-start gap-3 text-sm text-gray-300">
 
-                      <div className="mt-0.5 rounded-full bg-[#00ff88] p-0.5 shrink-0">
-                        <Check size={12} className="text-black" />
+                      <div className="mt-0.5 rounded-full bg-[color:var(--accent)] p-0.5 shrink-0">
+                        <Check size={12} className="text-white" />
                       </div>
                       {item}
                     </li>
@@ -207,8 +203,8 @@ export function PricingPage() {
               </div>
 
               {/* Team */}
-              <div className="bg-gradient-to-b from-[#0a2a1a] to-[#05150d] border border-white/10 rounded-2xl p-10 flex flex-col hover:border-[#00ff88]/30 transition-all duration-300 hover:scale-105 group relative overflow-hidden">
-                <div className="absolute top-0 inset-x-0 h-1 bg-[#00ff88]" />
+              <div className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl p-10 flex flex-col hover:border-[rgba(var(--accent-rgb),0.35)] transition-all duration-300 hover:scale-105 group relative overflow-hidden">
+                <div className="absolute top-0 inset-x-0 h-1 bg-[color:var(--accent)]" />
                 <h3 className="text-2xl font-bold text-white mb-2">Team</h3>
                 <div className="flex items-baseline gap-2 mb-4">
                   <span className="text-6xl font-bold text-white">$250</span>
@@ -237,8 +233,8 @@ export function PricingPage() {
                     key={item}
                     className="flex items-start gap-3 text-sm text-gray-300">
 
-                      <div className="mt-0.5 rounded-full bg-[#00ff88] p-0.5 shrink-0">
-                        <Check size={12} className="text-black" />
+                      <div className="mt-0.5 rounded-full bg-[color:var(--accent)] p-0.5 shrink-0">
+                        <Check size={12} className="text-white" />
                       </div>
                       {item}
                     </li>
@@ -247,7 +243,7 @@ export function PricingPage() {
               </div>
 
               {/* Enterprise */}
-              <div className="bg-gradient-to-b from-[#0a2a1a] to-[#05150d] border border-white/10 rounded-2xl p-10 flex flex-col hover:border-[#00ff88]/30 transition-all duration-300 hover:scale-105 group">
+              <div className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl p-10 flex flex-col hover:border-[rgba(var(--accent-rgb),0.35)] transition-all duration-300 hover:scale-105 group">
                 <h3 className="text-2xl font-bold text-white mb-2">
                   Enterprise
                 </h3>
@@ -274,8 +270,8 @@ export function PricingPage() {
                     key={item}
                     className="flex items-start gap-3 text-sm text-gray-300">
 
-                      <div className="mt-0.5 rounded-full bg-[#00ff88] p-0.5 shrink-0">
-                        <Check size={12} className="text-black" />
+                      <div className="mt-0.5 rounded-full bg-[color:var(--accent)] p-0.5 shrink-0">
+                        <Check size={12} className="text-white" />
                       </div>
                       {item}
                     </li>
