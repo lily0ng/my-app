@@ -1,6 +1,7 @@
 import type { ChangeEvent, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Tabs } from '@base-ui/react/tabs';
 import { Linkedin, Menu, Moon, Search, Sun, Twitter } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import logo from '../assets/images/Logo.png';
@@ -36,33 +37,28 @@ export function DocsShell({
   layout = 'default',
 }: DocsShellProps) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
   const searchRef = useRef<HTMLInputElement | null>(null);
 
   const hasSearchHandler = typeof onSearchChange === 'function';
 
   const topItems = [
-    {
-      label: 'Guide',
-      href: '/docs/guides/product/',
-      active: pathname.startsWith('/docs/guides/product'),
-    },
-    {
-      label: 'Examples',
-      href: '/docs/examples/',
-      active: pathname.startsWith('/docs/examples'),
-    },
-    {
-      label: 'Reference',
-      href: '/docs/guides/api/',
-      active: pathname.startsWith('/docs/guides/api'),
-    },
-    {
-      label: 'Playground',
-      href: '/resources',
-      active: pathname.startsWith('/resources'),
-    },
-  ];
+    { label: 'Guide', value: 'guide', href: '/docs/guides/product/' },
+    { label: 'Examples', value: 'examples', href: '/docs/examples/' },
+    { label: 'Reference', value: 'reference', href: '/docs/guides/api/' },
+    { label: 'Playground', value: 'playground', href: '/resources' },
+  ] as const;
+
+  const activeTab: (typeof topItems)[number]['value'] | null = pathname.startsWith('/docs/guides/product')
+    ? 'guide'
+    : pathname.startsWith('/docs/examples')
+      ? 'examples'
+      : pathname.startsWith('/docs/guides/api')
+        ? 'reference'
+        : pathname.startsWith('/resources')
+          ? 'playground'
+          : null;
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -98,21 +94,40 @@ export function DocsShell({
               <img src={logo} alt="1CNG" className="h-4 w-auto" loading="eager" />
             </Link>
 
-            <nav className="hidden md:flex items-center gap-5">
-              {topItems.map((it) => (
-                <Link
-                  key={it.label}
-                  to={it.href}
-                  className={
-                    'text-[13px] font-medium transition-colors relative pb-2 -mb-2 ' +
-                    (it.active ? 'text-accent-green' : 'text-[color:var(--docs-muted-2)] hover:text-[color:var(--text-primary)]')
-                  }
-                >
-                  {it.label}
-                  {it.active && <span className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-accent-green" />}
-                </Link>
-              ))}
-            </nav>
+            <Tabs.Root
+              value={activeTab}
+              onValueChange={(next: (typeof topItems)[number]['value'] | null) => {
+                if (next == null) return;
+                const item = topItems.find((it) => it.value === next);
+                if (!item) return;
+                navigate(item.href);
+              }}
+            >
+              <Tabs.List className="hidden md:flex items-center gap-5 relative">
+                {topItems.map((it) => (
+                  <Tabs.Tab
+                    key={it.value}
+                    value={it.value}
+                    className={(state: { active: boolean }) =>
+                      'text-[13px] font-medium transition-colors relative pb-2 -mb-2 outline-none ' +
+                      (state.active
+                        ? 'text-accent-green'
+                        : 'text-[color:var(--docs-muted-2)] hover:text-[color:var(--text-primary)]')
+                    }
+                  >
+                    {it.label}
+                  </Tabs.Tab>
+                ))}
+
+                <Tabs.Indicator
+                  className="absolute -bottom-[1px] h-[2px] bg-accent-green transition-[left,width] duration-200"
+                  style={{
+                    left: 'var(--active-tab-left)' as unknown as number,
+                    width: 'var(--active-tab-width)' as unknown as number,
+                  }}
+                />
+              </Tabs.List>
+            </Tabs.Root>
 
             <div className="ml-auto flex items-center gap-3">
               <div className="hidden lg:block relative w-[280px]">

@@ -183,49 +183,39 @@ export function GuidesPage() {
   }, [filteredPosts]);
 
   const sidebar = (
-    <div className="pr-2">
-      <div className="pt-1 pb-4">
-        <div className="text-[13px] font-semibold text-[color:var(--text-primary)] truncate">
-          {selected ? selected.title : 'Guides'}
+    <nav className="pr-2 pb-6">
+      {sections.map(({ section, items }, groupIndex) => (
+        <div key={section} className={groupIndex === 0 ? '' : 'mt-5'}>
+          <ul className="space-y-0.5">
+            {items.map((p) => {
+              const active = p.slug === slug;
+              const pad = p.indent ? 'pl-8' : 'pl-3';
+              const tone = p.indent
+                ? 'text-[color:var(--docs-muted)]'
+                : 'text-[color:var(--text-primary)] font-medium';
+              return (
+                <li key={p.slug}>
+                  <Link
+                    to={`/docs/guides/${p.slug}`}
+                    className={
+                      'relative block w-full -mx-3 px-3 pr-3 py-2 leading-tight transition-colors ' +
+                      pad +
+                      ' text-[13px] ' +
+                      tone +
+                      (active
+                        ? ' bg-[color:var(--docs-panel-2)] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-accent-green'
+                        : ' hover:bg-[color:var(--docs-panel-2)]')
+                    }
+                  >
+                    <span className="truncate block">{p.title}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      </div>
-
-      <div className="space-y-4 pb-6">
-        {sections.map(({ section, items }) => (
-          <div key={section}>
-            <h4 className="text-[12px] font-semibold text-[color:var(--text-primary)] mb-2">
-              {section}
-            </h4>
-            <ul className="space-y-0.5">
-              {items.map((p) => {
-                const active = p.slug === slug;
-                const basePad = p.indent ? 'pl-7' : 'pl-3';
-                const size = p.indent ? 'text-[12px]' : 'text-[13px]';
-                const idleColor = p.indent ? 'text-[color:var(--docs-muted-2)]' : 'text-[color:var(--docs-muted)]';
-                return (
-                  <li key={p.slug}>
-                    <Link
-                      to={`/docs/guides/${p.slug}`}
-                      className={
-                        'block w-full -mx-3 px-3 pr-3 py-1.5 leading-tight transition-colors ' +
-                        basePad +
-                        ' ' +
-                        size +
-                        (active
-                          ? ' bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)]'
-                          : ` ${idleColor} hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]`)
-                      }
-                    >
-                      <span className="truncate block">{p.title}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
+      ))}
+    </nav>
   );
 
   const rightRail = selected ? (
