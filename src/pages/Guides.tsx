@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Search, ArrowRight, ChevronRight } from 'lucide-react';
+import { ArrowRight, BookOpen, MessageCircle, Search, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 
@@ -75,6 +75,11 @@ const parseFrontmatter = (raw: string): { data: GuideFrontmatter; content: strin
 export function GuidesPage() {
   const { slug } = useParams();
   const [query, setQuery] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const gridCols = sidebarOpen
+    ? 'lg:grid-cols-[260px_minmax(0,740px)_220px]'
+    : 'lg:grid-cols-[minmax(0,740px)_220px]';
 
   const posts = useMemo<GuidePost[]>(() => {
     const modules = import.meta.glob(['../POST/guides/*.md', '/src/POST/guides/*.md'], {
@@ -143,75 +148,88 @@ export function GuidesPage() {
   }, [filteredPosts]);
 
   return (
-    <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] overflow-hidden font-sans selection:bg-[color:var(--accent)] selection:text-black">
+    <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] overflow-hidden font-sans selection:bg-[color:var(--accent)] selection:text-black flex flex-col">
       <Nav />
 
-      <main className="flex pt-24">
-        <aside className="w-80 fixed left-0 top-24 bottom-0 border-r border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 hidden lg:block overflow-y-auto z-10">
-          <div className="mb-7">
-            <div className="relative">
-              <Search className="absolute left-3 top-3 text-[color:var(--text-tertiary)]" size={16} />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search guides..."
-                className="w-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] rounded-lg py-2.5 pl-10 pr-4 text-sm text-[color:var(--text-primary)] focus:outline-none focus:border-[color:var(--accent)] transition-colors"
-              />
-            </div>
-          </div>
+      <main className="flex-1 pt-24">
+        <button
+          type="button"
+          onClick={() => setSidebarOpen((v) => !v)}
+          className="hidden lg:flex fixed left-6 top-28 z-30 items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-[color:var(--accent)] transition-colors"
+          aria-label={sidebarOpen ? 'Hide guides navigation' : 'Show guides navigation'}
+        >
+          <span className="h-2 w-2 rounded-full bg-[color:var(--accent)]" />
+          <span>{sidebarOpen ? 'Hide' : 'Guides'}</span>
+        </button>
 
-          <div className="space-y-8">
-            {sections.map(({ section, items }) => (
-              <div key={section}>
-                <h4 className="text-xs font-bold text-[color:var(--text-tertiary)] uppercase tracking-wider mb-4">{section}</h4>
-                <ul className="space-y-2 text-sm">
-                  {items.map((p) => {
-                    const active = p.slug === slug;
-                    return (
-                      <li key={p.slug}>
-                        <Link
-                          to={`/docs/guides/${p.slug}`}
-                          className={
-                            'flex items-center justify-between gap-3 rounded-lg px-3 py-2 border transition-colors ' +
-                            (active
-                              ? 'bg-[color:var(--bg-tertiary)] border-[color:var(--border-color)] text-[color:var(--text-primary)]'
-                              : 'border-transparent text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]')
-                          }
-                        >
-                          <span className="truncate">{p.title}</span>
-                          <ChevronRight
-                            size={16}
-                            className={active ? 'text-[color:var(--accent)]' : 'text-[color:var(--text-tertiary)]'}
-                          />
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </aside>
-
-        <div className="flex-1 lg:ml-80 p-8 md:p-16 w-full">
-          {!selected && (
-            <div className="max-w-6xl">
-              <div className="mb-12">
-                <div className="flex items-end justify-between gap-6">
-                  <div>
-                    <div className="text-sm text-[color:var(--text-tertiary)]">Docs</div>
-                    <h1 className="text-5xl md:text-6xl font-bold mt-2">Guides</h1>
-                    <p className="text-[color:var(--text-secondary)] mt-4 max-w-2xl">
-                      Deep dives into core concepts. Add new guides by dropping markdown files into{' '}
-                      <span className="text-white">src/POST/guides</span>.
-                    </p>
-                  </div>
-                  <div className="hidden md:inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] text-[color:var(--text-secondary)] whitespace-nowrap">
-                    {posts.length} guide{posts.length === 1 ? '' : 's'} loaded
+        <div className="mx-auto w-full max-w-[1200px] px-6 sm:px-8 lg:px-10 pb-24">
+          <div
+            className={
+              'grid grid-cols-1 gap-10 items-start ' +
+              gridCols +
+              (sidebarOpen ? ' w-full' : ' w-full lg:w-fit lg:mx-auto')
+            }
+          >
+            {sidebarOpen && (
+              <aside className="hidden lg:block sticky top-24 h-[calc(100vh-6rem)] overflow-y-auto border-r border-[color:var(--border-color)] pr-6">
+                <div className="pt-4 pb-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-3 text-[color:var(--text-tertiary)]" size={16} />
+                    <input
+                      type="text"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Search..."
+                      className="w-full bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-lg py-2.5 pl-10 pr-3 text-sm text-[color:var(--text-primary)] focus:outline-none focus:border-[color:var(--accent)] transition-colors"
+                    />
                   </div>
                 </div>
-              </div>
+
+                <div className="space-y-6 pb-6">
+                  {sections.map(({ section, items }) => (
+                    <div key={section}>
+                      <h4 className="text-[11px] font-bold text-[color:var(--text-tertiary)] uppercase tracking-wider mb-2">
+                        {section}
+                      </h4>
+                      <ul className="space-y-1 text-sm">
+                        {items.map((p) => {
+                          const active = p.slug === slug;
+                          return (
+                            <li key={p.slug}>
+                              <Link
+                                to={`/docs/guides/${p.slug}`}
+                                className={
+                                  'flex items-center gap-3 rounded-md px-3 py-2 transition-colors border-l-2 ' +
+                                  (active
+                                    ? 'border-l-[color:var(--accent)] bg-[color:var(--bg-secondary)] text-[color:var(--text-primary)] font-semibold'
+                                    : 'border-l-transparent text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--bg-secondary)]')
+                                }
+                              >
+                                <span className="truncate">{p.title}</span>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </aside>
+            )}
+
+            <div className="min-w-0">
+              {!selected && (
+                <div className="mx-auto w-full max-w-[740px]">
+                  <div className="mb-10">
+                    <div className="text-xs font-semibold text-[color:var(--text-tertiary)] uppercase tracking-wider">
+                      Getting Started
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-bold mt-2">Welcome</h1>
+                    <p className="text-[color:var(--text-secondary)] mt-3 max-w-2xl">
+                      Choose a guide to get started. New guides are loaded automatically from{' '}
+                      <span className="text-[color:var(--text-primary)]">src/POST/guides</span>.
+                    </p>
+                  </div>
 
               {filteredPosts.length === 0 ? (
                 <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8">
@@ -222,52 +240,92 @@ export function GuidesPage() {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {filteredPosts.map((p) => (
                     <Link
                       key={p.slug}
                       to={`/docs/guides/${p.slug}`}
-                      className="group rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-7 hover:border-[color:var(--accent)] transition-colors hover:shadow-[0_22px_70px_rgba(0,0,0,0.14)]"
+                      className="group rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden hover:border-[color:var(--accent)] transition-colors"
                     >
-                      <div className="text-xs text-[color:var(--text-tertiary)] mb-3">{p.section}</div>
-                      <div className="text-xl font-bold mb-2 group-hover:text-[color:var(--accent)] transition-colors">
-                        {p.title}
+                      <div className="h-28 bg-[color:var(--bg-tertiary)] flex items-center justify-center">
+                        <BookOpen size={34} className="text-[color:var(--accent)]" />
                       </div>
-                      <p className="text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-2">
-                        {p.description || 'Open the guide to read the full walkthrough.'}
-                      </p>
-                      <div className="mt-6 text-[color:var(--accent)] font-bold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                        Read guide <ArrowRight size={16} />
+                      <div className="p-6">
+                        <div className="text-xs text-[color:var(--text-tertiary)] mb-2">{p.section}</div>
+                        <div className="text-lg font-bold mb-2 group-hover:text-[color:var(--accent)] transition-colors">
+                          {p.title}
+                        </div>
+                        <p className="text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-2">
+                          {p.description || 'Open the guide to read the full walkthrough.'}
+                        </p>
+                        <div className="mt-5 text-[color:var(--accent)] font-semibold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
+                          Read <ArrowRight size={16} />
+                        </div>
                       </div>
                     </Link>
                   ))}
                 </div>
               )}
+                </div>
+              )}
+
+              {selected && (
+                <div className="mx-auto w-full max-w-[740px]">
+                  <div className="mb-10">
+                    <Link
+                      to="/docs/guides"
+                      className="text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors inline-flex items-center gap-2"
+                    >
+                      <ArrowRight className="rotate-180" size={16} /> Back to Guides
+                    </Link>
+
+                    <div className="mt-6 text-xs text-[color:var(--text-tertiary)]">{selected.section}</div>
+                    <h1 className="text-4xl md:text-5xl font-bold mt-2">{selected.title}</h1>
+                    {selected.description && (
+                      <p className="text-[color:var(--text-secondary)] mt-4 leading-relaxed">{selected.description}</p>
+                    )}
+                  </div>
+
+                  <article className="prose max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-[color:var(--accent)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[color:var(--text-primary)] prose-code:text-[color:var(--text-primary)] prose-pre:bg-[color:var(--bg-tertiary)] prose-pre:border prose-pre:border-[color:var(--border-color)] prose-table:mx-auto prose-img:mx-auto">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{selected.content}</ReactMarkdown>
+                  </article>
+                </div>
+              )}
             </div>
-          )}
 
-          {selected && (
-            <div className="max-w-3xl">
-              <div className="mb-10">
-                <Link
-                  to="/docs/guides"
-                  className="text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors inline-flex items-center gap-2"
-                >
-                  <ArrowRight className="rotate-180" size={16} /> Back to Guides
-                </Link>
+            <aside className="hidden lg:block sticky top-28 h-[calc(100vh-8rem)]">
+              {selected && (
+                <div className="rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
+                  <button
+                    type="button"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] px-3 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:border-[color:var(--accent)] transition-colors"
+                  >
+                    <MessageCircle size={16} className="text-[color:var(--text-tertiary)]" /> Ask
+                  </button>
 
-                <div className="mt-6 text-xs text-[color:var(--text-tertiary)]">{selected.section}</div>
-                <h1 className="text-4xl md:text-5xl font-bold mt-2">{selected.title}</h1>
-                {selected.description && (
-                  <p className="text-[color:var(--text-secondary)] mt-4 leading-relaxed">{selected.description}</p>
-                )}
-              </div>
-
-              <article className="prose max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-[color:var(--accent)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[color:var(--text-primary)] prose-code:text-[color:var(--text-primary)] prose-pre:bg-[color:var(--bg-tertiary)] prose-pre:border prose-pre:border-[color:var(--border-color)]">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{selected.content}</ReactMarkdown>
-              </article>
-            </div>
-          )}
+                  <div className="mt-6">
+                    <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">Was this helpful?</div>
+                    <div className="mt-3 flex items-center gap-2">
+                      <button
+                        type="button"
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] hover:border-[color:var(--accent)] transition-colors"
+                        aria-label="Helpful"
+                      >
+                        <ThumbsUp size={16} className="text-[color:var(--text-secondary)]" />
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] hover:border-[color:var(--accent)] transition-colors"
+                        aria-label="Not helpful"
+                      >
+                        <ThumbsDown size={16} className="text-[color:var(--text-secondary)]" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </aside>
+          </div>
         </div>
       </main>
 
