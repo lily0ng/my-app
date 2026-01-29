@@ -73,7 +73,6 @@ export function AboutUsPage() {
       <main>
         <section className="pt-40 pb-20 px-6 relative">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full bg-[radial-gradient(circle_at_center,_rgba(0,255,136,0.14)_0%,_transparent_60%)]" />
             <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(0,255,136,0.20)_1px,transparent_1px)] [background-size:80px_80px]" />
           </div>
 
@@ -306,8 +305,6 @@ export function AboutUsPage() {
             <div className="mt-14">
               <div className="relative w-full max-w-5xl mx-auto">
                 <div className="relative aspect-[16/10] rounded-3xl border border-white/10 bg-[#0a0a0a] overflow-hidden">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,255,136,0.12)_0%,_transparent_55%)]" />
-
                   <svg
                     viewBox="0 0 100 100"
                     className="absolute inset-0 w-full h-full"
@@ -390,11 +387,6 @@ export function AboutUsPage() {
 
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                     <div className="relative">
-                      <motion.div
-                        animate={{ scale: [1, 1.06, 1] }}
-                        transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
-                        className="absolute -inset-6 rounded-full bg-[#00ff88]/10"
-                      />
                       <div className="relative w-28 h-28 rounded-full border border-white/10 bg-[#111] flex items-center justify-center">
                         <Users size={32} className="text-[#00ff88]" />
                       </div>

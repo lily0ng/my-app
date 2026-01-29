@@ -2,24 +2,110 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 import { motion, useInView } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 import {
   Quote,
   ChevronDown,
   ChevronUp,
-  Globe,
   Play,
   ArrowRight } from
 'lucide-react';
+
+function hexToRgba(hex: string, alpha: number) {
+  const normalized = hex.replace('#', '').trim();
+  const full =
+    normalized.length === 3
+      ? normalized
+          .split('')
+          .map((c) => c + c)
+          .join('')
+      : normalized;
+  if (full.length !== 6) return `rgba(168,85,247,${alpha})`;
+  const r = Number.parseInt(full.slice(0, 2), 16);
+  const g = Number.parseInt(full.slice(2, 4), 16);
+  const b = Number.parseInt(full.slice(4, 6), 16);
+  if ([r, g, b].some((v) => Number.isNaN(v))) return `rgba(168,85,247,${alpha})`;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
 export function CustomersPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const globeDots = useMemo(
-    () =>
-      Array.from({ length: 10 }, () => ({
-        top: Math.random() * 80 + 10,
-        left: Math.random() * 80 + 10
-      })),
-    []
+  const { theme, darkAccent } = useTheme();
+
+  const mapArcs = useMemo(() => {
+    const points = {
+      sfo: { x: 155, y: 175 },
+      nyc: { x: 245, y: 165 },
+      lon: { x: 470, y: 150 },
+      par: { x: 485, y: 160 },
+      lag: { x: 465, y: 260 },
+      cai: { x: 525, y: 205 },
+      hyd: { x: 650, y: 230 },
+      sin: { x: 735, y: 275 },
+      tok: { x: 850, y: 190 },
+      syd: { x: 845, y: 360 },
+      sao: { x: 330, y: 330 },
+    };
+
+    const arcs = [
+      { from: 'sfo', to: 'lon', lift: 88, dur: 4.2, delay: 0.2 },
+      { from: 'nyc', to: 'par', lift: 78, dur: 3.9, delay: 0.6 },
+      { from: 'lon', to: 'cai', lift: 64, dur: 3.6, delay: 0.9 },
+      { from: 'par', to: 'hyd', lift: 74, dur: 4.5, delay: 1.1 },
+      { from: 'cai', to: 'sin', lift: 82, dur: 4.0, delay: 1.5 },
+      { from: 'hyd', to: 'tok', lift: 92, dur: 4.8, delay: 1.9 },
+      { from: 'sin', to: 'syd', lift: 70, dur: 4.1, delay: 0.4 },
+      { from: 'lag', to: 'lon', lift: 68, dur: 3.7, delay: 1.3 },
+      { from: 'sao', to: 'lon', lift: 88, dur: 4.6, delay: 2.2 },
+      { from: 'tok', to: 'sfo', lift: 104, dur: 5.2, delay: 2.6 },
+    ].map((a, idx) => {
+      const p1 = points[a.from as keyof typeof points];
+      const p2 = points[a.to as keyof typeof points];
+      const mx = (p1.x + p2.x) / 2;
+      const my = (p1.y + p2.y) / 2;
+      const cx = mx;
+      const cy = Math.max(18, my - a.lift);
+      const d = `M ${p1.x} ${p1.y} Q ${cx} ${cy} ${p2.x} ${p2.y}`;
+      return {
+        id: `arc-${idx}`,
+        d,
+        from: p1,
+        to: p2,
+        dur: a.dur,
+        delay: a.delay,
+      };
+    });
+
+    return { points, arcs };
+  }, []);
+
+  const mapRegions = useMemo(
+    () => [
+      { cx: 120, cy: 155, rx: 60, ry: 42, rot: -10 },
+      { cx: 215, cy: 190, rx: 55, ry: 38, rot: 18 },
+      { cx: 360, cy: 280, rx: 52, ry: 72, rot: -8 },
+      { cx: 535, cy: 165, rx: 55, ry: 44, rot: 10 },
+      { cx: 565, cy: 230, rx: 92, ry: 55, rot: -12 },
+      { cx: 700, cy: 220, rx: 70, ry: 50, rot: 10 },
+      { cx: 820, cy: 175, rx: 85, ry: 44, rot: 8 },
+      { cx: 855, cy: 320, rx: 92, ry: 55, rot: 12 },
+    ],
+    [],
+  );
+
+  const mapRings = useMemo(
+    () => [
+      { cx: 180, cy: 220, r: 7.5, delay: 0.2 },
+      { cx: 460, cy: 185, r: 8.5, delay: 0.8 },
+      { cx: 515, cy: 150, r: 6.5, delay: 1.2 },
+      { cx: 600, cy: 205, r: 8.5, delay: 0.5 },
+      { cx: 680, cy: 285, r: 7.5, delay: 1.6 },
+      { cx: 905, cy: 210, r: 7.5, delay: 1.1 },
+      { cx: 940, cy: 365, r: 9.5, delay: 0.9 },
+      { cx: 740, cy: 355, r: 7.5, delay: 0.35 },
+    ],
+    [],
   );
 
   const statsRef = useRef<HTMLDivElement | null>(null);
@@ -147,20 +233,148 @@ export function CustomersPage() {
             <p className="text-xl text-gray-400 mb-16">
               Teams across 30+ countries build on Modal.
             </p>
-            <div className="aspect-[2/1] bg-[#0a0a0a] rounded-2xl border border-white/10 relative overflow-hidden flex items-center justify-center">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00ff88]/10 to-transparent opacity-50" />
-              <Globe size={200} className="text-gray-800 opacity-50" />
-              {/* Dots representing locations */}
-              {globeDots.map((d, i) => (
-                <div
-                  key={i}
-                  className="absolute w-2 h-2 bg-[#00ff88] rounded-full animate-pulse"
-                  style={{
-                    top: `${d.top}%`,
-                    left: `${d.left}%`
-                  }}
-                />
-              ))}
+            <div className="aspect-[2/1] rounded-2xl relative overflow-hidden">
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    theme === 'dark'
+                      ? 'radial-gradient(900px 520px at 55% 35%, rgba(59,130,246,0.22), transparent 60%), radial-gradient(900px 520px at 35% 55%, rgba(168,85,247,0.16), transparent 58%), radial-gradient(1200px 600px at 50% 50%, rgba(2,6,23,0.15), rgba(2,6,23,0.92) 70%), linear-gradient(180deg, rgba(3,6,14,1), rgba(2,3,8,1))'
+                      : 'radial-gradient(900px 520px at 55% 35%, rgba(37,99,235,0.12), transparent 60%), radial-gradient(900px 520px at 35% 55%, rgba(124,58,237,0.08), transparent 58%), radial-gradient(1200px 600px at 50% 50%, rgba(15,23,42,0.06), rgba(15,23,42,0.12) 70%), linear-gradient(180deg, rgba(250,250,255,1), rgba(245,247,255,1))',
+                }}
+              />
+
+              <svg
+                className="absolute inset-0 h-full w-full"
+                viewBox="0 0 1000 500"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden="true"
+              >
+                <defs>
+                  <filter id="arcGlow" x="-35%" y="-35%" width="170%" height="170%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <filter id="regionGlow" x="-45%" y="-45%" width="190%" height="190%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <g filter="url(#regionGlow)">
+                  {mapRegions.map((r, idx) => (
+                    <ellipse
+                      key={idx}
+                      cx={r.cx}
+                      cy={r.cy}
+                      rx={r.rx}
+                      ry={r.ry}
+                      transform={`rotate(${r.rot} ${r.cx} ${r.cy})`}
+                      fill={theme === 'dark' ? 'rgba(56,189,248,0.22)' : 'rgba(59,130,246,0.12)'}
+                      stroke={theme === 'dark' ? 'rgba(191,219,254,0.42)' : 'rgba(37,99,235,0.22)'}
+                      strokeWidth="1"
+                    />
+                  ))}
+                </g>
+
+                <g filter="url(#arcGlow)">
+                  {mapArcs.arcs.map((a) => {
+                    const baseStroke =
+                      theme === 'dark' ? 'rgba(148,163,184,0.26)' : 'rgba(148,163,184,0.22)';
+                    const accent = theme === 'dark' ? 'rgba(191,219,254,0.85)' : 'rgba(37,99,235,0.65)';
+                    const glow = theme === 'dark' ? hexToRgba(darkAccent, 0.7) : 'rgba(37,99,235,0.28)';
+                    return (
+                      <g key={a.id}>
+                        <path id={a.id} d={a.d} fill="none" stroke={baseStroke} strokeWidth="1.05" />
+                        <path
+                          d={a.d}
+                          fill="none"
+                          stroke={accent}
+                          strokeWidth="1.2"
+                          strokeLinecap="round"
+                          strokeDasharray="1 16"
+                          style={{
+                            animation: `arc-dash ${a.dur}s linear ${a.delay}s infinite`,
+                          }}
+                        />
+                        <circle r="2.2" fill={accent} opacity={0.95}>
+                          <animateMotion dur={`${a.dur}s`} begin={`${a.delay}s`} repeatCount="indefinite" path={a.d} />
+                        </circle>
+                        <circle r="7" fill="none" stroke={glow} strokeWidth="1" opacity={0.35}>
+                          <animateMotion dur={`${a.dur}s`} begin={`${a.delay}s`} repeatCount="indefinite" path={a.d} />
+                        </circle>
+                      </g>
+                    );
+                  })}
+                </g>
+
+                <g>
+                  {Object.entries(mapArcs.points).map(([id, p]) => {
+                    const dot = theme === 'dark' ? 'rgba(226,232,240,0.95)' : 'rgba(37,99,235,0.85)';
+                    const ring = theme === 'dark' ? 'rgba(147,197,253,0.55)' : 'rgba(37,99,235,0.35)';
+                    return (
+                      <g key={id}>
+                        <circle cx={p.x} cy={p.y} r="2" fill={dot} />
+                        <circle
+                          className="map-dotRing"
+                          cx={p.x}
+                          cy={p.y}
+                          r="7"
+                          fill="none"
+                          stroke={ring}
+                          strokeWidth="1"
+                          style={{ animationDelay: `${(id.length % 7) * 0.24}s` }}
+                        />
+                      </g>
+                    );
+                  })}
+                </g>
+
+                <g>
+                  {mapRings.map((r, idx) => (
+                    <circle
+                      key={idx}
+                      className="map-ring"
+                      cx={r.cx}
+                      cy={r.cy}
+                      r={r.r}
+                      fill="none"
+                      stroke={theme === 'dark' ? 'rgba(99,102,241,0.45)' : 'rgba(37,99,235,0.22)'}
+                      strokeWidth="1"
+                      style={{ animationDelay: `${r.delay}s` }}
+                    />
+                  ))}
+                </g>
+              </svg>
+
+              <style>
+                {`
+                  @keyframes arc-dash {
+                    0% { stroke-dashoffset: 120; opacity: 0.0; }
+                    12% { opacity: 1.0; }
+                    70% { opacity: 0.65; }
+                    100% { stroke-dashoffset: -520; opacity: 0.0; }
+                  }
+                  .map-ring,
+                  .map-dotRing {
+                    transform-box: fill-box;
+                    transform-origin: center;
+                    animation: ring-pulse 3.2s ease-in-out infinite;
+                  }
+                  @keyframes ring-pulse {
+                    0% { opacity: 0.0; transform: scale(0.92); }
+                    25% { opacity: 0.75; transform: scale(1.0); }
+                    70% { opacity: 0.18; transform: scale(1.28); }
+                    100% { opacity: 0.0; transform: scale(1.38); }
+                  }
+                `}
+              </style>
             </div>
           </div>
         </section>
