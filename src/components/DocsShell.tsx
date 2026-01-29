@@ -1,8 +1,9 @@
 import type { ChangeEvent, ReactNode } from 'react';
 import { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Moon, Search, Sun } from 'lucide-react';
+import { Linkedin, Menu, Moon, Search, Sun, Twitter } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import logo from '../assets/images/Logo.png';
 
 type Breadcrumb = {
   label: string;
@@ -11,7 +12,7 @@ type Breadcrumb = {
 
 type DocsShellProps = {
   breadcrumbs: Breadcrumb[];
-  sidebar: ReactNode;
+  sidebar: ReactNode | null;
   children: ReactNode;
   rightRail?: ReactNode;
   sidebarOpen: boolean;
@@ -19,6 +20,7 @@ type DocsShellProps = {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
+  layout?: 'default' | 'home';
 };
 
 export function DocsShell({
@@ -31,6 +33,7 @@ export function DocsShell({
   searchValue,
   onSearchChange,
   searchPlaceholder,
+  layout = 'default',
 }: DocsShellProps) {
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
@@ -46,13 +49,8 @@ export function DocsShell({
     },
     {
       label: 'Examples',
-      href: '/docs/guides',
-      active:
-        (pathname === '/docs/guides' || pathname.startsWith('/docs/guides/')) &&
-        !pathname.startsWith('/docs/guides/product') &&
-        !pathname.startsWith('/docs/guides/api') &&
-        !pathname.startsWith('/docs/guides/help-center') &&
-        !pathname.startsWith('/docs/guides/changelog'),
+      href: '/docs/examples/',
+      active: pathname.startsWith('/docs/examples'),
     },
     {
       label: 'Reference',
@@ -79,11 +77,12 @@ export function DocsShell({
   }, [hasSearchHandler]);
 
   const breadcrumbA11y = breadcrumbs.map((b) => b.label).join(' / ');
+  const isHome = layout === 'home';
 
   return (
-    <div className="min-h-screen w-full bg-[color:var(--docs-bg)] text-[color:var(--text-primary)]">
+    <div className="min-h-screen w-full bg-[color:var(--docs-bg)] text-[color:var(--text-primary)] flex flex-col">
       <header className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--docs-bg)]/95 backdrop-blur border-b border-[color:var(--docs-border)]">
-        <div className="mx-auto w-full max-w-[1320px] px-6">
+        <div className="mx-auto w-full max-w-none px-6 lg:px-8">
           <div className="h-12 flex items-center gap-8">
             <button
               type="button"
@@ -95,9 +94,8 @@ export function DocsShell({
               <Menu size={16} />
             </button>
 
-            <Link to="/" className="flex items-center gap-2">
-              <span className="inline-flex h-4 w-4 rounded-full bg-accent-green shadow-[0_0_0_2px_rgba(0,255,136,0.18)]" />
-              <span className="text-sm font-semibold tracking-tight">Modal Docs</span>
+            <Link to="/" className="flex items-center">
+              <img src={logo} alt="1CNG" className="h-4 w-auto" loading="eager" />
             </Link>
 
             <nav className="hidden md:flex items-center gap-5">
@@ -107,7 +105,7 @@ export function DocsShell({
                   to={it.href}
                   className={
                     'text-[13px] font-medium transition-colors relative pb-2 -mb-2 ' +
-                    (it.active ? 'text-[color:var(--text-primary)]' : 'text-[color:var(--docs-muted-2)] hover:text-[color:var(--text-primary)]')
+                    (it.active ? 'text-accent-green' : 'text-[color:var(--docs-muted-2)] hover:text-[color:var(--text-primary)]')
                   }
                 >
                   {it.label}
@@ -159,38 +157,87 @@ export function DocsShell({
 
       <div className="h-12" />
 
-      <div className="mx-auto w-full max-w-[1320px] px-6 pt-8">
+      <div className="mx-auto w-full max-w-none px-6 lg:px-8 pt-8 flex-1">
         <nav className="sr-only" aria-label="Breadcrumbs">
           {breadcrumbA11y}
         </nav>
 
-        {sidebarOpen && (
-          <div className="lg:hidden mb-6 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-3">
-            {sidebar}
-          </div>
+        {isHome ? (
+          <main className="min-w-0">{children}</main>
+        ) : (
+          <>
+            {sidebarOpen && sidebar && (
+              <div className="lg:hidden mb-6 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-3">
+                {sidebar}
+              </div>
+            )}
+
+            <div
+              className={
+                'grid grid-cols-1 gap-10 items-start transition-all duration-200 ' +
+                (sidebarOpen
+                  ? 'lg:grid-cols-[260px_minmax(0,760px)_260px]'
+                  : 'lg:grid-cols-[56px_minmax(0,760px)_260px]')
+              }
+            >
+              <aside className="hidden lg:block sticky top-[4.5rem] h-[calc(100vh-5.25rem)] overflow-y-auto border-r border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] px-3 py-4">
+                {sidebarOpen ? sidebar : <div className="h-full" />}
+              </aside>
+
+              <main className="min-w-0">{children}</main>
+
+              <aside className="hidden lg:block sticky top-[4.5rem] h-[calc(100vh-5.25rem)]">
+                {rightRail}
+              </aside>
+            </div>
+          </>
         )}
 
-        <div
-          className={
-            'grid grid-cols-1 gap-10 items-start transition-all duration-200 ' +
-            (sidebarOpen
-              ? 'lg:grid-cols-[320px_minmax(0,780px)_260px]'
-              : 'lg:grid-cols-[56px_minmax(0,780px)_260px]')
-          }
-        >
-          <aside className="hidden lg:block sticky top-[4.5rem] h-[calc(100vh-5.25rem)] overflow-y-auto border-r border-[color:var(--docs-border)] pr-6">
-            {sidebarOpen ? sidebar : <div className="h-full" />}
-          </aside>
-
-          <main className="min-w-0">{children}</main>
-
-          <aside className="hidden lg:block sticky top-[4.5rem] h-[calc(100vh-5.25rem)]">
-            {rightRail}
-          </aside>
-        </div>
-
-        <div className="h-20" />
+        <div className="h-14" />
       </div>
+
+      <footer className="border-t border-[color:var(--docs-border)] bg-[color:var(--docs-bg)]">
+        <div className="mx-auto w-full max-w-none px-6 lg:px-8">
+          <div className="h-12 flex items-center gap-6 text-[12px] text-[color:var(--docs-muted-2)]">
+            <div className="shrink-0 flex items-center gap-2">
+              <span className="font-semibold text-[color:var(--text-primary)]">1CNG</span>
+              <span>© 2026</span>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-5 ml-auto">
+              <a href="#" className="hover:text-[color:var(--text-primary)] transition-colors">
+                About
+              </a>
+              <a href="#" className="hover:text-[color:var(--text-primary)] transition-colors">
+                Status
+              </a>
+              <a href="#" className="hover:text-[color:var(--text-primary)] transition-colors">
+                Changelog
+              </a>
+              <a href="#" className="hover:text-[color:var(--text-primary)] transition-colors">
+                Documentation
+              </a>
+              <a href="#" className="hover:text-[color:var(--text-primary)] transition-colors">
+                Slack Community
+              </a>
+              <a href="#" className="hover:text-[color:var(--text-primary)] transition-colors">
+                Pricing
+              </a>
+              <a href="#" className="hover:text-[color:var(--text-primary)] transition-colors">
+                Examples
+              </a>
+              <div className="flex items-center gap-3 pl-2">
+                <a href="#" aria-label="LinkedIn" className="hover:text-[color:var(--text-primary)] transition-colors">
+                  <Linkedin size={14} />
+                </a>
+                <a href="#" aria-label="Twitter" className="hover:text-[color:var(--text-primary)] transition-colors">
+                  <Twitter size={14} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

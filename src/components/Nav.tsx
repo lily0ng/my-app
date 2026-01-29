@@ -190,7 +190,7 @@ export function Nav() {
     name: 'Examples',
     icon: BoxIcon,
     desc: 'Copy-pasteable code snippets',
-    path: '/docs/guides/product/'
+    path: '/docs/examples/'
   },
   {
     name: 'Guides',

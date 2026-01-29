@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Code2, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Check, ChevronDown, Copy } from 'lucide-react';
 import { DocsShell } from '../../components/DocsShell';
 
 type SideItem = { label: string; to: string };
@@ -8,27 +8,48 @@ type SideItem = { label: string; to: string };
 type SideGroup = { title: string; items: SideItem[] };
 
 export function ReferencePage() {
-  const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [search, setSearch] = useState('');
-
-  const norm = (p: string) => (p.endsWith('/') ? p.slice(0, -1) : p);
+  const [copied, setCopied] = useState(false);
 
   const groups: SideGroup[] = [
     {
-      title: 'Reference',
+      title: 'Changelog',
+      items: [{ label: 'API reference', to: '/docs/guides/api/' }],
+    },
+    {
+      title: 'API reference',
       items: [
-        { label: 'Auth tokens', to: '/docs/guides/api/' },
-        { label: 'Policies', to: '/docs/guides/api/' },
-        { label: 'Audit logs', to: '/docs/guides/api/' },
+        { label: 'modal.App', to: '/docs/guides/api/' },
+        { label: 'modal.Client', to: '/docs/guides/api/' },
+        { label: 'modal.CloudBucketMount', to: '/docs/guides/api/' },
+        { label: 'modal.Cls', to: '/docs/guides/api/' },
+        { label: 'modal.Cron', to: '/docs/guides/api/' },
+        { label: 'modal.Dict', to: '/docs/guides/api/' },
+        { label: 'modal.Error', to: '/docs/guides/api/' },
+        { label: 'modal.FilePatternMatcher', to: '/docs/guides/api/' },
+        { label: 'modal.Function', to: '/docs/guides/api/' },
+        { label: 'modal.FunctionCall', to: '/docs/guides/api/' },
+        { label: 'modal.Image', to: '/docs/guides/api/' },
+        { label: 'modal.NetworkFileSystem', to: '/docs/guides/api/' },
+        { label: 'modal.Period', to: '/docs/guides/api/' },
+        { label: 'modal.Proxy', to: '/docs/guides/api/' },
+        { label: 'modal.Queue', to: '/docs/guides/api/' },
+        { label: 'modal.Retries', to: '/docs/guides/api/' },
+        { label: 'modal.Sandbox', to: '/docs/guides/api/' },
+        { label: 'modal.SandboxSnapshot', to: '/docs/guides/api/' },
+        { label: 'modal.Secret', to: '/docs/guides/api/' },
+        { label: 'modal.Server', to: '/docs/guides/api/' },
+        { label: 'modal.Tunnel', to: '/docs/guides/api/' },
+        { label: 'modal.Volume', to: '/docs/guides/api/' },
       ],
     },
   ];
 
   const sidebar = (
     <div className="pr-2">
-      <div className="pt-2 pb-6">
-        <div className="text-lg font-semibold text-[color:var(--text-primary)] truncate">Reference</div>
+      <div className="pt-1 pb-4">
+        <div className="text-[13px] font-semibold text-[color:var(--text-primary)] truncate">Reference</div>
       </div>
 
       <div className="space-y-7 pb-6">
@@ -37,17 +58,17 @@ export function ReferencePage() {
           <div className="text-[11px] font-bold text-[color:var(--docs-muted-2)] uppercase tracking-wider mb-3">
             {g.title}
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-0.5">
             {g.items.map((it) => {
-              const active = norm(pathname) === norm(it.to);
+              const active = g.title === 'API reference' && it.label === 'modal.App';
               return (
                 <li key={it.label}>
                   <Link
                     to={it.to}
                     className={
-                      'block rounded-md px-3 py-2 text-[14px] transition-colors ' +
+                      'block w-full rounded-sm px-3 py-2 text-[12px] font-mono leading-tight transition-colors ' +
                       (active
-                        ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)] font-semibold'
+                        ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)]'
                         : 'text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
                     }
                   >
@@ -63,45 +84,50 @@ export function ReferencePage() {
     </div>
   );
 
-  const rightRail = (
-    <div className="rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-4">
-      <div className="text-xs font-semibold text-[color:var(--docs-muted)] uppercase tracking-wider">The AuthToken object</div>
-      <div className="mt-4 space-y-3 text-sm">
-        {[
-          { m: 'GET', c: 'bg-[color:var(--docs-panel-2)] text-[color:var(--docs-muted)]', t: 'Get an auth token' },
-          { m: 'PATCH', c: 'bg-[color:var(--docs-panel-2)] text-[color:var(--docs-muted)]', t: 'Update an auth token' },
-          { m: 'POST', c: 'bg-[color:var(--docs-panel-2)] text-[color:var(--docs-muted)]', t: 'Regenerate an auth token' },
-        ].map((x) => (
-          <div key={x.m} className="flex items-start gap-3">
-            <span className={'text-[11px] px-2 py-0.5 rounded border border-[color:var(--docs-border)] ' + x.c}>{x.m}</span>
-            <span className="text-[color:var(--docs-muted)]">{x.t}</span>
-          </div>
-        ))}
-      </div>
+  const sections = [
+    'Application construction',
+    'Serverless execution',
+    'Extended Function configuration',
+    'Class parametrization',
+    'Lifecycle hooks',
+    'Web integrations',
+    'Function semantics',
+    'Scheduling',
+    'Exception handling',
+    'Sandbox execution',
+    'Container configuration',
+    'Data primitives',
+    'Persistent storage',
+    'In-memory storage',
+    'Networking',
+  ];
 
-      <div className="mt-6">
-        <div className="text-xs font-semibold text-[color:var(--docs-muted)]">Was this helpful?</div>
-        <div className="mt-3 flex items-center gap-2">
-          <button
-            type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--docs-border)] bg-[color:var(--docs-bg)] hover:bg-[color:var(--docs-panel-2)] transition-colors"
-            aria-label="Helpful"
+  const slugify = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
+
+  const rightRail = (
+    <div className="rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-3">
+      <div className="text-[11px] font-semibold text-[color:var(--docs-muted)] uppercase tracking-wider">API Reference</div>
+      <div className="mt-3 space-y-2">
+        {sections.map((t) => (
+          <a
+            key={t}
+            href={`#${slugify(t)}`}
+            className="block text-[12px] text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] transition-colors"
           >
-            <ThumbsUp size={16} className="text-[color:var(--docs-muted)]" />
-          </button>
-          <button
-            type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--docs-border)] bg-[color:var(--docs-bg)] hover:bg-[color:var(--docs-panel-2)] transition-colors"
-            aria-label="Not helpful"
-          >
-            <ThumbsDown size={16} className="text-[color:var(--docs-muted)]" />
-          </button>
-        </div>
+            {t}
+          </a>
+        ))}
       </div>
     </div>
   );
 
-  const breadcrumbs = [{ label: 'Reference', to: '/docs/guides/api/' }, { label: 'Auth tokens' }];
+  const breadcrumbs = [{ label: 'Reference', to: '/docs/guides/api/' }, { label: 'API Reference' }];
 
   return (
     <DocsShell
@@ -115,58 +141,87 @@ export function ReferencePage() {
       searchPlaceholder="Search"
     >
       <div>
-        <div className="mb-8">
-          <div className="flex items-center gap-2 text-xs font-semibold text-[color:var(--docs-muted-2)] uppercase tracking-wider">
-            <Code2 size={14} /> Reference
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mt-2 text-[color:var(--text-primary)]">Auth tokens</h1>
-          <p className="text-[color:var(--docs-muted)] mt-3 max-w-2xl leading-relaxed">
-            Manage the tokens used to authenticate requests. Create and rotate tokens for users and services.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-6 mb-10">
-          <div className="text-xs font-semibold text-[color:var(--docs-muted)] uppercase tracking-wider">The AuthToken object</div>
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mb-10">
+          <div className="mt-2 flex items-start justify-between gap-6">
             <div>
-              <div className="text-sm font-semibold mb-2 text-[color:var(--text-primary)]">Attributes</div>
-              <ul className="text-sm text-[color:var(--docs-muted)] space-y-2">
-                <li>
-                  <span className="font-semibold text-[color:var(--text-primary)]">id</span> — string
-                </li>
-                <li>
-                  <span className="font-semibold text-[color:var(--text-primary)]">createdAt</span> — timestamp
-                </li>
-                <li>
-                  <span className="font-semibold text-[color:var(--text-primary)]">scopes</span> — string[]
-                </li>
-              </ul>
+              <h1 className="text-4xl md:text-5xl font-bold text-[color:var(--text-primary)]">API Reference</h1>
+              <p className="text-[color:var(--docs-muted)] mt-3 max-w-2xl leading-relaxed">
+                This is the API reference for the <span className="px-1 rounded bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)]">modal</span> Python package.
+              </p>
             </div>
-            <div className="bg-[color:var(--docs-bg)] border border-[color:var(--docs-border)] rounded-lg p-4 font-mono text-sm overflow-auto">
-              <pre className="text-[color:var(--text-primary)]">
-{`{
-  "backend": "custom",
-  "object": "publishing-auth",
-  "privateKey": "text",
-  "fallbackURL": "https://example.com",
-  "integration": "text"
-}`}</pre>
-            </div>
+
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(window.location.href);
+                  setCopied(true);
+                  window.setTimeout(() => setCopied(false), 1500);
+                } catch {}
+              }}
+              className="shrink-0 inline-flex items-center gap-2 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] px-3 py-2 text-[12px] font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)] transition-colors"
+            >
+              {copied ? <Check size={14} className="text-[color:var(--accent)]" /> : <Copy size={14} className="text-[color:var(--docs-muted)]" />}
+              Copy page
+              <ChevronDown size={14} className="text-[color:var(--docs-muted-2)]" />
+            </button>
           </div>
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-[color:var(--text-primary)]">Get an auth token by ID</h2>
-          <p className="text-[color:var(--docs-muted)] mt-2 leading-relaxed">
-            Use the endpoint below to fetch a token, then pass it as a Bearer token in the Authorization header.
-          </p>
-        </div>
+        <div className="space-y-10">
+          <section>
+            <h2 id="application-construction" className="text-2xl font-semibold text-[color:var(--text-primary)]">Application construction</h2>
+            <div className="mt-4 rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] overflow-hidden">
+              <div className="grid grid-cols-2 border-b border-[color:var(--docs-border)]">
+                <div className="px-4 py-3 text-[12px] text-[color:var(--docs-muted-2)]">Name</div>
+                <div className="px-4 py-3 text-[12px] text-[color:var(--docs-muted-2)]">Description</div>
+              </div>
+              {[
+                { k: 'App', v: 'The main unit of deployment for code on Modal.' },
+                { k: 'App.function', v: 'Decorator for registering a function with an App.' },
+                { k: 'App.cls', v: 'Decorator for registering a class with an App.' },
+              ].map((r) => (
+                <div key={r.k} className="grid grid-cols-2 border-b last:border-b-0 border-[color:var(--docs-border)]">
+                  <div className="px-4 py-3">
+                    <span className="inline-flex rounded bg-[color:var(--docs-panel-2)] px-2 py-1 text-[11px] font-mono text-accent-green">
+                      {r.k}
+                    </span>
+                  </div>
+                  <div className="px-4 py-3 text-[13px] leading-relaxed text-[color:var(--docs-muted)]">{r.v}</div>
+                </div>
+              ))}
+            </div>
+          </section>
 
-        <div className="rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-5 font-mono text-sm text-[color:var(--docs-muted)]">
-          <span className="inline-flex items-center gap-2">
-            <span className="text-[11px] px-2 py-0.5 rounded border border-[color:var(--docs-border)] bg-[color:var(--docs-panel-2)] text-[color:var(--docs-muted)]">GET</span>
-            https://api.acme.com/v1/orgs/{`{organizationId}`}/auth/tokens/{`{tokenId}`}
-          </span>
+          <section>
+            <h2 id="serverless-execution" className="text-2xl font-semibold text-[color:var(--text-primary)]">Serverless execution</h2>
+            <div className="mt-4 rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] overflow-hidden">
+              <div className="grid grid-cols-2 border-b border-[color:var(--docs-border)]">
+                <div className="px-4 py-3 text-[12px] text-[color:var(--docs-muted-2)]">Name</div>
+                <div className="px-4 py-3 text-[12px] text-[color:var(--docs-muted-2)]">Description</div>
+              </div>
+              {[
+                { k: 'Function', v: 'A serverless function backed by an autoscaling container pool.' },
+                { k: 'Cls', v: 'A serverless class supporting parametrization and lifecycle hooks.' },
+              ].map((r) => (
+                <div key={r.k} className="grid grid-cols-2 border-b last:border-b-0 border-[color:var(--docs-border)]">
+                  <div className="px-4 py-3">
+                    <span className="inline-flex rounded bg-[color:var(--docs-panel-2)] px-2 py-1 text-[11px] font-mono text-accent-green">
+                      {r.k}
+                    </span>
+                  </div>
+                  <div className="px-4 py-3 text-sm text-[color:var(--docs-muted)]">{r.v}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 id="extended-function-configuration" className="text-2xl font-semibold text-[color:var(--text-primary)]">Extended Function configuration</h2>
+            <div className="mt-4 rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-4 text-sm text-[color:var(--docs-muted)]">
+              Configure mounts, secrets, retries, timeouts, and resource requirements.
+            </div>
+          </section>
         </div>
       </div>
     </DocsShell>

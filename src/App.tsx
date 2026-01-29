@@ -10,11 +10,13 @@ import { SolutionsPage } from './pages/SolutionsPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { CustomersPage } from './pages/CustomersPage';
 import { PricingPage } from './pages/PricingPage';
-import { DocsPage } from './pages/DocsPage';
 import { DocsProductPage } from './pages/doc/DocsProductPage';
+import { DocsHomePage } from './pages/doc/DocsHome';
 import { ReferencePage } from './pages/doc/Reference';
 import { DocsHelpCenterPage } from './pages/doc/DocsHelpCenterPage';
 import { DocsChangelogPage } from './pages/doc/DocsChangelogPage';
+import { ExamplePage } from './pages/doc/Example';
+import { CreateGuidePage } from './pages/doc/CreateGuide';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { MarketplaceAppsPage } from './pages/MarketplaceAppsPage';
@@ -53,10 +55,15 @@ export function App() {
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
-          <Route path="/docs" element={<DocsPage />} />
+          <Route path="/docs" element={<DocsHomePage />} />
+          <Route path="/docs/" element={<DocsHomePage />} />
           <Route path="/docs/guides" element={<GuidesPage />} />
           <Route path="/docs/guides/product" element={<DocsProductPage />} />
           <Route path="/docs/guides/product/" element={<DocsProductPage />} />
+          <Route path="/docs/examples" element={<ExamplePage />} />
+          <Route path="/docs/examples/" element={<ExamplePage />} />
+          <Route path="/docs/guides/create-guide" element={<CreateGuidePage />} />
+          <Route path="/docs/guides/create-guide/" element={<CreateGuidePage />} />
           <Route path="/docs/guides/api" element={<ReferencePage />} />
           <Route path="/docs/guides/api/" element={<ReferencePage />} />
           <Route path="/docs/guides/help-center" element={<DocsHelpCenterPage />} />
