@@ -14,7 +14,7 @@ export function DocsChangelogPage() {
     </div>
   );
 
-  const breadcrumbs = [{ label: 'Changelog', to: '/docs/changelog' }];
+  const breadcrumbs = [{ label: 'Changelog', to: '/docs/guides/changelog/' }];
 
   return (
     <DocsShell

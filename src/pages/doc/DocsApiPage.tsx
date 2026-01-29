@@ -11,13 +11,15 @@ export function DocsApiPage() {
   const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  const norm = (p: string) => (p.endsWith('/') ? p.slice(0, -1) : p);
+
   const groups: SideGroup[] = [
     {
       title: 'Acme API',
       items: [
-        { label: 'Auth tokens', to: '/docs/api' },
-        { label: 'Policies', to: '/docs/api' },
-        { label: 'Audit logs', to: '/docs/api' },
+        { label: 'Auth tokens', to: '/docs/guides/api/' },
+        { label: 'Policies', to: '/docs/guides/api/' },
+        { label: 'Audit logs', to: '/docs/guides/api/' },
       ],
     },
   ];
@@ -31,7 +33,7 @@ export function DocsApiPage() {
           </div>
           <ul className="space-y-1 text-sm">
             {g.items.map((it) => {
-              const active = pathname === it.to;
+              const active = norm(pathname) === norm(it.to);
               return (
                 <li key={it.label}>
                   <Link
@@ -92,7 +94,7 @@ export function DocsApiPage() {
     </div>
   );
 
-  const breadcrumbs = [{ label: 'API', to: '/docs/api' }, { label: 'API Reference' }, { label: 'Auth tokens' }];
+  const breadcrumbs = [{ label: 'API', to: '/docs/guides/api/' }, { label: 'API Reference' }, { label: 'Auth tokens' }];
 
   return (
     <DocsShell

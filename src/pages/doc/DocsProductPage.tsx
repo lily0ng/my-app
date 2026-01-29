@@ -18,11 +18,13 @@ export function DocsProductPage() {
   const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  const norm = (p: string) => (p.endsWith('/') ? p.slice(0, -1) : p);
+
   const groups: SideGroup[] = [
     {
       title: 'Build with Acme',
       items: [
-        { label: 'Welcome', to: '/docs/product' },
+        { label: 'Welcome', to: '/docs/guides/product/' },
         { label: 'Quickstart', to: '/docs/guides/quickstart' },
         { label: 'Concepts', to: '/docs/guides/markdown-style' },
       ],
@@ -30,8 +32,8 @@ export function DocsProductPage() {
     {
       title: 'Security',
       items: [
-        { label: 'Overview', to: '/docs/help-center' },
-        { label: 'Best practices', to: '/docs/help-center' },
+        { label: 'Overview', to: '/docs/guides/help-center/' },
+        { label: 'Best practices', to: '/docs/guides/help-center/' },
       ],
     },
   ];
@@ -45,7 +47,7 @@ export function DocsProductPage() {
           </div>
           <ul className="space-y-1 text-sm">
             {g.items.map((it) => {
-              const active = it.to ? pathname === it.to : false;
+              const active = it.to ? norm(pathname) === norm(it.to) : false;
               return (
                 <li key={it.label}>
                   {it.to ? (
@@ -72,7 +74,7 @@ export function DocsProductPage() {
     </div>
   );
 
-  const breadcrumbs = [{ label: 'Product', to: '/docs/product' }, { label: 'Welcome' }];
+  const breadcrumbs = [{ label: 'Product', to: '/docs/guides/product/' }, { label: 'Welcome' }];
 
   return (
     <DocsShell
@@ -109,7 +111,7 @@ export function DocsProductPage() {
           </Link>
 
           <Link
-            to="/docs/api"
+            to="/docs/guides/api/"
             className="group rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden hover:border-[color:var(--accent)] transition-colors"
           >
             <div className="h-28 bg-[color:var(--bg-tertiary)] flex items-center justify-center">
@@ -122,7 +124,7 @@ export function DocsProductPage() {
           </Link>
 
           <Link
-            to="/docs/help-center"
+            to="/docs/guides/help-center/"
             className="group rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden hover:border-[color:var(--accent)] transition-colors"
           >
             <div className="h-28 bg-[color:var(--bg-tertiary)] flex items-center justify-center">

@@ -10,6 +10,7 @@ import { SolutionsPage } from './pages/SolutionsPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { CustomersPage } from './pages/CustomersPage';
 import { PricingPage } from './pages/PricingPage';
+import { DocsPage } from './pages/DocsPage';
 import { DocsProductPage } from './pages/doc/DocsProductPage';
 import { DocsApiPage } from './pages/doc/DocsApiPage';
 import { DocsHelpCenterPage } from './pages/doc/DocsHelpCenterPage';
@@ -52,12 +53,16 @@ export function App() {
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
-          <Route path="/docs" element={<DocsProductPage />} />
-          <Route path="/docs/product" element={<DocsProductPage />} />
-          <Route path="/docs/api" element={<DocsApiPage />} />
-          <Route path="/docs/help-center" element={<DocsHelpCenterPage />} />
-          <Route path="/docs/changelog" element={<DocsChangelogPage />} />
+          <Route path="/docs" element={<DocsPage />} />
           <Route path="/docs/guides" element={<GuidesPage />} />
+          <Route path="/docs/guides/product" element={<DocsProductPage />} />
+          <Route path="/docs/guides/product/" element={<DocsProductPage />} />
+          <Route path="/docs/guides/api" element={<DocsApiPage />} />
+          <Route path="/docs/guides/api/" element={<DocsApiPage />} />
+          <Route path="/docs/guides/help-center" element={<DocsHelpCenterPage />} />
+          <Route path="/docs/guides/help-center/" element={<DocsHelpCenterPage />} />
+          <Route path="/docs/guides/changelog" element={<DocsChangelogPage />} />
+          <Route path="/docs/guides/changelog/" element={<DocsChangelogPage />} />
           <Route path="/docs/guides/:slug" element={<GuidesPage />} />
         </Routes>
       </BrowserRouter>

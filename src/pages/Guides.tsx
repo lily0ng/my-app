@@ -144,13 +144,19 @@ export function GuidesPage() {
 
   const sidebar = (
     <div className="pr-2">
-      <div className="space-y-6 pb-6">
+      <div className="pt-2 pb-6">
+        <div className="text-lg font-semibold text-[color:var(--text-primary)] truncate">
+          {selected ? selected.title : 'Guides'}
+        </div>
+      </div>
+
+      <div className="space-y-7 pb-6">
         {sections.map(({ section, items }) => (
           <div key={section}>
-            <h4 className="text-[11px] font-bold text-[color:var(--text-tertiary)] uppercase tracking-wider mb-2">
+            <h4 className="text-[11px] font-bold text-[color:var(--text-tertiary)] uppercase tracking-wider mb-3">
               {section}
             </h4>
-            <ul className="space-y-1 text-sm">
+            <ul className="space-y-2">
               {items.map((p) => {
                 const active = p.slug === slug;
                 return (
@@ -158,13 +164,13 @@ export function GuidesPage() {
                     <Link
                       to={`/docs/guides/${p.slug}`}
                       className={
-                        'flex items-center gap-3 rounded-md px-3 py-2 transition-colors border-l-2 ' +
+                        'block rounded-md px-2 py-1.5 text-[15px] transition-colors ' +
                         (active
-                          ? 'border-l-[color:var(--accent)] bg-[color:var(--bg-secondary)] text-[color:var(--text-primary)] font-semibold'
-                          : 'border-l-transparent text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--bg-secondary)]')
+                          ? 'text-[color:var(--text-primary)] font-semibold'
+                          : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]')
                       }
                     >
-                      <span className="truncate">{p.title}</span>
+                      <span className="truncate block">{p.title}</span>
                     </Link>
                   </li>
                 );
@@ -209,11 +215,11 @@ export function GuidesPage() {
 
   const breadcrumbs = selected
     ? [
-        { label: 'API', to: '/docs/api' },
+        { label: 'API', to: '/docs/guides/api/' },
         { label: 'Guides', to: '/docs/guides' },
         { label: selected.title },
       ]
-    : [{ label: 'API', to: '/docs/api' }, { label: 'Guides' }];
+    : [{ label: 'API', to: '/docs/guides/api/' }, { label: 'Guides' }];
 
   return (
     <DocsShell
@@ -251,22 +257,22 @@ export function GuidesPage() {
                 <Link
                   key={p.slug}
                   to={`/docs/guides/${p.slug}`}
-                  className="group rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden hover:border-[color:var(--accent)] transition-colors"
+                  className="group rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 hover:border-[color:var(--accent)] transition-colors shadow-[0_1px_0_rgba(0,0,0,0.04)]"
                 >
-                  <div className="h-28 bg-[color:var(--bg-tertiary)] flex items-center justify-center">
-                    <BookOpen size={34} className="text-[color:var(--accent)]" />
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <div className="text-xs text-[color:var(--text-tertiary)] mb-2">{p.section}</div>
+                      <div className="text-lg font-bold mb-2 group-hover:text-[color:var(--accent)] transition-colors">
+                        {p.title}
+                      </div>
+                    </div>
+                    <BookOpen size={18} className="text-[color:var(--accent)] mt-1 shrink-0" />
                   </div>
-                  <div className="p-6">
-                    <div className="text-xs text-[color:var(--text-tertiary)] mb-2">{p.section}</div>
-                    <div className="text-lg font-bold mb-2 group-hover:text-[color:var(--accent)] transition-colors">
-                      {p.title}
-                    </div>
-                    <p className="text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-2">
-                      {p.description || 'Open the guide to read the full walkthrough.'}
-                    </p>
-                    <div className="mt-5 text-[color:var(--accent)] font-semibold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                      Read <ArrowRight size={16} />
-                    </div>
+                  <p className="text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-2">
+                    {p.description || 'Open the guide to read the full walkthrough.'}
+                  </p>
+                  <div className="mt-5 text-[color:var(--accent)] font-semibold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
+                    Read <ArrowRight size={16} />
                   </div>
                 </Link>
               ))}

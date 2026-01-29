@@ -9,13 +9,15 @@ export function DocsHelpCenterPage() {
   const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  const norm = (p: string) => (p.endsWith('/') ? p.slice(0, -1) : p);
+
   const groups: SideGroup[] = [
     {
       title: 'Help Center',
       items: [
-        { label: 'Overview', to: '/docs/help-center' },
-        { label: 'Troubleshooting', to: '/docs/help-center' },
-        { label: 'Account & billing', to: '/docs/help-center' },
+        { label: 'Overview', to: '/docs/guides/help-center/' },
+        { label: 'Troubleshooting', to: '/docs/guides/help-center/' },
+        { label: 'Account & billing', to: '/docs/guides/help-center/' },
       ],
     },
   ];
@@ -29,7 +31,7 @@ export function DocsHelpCenterPage() {
           </div>
           <ul className="space-y-1 text-sm">
             {g.items.map((it) => {
-              const active = pathname === it.to;
+              const active = norm(pathname) === norm(it.to);
               return (
                 <li key={it.label}>
                   <Link
@@ -52,7 +54,7 @@ export function DocsHelpCenterPage() {
     </div>
   );
 
-  const breadcrumbs = [{ label: 'Help Center', to: '/docs/help-center' }, { label: 'Overview' }];
+  const breadcrumbs = [{ label: 'Help Center', to: '/docs/guides/help-center/' }, { label: 'Overview' }];
 
   return (
     <DocsShell
