@@ -10,7 +10,10 @@ import { SolutionsPage } from './pages/SolutionsPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { CustomersPage } from './pages/CustomersPage';
 import { PricingPage } from './pages/PricingPage';
-import { DocsPage } from './pages/DocsPage';
+import { DocsProductPage } from './pages/doc/DocsProductPage';
+import { DocsApiPage } from './pages/doc/DocsApiPage';
+import { DocsHelpCenterPage } from './pages/doc/DocsHelpCenterPage';
+import { DocsChangelogPage } from './pages/doc/DocsChangelogPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { MarketplaceAppsPage } from './pages/MarketplaceAppsPage';
@@ -49,7 +52,11 @@ export function App() {
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
-          <Route path="/docs" element={<DocsPage />} />
+          <Route path="/docs" element={<DocsProductPage />} />
+          <Route path="/docs/product" element={<DocsProductPage />} />
+          <Route path="/docs/api" element={<DocsApiPage />} />
+          <Route path="/docs/help-center" element={<DocsHelpCenterPage />} />
+          <Route path="/docs/changelog" element={<DocsChangelogPage />} />
           <Route path="/docs/guides" element={<GuidesPage />} />
           <Route path="/docs/guides/:slug" element={<GuidesPage />} />
         </Routes>

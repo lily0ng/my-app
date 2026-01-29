@@ -178,19 +178,19 @@ export function Nav() {
     name: 'Getting Started',
     icon: Play,
     desc: 'Start building in minutes',
-    path: '/docs'
+    path: '/docs/product'
   },
   {
     name: 'API Reference',
     icon: Code2,
     desc: 'Complete API documentation',
-    path: '/docs'
+    path: '/docs/api'
   },
   {
     name: 'Examples',
     icon: BoxIcon,
     desc: 'Copy-pasteable code snippets',
-    path: '/docs'
+    path: '/docs/product'
   },
   {
     name: 'Guides',
