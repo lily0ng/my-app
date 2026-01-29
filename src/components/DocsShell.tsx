@@ -176,15 +176,17 @@ export function DocsShell({
               className={
                 'grid grid-cols-1 gap-10 items-start transition-all duration-200 ' +
                 (sidebarOpen
-                  ? 'lg:grid-cols-[260px_minmax(0,760px)_260px]'
-                  : 'lg:grid-cols-[56px_minmax(0,760px)_260px]')
+                  ? 'lg:grid-cols-[260px_minmax(0,1fr)_260px]'
+                  : 'lg:grid-cols-[56px_minmax(0,1fr)_260px]')
               }
             >
               <aside className="hidden lg:block sticky top-[4.5rem] h-[calc(100vh-5.25rem)] overflow-y-auto border-r border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] px-3 py-4">
                 {sidebarOpen ? sidebar : <div className="h-full" />}
               </aside>
 
-              <main className="min-w-0">{children}</main>
+              <main className="min-w-0">
+                <div className="mx-auto w-full max-w-[760px]">{children}</div>
+              </main>
 
               <aside className="hidden lg:block sticky top-[4.5rem] h-[calc(100vh-5.25rem)]">
                 {rightRail}

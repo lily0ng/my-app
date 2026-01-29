@@ -190,7 +190,7 @@ export function GuidesPage() {
         </div>
       </div>
 
-      <div className="space-y-6 pb-6">
+      <div className="space-y-4 pb-6">
         {sections.map(({ section, items }) => (
           <div key={section}>
             <h4 className="text-[12px] font-semibold text-[color:var(--text-primary)] mb-2">
@@ -199,7 +199,7 @@ export function GuidesPage() {
             <ul className="space-y-0.5">
               {items.map((p) => {
                 const active = p.slug === slug;
-                const basePad = p.indent ? 'pl-8' : 'pl-3';
+                const basePad = p.indent ? 'pl-7' : 'pl-3';
                 const size = p.indent ? 'text-[12px]' : 'text-[13px]';
                 const idleColor = p.indent ? 'text-[color:var(--docs-muted-2)]' : 'text-[color:var(--docs-muted)]';
                 return (
@@ -207,7 +207,7 @@ export function GuidesPage() {
                     <Link
                       to={`/docs/guides/${p.slug}`}
                       className={
-                        'block w-full -mx-3 px-3 pr-3 py-2 leading-tight transition-colors ' +
+                        'block w-full -mx-3 px-3 pr-3 py-1.5 leading-tight transition-colors ' +
                         basePad +
                         ' ' +
                         size +
@@ -230,50 +230,29 @@ export function GuidesPage() {
 
   const rightRail = selected ? (
     <div className="space-y-4">
-      <button
-        type="button"
-        onClick={async () => {
-          try {
-            await navigator.clipboard.writeText(window.location.href);
-            setCopied(true);
-            window.setTimeout(() => setCopied(false), 1500);
-          } catch {}
-        }}
-        className="w-full inline-flex items-center justify-center gap-2 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] px-3 py-2 text-[12px] font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)] transition-colors"
-      >
-        {copied ? <Check size={14} className="text-[color:var(--accent)]" /> : <Copy size={14} className="text-[color:var(--docs-muted)]" />}
-        {copied ? 'Copied' : 'Copy page'}
-        <ChevronDown size={14} className="text-[color:var(--docs-muted-2)]" />
-      </button>
-
-      <div className="rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-3">
-        <div className="text-[11px] font-semibold text-[color:var(--docs-muted)] uppercase tracking-wider">{selected.title.toUpperCase()}</div>
-        <div className="mt-3 space-y-2">
+      <div className="rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] overflow-hidden">
+        <div className="px-3 py-2 text-[11px] font-semibold text-[color:var(--docs-muted)] bg-[color:var(--docs-panel-2)] border-b border-[color:var(--docs-border)]">
+          {selected.title}
+        </div>
+        <div className="p-3 space-y-2">
           {toc.length === 0 ? (
             <div className="text-sm text-[color:var(--docs-muted-2)]">No sections</div>
           ) : (
-            (() => {
-              let h2Index = 0;
-              return toc
-                .filter((t) => t.level === 2 || t.level === 3)
-                .slice(0, 10)
-                .map((t) => {
-                  const isH2 = t.level === 2;
-                  const number = isH2 ? ++h2Index : null;
-                  return (
-                    <a
-                      key={t.id + t.title}
-                      href={`#${t.id}`}
-                      className={
-                        'block text-sm transition-colors hover:text-[color:var(--text-primary)] ' +
-                        (t.level === 3 ? 'pl-3 text-[color:var(--docs-muted-2)]' : 'text-[color:var(--docs-muted)]')
-                      }
-                    >
-                      {isH2 ? `${number}) ${t.title}` : t.title}
-                    </a>
-                  );
-                });
-            })()
+            toc
+              .filter((t) => t.level === 2 || t.level === 3)
+              .slice(0, 10)
+              .map((t) => (
+                <a
+                  key={t.id + t.title}
+                  href={`#${t.id}`}
+                  className={
+                    'block text-sm transition-colors hover:text-[color:var(--text-primary)] ' +
+                    (t.level === 3 ? 'pl-3 text-[color:var(--docs-muted-2)]' : 'text-[color:var(--docs-muted)]')
+                  }
+                >
+                  {t.title}
+                </a>
+              ))
           )}
         </div>
       </div>
@@ -371,9 +350,27 @@ export function GuidesPage() {
               <ArrowRight className="rotate-180" size={16} /> Back to Guides
             </Link>
 
-            <div className="mt-6">
-              <div className="text-xs text-[color:var(--docs-muted-2)]">{selected.section}</div>
-              <h1 className="text-4xl md:text-5xl font-bold mt-2 text-[color:var(--text-primary)]">{selected.title}</h1>
+            <div className="mt-6 flex items-start justify-between gap-6">
+              <div>
+                <div className="text-xs text-[color:var(--docs-muted-2)]">{selected.section}</div>
+                <h1 className="text-4xl md:text-5xl font-bold mt-2 text-[color:var(--text-primary)]">{selected.title}</h1>
+              </div>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    setCopied(true);
+                    window.setTimeout(() => setCopied(false), 1500);
+                  } catch {}
+                }}
+                className="shrink-0 inline-flex items-center gap-2 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] px-3 py-2 text-[12px] font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)] transition-colors"
+              >
+                {copied ? <Check size={14} className="text-[color:var(--accent)]" /> : <Copy size={14} className="text-[color:var(--docs-muted)]" />}
+                Copy page
+                <ChevronDown size={14} className="text-[color:var(--docs-muted-2)]" />
+              </button>
             </div>
             {selected.description && (
               <p className="text-[color:var(--docs-muted)] mt-4 leading-relaxed">{selected.description}</p>
