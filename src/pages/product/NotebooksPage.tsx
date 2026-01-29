@@ -1,135 +1,279 @@
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
+import { useTheme } from '../../contexts/ThemeContext';
 import {
   Users,
   Share2,
   ChevronDown,
   ChevronUp,
   Cloud,
-  MessageSquare,
   Play,
   Database,
   Lock,
   GitBranch,
   Layout,
-  ArrowRight } from
+  ArrowRight,
+  Terminal,
+  Globe,
+  Shield,
+  Zap,
+  Braces } from
 'lucide-react';
 import {
   Background,
-  Controls,
-  MarkerType,
+  BackgroundVariant,
   ReactFlow,
+  type ReactFlowInstance,
   type NodeProps,
   type Edge,
+  type Node,
   useEdgesState,
   useNodesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-type DevFlowNodeData = {
+
+type TurboNodeData = {
   title: string;
-  detail?: string;
-  icon: 'dev' | 'org' | 'chat' | 'cloud';
+  subtitle?: string;
+  kind: 'developer' | 'portal' | 'api' | 'auth' | 'db' | 'compute' | 'job';
+  tone?: 'purple' | 'blue';
 };
 
-function DevFlowNode({ data }: NodeProps<DevFlowNodeData>) {
-  const icon =
-    data.icon === 'dev' ? (
-      <div className="h-8 w-8 rounded-lg bg-[#6d7cff]/15 border border-[#6d7cff]/30 flex items-center justify-center text-[#6d7cff]">
-        <Layout size={16} />
-      </div>
-    ) : data.icon === 'org' ? (
-      <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white">
-        <Users size={16} />
-      </div>
-    ) : data.icon === 'chat' ? (
-      <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white">
-        <MessageSquare size={16} />
-      </div>
-    ) : (
-      <div className="h-8 w-8 rounded-lg bg-[#00ff88]/10 border border-[#00ff88]/25 flex items-center justify-center text-[#00ff88]">
-        <Cloud size={16} />
-      </div>
-    );
+type TurboEdgeData = {
+  tone?: 'purple' | 'blue';
+};
+
+function hexToRgba(hex: string, alpha: number) {
+  const normalized = hex.replace('#', '').trim();
+  const full =
+    normalized.length === 3
+      ? normalized
+          .split('')
+          .map((c) => c + c)
+          .join('')
+      : normalized;
+  if (full.length !== 6) return `rgba(168,85,247,${alpha})`;
+  const r = Number.parseInt(full.slice(0, 2), 16);
+  const g = Number.parseInt(full.slice(2, 4), 16);
+  const b = Number.parseInt(full.slice(4, 6), 16);
+  if ([r, g, b].some((v) => Number.isNaN(v))) return `rgba(168,85,247,${alpha})`;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function TurboNode({ data }: NodeProps<TurboNodeData>) {
+  const { theme, darkAccent } = useTheme();
+  const Icon =
+    data.kind === 'developer'
+      ? Terminal
+      : data.kind === 'portal'
+        ? Globe
+        : data.kind === 'auth'
+          ? Shield
+          : data.kind === 'db'
+            ? Database
+            : data.kind === 'compute'
+              ? Cloud
+              : data.kind === 'job'
+                ? Zap
+                : Braces;
+
+  const isPurple = (data.tone ?? 'purple') === 'purple';
+  const purpleA = theme === 'dark' ? hexToRgba(darkAccent, 0.95) : 'rgba(124,58,237,0.85)';
+  const gradA = isPurple ? purpleA : theme === 'dark' ? 'rgba(59,130,246,0.95)' : 'rgba(37,99,235,0.80)';
+  const gradB = isPurple ? (theme === 'dark' ? 'rgba(236,72,153,0.95)' : 'rgba(236,72,153,0.75)') : theme === 'dark' ? 'rgba(34,211,238,0.95)' : 'rgba(34,211,238,0.70)';
+  const innerBg = theme === 'dark' ? 'rgba(11,11,16,0.92)' : 'rgba(255,255,255,0.92)';
+  const innerBorder = theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(17,24,39,0.10)';
+  const titleColor = theme === 'dark' ? '#ffffff' : '#111827';
+  const subColor = theme === 'dark' ? 'rgba(255,255,255,0.55)' : 'rgba(17,24,39,0.55)';
+  const iconBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(17,24,39,0.04)';
+  const iconBorder = theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(17,24,39,0.10)';
+  const iconColor = theme === 'dark' ? '#ffffff' : '#111827';
 
   return (
-    <div className="min-w-[180px] rounded-2xl border border-white/10 bg-[#0a0a0a] px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.45)]">
-      <div className="flex items-start gap-3">
-        {icon}
-        <div className="min-w-0">
-          <div className="text-[13px] font-semibold text-white truncate">{data.title}</div>
-          {data.detail ? (
-            <div className="mt-0.5 text-[11px] text-gray-500 leading-snug">{data.detail}</div>
-          ) : null}
+    <div
+      className="w-[220px] rounded-xl p-[1px]"
+      style={{
+        background: `linear-gradient(90deg, ${gradA}, ${gradB})`,
+        boxShadow:
+          theme === 'dark'
+            ? `0 0 18px rgba(168,85,247,0.28), 0 0 22px rgba(59,130,246,0.18)`
+            : `0 0 18px rgba(124,58,237,0.18), 0 0 18px rgba(37,99,235,0.12)`,
+      }}
+    >
+      <div className="rounded-[11px] px-4 py-3" style={{ backgroundColor: innerBg, border: `1px solid ${innerBorder}` }}>
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3 min-w-0">
+            <div
+              className="h-8 w-8 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: iconBg, border: `1px solid ${iconBorder}`, color: iconColor }}
+            >
+              <Icon size={16} />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[13px] font-semibold truncate" style={{ color: titleColor }}>
+                {data.title}
+              </div>
+              {data.subtitle ? (
+                <div className="mt-0.5 text-[11px] truncate" style={{ color: subColor }}>
+                  {data.subtitle}
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div
+            className="h-7 w-7 rounded-full flex items-center justify-center"
+            style={{ border: `1px solid ${innerBorder}`, backgroundColor: theme === 'dark' ? 'rgba(0,0,0,0.20)' : 'rgba(17,24,39,0.04)' }}
+          >
+            <div
+              className="h-3.5 w-3.5 rounded-full"
+              style={{ border: `1px solid ${innerBorder}`, backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(17,24,39,0.08)' }}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
+const turboNodes: Node<TurboNodeData>[] = [
+  {
+    id: 'dev',
+    type: 'turbo',
+    position: { x: 50, y: 150 },
+    data: { title: 'Developer', subtitle: 'Local', kind: 'developer', tone: 'purple' },
+  },
+  {
+    id: 'api',
+    type: 'turbo',
+    position: { x: 310, y: 70 },
+    data: { title: 'API Client', subtitle: 'CLI + SDK', kind: 'api', tone: 'blue' },
+  },
+  {
+    id: 'job',
+    type: 'turbo',
+    position: { x: 310, y: 230 },
+    data: { title: 'Hot Reload', subtitle: 'Sync + rebuild', kind: 'job', tone: 'purple' },
+  },
+  {
+    id: 'portal',
+    type: 'turbo',
+    position: { x: 600, y: 150 },
+    data: { title: '1CNG Portal', subtitle: 'Public', kind: 'portal', tone: 'blue' },
+  },
+  {
+    id: 'auth',
+    type: 'turbo',
+    position: { x: 860, y: 70 },
+    data: { title: 'Auth', subtitle: 'SSO + API keys', kind: 'auth', tone: 'purple' },
+  },
+  {
+    id: 'compute',
+    type: 'turbo',
+    position: { x: 860, y: 230 },
+    data: { title: 'Cloud Compute', subtitle: 'GPU + CPU', kind: 'compute', tone: 'blue' },
+  },
+  {
+    id: 'db',
+    type: 'turbo',
+    position: { x: 1120, y: 150 },
+    data: { title: 'Data', subtitle: 'Storage + secrets', kind: 'db', tone: 'purple' },
+  },
+];
+
+const turboEdges: Edge<TurboEdgeData>[] = [
+  {
+    id: 'e-dev-api',
+    source: 'dev',
+    target: 'api',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'blue' },
+  },
+  {
+    id: 'e-dev-job',
+    source: 'dev',
+    target: 'job',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'purple' },
+  },
+  {
+    id: 'e-api-portal',
+    source: 'api',
+    target: 'portal',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'blue' },
+  },
+  {
+    id: 'e-job-portal',
+    source: 'job',
+    target: 'portal',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'purple' },
+  },
+  {
+    id: 'e-portal-auth',
+    source: 'portal',
+    target: 'auth',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'purple' },
+  },
+  {
+    id: 'e-portal-compute',
+    source: 'portal',
+    target: 'compute',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'blue' },
+  },
+  {
+    id: 'e-auth-db',
+    source: 'auth',
+    target: 'db',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'purple' },
+  },
+  {
+    id: 'e-compute-db',
+    source: 'compute',
+    target: 'db',
+    type: 'smoothstep',
+    animated: true,
+    data: { tone: 'blue' },
+  },
+];
 export function NotebooksPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [nodes] = useNodesState<DevFlowNodeData>([
-    {
-      id: 'dev',
-      type: 'dev',
-      position: { x: 30, y: 120 },
-      data: { title: 'Developer', detail: 'VS Code + hot reload', icon: 'dev' },
-    },
-    {
-      id: 'org',
-      type: 'dev',
-      position: { x: 285, y: 55 },
-      data: { title: 'Org / Team', detail: 'Shared environments', icon: 'org' },
-    },
-    {
-      id: 'chat',
-      type: 'dev',
-      position: { x: 285, y: 185 },
-      data: { title: 'Review & Chat', detail: 'Context + logs', icon: 'chat' },
-    },
-    {
-      id: 'cloud',
-      type: 'dev',
-      position: { x: 560, y: 120 },
-      data: { title: 'Cloud Runtime', detail: 'GPUs • storage • services', icon: 'cloud' },
-    },
-  ]);
+  const { theme, darkAccent } = useTheme();
+  const [nodes] = useNodesState<TurboNodeData>(turboNodes);
+  const [edges] = useEdgesState<TurboEdgeData>(turboEdges);
+  const flowRef = useRef<ReactFlowInstance | null>(null);
 
-  const [edges] = useEdgesState<Edge>([
-    {
-      id: 'e-dev-org',
-      source: 'dev',
-      target: 'org',
-      animated: true,
-      markerEnd: { type: MarkerType.ArrowClosed },
-      style: { stroke: 'rgba(109,124,255,0.9)', strokeWidth: 2 },
-    },
-    {
-      id: 'e-dev-chat',
-      source: 'dev',
-      target: 'chat',
-      animated: true,
-      markerEnd: { type: MarkerType.ArrowClosed },
-      style: { stroke: 'rgba(109,124,255,0.55)', strokeWidth: 2 },
-    },
-    {
-      id: 'e-org-cloud',
-      source: 'org',
-      target: 'cloud',
-      animated: true,
-      markerEnd: { type: MarkerType.ArrowClosed },
-      style: { stroke: 'rgba(0,255,136,0.7)', strokeWidth: 2 },
-    },
-    {
-      id: 'e-chat-cloud',
-      source: 'chat',
-      target: 'cloud',
-      animated: true,
-      markerEnd: { type: MarkerType.ArrowClosed },
-      style: { stroke: 'rgba(0,255,136,0.45)', strokeWidth: 2 },
-    },
-  ]);
+  const styledEdges = useMemo(() => {
+    const baseBlue = theme === 'dark' ? 'rgba(59,130,246,0.72)' : 'rgba(37,99,235,0.55)';
+    const basePurple = theme === 'dark' ? hexToRgba(darkAccent, 0.72) : 'rgba(124,58,237,0.55)';
+    const shadowBlue =
+      theme === 'dark'
+        ? 'drop-shadow(0px 0px 12px rgba(59,130,246,0.35))'
+        : 'drop-shadow(0px 0px 10px rgba(37,99,235,0.18))';
+    const shadowPurple =
+      theme === 'dark'
+        ? `drop-shadow(0px 0px 12px ${hexToRgba(darkAccent, 0.35)})`
+        : 'drop-shadow(0px 0px 10px rgba(124,58,237,0.18))';
+
+    return edges.map((e) => {
+      const tone = e.data?.tone ?? 'blue';
+      const stroke = tone === 'purple' ? basePurple : baseBlue;
+      const filter = tone === 'purple' ? shadowPurple : shadowBlue;
+      return { ...e, animated: true, style: { stroke, strokeWidth: 2, filter } };
+    });
+  }, [darkAccent, edges, theme]);
   return (
     <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
       <Nav />
@@ -140,17 +284,17 @@ export function NotebooksPage() {
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 text-gray-200 text-sm font-medium border border-white/10">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#6d7cff]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#8b5cf6]" />
                 Local Dev Experience
               </div>
               <h1 className="mt-8 text-5xl md:text-7xl font-bold tracking-tight">
-                Local <span className="text-[#6d7cff]">Dev Experience</span>
+                Local <span className="text-[#8b5cf6]">Dev Experience</span>
               </h1>
               <p className="mt-5 text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
                 Develop against the cloud as if it were your laptop. Hot reloading included.
               </p>
               <div className="mt-10 flex items-center justify-center gap-4">
-                <button className="px-7 py-3.5 rounded-full bg-[#6d7cff] text-white font-semibold hover:bg-[#5b69ff] transition-colors">
+                <button className="px-7 py-3.5 rounded-full bg-[#8b5cf6] text-white font-semibold hover:bg-[#7c3aed] transition-colors">
                   Get Started
                 </button>
                 <button className="px-7 py-3.5 rounded-full border border-white/15 text-white/90 font-semibold hover:bg-white/5 transition-colors">
@@ -159,27 +303,25 @@ export function NotebooksPage() {
               </div>
             </div>
 
-            <div className="mt-14 relative rounded-[28px] border border-white/10 bg-[#0a0a0a] shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute inset-x-0 -top-24 h-48 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#6d7cff]/20 via-transparent to-transparent pointer-events-none" />
-
-              <div className="flex items-center gap-3 px-5 py-3 border-b border-white/10 bg-[#0f0f10]">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/20" />
-                </div>
-                <div className="ml-2 text-xs text-gray-500 font-mono">Developer → Org → Cloud</div>
-                <div className="ml-auto text-xs text-gray-500">live topology</div>
-              </div>
-
-              <div className="h-[320px] md:h-[380px]">
+            <div className="mt-14 w-full">
+              <div
+                className="h-[340px] md:h-[420px] w-full"
+                style={{
+                  backgroundColor: theme === 'dark' ? '#07070c' : '#ffffff',
+                }}
+              >
                 <ReactFlow
                   nodes={nodes}
-                  edges={edges}
-                  nodeTypes={{ dev: DevFlowNode }}
+                  edges={styledEdges}
+                  nodeTypes={{ turbo: TurboNode }}
                   fitView
-                  fitViewOptions={{ padding: 0.22 }}
+                  fitViewOptions={{ padding: 0.2 }}
+                  onInit={(instance) => {
+                    flowRef.current = instance;
+                    instance.fitView({ padding: 0.2 });
+                    requestAnimationFrame(() => instance.fitView({ padding: 0.2 }));
+                    window.setTimeout(() => instance.fitView({ padding: 0.2 }), 0);
+                  }}
                   nodesDraggable={false}
                   nodesConnectable={false}
                   elementsSelectable={false}
@@ -187,14 +329,14 @@ export function NotebooksPage() {
                   zoomOnScroll={false}
                   zoomOnPinch={false}
                   zoomOnDoubleClick={false}
+                  preventScrolling
                   proOptions={{ hideAttribution: true }}
-                  defaultEdgeOptions={{ animated: true, markerEnd: { type: MarkerType.ArrowClosed } }}
                 >
-                  <Background color="rgba(255,255,255,0.12)" gap={18} size={1} />
-                  <Controls
-                    showInteractive={false}
-                    position="bottom-right"
-                    style={{ background: 'rgba(10,10,10,0.8)', border: '1px solid rgba(255,255,255,0.10)' }}
+                  <Background
+                    variant={BackgroundVariant.Dots}
+                    color={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(17,24,39,0.10)'}
+                    gap={18}
+                    size={1}
                   />
                 </ReactFlow>
               </div>
