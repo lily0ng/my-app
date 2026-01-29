@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
-import { HeroSection } from '../../components/HeroSection';
 import {
   Users,
   Share2,
   ChevronDown,
   ChevronUp,
   Cloud,
+  MessageSquare,
   Play,
   Database,
   Lock,
@@ -15,21 +15,192 @@ import {
   Layout,
   ArrowRight } from
 'lucide-react';
+import {
+  Background,
+  Controls,
+  MarkerType,
+  ReactFlow,
+  type NodeProps,
+  type Edge,
+  useEdgesState,
+  useNodesState,
+} from 'reactflow';
+import 'reactflow/dist/style.css';
+
+type DevFlowNodeData = {
+  title: string;
+  detail?: string;
+  icon: 'dev' | 'org' | 'chat' | 'cloud';
+};
+
+function DevFlowNode({ data }: NodeProps<DevFlowNodeData>) {
+  const icon =
+    data.icon === 'dev' ? (
+      <div className="h-8 w-8 rounded-lg bg-[#6d7cff]/15 border border-[#6d7cff]/30 flex items-center justify-center text-[#6d7cff]">
+        <Layout size={16} />
+      </div>
+    ) : data.icon === 'org' ? (
+      <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white">
+        <Users size={16} />
+      </div>
+    ) : data.icon === 'chat' ? (
+      <div className="h-8 w-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white">
+        <MessageSquare size={16} />
+      </div>
+    ) : (
+      <div className="h-8 w-8 rounded-lg bg-[#00ff88]/10 border border-[#00ff88]/25 flex items-center justify-center text-[#00ff88]">
+        <Cloud size={16} />
+      </div>
+    );
+
+  return (
+    <div className="min-w-[180px] rounded-2xl border border-white/10 bg-[#0a0a0a] px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.45)]">
+      <div className="flex items-start gap-3">
+        {icon}
+        <div className="min-w-0">
+          <div className="text-[13px] font-semibold text-white truncate">{data.title}</div>
+          {data.detail ? (
+            <div className="mt-0.5 text-[11px] text-gray-500 leading-snug">{data.detail}</div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
 export function NotebooksPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [nodes] = useNodesState<DevFlowNodeData>([
+    {
+      id: 'dev',
+      type: 'dev',
+      position: { x: 30, y: 120 },
+      data: { title: 'Developer', detail: 'VS Code + hot reload', icon: 'dev' },
+    },
+    {
+      id: 'org',
+      type: 'dev',
+      position: { x: 285, y: 55 },
+      data: { title: 'Org / Team', detail: 'Shared environments', icon: 'org' },
+    },
+    {
+      id: 'chat',
+      type: 'dev',
+      position: { x: 285, y: 185 },
+      data: { title: 'Review & Chat', detail: 'Context + logs', icon: 'chat' },
+    },
+    {
+      id: 'cloud',
+      type: 'dev',
+      position: { x: 560, y: 120 },
+      data: { title: 'Cloud Runtime', detail: 'GPUs • storage • services', icon: 'cloud' },
+    },
+  ]);
+
+  const [edges] = useEdgesState<Edge>([
+    {
+      id: 'e-dev-org',
+      source: 'dev',
+      target: 'org',
+      animated: true,
+      markerEnd: { type: MarkerType.ArrowClosed },
+      style: { stroke: 'rgba(109,124,255,0.9)', strokeWidth: 2 },
+    },
+    {
+      id: 'e-dev-chat',
+      source: 'dev',
+      target: 'chat',
+      animated: true,
+      markerEnd: { type: MarkerType.ArrowClosed },
+      style: { stroke: 'rgba(109,124,255,0.55)', strokeWidth: 2 },
+    },
+    {
+      id: 'e-org-cloud',
+      source: 'org',
+      target: 'cloud',
+      animated: true,
+      markerEnd: { type: MarkerType.ArrowClosed },
+      style: { stroke: 'rgba(0,255,136,0.7)', strokeWidth: 2 },
+    },
+    {
+      id: 'e-chat-cloud',
+      source: 'chat',
+      target: 'cloud',
+      animated: true,
+      markerEnd: { type: MarkerType.ArrowClosed },
+      style: { stroke: 'rgba(0,255,136,0.45)', strokeWidth: 2 },
+    },
+  ]);
   return (
     <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
       <Nav />
       <main>
-        <HeroSection
-          title={
-          <>
-              Local <span className="text-[#00ff88]">Dev Experience</span>
-            </>
-          }
-          subtitle="Develop against the cloud as if it were your laptop. Hot reloading included."
-          badge="Local Dev Experience"
-          ctaText="Get Started" />
+        <section className="pt-28 pb-16 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white/6 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-[#6d7cff]/12 via-transparent to-transparent pointer-events-none" />
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 text-gray-200 text-sm font-medium border border-white/10">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6d7cff]" />
+                Local Dev Experience
+              </div>
+              <h1 className="mt-8 text-5xl md:text-7xl font-bold tracking-tight">
+                Local <span className="text-[#6d7cff]">Dev Experience</span>
+              </h1>
+              <p className="mt-5 text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
+                Develop against the cloud as if it were your laptop. Hot reloading included.
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-4">
+                <button className="px-7 py-3.5 rounded-full bg-[#6d7cff] text-white font-semibold hover:bg-[#5b69ff] transition-colors">
+                  Get Started
+                </button>
+                <button className="px-7 py-3.5 rounded-full border border-white/15 text-white/90 font-semibold hover:bg-white/5 transition-colors">
+                  View Documentation
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-14 relative rounded-[28px] border border-white/10 bg-[#0a0a0a] shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-x-0 -top-24 h-48 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#6d7cff]/20 via-transparent to-transparent pointer-events-none" />
+
+              <div className="flex items-center gap-3 px-5 py-3 border-b border-white/10 bg-[#0f0f10]">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500/20" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/20" />
+                </div>
+                <div className="ml-2 text-xs text-gray-500 font-mono">Developer → Org → Cloud</div>
+                <div className="ml-auto text-xs text-gray-500">live topology</div>
+              </div>
+
+              <div className="h-[320px] md:h-[380px]">
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  nodeTypes={{ dev: DevFlowNode }}
+                  fitView
+                  fitViewOptions={{ padding: 0.22 }}
+                  nodesDraggable={false}
+                  nodesConnectable={false}
+                  elementsSelectable={false}
+                  panOnDrag={false}
+                  zoomOnScroll={false}
+                  zoomOnPinch={false}
+                  zoomOnDoubleClick={false}
+                  proOptions={{ hideAttribution: true }}
+                  defaultEdgeOptions={{ animated: true, markerEnd: { type: MarkerType.ArrowClosed } }}
+                >
+                  <Background color="rgba(255,255,255,0.12)" gap={18} size={1} />
+                  <Controls
+                    showInteractive={false}
+                    position="bottom-right"
+                    style={{ background: 'rgba(10,10,10,0.8)', border: '1px solid rgba(255,255,255,0.10)' }}
+                  />
+                </ReactFlow>
+              </div>
+            </div>
+          </div>
+        </section>
 
 
         {/* Live Demo Section */}
