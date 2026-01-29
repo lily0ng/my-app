@@ -47,17 +47,10 @@ export function ReferencePage() {
   ];
 
   const sidebar = (
-    <div className="pr-2">
-      <div className="pt-1 pb-4">
-        <div className="text-[13px] font-semibold text-[color:var(--text-primary)] truncate">Reference</div>
-      </div>
-
-      <div className="space-y-7 pb-6">
-      {groups.map((g) => (
-        <div key={g.title}>
-          <div className="text-[11px] font-bold text-[color:var(--docs-muted-2)] uppercase tracking-wider mb-3">
-            {g.title}
-          </div>
+    <nav className="pr-2 pb-6">
+      {groups.map((g, groupIndex) => (
+        <div key={g.title} className={groupIndex === 0 ? '' : 'mt-5'}>
+          <div className="text-[12px] font-medium text-[color:var(--text-primary)] mb-2">{g.title}</div>
           <ul className="space-y-0.5">
             {g.items.map((it) => {
               const active = g.title === 'API reference' && it.label === 'modal.App';
@@ -66,9 +59,9 @@ export function ReferencePage() {
                   <Link
                     to={it.to}
                     className={
-                      'block w-full rounded-sm px-3 py-2 text-[12px] font-mono leading-tight transition-colors ' +
+                      'relative block w-full -mx-3 px-3 pr-3 py-2 leading-tight transition-colors pl-3 text-[12px] font-mono ' +
                       (active
-                        ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)]'
+                        ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-accent-green'
                         : 'text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
                     }
                   >
@@ -80,8 +73,7 @@ export function ReferencePage() {
           </ul>
         </div>
       ))}
-      </div>
-    </div>
+    </nav>
   );
 
   const sections = [
@@ -111,9 +103,11 @@ export function ReferencePage() {
       .replace(/-+/g, '-');
 
   const rightRail = (
-    <div className="rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-3">
-      <div className="text-[11px] font-semibold text-[color:var(--docs-muted)] uppercase tracking-wider">API Reference</div>
-      <div className="mt-3 space-y-2">
+    <div className="rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] overflow-hidden">
+      <div className="px-3 py-2 text-[11px] font-semibold text-[color:var(--docs-muted)] bg-[color:var(--docs-panel-2)] border-b border-[color:var(--docs-border)]">
+        API Reference
+      </div>
+      <div className="p-3 space-y-2">
         {sections.map((t) => (
           <a
             key={t}
@@ -171,10 +165,10 @@ export function ReferencePage() {
         <div className="space-y-10">
           <section>
             <h2 id="application-construction" className="text-2xl font-semibold text-[color:var(--text-primary)]">Application construction</h2>
-            <div className="mt-4 rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] overflow-hidden">
+            <div className="mt-4 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] overflow-hidden">
               <div className="grid grid-cols-2 border-b border-[color:var(--docs-border)]">
-                <div className="px-4 py-3 text-[12px] text-[color:var(--docs-muted-2)]">Name</div>
-                <div className="px-4 py-3 text-[12px] text-[color:var(--docs-muted-2)]">Description</div>
+                <div className="px-4 py-2.5 text-[12px] text-[color:var(--docs-muted-2)]">Name</div>
+                <div className="px-4 py-2.5 text-[12px] text-[color:var(--docs-muted-2)]">Description</div>
               </div>
               {[
                 { k: 'App', v: 'The main unit of deployment for code on Modal.' },
@@ -182,12 +176,12 @@ export function ReferencePage() {
                 { k: 'App.cls', v: 'Decorator for registering a class with an App.' },
               ].map((r) => (
                 <div key={r.k} className="grid grid-cols-2 border-b last:border-b-0 border-[color:var(--docs-border)]">
-                  <div className="px-4 py-3">
+                  <div className="px-4 py-2.5">
                     <span className="inline-flex rounded bg-[color:var(--docs-panel-2)] px-2 py-1 text-[11px] font-mono text-accent-green">
                       {r.k}
                     </span>
                   </div>
-                  <div className="px-4 py-3 text-[13px] leading-relaxed text-[color:var(--docs-muted)]">{r.v}</div>
+                  <div className="px-4 py-2.5 text-[13px] leading-relaxed text-[color:var(--docs-muted)]">{r.v}</div>
                 </div>
               ))}
             </div>

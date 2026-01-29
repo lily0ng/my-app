@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ExternalLink } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { DocsShell } from '../../components/DocsShell';
 
 type SideItem = { label: string; to?: string; indent?: boolean };
@@ -21,6 +22,10 @@ export function ExamplePage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [search, setSearch] = useState('');
   const [activeChip, setActiveChip] = useState('Featured');
+  const [selectedSidebarItem, setSelectedSidebarItem] = useState('Getting started');
+  const prefersReducedMotion = useReducedMotion();
+
+  const MotionLink = motion.create(Link);
 
   const chips: Chip[] = [
     { label: 'Featured' },
@@ -135,42 +140,41 @@ export function ExamplePage() {
   }, [activeChip, cards, search]);
 
   const sidebar = (
-    <div className="pr-2">
-      <div className="pt-1 pb-4">
-        <div className="text-[13px] font-semibold text-[color:var(--text-primary)] truncate">Examples</div>
-      </div>
+    <nav className="pr-2 pb-6">
+      {groups.map((g, groupIndex) => {
+        return (
+          <div key={g.title} className={groupIndex === 0 ? '' : 'mt-5'}>
+            <div
+              className={
+                'relative block w-full -mx-3 px-3 py-2 text-[13px] font-medium transition-colors ' +
+                'text-[color:var(--text-primary)]'
+              }
+            >
+              {g.title}
+            </div>
 
-      <div className="space-y-6 pb-6">
-        {groups.map((g) => (
-          <div key={g.title}>
-            <h4 className="text-[11px] font-semibold text-[color:var(--docs-muted-2)] uppercase tracking-wider mb-2">{g.title}</h4>
-            <ul className="space-y-0.5">
+            <ul className="space-y-0.5 mt-1">
               {g.items.map((it) => (
                 <li key={it.label}>
-                  {(() => {
-                    const active = g.title === 'Featured' && it.label === 'Getting started';
-                    const base = it.indent ? 'pl-8 text-[12px] text-[color:var(--docs-muted-2)]' : 'pl-3 text-[13px] text-[color:var(--docs-muted)]';
-                    return (
-                  <div
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSidebarItem(it.label)}
                     className={
-                      'block w-full -mx-3 px-3 pr-3 py-2 leading-tight transition-colors ' +
-                      base +
-                      (active ? ' bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)]' : ' hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
+                      'relative block w-full text-left -mx-3 px-3 pr-3 py-2 leading-tight transition-colors pl-8 text-[12px] ' +
+                      (selectedSidebarItem === it.label
+                        ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-accent-green'
+                        : 'text-[color:var(--docs-muted)] hover:bg-[color:var(--docs-panel-2)] hover:text-[color:var(--text-primary)]')
                     }
                   >
                     {it.label}
-                  </div>
-                    );
-                  })()}
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
-        ))}
-
-        <div className="pt-4 border-t border-[color:var(--docs-border)]" />
-      </div>
-    </div>
+        );
+      })}
+    </nav>
   );
 
   const rightRail = null;
@@ -208,9 +212,7 @@ export function ExamplePage() {
                   }
                 >
                   {active && (
-                    <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-accent-green text-black">
-                      <Check size={12} />
-                    </span>
+                    <Check size={14} className="text-accent-green" />
                   )}
                   {c.label}
                 </button>
@@ -221,7 +223,7 @@ export function ExamplePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {visibleCards.map((c) => (
-            <Link
+            <MotionLink
               key={c.title}
               to={c.href}
               className={
@@ -229,17 +231,30 @@ export function ExamplePage() {
                 c.gradient +
                 ' min-h-[240px]'
               }
+              whileHover={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      y: -4,
+                      boxShadow: '0 22px 70px rgba(0,0,0,0.35)',
+                    }
+              }
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
             >
-              <div className="absolute inset-0 bg-black/30" />
-              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/65 to-transparent" />
+              <div className="absolute inset-0 bg-black/30 transition-opacity duration-200 group-hover:opacity-20" />
+              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/65 to-transparent transition-opacity duration-200 group-hover:opacity-80" />
               <div className="relative p-4 h-full flex flex-col justify-end">
-                <div className="text-[13px] font-semibold text-white leading-snug line-clamp-3">{c.title}</div>
+                <div className="text-[14px] font-semibold text-white leading-snug line-clamp-3 transition-transform duration-200 group-hover:-translate-y-0.5">
+                  {c.title}
+                </div>
                 <div className="mt-2 flex items-center justify-between">
-                  <div className="text-[11px] text-white/70">{c.description}</div>
-                  <ExternalLink size={14} className="text-white/70 shrink-0" />
+                  <div className="text-[12px] text-white/70 line-clamp-2 transition-colors duration-200 group-hover:text-white/80">
+                    {c.description}
+                  </div>
+                  <ExternalLink size={14} className="text-white/70 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </div>
               </div>
-            </Link>
+            </MotionLink>
           ))}
         </div>
       </div>

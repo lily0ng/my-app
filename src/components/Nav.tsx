@@ -178,7 +178,7 @@ export function Nav() {
     name: 'Getting Started',
     icon: Play,
     desc: 'Start building in minutes',
-    path: '/docs/guides/product/'
+    path: '/docs'
   },
   {
     name: 'API Reference',

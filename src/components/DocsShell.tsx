@@ -44,14 +44,16 @@ export function DocsShell({
   const hasSearchHandler = typeof onSearchChange === 'function';
 
   const topItems = [
-    { label: 'Guide', value: 'guide', href: '/docs/guides/product/' },
+    { label: 'Guide', value: 'guide', href: '/docs' },
     { label: 'Examples', value: 'examples', href: '/docs/examples/' },
     { label: 'Reference', value: 'reference', href: '/docs/guides/api/' },
     { label: 'Playground', value: 'playground', href: '/resources' },
   ] as const;
 
-  const activeTab: (typeof topItems)[number]['value'] | null = pathname.startsWith('/docs/guides/product')
-    ? 'guide'
+  const activeTab: (typeof topItems)[number]['value'] | null = pathname === '/docs' || pathname === '/docs/'
+    ? null
+    : pathname.startsWith('/docs/guides/product')
+      ? 'guide'
     : pathname.startsWith('/docs/examples')
       ? 'examples'
       : pathname.startsWith('/docs/guides/api')
@@ -119,13 +121,15 @@ export function DocsShell({
                   </Tabs.Tab>
                 ))}
 
-                <Tabs.Indicator
-                  className="absolute -bottom-[1px] h-[2px] bg-accent-green transition-[left,width] duration-200"
-                  style={{
-                    left: 'var(--active-tab-left)' as unknown as number,
-                    width: 'var(--active-tab-width)' as unknown as number,
-                  }}
-                />
+                {activeTab != null && (
+                  <Tabs.Indicator
+                    className="absolute -bottom-[1px] h-[2px] bg-accent-green transition-[left,width] duration-200"
+                    style={{
+                      left: 'var(--active-tab-left)' as unknown as number,
+                      width: 'var(--active-tab-width)' as unknown as number,
+                    }}
+                  />
+                )}
               </Tabs.List>
             </Tabs.Root>
 
