@@ -31,39 +31,39 @@ export function Nav() {
   useLocation();
   const productItems = [
   {
-    name: 'Inference',
+    name: 'Cloud Compute',
     icon: Cpu,
-    desc: 'Deploy inference for LLMs, audio, image/video generation.',
+    desc: 'Deploy powerful virtual machines in seconds with scalable resources to meet your business needs.',
     path: '/product/inference'
   },
   {
-    name: 'Training',
+    name: 'Kubernetes',
     icon: Layers,
-    desc: 'Fine-tune custom and open-source models instantly.',
+    desc: 'Automate deployment, scaling, and management of containerized applications with our fully managed Kubernetes service.',
     path: '/product/training'
   },
   {
-    name: 'Batch',
-    icon: Database,
-    desc: 'Scale to thousands of containers on-demand.',
+    name: 'Load Balancer',
+    icon: Activity,
+    desc: 'Distribute traffic efficiently across multiple instances to ensure high availability and optimal performance.',
     path: '/product/batch'
   },
   {
-    name: 'Sandboxes',
-    icon: BoxIcon,
-    desc: 'Secure, ephemeral environments for running untrusted code.',
+    name: 'Block Storage',
+    icon: Database,
+    desc: 'Attach high-performance, scalable storage to your cloud instances for flexible data management.',
     path: '/product/sandboxes'
   },
   {
-    name: 'Notebooks',
-    icon: Code2,
-    desc: 'Collaborate on code and data in real-time.',
+    name: 'Local Dev Experience',
+    icon: Terminal,
+    desc: 'Develop against the cloud as if it were your laptop. Hot reloading included.',
     path: '/product/notebooks'
   },
   {
-    name: 'Core Platform',
-    icon: Terminal,
-    desc: 'Our proprietary infra stack powering all our products.',
+    name: 'Any GPU, Instantly',
+    icon: Zap,
+    desc: 'Access H100s, A100s, and more without quotas or capacity planning.',
     path: '/product/core-platform'
   }];
 

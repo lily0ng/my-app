@@ -1,19 +1,15 @@
-import React, { useState, memo } from 'react';
+import { useState } from 'react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
-import { HeroSection } from '../../components/HeroSection';
 import {
   Shield,
   Code,
   Lock,
   ChevronDown,
   ChevronUp,
-  Terminal,
   Play,
   Activity,
-  Globe,
-  CheckCircle,
-  Server } from
+  CheckCircle } from
 'lucide-react';
 export function SandboxesPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -26,21 +22,20 @@ export function SandboxesPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-[#00ff88]/5 via-transparent to-transparent pointer-events-none" />
           <div className="max-w-7xl mx-auto text-center relative z-10">
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#00ff88]/10 text-[#00ff88] text-sm font-medium mb-8 border border-[#00ff88]/20">
-              Modal Sandboxes
+              Block Storage
             </div>
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-              Secure <br /> <span className="text-[#00ff88]">Sandboxes</span>
+              High-performance <br /> <span className="text-[#00ff88]">Block Storage</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
-              Execute untrusted code in secure, ephemeral environments. Ideal
-              for AI agents, code interpreters, and CI/CD.
+              Attach high-performance, scalable storage to your cloud instances for flexible data management.
             </p>
             <div className="flex justify-center gap-6">
               <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
-                Start Sandboxing
+                Create Volume
               </button>
               <button className="px-10 py-5 rounded-full border border-white/20 text-white font-medium text-xl hover:bg-white/5 transition-all hover:scale-105">
-                Read Docs
+                View Docs
               </button>
             </div>
           </div>
@@ -52,18 +47,18 @@ export function SandboxesPage() {
             {[
             {
               icon: Shield,
-              title: 'gVisor Isolation',
-              desc: 'Every sandbox runs in a gVisor container, providing strong isolation from the host.'
+              title: 'Durable by default',
+              desc: 'Store data reliably with replication options and predictable performance characteristics.'
             },
             {
               icon: Code,
-              title: 'Any Language',
-              desc: 'Run Python, Node.js, Go, Rust, or any other language via custom images.'
+              title: 'Fast attach & detach',
+              desc: 'Attach storage to instances in seconds and move volumes between workloads as needed.'
             },
             {
               icon: Lock,
-              title: 'Network Control',
-              desc: 'Restrict network access or allow specific domains for security.'
+              title: 'Encryption & access control',
+              desc: 'Protect data with encryption at rest and least-privilege access controls.'
             }].
             map((f, i) =>
             <div
@@ -87,25 +82,24 @@ export function SandboxesPage() {
         <section className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Live Sandbox Demo</h2>
+              <h2 className="text-4xl font-bold mb-4">Live Volume Demo</h2>
               <p className="text-gray-400">
-                Execute code securely in the browser.
+                Attach a volume and persist data across restarts.
               </p>
             </div>
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto shadow-2xl">
               <div className="flex gap-4 mb-6">
                 <div className="flex-1 bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-gray-400 font-mono text-sm">
-                  print("Hello from sandbox!")
+                  echo "writing to volume" {'>'} /mnt/volume/hello.txt
                 </div>
                 <button className="bg-[#00ff88] text-black font-bold px-6 py-3 rounded-lg hover:bg-[#00cc6a] transition-colors">
-                  Run
+                  Execute
                 </button>
               </div>
               <div className="bg-[#111] rounded-lg p-6 min-h-[150px] text-gray-300 font-mono text-sm leading-relaxed">
-                <span className="text-[#00ff88]">root@sandbox:~#</span> python
-                script.py
+                <span className="text-[#00ff88]">root@instance:~#</span> ls -la /mnt/volume
                 <br />
-                Hello from sandbox!
+                hello.txt
               </div>
             </div>
           </div>
@@ -115,35 +109,31 @@ export function SandboxesPage() {
         <section className="py-32 px-6 border-y border-white/5 bg-[#050505]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl font-bold mb-6">Execute code safely</h2>
+              <h2 className="text-4xl font-bold mb-6">Attach storage safely</h2>
               <p className="text-xl text-gray-400 mb-8 leading-relaxed">
-                Perfect for building AI agents that write and execute code. The
-                sandbox is ephemeral and destroyed immediately after execution.
+                Attach high-performance storage to your instances so data lives beyond a single machine lifecycle.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-gray-300">
-                  <CheckCircle className="text-[#00ff88]" /> Ephemeral
-                  environment
+                  <CheckCircle className="text-[#00ff88]" /> Snapshot and restore
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
-                  <CheckCircle className="text-[#00ff88]" /> Custom timeouts
+                  <CheckCircle className="text-[#00ff88]" /> Encryption at rest
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
-                  <CheckCircle className="text-[#00ff88]" /> Resource limits
+                  <CheckCircle className="text-[#00ff88]" /> High throughput
                 </li>
               </ul>
             </div>
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 font-mono text-sm shadow-2xl">
               <pre className="text-gray-300">
                 <code>
-                  sandbox = modal.Sandbox.create({' \n'}
-                  {'    '}image=modal.Image.debian_slim(),{'\n'}
-                  {'    '}app=app,{'\n'}){'\n\n'}
-                  sandbox.exec(<span className="text-yellow-300">
-                    "echo"
-                  </span>,{' '}
-                  <span className="text-yellow-300">"hello world"</span>){'\n'}
-                  sandbox.terminate()
+                  volume = BlockVolume.create(name=<span className="text-yellow-300">"data"</span>){'\n'}
+                  instance = Instance.create({'\n'}
+                  {'    '}image=<span className="text-yellow-300">"debian-slim"</span>,{'\n'}
+                  {'    '}mounts=[{'{'}<span className="text-yellow-300">"source"</span>: volume, <span className="text-yellow-300">"target"</span>: <span className="text-yellow-300">"/mnt/volume"</span>{'}'}],{'\n'}
+                  ){'\n\n'}
+                  instance.exec(<span className="text-yellow-300">"bash"</span>, <span className="text-yellow-300">"-lc"</span>, <span className="text-yellow-300">"echo hello {'>'} /mnt/volume/hello.txt"</span>)
                 </code>
               </pre>
             </div>
@@ -157,13 +147,13 @@ export function SandboxesPage() {
             <div className="max-w-4xl mx-auto bg-[#0a0a0a] border border-white/10 rounded-2xl p-12 relative">
               <div className="flex flex-col gap-4 relative z-10">
                 <div className="p-4 bg-[#111] rounded-xl border border-white/10 w-full font-bold text-red-400">
-                  Untrusted Code
+                  Application
                 </div>
                 <div className="p-4 bg-[#111] rounded-xl border border-[#00ff88] w-full font-bold text-[#00ff88]">
-                  gVisor Sandbox
+                  Encrypted Volume
                 </div>
                 <div className="p-4 bg-[#111] rounded-xl border border-white/10 w-full font-bold text-blue-400">
-                  Host Kernel
+                  Storage Backend
                 </div>
               </div>
               <div className="absolute inset-0 bg-grid-white/[0.02]" />
@@ -178,22 +168,22 @@ export function SandboxesPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-colors">
                 <h3 className="text-2xl font-bold mb-4">
-                  AI Code Interpreters
+                  Databases
                 </h3>
                 <p className="text-gray-400 text-lg">
-                  Let LLMs write and run code to solve problems.
+                  Persist application state with low-latency reads and writes.
                 </p>
               </div>
               <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-colors">
                 <h3 className="text-2xl font-bold mb-4">Online IDEs</h3>
                 <p className="text-gray-400 text-lg">
-                  Provide secure execution environments for users.
+                  Keep user files and environments available across sessions.
                 </p>
               </div>
               <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-colors">
                 <h3 className="text-2xl font-bold mb-4">Auto-grading</h3>
                 <p className="text-gray-400 text-lg">
-                  Safely grade student code submissions.
+                  Store datasets, artifacts, and results with consistent throughput.
                 </p>
               </div>
             </div>
@@ -205,10 +195,10 @@ export function SandboxesPage() {
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">
-                Building a Code Interpreter
+                Managing persistent volumes
               </h2>
               <p className="text-gray-400">
-                Learn how to build a secure code interpreter for your AI agent.
+                Learn how to attach, snapshot, and restore storage safely.
               </p>
             </div>
             <div className="aspect-video bg-[#111] rounded-2xl border border-white/10 flex items-center justify-center relative group cursor-pointer overflow-hidden shadow-2xl">
@@ -243,31 +233,30 @@ export function SandboxesPage() {
         <section className="py-32 px-6">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-4xl font-bold mb-6">Monitor execution</h2>
+              <h2 className="text-4xl font-bold mb-6">Monitor storage</h2>
               <p className="text-xl text-gray-400 mb-8">
-                Capture stdout/stderr, exit codes, and resource usage for every
-                sandbox execution.
+                Track throughput, latency, and errors for every attached volume.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Live logs
+                  <Activity className="text-[#00ff88]" /> I/O metrics
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Memory usage tracking
+                  <Activity className="text-[#00ff88]" /> Latency tracking
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Execution time metrics
+                  <Activity className="text-[#00ff88]" /> Error monitoring
                 </li>
               </ul>
             </div>
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 shadow-2xl font-mono text-sm">
-              <div className="text-gray-400 mb-2">sandbox_id: sb-12345</div>
+              <div className="text-gray-400 mb-2">volume_id: vol-12345</div>
               <div className="text-white mb-2">
                 status: <span className="text-[#00ff88]">completed</span>
               </div>
-              <div className="text-white mb-2">exit_code: 0</div>
-              <div className="text-white mb-2">duration: 1.2s</div>
-              <div className="text-white">memory: 45MB</div>
+              <div className="text-white mb-2">iops: 4200</div>
+              <div className="text-white mb-2">latency: 1.2ms</div>
+              <div className="text-white">throughput: 180MB/s</div>
             </div>
           </div>
         </section>
@@ -308,20 +297,20 @@ export function SandboxesPage() {
             <div className="space-y-4">
               {[
               {
-                q: 'How long do sandboxes persist?',
-                a: 'Sandboxes are ephemeral and persist only as long as you need them, up to a maximum timeout.'
+                q: 'How durable is Block Storage?',
+                a: 'Volumes are designed for durability with replication and snapshotting options for safety.'
               },
               {
                 q: 'Can I install packages?',
-                a: 'Yes, you can install packages at runtime or bake them into the image.'
+                a: 'Yes—install dependencies on your instances and use attached volumes to persist data across restarts.'
               },
               {
-                q: 'Is there a startup latency?',
-                a: 'Sandboxes start in milliseconds.'
+                q: 'Is performance consistent?',
+                a: 'Block Storage is built for consistent throughput and low latency for common workloads.'
               },
               {
                 q: 'Can I access the internet?',
-                a: 'Yes, you can configure network access policies.'
+                a: 'Yes, you can configure networking and access control policies around your instances and storage.'
               }].
               map((faq, i) =>
               <div

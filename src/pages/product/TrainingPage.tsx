@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
-import { HeroSection } from '../../components/HeroSection';
 import {
-  Layers,
   HardDrive,
   Network,
   CheckCircle,
   ChevronDown,
   ChevronUp,
   Cpu,
-  Zap,
   Play,
-  BarChart,
-  Activity,
-  Shield,
-  Code2,
   Database } from
 'lucide-react';
 export function TrainingPage() {
@@ -29,22 +22,21 @@ export function TrainingPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#00ff88]/10 via-transparent to-transparent pointer-events-none" />
           <div className="max-w-7xl mx-auto text-center relative z-10">
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#00ff88]/10 text-[#00ff88] text-sm font-medium mb-8 border border-[#00ff88]/20">
-              Modal Training
+              Kubernetes
             </div>
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-              Fine-tune models <br />{' '}
-              <span className="text-[#00ff88]">at scale</span>
+              Fully managed <br />{' '}
+              <span className="text-[#00ff88]">Kubernetes</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
-              Train and fine-tune custom models on thousands of GPUs without
-              managing infrastructure.
+              Automate deployment, scaling, and management of containerized applications with our fully managed Kubernetes service.
             </p>
             <div className="flex justify-center gap-6">
               <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
-                Start Training
+                Create Cluster
               </button>
               <button className="px-10 py-5 rounded-full border border-white/20 text-white font-medium text-xl hover:bg-white/5 transition-all hover:scale-105">
-                View Benchmarks
+                View Docs
               </button>
             </div>
           </div>
@@ -62,8 +54,8 @@ export function TrainingPage() {
               },
               {
                 icon: Network,
-                title: 'Distributed Training',
-                desc: 'Scale across multiple nodes effortlessly with PyTorch DDP or Ray.'
+                title: 'Managed Control Plane',
+                desc: 'Automate upgrades, node management, and best-practice defaults for your clusters.'
               },
               {
                 icon: HardDrive,
@@ -94,7 +86,7 @@ export function TrainingPage() {
         <section className="py-32 px-6">
           <div className="max-w-5xl mx-auto bg-[#0a0a0a] border border-white/10 rounded-2xl p-12 shadow-2xl">
             <h2 className="text-3xl font-bold mb-8 text-center">
-              Estimate Training Time
+              Estimate Cluster Size
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div className="space-y-8">
@@ -177,7 +169,7 @@ export function TrainingPage() {
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl font-bold mb-6">
-                Distributed training made simple
+                Kubernetes made simple
               </h2>
               <p className="text-xl text-gray-400 mb-8 leading-relaxed">
                 Spin up a cluster of GPUs with a single decorator. Modal handles
@@ -204,8 +196,8 @@ export function TrainingPage() {
                   <span className="text-[#00ff88]">@app.function</span>(gpu=
                   <span className="text-yellow-300">"H100:8"</span>){'\n'}
                   <span className="text-[#00ff88]">def</span>{' '}
-                  <span className="text-blue-400">train</span>():{'\n'}
-                  {'    '}# This runs on 8 H100s{'\n'}
+                  <span className="text-blue-400">deploy</span>():{'\n'}
+                  {'    '}# This runs on your cluster{'\n'}
                   {'    '}dist.init_process_group(){'\n'}
                   {'    '}model = DDP(model){'\n'}
                   {'    '}...
@@ -247,9 +239,9 @@ export function TrainingPage() {
         <section className="py-32 px-6">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Fine-tuning Llama 3</h2>
+              <h2 className="text-4xl font-bold mb-4">Deploying your first workload</h2>
               <p className="text-gray-400">
-                Watch how to fine-tune a 70B model on your own data.
+                Watch how to deploy and scale a service on your cluster.
               </p>
             </div>
             <div className="aspect-video bg-[#111] rounded-2xl border border-white/10 flex items-center justify-center relative group cursor-pointer overflow-hidden shadow-2xl">
@@ -261,14 +253,14 @@ export function TrainingPage() {
           </div>
         </section>
 
-        {/* 8. Checkpoint Management */}
+        {/* 8. Stateful workloads */}
         <section className="py-32 px-6 bg-[#050505] border-y border-white/5">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 bg-[#0a0a0a] border border-white/10 rounded-2xl p-8">
               <div className="flex items-center gap-4 mb-6 p-4 bg-[#111] rounded-xl border border-white/5">
                 <Database className="text-[#00ff88]" />
                 <div>
-                  <div className="font-bold">checkpoint_1000.pt</div>
+                  <div className="font-bold">pv-logs</div>
                   <div className="text-xs text-gray-500">24GB • Just now</div>
                 </div>
               </div>
@@ -276,7 +268,7 @@ export function TrainingPage() {
                 <Database className="text-gray-500" />
                 <div>
                   <div className="font-bold text-gray-400">
-                    checkpoint_500.pt
+                    pv-data
                   </div>
                   <div className="text-xs text-gray-500">24GB • 1h ago</div>
                 </div>
@@ -285,8 +277,8 @@ export function TrainingPage() {
             <div className="order-1 lg:order-2">
               <h2 className="text-4xl font-bold mb-6">Persistent Storage</h2>
               <p className="text-xl text-gray-400 mb-8">
-                Mount high-performance network volumes to save checkpoints and
-                datasets. Access them from any worker or your local machine.
+                Use persistent volumes to run stateful services and store data
+                safely. Access them from any node in your cluster.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-gray-300">
@@ -307,7 +299,7 @@ export function TrainingPage() {
         <section className="py-32 px-6">
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-16">
-              Real-time Training Metrics
+              Cluster Health & Metrics
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="p-8 bg-[#0a0a0a] rounded-2xl border border-white/10">
@@ -343,7 +335,7 @@ export function TrainingPage() {
               <div className="p-10 bg-[#0a0a0a] rounded-2xl border border-white/10">
                 <div className="text-[#00ff88] font-bold mb-4">SCALE AI</div>
                 <h3 className="text-2xl font-bold mb-4">
-                  Training RLHF models
+                  Running production workloads
                 </h3>
                 <p className="text-gray-400 mb-8">
                   "Modal's infrastructure allowed us to iterate on our reward
@@ -359,11 +351,11 @@ export function TrainingPage() {
               <div className="p-10 bg-[#0a0a0a] rounded-2xl border border-white/10">
                 <div className="text-[#00ff88] font-bold mb-4">PERPLEXITY</div>
                 <h3 className="text-2xl font-bold mb-4">
-                  Custom LLM fine-tuning
+                  Scaling services safely
                 </h3>
                 <p className="text-gray-400 mb-8">
-                  "We fine-tune models daily on fresh data using Modal's batch
-                  jobs."
+                  "We deploy new services daily and rely on a managed control plane
+                  to keep clusters stable."
                 </p>
                 <a
                   href="#"
@@ -383,16 +375,16 @@ export function TrainingPage() {
             <div className="space-y-4">
               {[
               {
-                q: 'How do I manage checkpoints?',
-                a: 'Use Modal Volumes to persist checkpoints across runs. Volumes are high-performance network file systems.'
+                q: 'How do I run stateful workloads?',
+                a: 'Use persistent volumes and StatefulSets to keep data across restarts and reschedules.'
               },
               {
                 q: 'Can I use Spot instances?',
-                a: 'Yes, you can request spot instances to save costs on training jobs.'
+                a: 'Yes, you can request spot capacity to reduce costs for fault-tolerant workloads.'
               },
               {
                 q: 'What is the network bandwidth?',
-                a: 'We provide high-bandwidth networking suitable for distributed training workloads.'
+                a: 'We provide high-bandwidth networking suitable for cluster workloads and service-to-service traffic.'
               },
               {
                 q: 'Do you support custom containers?',
@@ -432,12 +424,12 @@ export function TrainingPage() {
         {/* 12. CTA */}
         <section className="py-40 px-6 text-center border-t border-white/5 bg-gradient-to-b from-black to-[#05150d]">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-5xl font-bold mb-8">Start training today</h2>
+            <h2 className="text-5xl font-bold mb-8">Ship faster with Kubernetes</h2>
             <p className="text-2xl text-gray-400 mb-12 font-light">
-              Get access to H100s instantly. No waiting list.
+              Create a cluster in minutes and scale with confidence.
             </p>
             <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.4)]">
-              Launch Training Job
+              Create your first cluster
             </button>
           </div>
         </section>

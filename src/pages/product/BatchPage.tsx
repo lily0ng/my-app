@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
-import { HeroSection } from '../../components/HeroSection';
 import {
   Database,
   Video,
@@ -12,9 +11,7 @@ import {
   Layers,
   Play,
   Activity,
-  Clock,
-  Server,
-  CheckCircle } from
+  Clock } from
 'lucide-react';
 export function BatchPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -27,22 +24,21 @@ export function BatchPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#00ff88]/5 via-transparent to-transparent pointer-events-none" />
           <div className="max-w-7xl mx-auto text-center relative z-10">
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#00ff88]/10 text-[#00ff88] text-sm font-medium mb-8 border border-[#00ff88]/20">
-              Modal Batch
+              Load Balancer
             </div>
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-              Massive scale <br />{' '}
-              <span className="text-[#00ff88]">Batch Jobs</span>
+              Reliable <br />{' '}
+              <span className="text-[#00ff88]">Load Balancing</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
-              Run parallel jobs across thousands of containers. Perfect for
-              video processing, data pipelines, and scientific computing.
+              Distribute traffic efficiently across multiple instances to ensure high availability and optimal performance.
             </p>
             <div className="flex justify-center gap-6">
               <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
-                Run Batch Job
+                Create Load Balancer
               </button>
               <button className="px-10 py-5 rounded-full border border-white/20 text-white font-medium text-xl hover:bg-white/5 transition-all hover:scale-105">
-                View Examples
+                View Docs
               </button>
             </div>
           </div>
@@ -52,7 +48,7 @@ export function BatchPage() {
         <section className="py-32 px-6 bg-[#050505]">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-12">
-              Parallelism made simple
+              Routing made simple
             </h2>
             <div className="bg-[#0a0a0a] rounded-2xl border border-gray-800 p-8 text-left font-mono text-sm shadow-2xl relative">
               <div className="absolute top-0 right-0 p-4">
@@ -63,30 +59,33 @@ export function BatchPage() {
                 </div>
               </div>
               <pre className="text-white/80">
-                <code>{`@app.function()
-def process_video(video_url):
-    # This runs in parallel for each item
-    ffmpeg.input(video_url).output("processed.mp4").run()
+                <code>{`# Create a load balancer and attach targets
+lb = LoadBalancer(
+    name="public-api",
+    listeners=[{"port": 443, "protocol": "HTTPS"}],
+    health_check={"path": "/health", "interval": "10s"},
+)
 
-@app.local_entrypoint()
-def main():
-    # Map over 1000 videos instantly
-    videos = ["video1.mp4", "video2.mp4", ...]
-    for res in process_video.map(videos):
-        print(f"Finished {res}")`}</code>
+lb.add_targets([
+    "api-1.internal:8080",
+    "api-2.internal:8080",
+    "api-3.internal:8080",
+])
+
+lb.deploy()`}</code>
               </pre>
             </div>
           </div>
         </section>
 
-        {/* 3. Parallelism Visualization */}
+        {/* 3. Traffic Visualization */}
         <section className="py-32 px-6">
           <div className="max-w-7xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-16">How it scales</h2>
+            <h2 className="text-4xl font-bold mb-16">How traffic flows</h2>
             <div className="max-w-5xl mx-auto bg-[#0a0a0a] border border-white/10 rounded-2xl p-12 relative overflow-hidden">
               <div className="flex justify-center items-center gap-4 relative z-10">
                 <div className="p-4 bg-[#111] rounded-xl border border-white/10">
-                  Job
+                  Request
                 </div>
                 <div className="text-gray-500">→</div>
                 <div className="grid grid-cols-5 gap-2">
@@ -101,35 +100,34 @@ def main():
                 </div>
               </div>
               <p className="mt-8 text-gray-400">
-                Modal automatically provisions containers to match your
-                parallelism.
+                The load balancer distributes requests across healthy targets.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 4. Use Cases */}
+        {/* 4. Common Scenarios */}
         <section className="py-32 px-6 bg-[#050505]">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold mb-20 text-center">
-              Common Use Cases
+              Common Scenarios
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {[
               {
                 icon: Video,
-                title: 'Video Transcoding',
-                desc: 'Process thousands of hours of video in parallel using ffmpeg.'
+                title: 'Web apps & APIs',
+                desc: 'Distribute HTTP traffic across multiple instances and regions.'
               },
               {
                 icon: Database,
-                title: 'ETL Pipelines',
-                desc: 'Process and transform large datasets efficiently.'
+                title: 'High availability',
+                desc: 'Route around failures with health checks and automatic failover.'
               },
               {
                 icon: FileText,
-                title: 'Document OCR',
-                desc: 'Extract text from millions of PDFs using OCR models.'
+                title: 'Traffic spikes',
+                desc: 'Smooth bursty traffic during launches, incidents, and campaigns.'
               }].
               map((uc, i) =>
               <div
@@ -195,7 +193,7 @@ def main():
               </div>
               <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/10">
                 <div className="text-center">
-                  <div className="text-gray-400 mb-2">AWS Batch</div>
+                  <div className="text-gray-400 mb-2">Traditional LBs</div>
                   <div className="text-3xl font-bold text-white">$12,500</div>
                 </div>
                 <div className="text-center">
@@ -254,19 +252,18 @@ def main():
             <div>
               <h2 className="text-4xl font-bold mb-6">Full observability</h2>
               <p className="text-xl text-gray-400 mb-8">
-                Track every job, container, and error in real-time. Debug
-                failures with distributed logs.
+                Track requests, latency, and error rates in real-time. Debug
+                unhealthy targets with clear health signals.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Job status dashboard
+                  <Activity className="text-[#00ff88]" /> Target health dashboard
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Distributed tracing
+                  <Activity className="text-[#00ff88]" /> Request tracing
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Resource utilization
-                  graphs
+                  <Activity className="text-[#00ff88]" /> Latency and error graphs
                 </li>
               </ul>
             </div>
@@ -279,9 +276,9 @@ def main():
 
                     <div className="flex items-center gap-4">
                       <div
-                      className={`w-2 h-2 rounded-full ${i === 2 ? 'bg-red-500' : 'bg-[#00ff88]'}`} />
+                    className={`w-2 h-2 rounded-full ${i === 2 ? 'bg-red-500' : 'bg-[#00ff88]'}`} />
 
-                      <span className="font-mono text-sm">job_{1000 + i}</span>
+                      <span className="font-mono text-sm">target_{1000 + i}</span>
                     </div>
                     <span className="text-gray-500 text-sm">
                       {i === 2 ? 'Failed' : 'Running'}
@@ -296,27 +293,27 @@ def main():
         {/* 10. Scheduling */}
         <section className="py-32 px-6 bg-[#050505]">
           <div className="max-w-7xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-12">Powerful Scheduling</h2>
+            <h2 className="text-3xl font-bold mb-12">Traffic controls</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="p-8 bg-[#0a0a0a] rounded-2xl border border-white/10">
                 <Clock className="mx-auto mb-6 text-[#00ff88]" size={32} />
-                <h3 className="text-xl font-bold mb-4">Cron Jobs</h3>
+                <h3 className="text-xl font-bold mb-4">Health checks</h3>
                 <p className="text-gray-400">
-                  Run jobs on a schedule with standard cron syntax.
+                  Automatically route only to healthy instances.
                 </p>
               </div>
               <div className="p-8 bg-[#0a0a0a] rounded-2xl border border-white/10">
                 <Zap className="mx-auto mb-6 text-[#00ff88]" size={32} />
-                <h3 className="text-xl font-bold mb-4">Event Driven</h3>
+                <h3 className="text-xl font-bold mb-4">TLS termination</h3>
                 <p className="text-gray-400">
-                  Trigger jobs from webhooks or API calls.
+                  Offload encryption at the edge and simplify your services.
                 </p>
               </div>
               <div className="p-8 bg-[#0a0a0a] rounded-2xl border border-white/10">
                 <Layers className="mx-auto mb-6 text-[#00ff88]" size={32} />
-                <h3 className="text-xl font-bold mb-4">Pipelines</h3>
+                <h3 className="text-xl font-bold mb-4">Sticky sessions</h3>
                 <p className="text-gray-400">
-                  Chain jobs together to create complex workflows.
+                  Keep stateful users pinned to the same backend when needed.
                 </p>
               </div>
             </div>
@@ -384,7 +381,7 @@ def main():
               Process millions of items in minutes, not days.
             </p>
             <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.4)]">
-              Start Batch Job
+              Create Load Balancer
             </button>
           </div>
         </section>

@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
-import { HeroSection } from '../../components/HeroSection';
 import {
-  Layers,
-  Shield,
+  Cpu,
   Zap,
   ChevronDown,
   ChevronUp,
-  Server,
-  Activity,
   Globe,
   Lock,
   Database,
-  Cpu,
   CheckCircle,
   Play,
   ArrowRight } from
@@ -24,15 +19,88 @@ export function CorePlatformPage() {
     <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
       <Nav />
       <main>
-        <HeroSection
-          title={
-          <>
-              The <span className="text-[#00ff88]">Core Platform</span>
-            </>
-          }
-          subtitle="Built on a custom file system and container runtime designed specifically for AI workloads. The foundation for all Modal products."
-          badge="Infrastructure"
-          ctaText="Learn More" />
+        <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#00ff88]/10 via-transparent to-transparent pointer-events-none" />
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div>
+              <div className="inline-block px-4 py-1.5 rounded-full bg-[#00ff88]/10 text-[#00ff88] text-sm font-medium mb-8 border border-[#00ff88]/20">
+                Accelerators
+              </div>
+              <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
+                Any GPU, <br />{' '}
+                <span className="text-[#00ff88]">Instantly</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mb-12 font-light leading-relaxed">
+                Access H100s, A100s, and more without quotas or capacity planning.
+              </p>
+              <div className="flex gap-6">
+                <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
+                  Browse GPUs
+                </button>
+                <button className="px-10 py-5 rounded-full border border-white/20 text-white font-medium text-xl hover:bg-white/5 transition-all hover:scale-105">
+                  View pricing
+                </button>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  {
+                    name: 'H100',
+                    memory: '80 GB',
+                    desc: 'Best for foundation models and training.',
+                    price: '$/hr',
+                  },
+                  {
+                    name: 'A100',
+                    memory: '80 GB',
+                    desc: 'Great for LLM fine-tuning and research.',
+                    price: '$/hr',
+                  },
+                  {
+                    name: 'L40S',
+                    memory: '48 GB',
+                    desc: 'Ideal for image/video and mixed workloads.',
+                    price: '$/hr',
+                  },
+                  {
+                    name: 'A10G',
+                    memory: '24 GB',
+                    desc: 'Cost-effective for inference and apps.',
+                    price: '$/hr',
+                  },
+                ].map((g) => (
+                  <div
+                    key={g.name}
+                    className="group rounded-2xl border border-white/10 bg-[#0a0a0a] p-5 hover:border-[#00ff88]/50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <Cpu size={18} className="text-[#00ff88]" />
+                          <div className="text-lg font-bold text-white">{g.name}</div>
+                        </div>
+                        <div className="mt-2 text-sm text-gray-400 leading-relaxed">{g.desc}</div>
+                      </div>
+                      <div className="shrink-0 inline-flex items-center rounded-full bg-[#00ff88]/10 text-[#00ff88] px-2.5 py-1 text-xs font-semibold">
+                        {g.memory}
+                      </div>
+                    </div>
+                    <div className="mt-4 flex items-center justify-between text-xs">
+                      <span className="text-gray-500">On-demand</span>
+                      <span className="text-[#00ff88] font-mono">{g.price}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 text-xs text-gray-500">
+                GPUs shown for illustration. Availability varies by region.
+              </div>
+            </div>
+          </div>
+        </section>
 
 
         {/* Architecture Diagram */}

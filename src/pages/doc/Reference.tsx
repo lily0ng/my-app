@@ -151,7 +151,9 @@ export function ReferencePage() {
                   await navigator.clipboard.writeText(window.location.href);
                   setCopied(true);
                   window.setTimeout(() => setCopied(false), 1500);
-                } catch {}
+                } catch (e) {
+                  void e;
+                }
               }}
               className="shrink-0 inline-flex items-center gap-2 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] px-3 py-2 text-[12px] font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)] transition-colors"
             >

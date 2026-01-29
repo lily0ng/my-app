@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
 import {
@@ -9,12 +9,10 @@ import {
   CheckCircle,
   ChevronDown,
   ChevronUp,
-  BarChart,
   Code2,
   Activity,
   Shield,
   Globe,
-  Cpu,
   Layers,
   Play,
   Lock } from
@@ -32,23 +30,21 @@ export function InferencePage() {
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
             <div>
               <div className="inline-block px-4 py-1.5 rounded-full bg-[#00ff88]/10 text-[#00ff88] text-sm font-medium mb-8 border border-[#00ff88]/20">
-                Modal Inference
+                Cloud Compute
               </div>
               <h1 className="text-6xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
-                High-performance <br />
-                <span className="text-[#00ff88]">Inference</span>
+                Deploy powerful <br />
+                <span className="text-[#00ff88]">Cloud Compute</span>
               </h1>
               <p className="text-xl text-gray-400 mb-10 leading-relaxed font-light">
-                Deploy LLMs, image generation models, and audio models with
-                sub-second cold starts and instant autoscaling. Pay only for the
-                compute you use.
+                Deploy powerful virtual machines in seconds with scalable resources to meet your business needs.
               </p>
               <div className="flex gap-4">
                 <button className="px-8 py-4 rounded-full bg-[#00ff88] text-black font-bold text-lg hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,255,136,0.3)]">
-                  Deploy Model
+                  Launch VM
                 </button>
                 <button className="px-8 py-4 rounded-full border border-white/20 text-white font-medium text-lg hover:bg-white/5 transition-all hover:scale-105">
-                  View Examples
+                  View Pricing
                 </button>
               </div>
             </div>
@@ -132,9 +128,9 @@ export function InferencePage() {
         <section className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4">Live Inference Demo</h2>
+              <h2 className="text-4xl font-bold mb-4">Live Compute Demo</h2>
               <p className="text-gray-400">
-                Experience the speed of Modal inference firsthand.
+                Experience the speed of provisioning and scaling firsthand.
               </p>
             </div>
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto shadow-2xl">
@@ -164,24 +160,24 @@ export function InferencePage() {
         <section className="py-32 px-6 bg-[#050505]">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold mb-20 text-center">
-              Why Modal for Inference?
+              Why Cloud Compute?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {[
               {
                 icon: Clock,
-                title: 'Serverless that feels local',
-                desc: 'Develop and test your inference code locally, then deploy with a single command. We handle the containerization.'
+                title: 'Fast provisioning',
+                desc: 'Spin up compute in seconds with sensible defaults, then scale vertically or horizontally as needs change.'
               },
               {
                 icon: Zap,
-                title: 'Blazing fast cold starts',
-                desc: 'Our custom container runtime and file system are optimized for AI workloads, enabling sub-second boot times.'
+                title: 'Elastic scaling',
+                desc: 'Scale up for peak usage and back down when idle to keep costs predictable and operations simple.'
               },
               {
                 icon: Server,
-                title: 'Any hardware you need',
-                desc: 'Access H100s, A100s, A10Gs, and more. Mix and match GPU types within the same application.'
+                title: 'Flexible instance types',
+                desc: 'Choose CPU-heavy, memory-heavy, or GPU-backed instances depending on workload requirements.'
               }].
               map((feature, i) =>
               <div
