@@ -196,7 +196,7 @@ export function Nav() {
     name: 'Guides',
     icon: BookOpen,
     desc: 'Deep dives into core concepts',
-    path: '/docs'
+    path: '/docs/guides'
   }];
 
   return (

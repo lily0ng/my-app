@@ -17,6 +17,7 @@ import { MarketplaceAppsPage } from './pages/MarketplaceAppsPage';
 import { ContactUsPage } from './pages/ContactUsPage';
 import { AboutUsPage } from './pages/AboutUs';
 import { EventsPage } from './pages/Event';
+import { GuidesPage } from './pages/Guides';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
 
@@ -49,6 +50,8 @@ export function App() {
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/docs" element={<DocsPage />} />
+          <Route path="/docs/guides" element={<GuidesPage />} />
+          <Route path="/docs/guides/:slug" element={<GuidesPage />} />
         </Routes>
       </BrowserRouter>
       <DarkThemeAccentPalette />

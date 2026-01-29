@@ -259,6 +259,19 @@ export function ResourcesPage() {
                     View Events <ArrowRight size={16} />
                   </div>
                 </Link>
+                <Link
+                  to="/docs/guides"
+                  className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group block flex flex-col"
+                >
+                  <BookOpen className="text-[#00ff88] mb-6" size={40} />
+                  <h3 className="font-bold text-2xl mb-4">Guides</h3>
+                  <p className="text-gray-400 mb-8 text-lg line-clamp-1">
+                    Deep dives into core concepts. Written in markdown.
+                  </p>
+                  <div className="text-[#00ff88] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                    View Guides <ArrowRight size={16} />
+                  </div>
+                </Link>
                 <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group flex flex-col">
                   <Terminal className="text-[#00ff88] mb-6" size={40} />
                   <h3 className="font-bold text-2xl mb-4">GPU Glossary</h3>
