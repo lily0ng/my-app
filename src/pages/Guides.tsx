@@ -11,6 +11,7 @@ type GuideFrontmatter = {
   description?: string;
   section?: string;
   order?: number;
+  indent?: boolean;
   slug?: string;
   updated?: string;
 };
@@ -21,6 +22,7 @@ type GuidePost = {
   description: string;
   section: string;
   order: number;
+  indent: boolean;
   updated: string | undefined;
   content: string;
 };
@@ -65,6 +67,7 @@ const parseFrontmatter = (raw: string): { data: GuideFrontmatter; content: strin
     if (key === 'title') data.title = value;
     if (key === 'description') data.description = value;
     if (key === 'section') data.section = value;
+    if (key === 'indent') data.indent = value === 'true' || value === '1' || value === 'yes';
     if (key === 'slug') data.slug = value;
     if (key === 'updated') data.updated = value;
   }
@@ -118,6 +121,7 @@ export function GuidesPage() {
             description: (data.description ?? '').toString(),
             section: (data.section ?? 'Getting Started').toString(),
             order: typeof data.order === 'number' ? data.order : 999,
+            indent: data.indent === true,
             updated: typeof data.updated === 'string' ? data.updated : undefined,
             content: parsed.content,
           };
@@ -180,38 +184,42 @@ export function GuidesPage() {
 
   const sidebar = (
     <div className="pr-2">
-      <div className="pt-2 pb-6">
-        <div className="text-lg font-semibold text-[color:var(--text-primary)] truncate">
+      <div className="pt-1 pb-4">
+        <div className="text-[13px] font-semibold text-[color:var(--text-primary)] truncate">
           {selected ? selected.title : 'Guides'}
         </div>
       </div>
 
-      <div className="space-y-7 pb-6">
+      <div className="space-y-6 pb-6">
         {sections.map(({ section, items }) => (
           <div key={section}>
-            <h4 className="text-[11px] font-bold text-[color:var(--docs-muted-2)] uppercase tracking-wider mb-3">
+            <h4 className="text-[12px] font-semibold text-[color:var(--text-primary)] mb-2">
               {section}
             </h4>
-            <ul className="space-y-2">
-              {items.map((p) => {
-                const active = p.slug === slug;
-                return (
-                  <li key={p.slug}>
-                    <Link
-                      to={`/docs/guides/${p.slug}`}
-                      className={
-                        'block rounded-md px-3 py-2 text-[14px] transition-colors ' +
-                        (active
-                          ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)] font-semibold'
-                          : 'text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
-                      }
-                    >
-                      <span className="truncate block">{p.title}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="border-l border-[color:var(--docs-border)] pl-3">
+              <ul className="space-y-0.5">
+                {items.map((p) => {
+                  const active = p.slug === slug;
+                  const leftPad = p.indent ? 'pl-6' : 'pl-3';
+                  return (
+                    <li key={p.slug}>
+                      <Link
+                        to={`/docs/guides/${p.slug}`}
+                        className={
+                          'relative block w-full -mx-3 pr-3 py-2 text-[13px] leading-tight transition-colors ' +
+                          leftPad +
+                          (active
+                            ? ' bg-[color:var(--docs-panel)] text-[color:var(--text-primary)] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-accent-green'
+                            : ' text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
+                        }
+                      >
+                        <span className="truncate block">{p.title}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         ))}
       </div>

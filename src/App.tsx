@@ -12,7 +12,7 @@ import { CustomersPage } from './pages/CustomersPage';
 import { PricingPage } from './pages/PricingPage';
 import { DocsPage } from './pages/DocsPage';
 import { DocsProductPage } from './pages/doc/DocsProductPage';
-import { DocsApiPage } from './pages/doc/DocsApiPage';
+import { ReferencePage } from './pages/doc/Reference';
 import { DocsHelpCenterPage } from './pages/doc/DocsHelpCenterPage';
 import { DocsChangelogPage } from './pages/doc/DocsChangelogPage';
 import { LoginPage } from './pages/LoginPage';
@@ -57,8 +57,8 @@ export function App() {
           <Route path="/docs/guides" element={<GuidesPage />} />
           <Route path="/docs/guides/product" element={<DocsProductPage />} />
           <Route path="/docs/guides/product/" element={<DocsProductPage />} />
-          <Route path="/docs/guides/api" element={<DocsApiPage />} />
-          <Route path="/docs/guides/api/" element={<DocsApiPage />} />
+          <Route path="/docs/guides/api" element={<ReferencePage />} />
+          <Route path="/docs/guides/api/" element={<ReferencePage />} />
           <Route path="/docs/guides/help-center" element={<DocsHelpCenterPage />} />
           <Route path="/docs/guides/help-center/" element={<DocsHelpCenterPage />} />
           <Route path="/docs/guides/changelog" element={<DocsChangelogPage />} />
