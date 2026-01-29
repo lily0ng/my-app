@@ -8,6 +8,7 @@ type SideGroup = { title: string; items: { label: string; to: string }[] };
 export function DocsHelpCenterPage() {
   const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [search, setSearch] = useState('');
 
   const norm = (p: string) => (p.endsWith('/') ? p.slice(0, -1) : p);
 
@@ -23,13 +24,18 @@ export function DocsHelpCenterPage() {
   ];
 
   const sidebar = (
-    <div className="space-y-7 pr-2">
+    <div className="pr-2">
+      <div className="pt-2 pb-6">
+        <div className="text-lg font-semibold text-[color:var(--text-primary)] truncate">Help Center</div>
+      </div>
+
+      <div className="space-y-7 pb-6">
       {groups.map((g) => (
         <div key={g.title}>
-          <div className="text-[11px] font-bold text-[color:var(--text-tertiary)] uppercase tracking-wider mb-2">
+          <div className="text-[11px] font-bold text-[color:var(--docs-muted-2)] uppercase tracking-wider mb-3">
             {g.title}
           </div>
-          <ul className="space-y-1 text-sm">
+          <ul className="space-y-2">
             {g.items.map((it) => {
               const active = norm(pathname) === norm(it.to);
               return (
@@ -37,10 +43,10 @@ export function DocsHelpCenterPage() {
                   <Link
                     to={it.to}
                     className={
-                      'flex items-center rounded-md px-3 py-2 transition-colors border-l-2 ' +
+                      'block rounded-md px-3 py-2 text-[14px] transition-colors ' +
                       (active
-                        ? 'border-l-[color:var(--accent)] bg-[color:var(--bg-secondary)] text-[color:var(--text-primary)] font-semibold'
-                        : 'border-l-transparent text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--bg-secondary)]')
+                        ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)] font-semibold'
+                        : 'text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
                     }
                   >
                     {it.label}
@@ -51,6 +57,7 @@ export function DocsHelpCenterPage() {
           </ul>
         </div>
       ))}
+      </div>
     </div>
   );
 
@@ -63,13 +70,15 @@ export function DocsHelpCenterPage() {
       rightRail={null}
       sidebarOpen={sidebarOpen}
       onToggleSidebar={() => setSidebarOpen((v) => !v)}
-      searchPlaceholder="Search..."
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchPlaceholder="Search"
     >
       <div>
         <div className="mb-10">
-          <div className="text-xs font-semibold text-[color:var(--text-tertiary)] uppercase tracking-wider">Help Center</div>
-          <h1 className="text-4xl md:text-5xl font-bold mt-2">How can we help?</h1>
-          <p className="text-[color:var(--text-secondary)] mt-3 max-w-2xl leading-relaxed">
+          <div className="text-xs font-semibold text-[color:var(--docs-muted-2)] uppercase tracking-wider">Help Center</div>
+          <h1 className="text-4xl md:text-5xl font-bold mt-2 text-[color:var(--text-primary)]">How can we help?</h1>
+          <p className="text-[color:var(--docs-muted)] mt-3 max-w-2xl leading-relaxed">
             Find answers, troubleshoot issues, and learn best practices.
           </p>
         </div>
@@ -87,18 +96,18 @@ export function DocsHelpCenterPage() {
           }].map((card) => (
             <div
               key={card.title}
-              className="rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6"
+              className="rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-6"
             >
               <card.icon size={28} className="text-[color:var(--accent)]" />
-              <div className="mt-4 text-lg font-bold">{card.title}</div>
-              <p className="text-sm text-[color:var(--text-secondary)] mt-2 leading-relaxed">{card.desc}</p>
+              <div className="mt-4 text-lg font-bold text-[color:var(--text-primary)]">{card.title}</div>
+              <p className="text-sm text-[color:var(--docs-muted)] mt-2 leading-relaxed">{card.desc}</p>
             </div>
           ))}
 
-          <div className="rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
+          <div className="rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-6">
             <LifeBuoy size={28} className="text-[color:var(--accent)]" />
-            <div className="mt-4 text-lg font-bold">Contact support</div>
-            <p className="text-sm text-[color:var(--text-secondary)] mt-2 leading-relaxed">
+            <div className="mt-4 text-lg font-bold text-[color:var(--text-primary)]">Contact support</div>
+            <p className="text-sm text-[color:var(--docs-muted)] mt-2 leading-relaxed">
               Need a hand? Use the Contact page to reach the team.
             </p>
             <Link

@@ -21,6 +21,15 @@ body {
   --text-secondary: #5a5a5a;
   --text-tertiary: #8a8a8a;
   --border-color: rgba(0, 0, 0, 0.1);
+  --docs-bg: #ffffff;
+  --docs-panel: #f8f9fa;
+  --docs-panel-2: #f1f3f4;
+  --docs-border: rgba(0, 0, 0, 0.12);
+  --docs-muted: rgba(0, 0, 0, 0.65);
+  --docs-muted-2: rgba(0, 0, 0, 0.45);
+  --docs-input-bg: #ffffff;
+  --docs-input-border: rgba(0, 0, 0, 0.12);
+  --docs-code-bg: #f3f4f6;
   /* Brand colors (from logo) */
   --accent: #3C4F86;
   --accent-hover: #334576;
@@ -38,6 +47,15 @@ html.dark {
   --text-secondary: #a0a0a0;
   --text-tertiary: #666666;
   --border-color: rgba(255, 255, 255, 0.1);
+  --docs-bg: #0b0c0e;
+  --docs-panel: #121318;
+  --docs-panel-2: #0f1014;
+  --docs-border: rgba(255, 255, 255, 0.1);
+  --docs-muted: rgba(255, 255, 255, 0.65);
+  --docs-muted-2: rgba(255, 255, 255, 0.45);
+  --docs-input-bg: #121318;
+  --docs-input-border: rgba(255, 255, 255, 0.1);
+  --docs-code-bg: #121318;
   --accent: #4D5B92;
   --accent-hover: #34416E;
   --accent-rgb: 77, 91, 146;

@@ -2,8 +2,9 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ArrowRight, BookOpen, MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { ArrowRight, BookOpen, Check, Copy } from 'lucide-react';
 import { DocsShell } from '../components/DocsShell';
+import { useTheme } from '../contexts/ThemeContext';
 
 type GuideFrontmatter = {
   title?: string;
@@ -71,10 +72,29 @@ const parseFrontmatter = (raw: string): { data: GuideFrontmatter; content: strin
   return { data, content: body };
 };
 
+const slugifyHeading = (value: string) => {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+};
+
+const nodeText = (node: unknown): string => {
+  if (node === null || node === undefined) return '';
+  if (typeof node === 'string' || typeof node === 'number' || typeof node === 'boolean') return String(node);
+  if (Array.isArray(node)) return node.map(nodeText).join('');
+  if (typeof node === 'object' && node && 'props' in (node as any)) return nodeText((node as any).props?.children);
+  return '';
+};
+
 export function GuidesPage() {
   const { slug } = useParams();
   const [query, setQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const { theme } = useTheme();
 
   const posts = useMemo<GuidePost[]>(() => {
     const modules = import.meta.glob(['../POST/guides/*.md', '/src/POST/guides/*.md'], {
@@ -132,6 +152,22 @@ export function GuidesPage() {
     return posts.find((p) => p.slug === slug) ?? null;
   }, [posts, slug]);
 
+  const toc = useMemo(() => {
+    if (!selected) return [] as { id: string; title: string; level: number }[];
+    const items: { id: string; title: string; level: number }[] = [];
+    const lines = selected.content.split(/\r?\n/);
+    for (const line of lines) {
+      const m = /^(#{2,3})\s+(.+)$/.exec(line.trim());
+      if (!m) continue;
+      const level = m[1].length;
+      const title = m[2].trim().replace(/\s+#+\s*$/, '');
+      const id = slugifyHeading(title);
+      if (!id) continue;
+      items.push({ id, title, level });
+    }
+    return items;
+  }, [selected]);
+
   const sections = useMemo(() => {
     const map = new Map<string, GuidePost[]>();
     for (const p of filteredPosts) {
@@ -153,7 +189,7 @@ export function GuidesPage() {
       <div className="space-y-7 pb-6">
         {sections.map(({ section, items }) => (
           <div key={section}>
-            <h4 className="text-[11px] font-bold text-[color:var(--text-tertiary)] uppercase tracking-wider mb-3">
+            <h4 className="text-[11px] font-bold text-[color:var(--docs-muted-2)] uppercase tracking-wider mb-3">
               {section}
             </h4>
             <ul className="space-y-2">
@@ -164,10 +200,10 @@ export function GuidesPage() {
                     <Link
                       to={`/docs/guides/${p.slug}`}
                       className={
-                        'block rounded-md px-2 py-1.5 text-[15px] transition-colors ' +
+                        'block rounded-md px-3 py-2 text-[14px] transition-colors ' +
                         (active
-                          ? 'text-[color:var(--text-primary)] font-semibold'
-                          : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]')
+                          ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)] font-semibold'
+                          : 'text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
                       }
                     >
                       <span className="truncate block">{p.title}</span>
@@ -183,31 +219,41 @@ export function GuidesPage() {
   );
 
   const rightRail = selected ? (
-    <div className="rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
+    <div className="space-y-4">
       <button
         type="button"
-        className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] px-3 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:border-[color:var(--accent)] transition-colors"
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            setCopied(true);
+            window.setTimeout(() => setCopied(false), 1500);
+          } catch {}
+        }}
+        className="w-full inline-flex items-center justify-center gap-2 rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] px-3 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)] transition-colors"
       >
-        <MessageCircle size={16} className="text-[color:var(--text-tertiary)]" /> Ask
+        {copied ? <Check size={16} className="text-[color:var(--accent)]" /> : <Copy size={16} className="text-[color:var(--docs-muted)]" />}
+        {copied ? 'Copied' : 'Copy page'}
       </button>
 
-      <div className="mt-6">
-        <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">Was this helpful?</div>
-        <div className="mt-3 flex items-center gap-2">
-          <button
-            type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] hover:border-[color:var(--accent)] transition-colors"
-            aria-label="Helpful"
-          >
-            <ThumbsUp size={16} className="text-[color:var(--text-secondary)]" />
-          </button>
-          <button
-            type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] hover:border-[color:var(--accent)] transition-colors"
-            aria-label="Not helpful"
-          >
-            <ThumbsDown size={16} className="text-[color:var(--text-secondary)]" />
-          </button>
+      <div className="rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-3">
+        <div className="text-xs font-semibold text-[color:var(--docs-muted)]">On this page</div>
+        <div className="mt-3 space-y-2">
+          {toc.length === 0 ? (
+            <div className="text-sm text-[color:var(--docs-muted-2)]">No sections</div>
+          ) : (
+            toc.slice(0, 10).map((t) => (
+              <a
+                key={t.id + t.title}
+                href={`#${t.id}`}
+                className={
+                  'block text-sm transition-colors hover:text-[color:var(--text-primary)] ' +
+                  (t.level === 3 ? 'pl-3 text-[color:var(--docs-muted-2)]' : 'text-[color:var(--docs-muted)]')
+                }
+              >
+                {t.title}
+              </a>
+            ))
+          )}
         </div>
       </div>
     </div>
@@ -230,25 +276,25 @@ export function GuidesPage() {
       onToggleSidebar={() => setSidebarOpen((v) => !v)}
       searchValue={query}
       onSearchChange={setQuery}
-      searchPlaceholder="Search..."
+      searchPlaceholder="Search"
     >
       {!selected && (
         <div>
           <div className="mb-10">
-            <div className="text-xs font-semibold text-[color:var(--text-tertiary)] uppercase tracking-wider">Guides</div>
-            <h1 className="text-4xl md:text-5xl font-bold mt-2">Welcome</h1>
-            <p className="text-[color:var(--text-secondary)] mt-3 max-w-2xl">
+            <div className="text-xs font-semibold text-[color:var(--docs-muted-2)] uppercase tracking-wider">Guides</div>
+            <h1 className="text-4xl md:text-5xl font-bold mt-2 text-[color:var(--text-primary)]">Welcome</h1>
+            <p className="text-[color:var(--docs-muted)] mt-3 max-w-2xl">
               Choose a guide to get started. New guides are loaded automatically from{' '}
               <span className="text-[color:var(--text-primary)]">src/POST/guides</span>.
             </p>
           </div>
 
           {filteredPosts.length === 0 ? (
-            <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8">
-              <div className="text-xl font-bold">No guides found</div>
-              <p className="text-[color:var(--text-secondary)] mt-2 leading-relaxed">
-                Add a markdown post in <span className="text-white">src/POST/guides</span> (for example,
-                <span className="text-white"> welcome.md</span>) and refresh.
+            <div className="rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-8">
+              <div className="text-xl font-bold text-[color:var(--text-primary)]">No guides found</div>
+              <p className="text-[color:var(--docs-muted)] mt-2 leading-relaxed">
+                Add a markdown post in <span className="text-[color:var(--text-primary)]">src/POST/guides</span> (for example,{' '}
+                <span className="text-[color:var(--text-primary)]">welcome.md</span>) and refresh.
               </p>
             </div>
           ) : (
@@ -257,18 +303,18 @@ export function GuidesPage() {
                 <Link
                   key={p.slug}
                   to={`/docs/guides/${p.slug}`}
-                  className="group rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 hover:border-[color:var(--accent)] transition-colors shadow-[0_1px_0_rgba(0,0,0,0.04)]"
+                  className="group rounded-xl border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] p-6 hover:bg-[color:var(--docs-panel-2)] transition-colors"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <div className="text-xs text-[color:var(--text-tertiary)] mb-2">{p.section}</div>
-                      <div className="text-lg font-bold mb-2 group-hover:text-[color:var(--accent)] transition-colors">
+                      <div className="text-xs text-[color:var(--docs-muted-2)] mb-2">{p.section}</div>
+                      <div className="text-lg font-bold mb-2 text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors">
                         {p.title}
                       </div>
                     </div>
                     <BookOpen size={18} className="text-[color:var(--accent)] mt-1 shrink-0" />
                   </div>
-                  <p className="text-sm text-[color:var(--text-secondary)] leading-relaxed line-clamp-2">
+                  <p className="text-sm text-[color:var(--docs-muted)] leading-relaxed line-clamp-2">
                     {p.description || 'Open the guide to read the full walkthrough.'}
                   </p>
                   <div className="mt-5 text-[color:var(--accent)] font-semibold inline-flex items-center gap-2 group-hover:gap-3 transition-all">
@@ -286,20 +332,47 @@ export function GuidesPage() {
           <div className="mb-10">
             <Link
               to="/docs/guides"
-              className="text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors inline-flex items-center gap-2"
+              className="text-sm text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] transition-colors inline-flex items-center gap-2"
             >
               <ArrowRight className="rotate-180" size={16} /> Back to Guides
             </Link>
 
-            <div className="mt-6 text-xs text-[color:var(--text-tertiary)]">{selected.section}</div>
-            <h1 className="text-4xl md:text-5xl font-bold mt-2">{selected.title}</h1>
+            <div className="mt-6 text-xs text-[color:var(--docs-muted-2)]">{selected.section}</div>
+            <h1 className="text-4xl md:text-5xl font-bold mt-2 text-[color:var(--text-primary)]">{selected.title}</h1>
             {selected.description && (
-              <p className="text-[color:var(--text-secondary)] mt-4 leading-relaxed">{selected.description}</p>
+              <p className="text-[color:var(--docs-muted)] mt-4 leading-relaxed">{selected.description}</p>
             )}
           </div>
 
-          <article className="prose max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-[color:var(--accent)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[color:var(--text-primary)] prose-code:text-[color:var(--text-primary)] prose-pre:bg-[color:var(--bg-tertiary)] prose-pre:border prose-pre:border-[color:var(--border-color)] prose-table:mx-auto prose-img:mx-auto">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{selected.content}</ReactMarkdown>
+          <article
+            className={
+              'prose max-w-none prose-headings:scroll-mt-24 prose-a:text-[color:var(--accent)] prose-a:no-underline hover:prose-a:underline prose-pre:bg-[color:var(--docs-code-bg)] prose-pre:border prose-pre:border-[color:var(--docs-border)] prose-table:mx-auto prose-img:mx-auto ' +
+              (theme === 'dark' ? 'prose-invert' : '')
+            }
+          >
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h2: ({ children, ...props }) => {
+                  const text = nodeText(children);
+                  return (
+                    <h2 id={slugifyHeading(text)} {...props}>
+                      {children}
+                    </h2>
+                  );
+                },
+                h3: ({ children, ...props }) => {
+                  const text = nodeText(children);
+                  return (
+                    <h3 id={slugifyHeading(text)} {...props}>
+                      {children}
+                    </h3>
+                  );
+                },
+              }}
+            >
+              {selected.content}
+            </ReactMarkdown>
           </article>
         </div>
       )}
