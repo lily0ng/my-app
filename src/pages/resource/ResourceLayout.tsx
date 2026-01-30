@@ -19,6 +19,8 @@ export function ResourceLayout({
   icon: Icon,
   primaryCta,
   secondaryCta,
+  aside,
+  asideClassName,
   children,
 }: {
   kicker: string;
@@ -27,8 +29,11 @@ export function ResourceLayout({
   icon: IconType;
   primaryCta: Cta;
   secondaryCta: Cta;
+  aside?: React.ReactNode;
+  asideClassName?: string;
   children: React.ReactNode;
 }) {
+  const asideWrapperClassName = asideClassName ?? 'w-full max-w-sm';
   return (
     <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)]">
       <Nav />
@@ -74,28 +79,32 @@ export function ResourceLayout({
                   </div>
                 </div>
 
-                <div className="w-full max-w-sm rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.10)]">
-                      <Icon size={22} className="text-[color:var(--accent)]" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-[color:var(--text-secondary)]">Resources</div>
-                      <div className="mt-1 text-lg font-bold">Theme-safe UI</div>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
-                    {['Unique layouts', 'Motion included', 'Light/Dark', 'Fast to scan'].map((t) => (
-                      <div
-                        key={t}
-                        className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
-                      >
-                        {t}
+                {aside ? (
+                  <div className={asideWrapperClassName}>{aside}</div>
+                ) : (
+                  <div className="w-full max-w-sm rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.10)]">
+                        <Icon size={22} className="text-[color:var(--accent)]" />
                       </div>
-                    ))}
+                      <div>
+                        <div className="text-sm font-semibold text-[color:var(--text-secondary)]">Resources</div>
+                        <div className="mt-1 text-lg font-bold">Theme-safe UI</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
+                      {['Unique layouts', 'Motion included', 'Light/Dark', 'Fast to scan'].map((t) => (
+                        <div
+                          key={t}
+                          className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
+                        >
+                          {t}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </motion.div>
           </section>

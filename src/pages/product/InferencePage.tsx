@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
 import {
   ArrowRight,
   Zap,
   Clock,
+  Cpu,
+  HardDrive,
+  MemoryStick,
   Server,
   CheckCircle,
   ChevronDown,
@@ -15,77 +19,375 @@ import {
   Globe,
   Layers,
   Play,
-  Lock } from
-'lucide-react';
+  Lock,
+} from 'lucide-react';
 export function InferencePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const heroInstances = [
+    {
+      id: 'vx1-4-16',
+      family: 'VX1',
+      name: 'Compute Optimized',
+      label: 'vx1-c4',
+      tagline: 'Great for low-latency services and throughput-sensitive workers.',
+      vcpus: '4 vCPUs',
+      memory: '16 GB',
+      storage: '160 GB NVMe',
+      bandwidth: '6.00 TB',
+      price: '$0.070 / hr',
+    },
+    {
+      id: 'vx1-8-32',
+      family: 'VX1',
+      name: 'Balanced Compute',
+      label: 'vx1-c8',
+      tagline: 'A strong default for API inference with steady load.',
+      vcpus: '8 vCPUs',
+      memory: '32 GB',
+      storage: '320 GB NVMe',
+      bandwidth: '8.00 TB',
+      price: '$0.140 / hr',
+    },
+    {
+      id: 'vx1-16-64',
+      family: 'VX1',
+      name: 'High Concurrency',
+      label: 'vx1-c16',
+      tagline: 'Room for more parallel requests and larger caches.',
+      vcpus: '16 vCPUs',
+      memory: '64 GB',
+      storage: '640 GB NVMe',
+      bandwidth: '10.00 TB',
+      price: '$0.280 / hr',
+    },
+  ];
+  const [heroInstanceId, setHeroInstanceId] = useState(heroInstances[0].id);
+  const heroInstance = heroInstances.find((x) => x.id === heroInstanceId) ?? heroInstances[0];
+
+  const aiInstances = [
+    {
+      name: 'Realtime Inference',
+      tagline: 'Streaming endpoints with predictable P95 latency.',
+      gpu: 'L4',
+      vcpus: '16 vCPUs',
+      memory: '64 GB',
+      vram: '24 GB',
+      price: '$0.000222 / sec',
+      chips: ['Streaming', 'Autoscale', 'Low latency'],
+    },
+    {
+      name: 'High Throughput',
+      tagline: 'Batching + concurrency for high QPS workloads.',
+      gpu: 'A10',
+      vcpus: '24 vCPUs',
+      memory: '96 GB',
+      vram: '24 GB',
+      price: '$0.000306 / sec',
+      chips: ['Batching', 'High QPS', 'Cost efficient'],
+    },
+    {
+      name: 'Long Context',
+      tagline: 'KV-cache heavy workloads and longer prompts.',
+      gpu: 'A100',
+      vcpus: '32 vCPUs',
+      memory: '192 GB',
+      vram: '80 GB',
+      price: '$0.000694 / sec',
+      chips: ['Long context', 'High VRAM', 'Stable SLA'],
+    },
+  ];
+
+  const nvidiaInstances = [
+    {
+      name: 'NVIDIA T4',
+      note: 'Standard inference + light training',
+      gpu: 'T4',
+      vcpus: '8 vCPUs',
+      memory: '32 GB',
+      vram: '16 GB',
+      price: '$0.000164 / sec',
+    },
+    {
+      name: 'NVIDIA L4',
+      note: 'Balanced inference + multimodal',
+      gpu: 'L4',
+      vcpus: '16 vCPUs',
+      memory: '64 GB',
+      vram: '24 GB',
+      price: '$0.000222 / sec',
+    },
+    {
+      name: 'NVIDIA A10',
+      note: 'Fine-tuning + graphics workloads',
+      gpu: 'A10',
+      vcpus: '24 vCPUs',
+      memory: '96 GB',
+      vram: '24 GB',
+      price: '$0.000306 / sec',
+    },
+    {
+      name: 'NVIDIA A100',
+      note: 'LLM training + large inference',
+      gpu: 'A100',
+      vcpus: '32 vCPUs',
+      memory: '192 GB',
+      vram: '80 GB',
+      price: '$0.000694 / sec',
+    },
+    {
+      name: 'NVIDIA H100',
+      note: 'Highest throughput + frontier models',
+      gpu: 'H100',
+      vcpus: '48 vCPUs',
+      memory: '384 GB',
+      vram: '80 GB',
+      price: '$0.001097 / sec',
+    },
+  ];
+
+  const InstanceCard = ({
+    title,
+    subtitle,
+    gpu,
+    vcpus,
+    memory,
+    vram,
+    price,
+    chips,
+  }: {
+    title: string;
+    subtitle?: string;
+    gpu: string;
+    vcpus: string;
+    memory: string;
+    vram: string;
+    price: string;
+    chips?: string[];
+  }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, ease: 'easeOut' }}
+      whileHover={{ y: -6 }}
+      className="group relative overflow-hidden rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 transition-colors hover:border-[rgba(var(--accent-rgb),0.55)]"
+    >
+      <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute -top-20 -left-20 h-[260px] w-[260px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.16)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+      </div>
+
+      <div className="relative">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="text-lg font-bold">{title}</div>
+            {subtitle ? (
+              <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{subtitle}</div>
+            ) : null}
+          </div>
+          <div className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1 text-xs font-semibold text-[color:var(--text-secondary)] whitespace-nowrap">
+            {gpu}
+          </div>
+        </div>
+
+        {chips?.length ? (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {chips.map((c) => (
+              <div
+                key={c}
+                className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1 text-xs font-semibold text-[color:var(--text-secondary)]"
+              >
+                {c}
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3">
+            <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">vCPU</div>
+            <div className="mt-1 text-sm font-semibold flex items-center gap-2">
+              <Cpu size={16} className="text-[color:var(--accent)]" />
+              {vcpus}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3">
+            <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">Memory</div>
+            <div className="mt-1 text-sm font-semibold flex items-center gap-2">
+              <MemoryStick size={16} className="text-[color:var(--accent)]" />
+              {memory} RAM
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3">
+            <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">Storage</div>
+            <div className="mt-1 text-sm font-semibold flex items-center gap-2">
+              <HardDrive size={16} className="text-[color:var(--accent)]" />
+              NVMe
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3">
+            <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">VRAM</div>
+            <div className="mt-1 text-sm font-semibold flex items-center gap-2">
+              <Server size={16} className="text-[color:var(--accent)]" />
+              {vram} VRAM
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <div>
+            <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">Starting at</div>
+            <div className="mt-1 font-mono text-sm font-bold text-[color:var(--accent)]">{price}</div>
+          </div>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+          >
+            Deploy <ArrowRight size={16} />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
   return (
-    <div className="min-h-screen bg-[#000000] text-white selection:bg-[#00ff88] selection:text-black font-sans">
+    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black font-sans">
       <Nav />
 
       <main>
         {/* 1. Hero */}
-        <section className="pt-32 pb-20 px-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#00ff88]/5 to-transparent pointer-events-none" />
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
-            <div>
-              <div className="inline-block px-4 py-1.5 rounded-full bg-[#00ff88]/10 text-[#00ff88] text-sm font-medium mb-8 border border-[#00ff88]/20">
-                Cloud Compute
+        <section className="pt-32 pb-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="relative overflow-hidden rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 md:p-12">
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute -top-28 -left-28 h-[440px] w-[440px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.14)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+                <div className="absolute -bottom-28 -right-28 h-[440px] w-[440px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.10)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+                <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(255,255,255,0.10)_1px,transparent_1px)] [background-size:56px_56px]" />
               </div>
-              <h1 className="text-6xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
-                Deploy powerful <br />
-                <span className="text-[#00ff88]">Cloud Compute</span>
-              </h1>
-              <p className="text-xl text-gray-400 mb-10 leading-relaxed font-light">
-                Deploy powerful virtual machines in seconds with scalable resources to meet your business needs.
-              </p>
-              <div className="flex gap-4">
-                <button className="px-8 py-4 rounded-full bg-[#00ff88] text-black font-bold text-lg hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,255,136,0.3)]">
-                  Launch VM
-                </button>
-                <button className="px-8 py-4 rounded-full border border-white/20 text-white font-medium text-lg hover:bg-white/5 transition-all hover:scale-105">
-                  View Pricing
-                </button>
+
+              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: 'easeOut' }}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-xs font-semibold tracking-wide text-[color:var(--text-secondary)]">
+                    <Zap size={14} className="text-[color:var(--accent)]" />
+                    Inference
+                  </div>
+
+                  <h1 className="mt-8 text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+                    Deploy <span className="text-[color:var(--accent)]">low-latency</span> inference
+                    <br />
+                    on elastic GPU compute
+                  </h1>
+                  <p className="mt-5 text-base md:text-lg text-[color:var(--text-secondary)] leading-relaxed">
+                    Ship streaming endpoints with fast cold starts, predictable P95 latency, and per-second billing.
+                  </p>
+
+                  <div className="mt-8 flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                    >
+                      Deploy endpoint
+                      <ArrowRight size={18} />
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+                    >
+                      View docs
+                    </button>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: 'easeOut', delay: 0.06 }}
+                  className="relative"
+                >
+                  <div className="relative overflow-hidden rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 md:p-8 shadow-[0_30px_90px_rgba(0,0,0,0.22)]">
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute -top-24 -left-24 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.14)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+                      <div className="absolute -bottom-28 -right-28 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.10)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+                    </div>
+
+                    <div className="relative">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <div className="text-xs font-semibold tracking-wide text-[color:var(--text-tertiary)]">INSTANCE PREVIEW</div>
+                          <div className="mt-2 text-lg font-bold">{heroInstance.name}</div>
+                          <div className="mt-2 text-sm text-[color:var(--text-secondary)]">
+                            {heroInstance.tagline}
+                          </div>
+                        </div>
+
+                        <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-2 text-xs font-semibold text-[color:var(--text-secondary)]">
+                          <Server size={14} className="text-[color:var(--accent)]" />
+                          {heroInstance.family}
+                        </div>
+                      </div>
+
+                      <div className="mt-6 flex gap-2 overflow-x-auto pb-1">
+                        {heroInstances.map((x) => {
+                          const active = x.id === heroInstanceId;
+                          return (
+                            <button
+                              key={x.id}
+                              type="button"
+                              onClick={() => setHeroInstanceId(x.id)}
+                              className={
+                                'shrink-0 rounded-2xl border px-4 py-3 text-left transition-colors ' +
+                                (active
+                                  ? 'border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]'
+                                  : 'border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] hover:border-[rgba(var(--accent-rgb),0.35)]')
+                              }
+                            >
+                              <div className="text-sm font-semibold">{x.label}</div>
+                              <div className="mt-1 text-xs text-[color:var(--text-secondary)]">{x.price}</div>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <div className="mt-5 grid grid-cols-2 gap-3">
+                        {[{ k: 'vCPUs', v: heroInstance.vcpus, I: Cpu }, { k: 'Memory', v: heroInstance.memory, I: MemoryStick }, { k: 'NVMe', v: heroInstance.storage, I: HardDrive }, { k: 'Bandwidth', v: heroInstance.bandwidth, I: Server }].map((x) => (
+                          <div
+                            key={x.k}
+                            className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
+                          >
+                            <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{x.k}</div>
+                            <div className="mt-1 text-sm font-semibold flex items-center gap-2">
+                              <x.I size={16} className="text-[color:var(--accent)]" />
+                              {x.v}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-6 flex items-center justify-between gap-4">
+                        <div>
+                          <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">From</div>
+                          <div className="mt-1 font-mono text-sm font-bold text-[color:var(--accent)]">{heroInstance.price}</div>
+                        </div>
+                        <button
+                          type="button"
+                          className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                        >
+                          Configure <ArrowRight size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
-            </div>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 font-mono text-sm shadow-2xl relative group">
-              <div className="absolute -top-6 -right-6 bg-[#00ff88] text-black text-xs font-bold px-4 py-2 rounded-lg shadow-lg rotate-3 group-hover:rotate-6 transition-transform">
-                RUNS IN &lt; 1s
-              </div>
-              <div className="flex gap-2 mb-6">
-                <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                <div className="w-3 h-3 rounded-full bg-green-500/50" />
-              </div>
-              <pre className="text-gray-300 overflow-x-auto">
-                <code>
-                  <span className="text-[#00ff88]">@app.cls</span>(gpu=
-                  <span className="text-yellow-300">"A100"</span>){'\n'}
-                  <span className="text-[#00ff88]">class</span>{' '}
-                  <span className="text-blue-400">Model</span>:{'\n'}
-                  {'    '}
-                  <span className="text-[#00ff88]">@modal.enter</span>(){'\n'}
-                  {'    '}
-                  <span className="text-[#00ff88]">def</span>{' '}
-                  <span className="text-blue-400">load</span>(self):{'\n'}
-                  {'        '}self.pipe = pipeline(
-                  <span className="text-yellow-300">"text-generation"</span>)
-                  {'\n\n'}
-                  {'    '}
-                  <span className="text-[#00ff88]">@modal.method</span>(){'\n'}
-                  {'    '}
-                  <span className="text-[#00ff88]">def</span>{' '}
-                  <span className="text-blue-400">generate</span>(self, prompt):
-                  {'\n'}
-                  {'        '}return self.pipe(prompt)
-                </code>
-              </pre>
             </div>
           </div>
         </section>
 
         {/* 2. Metrics Grid */}
-        <section className="py-24 px-6 border-y border-white/5 bg-[#050505]">
+        <section className="py-24 px-6 border-y border-[color:var(--border-color)] bg-[color:var(--bg-secondary)]">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
               {[
@@ -111,13 +413,13 @@ export function InferencePage() {
               }].
               map((stat, i) =>
               <div key={i} className="text-center md:text-left group">
-                  <div className="text-4xl font-bold text-white mb-2 group-hover:text-[#00ff88] transition-colors">
+                  <div className="text-4xl font-bold mb-2 group-hover:text-[color:var(--accent)] transition-colors">
                     {stat.value}
                   </div>
-                  <div className="text-[#00ff88] font-medium mb-2 uppercase tracking-wider text-sm">
+                  <div className="text-[color:var(--accent)] font-medium mb-2 uppercase tracking-wider text-sm">
                     {stat.label}
                   </div>
-                  <div className="text-sm text-gray-500">{stat.desc}</div>
+                  <div className="text-sm text-[color:var(--text-secondary)]">{stat.desc}</div>
                 </div>
               )}
             </div>
@@ -129,70 +431,190 @@ export function InferencePage() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-4">Live Compute Demo</h2>
-              <p className="text-gray-400">
+              <p className="text-[color:var(--text-secondary)]">
                 Experience the speed of provisioning and scaling firsthand.
               </p>
             </div>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto shadow-2xl">
-              <div className="flex gap-4 mb-6">
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className="relative overflow-hidden rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 max-w-4xl mx-auto shadow-[0_30px_90px_rgba(0,0,0,0.22)]"
+            >
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute -top-24 -left-24 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.12)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+                <div className="absolute -bottom-28 -right-28 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.10)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+              </div>
+
+              <div className="relative">
+                <div className="flex flex-col sm:flex-row gap-3 mb-6">
                 <input
                   type="text"
                   placeholder="Enter a prompt..."
-                  className="flex-1 bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#00ff88] outline-none"
+                  className="flex-1 bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-2xl px-5 py-3 text-[color:var(--text-primary)] focus:border-[color:var(--accent)] outline-none"
                   defaultValue="Explain quantum computing to a 5 year old" />
 
-                <button className="bg-[#00ff88] text-black font-bold px-6 py-3 rounded-lg hover:bg-[#00cc6a] transition-colors">
+                <button
+                  type="button"
+                  className="px-7 py-3 rounded-2xl bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors"
+                >
                   Generate
                 </button>
               </div>
-              <div className="bg-[#111] rounded-lg p-6 min-h-[200px] text-gray-300 font-mono text-sm leading-relaxed">
-                <span className="text-[#00ff88] animate-pulse">▋</span>
+
+              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 min-h-[220px] text-[color:var(--text-secondary)] font-mono text-sm leading-relaxed">
+                <span className="text-[color:var(--accent)] animate-pulse">▋</span>
               </div>
-              <div className="flex justify-between mt-4 text-xs text-gray-500">
+
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-2 mt-4 text-xs text-[color:var(--text-secondary)]">
                 <span>Model: Llama 3 70B</span>
                 <span>Latency: 124ms</span>
+              </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* 4. Features */}
+        <section className="py-32 px-6 bg-[color:var(--bg-secondary)]">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-4">Feature Instances</h2>
+              <p className="text-[color:var(--text-secondary)]">
+                Choose a profile, then size for VRAM, bandwidth, and tail latency.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-8">
+                <div className="flex items-start justify-between gap-6">
+                  <div>
+                    <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">AI INSTANCES</div>
+                    <div className="mt-2 text-2xl font-bold">Defaults built for inference</div>
+                    <div className="mt-2 text-[color:var(--text-secondary)]">
+                      Pick based on traffic shape, context length, and SLA.
+                    </div>
+                  </div>
+                  <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.10)]">
+                    <Zap size={22} className="text-[color:var(--accent)]" />
+                  </div>
+                </div>
+
+                <div className="mt-8 grid grid-cols-1 gap-4">
+                  {aiInstances.map((x) => (
+                    <InstanceCard
+                      key={x.name}
+                      title={x.name}
+                      subtitle={x.tagline}
+                      gpu={x.gpu}
+                      vcpus={x.vcpus}
+                      memory={x.memory}
+                      vram={x.vram}
+                      price={x.price}
+                      chips={x.chips}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-8">
+                <div className="flex items-start justify-between gap-6">
+                  <div>
+                    <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">NVIDIA INSTANCES</div>
+                    <div className="mt-2 text-2xl font-bold">Choose the GPU family</div>
+                    <div className="mt-2 text-[color:var(--text-secondary)]">
+                      Match VRAM and bandwidth to your model and concurrency.
+                    </div>
+                  </div>
+                  <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.10)]">
+                    <Server size={22} className="text-[color:var(--accent)]" />
+                  </div>
+                </div>
+
+                <div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-4">
+                  {nvidiaInstances.map((x) => (
+                    <InstanceCard
+                      key={x.name}
+                      title={x.name}
+                      subtitle={x.note}
+                      gpu={x.gpu}
+                      vcpus={x.vcpus}
+                      memory={x.memory}
+                      vram={x.vram}
+                      price={x.price}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 4. Features */}
-        <section className="py-32 px-6 bg-[#050505]">
+        <section className="py-24 px-6">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-4xl font-bold mb-20 text-center">
-              Why Cloud Compute?
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {[
-              {
-                icon: Clock,
-                title: 'Fast provisioning',
-                desc: 'Spin up compute in seconds with sensible defaults, then scale vertically or horizontally as needs change.'
-              },
-              {
-                icon: Zap,
-                title: 'Elastic scaling',
-                desc: 'Scale up for peak usage and back down when idle to keep costs predictable and operations simple.'
-              },
-              {
-                icon: Server,
-                title: 'Flexible instance types',
-                desc: 'Choose CPU-heavy, memory-heavy, or GPU-backed instances depending on workload requirements.'
-              }].
-              map((feature, i) =>
-              <div
-                key={i}
-                className="flex flex-col items-start p-8 rounded-2xl hover:bg-[#0a0a0a] transition-colors">
-
-                  <div className="w-16 h-16 rounded-2xl bg-[#0a0a0a] border border-white/10 flex items-center justify-center mb-8 text-[#00ff88] shadow-lg">
-                    <feature.icon size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                  <p className="text-gray-400 leading-relaxed text-lg">
-                    {feature.desc}
+            <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 md:p-12">
+              <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-10 items-start">
+                <div>
+                  <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">SIZING GUIDE</div>
+                  <h2 className="mt-3 text-3xl font-bold">Match the bottleneck to the instance</h2>
+                  <p className="mt-4 text-[color:var(--text-secondary)] leading-relaxed">
+                    Most inference surprises come from KV cache growth, memory bandwidth limits, and batching decisions.
                   </p>
+
+                  <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {[
+                      {
+                        t: 'Fit VRAM first',
+                        d: 'Weights + KV cache + overhead must stay on GPU for stable latency.',
+                        I: MemoryStick,
+                      },
+                      {
+                        t: 'Then bandwidth',
+                        d: 'Decode is often memory-bound; faster HBM raises tokens/sec.',
+                        I: HardDrive,
+                      },
+                      {
+                        t: 'Protect P95',
+                        d: 'Tune batching + concurrency to keep tail latency under load.',
+                        I: Clock,
+                      },
+                    ].map((x) => (
+                      <div
+                        key={x.t}
+                        className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-5"
+                      >
+                        <div className="flex items-center gap-2 font-semibold">
+                          <x.I size={18} className="text-[color:var(--accent)]" />
+                          {x.t}
+                        </div>
+                        <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{x.d}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              )}
+
+                <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6">
+                  <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">QUICK CHECK</div>
+                  <div className="mt-2 text-xl font-bold">Before you deploy</div>
+                  <div className="mt-5 space-y-3">
+                    {[
+                      'Estimate KV cache from context length + concurrency.',
+                      'Pick GPU family by VRAM, then validate tokens/sec.',
+                      'Set batching limits for your P95 SLA.',
+                    ].map((t) => (
+                      <div
+                        key={t}
+                        className="flex items-start gap-3 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
+                      >
+                        <CheckCircle size={18} className="text-[color:var(--accent)] mt-0.5" />
+                        <div className="text-sm text-[color:var(--text-secondary)]">{t}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -212,41 +634,47 @@ export function InferencePage() {
               'Mixtral 8x7B',
               'Custom Models'].
               map((model) =>
-              <div
+              <motion.div
                 key={model}
-                className="p-6 border border-white/10 rounded-xl bg-[#0a0a0a] flex items-center gap-4 hover:border-[#00ff88] transition-colors group cursor-default">
-
-                  <CheckCircle
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                whileHover={{ y: -4 }}
+                className="p-6 border border-[color:var(--border-color)] rounded-2xl bg-[color:var(--bg-secondary)] flex items-center gap-4 hover:border-[rgba(var(--accent-rgb),0.55)] transition-colors group cursor-default"
+              >
+                <CheckCircle
                   size={20}
-                  className="text-[#00ff88] group-hover:scale-110 transition-transform" />
+                  className="text-[color:var(--accent)] group-hover:scale-110 transition-transform"
+                />
 
-                  <span className="font-medium text-gray-300 text-lg">
-                    {model}
-                  </span>
-                </div>
+                <span className="font-medium text-[color:var(--text-primary)] text-lg">
+                  {model}
+                </span>
+              </motion.div>
               )}
             </div>
           </div>
         </section>
 
         {/* 6. Architecture Diagram */}
-        <section className="py-32 px-6 bg-[#050505] border-y border-white/5">
+        <section className="py-32 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-16">How it works</h2>
-            <div className="max-w-4xl mx-auto bg-[#0a0a0a] border border-white/10 rounded-2xl p-12 relative overflow-hidden">
+            <div className="max-w-4xl mx-auto bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-3xl p-12 relative overflow-hidden">
               {/* Simplified CSS Diagram */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                <div className="p-6 bg-[#111] rounded-xl border border-white/10 w-48">
+                <div className="p-6 bg-[color:var(--bg-secondary)] rounded-2xl border border-[color:var(--border-color)] w-48">
                   <Code2 className="mx-auto mb-4 text-blue-400" size={32} />
                   <div className="font-bold">Your Code</div>
                 </div>
-                <ArrowRight className="text-gray-600 hidden md:block" />
-                <div className="p-6 bg-[#111] rounded-xl border border-white/10 w-48">
-                  <Layers className="mx-auto mb-4 text-[#00ff88]" size={32} />
+                <ArrowRight className="text-[color:var(--text-secondary)] hidden md:block" />
+                <div className="p-6 bg-[color:var(--bg-secondary)] rounded-2xl border border-[color:var(--border-color)] w-48">
+                  <Layers className="mx-auto mb-4 text-[color:var(--accent)]" size={32} />
                   <div className="font-bold">Modal Cloud</div>
                 </div>
-                <ArrowRight className="text-gray-600 hidden md:block" />
-                <div className="p-6 bg-[#111] rounded-xl border border-white/10 w-48">
+                <ArrowRight className="text-[color:var(--text-secondary)] hidden md:block" />
+                <div className="p-6 bg-[color:var(--bg-secondary)] rounded-2xl border border-[color:var(--border-color)] w-48">
                   <Globe className="mx-auto mb-4 text-purple-400" size={32} />
                   <div className="font-bold">API Endpoint</div>
                 </div>
@@ -261,42 +689,42 @@ export function InferencePage() {
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl font-bold mb-6">OpenAI-compatible API</h2>
-              <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+              <p className="text-xl text-[color:var(--text-secondary)] mb-8 leading-relaxed">
                 Expose your models via a standard REST API that works with
                 existing tools and libraries. Simply add the{' '}
-                <code className="bg-[#1a1a1a] px-2 py-1 rounded text-[#00ff88] text-sm">
+                <code className="bg-[color:var(--bg-secondary)] px-2 py-1 rounded text-[color:var(--accent)] text-sm border border-[color:var(--border-color)]">
                   @web_endpoint
                 </code>{' '}
                 decorator.
               </p>
               <ul className="space-y-6">
-                <li className="flex items-center gap-4 text-gray-300 text-lg">
-                  <div className="w-8 h-8 rounded-full bg-[#00ff88]/10 flex items-center justify-center text-[#00ff88]">
+                <li className="flex items-center gap-4 text-[color:var(--text-primary)] text-lg">
+                  <div className="w-8 h-8 rounded-full bg-[rgba(var(--accent-rgb),0.10)] flex items-center justify-center text-[color:var(--accent)] border border-[color:var(--border-color)]">
                     <CheckCircle size={18} />
                   </div>
                   Works with LangChain, LlamaIndex, etc.
                 </li>
-                <li className="flex items-center gap-4 text-gray-300 text-lg">
-                  <div className="w-8 h-8 rounded-full bg-[#00ff88]/10 flex items-center justify-center text-[#00ff88]">
+                <li className="flex items-center gap-4 text-[color:var(--text-primary)] text-lg">
+                  <div className="w-8 h-8 rounded-full bg-[rgba(var(--accent-rgb),0.10)] flex items-center justify-center text-[color:var(--accent)] border border-[color:var(--border-color)]">
                     <CheckCircle size={18} />
                   </div>
                   Streaming support out of the box
                 </li>
-                <li className="flex items-center gap-4 text-gray-300 text-lg">
-                  <div className="w-8 h-8 rounded-full bg-[#00ff88]/10 flex items-center justify-center text-[#00ff88]">
+                <li className="flex items-center gap-4 text-[color:var(--text-primary)] text-lg">
+                  <div className="w-8 h-8 rounded-full bg-[rgba(var(--accent-rgb),0.10)] flex items-center justify-center text-[color:var(--accent)] border border-[color:var(--border-color)]">
                     <CheckCircle size={18} />
                   </div>
                   Custom authentication and rate limiting
                 </li>
               </ul>
             </div>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 font-mono text-sm shadow-2xl">
-              <pre className="text-gray-300">
+            <div className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-3xl p-8 font-mono text-sm shadow-[0_30px_90px_rgba(0,0,0,0.22)]">
+              <pre className="text-[color:var(--text-secondary)]">
                 <code>
-                  <span className="text-[#00ff88]">@app.function</span>(){'\n'}
-                  <span className="text-[#00ff88]">@modal.web_endpoint</span>
+                  <span className="text-[color:var(--accent)]">@app.function</span>(){'\n'}
+                  <span className="text-[color:var(--accent)]">@modal.web_endpoint</span>
                   (method=<span className="text-yellow-300">"POST"</span>){'\n'}
-                  <span className="text-[#00ff88]">def</span>{' '}
+                  <span className="text-[color:var(--accent)]">def</span>{' '}
                   <span className="text-blue-400">inference</span>(item: Item):
                   {'\n'}
                   {'    '}return model.generate(item.prompt)
@@ -307,41 +735,41 @@ export function InferencePage() {
         </section>
 
         {/* 8. Cost Calculator */}
-        <section className="py-32 px-6 bg-[#050505]">
-          <div className="max-w-4xl mx-auto bg-[#0a0a0a] border border-white/10 rounded-2xl p-12">
+        <section className="py-32 px-6 bg-[color:var(--bg-secondary)]">
+          <div className="max-w-4xl mx-auto bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-3xl p-12">
             <h2 className="text-3xl font-bold mb-8 text-center">
               Estimate your costs
             </h2>
             <div className="space-y-8">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
+                <label className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
                   Requests per day
                 </label>
                 <input
                   type="range"
-                  className="w-full h-2 bg-[#111] rounded-lg appearance-none cursor-pointer accent-[#00ff88]" />
+                  className="w-full h-2 bg-[color:var(--bg-secondary)] rounded-lg appearance-none cursor-pointer accent-[color:var(--accent)]" />
 
-                <div className="text-right text-[#00ff88] font-bold mt-2">
+                <div className="text-right text-[color:var(--accent)] font-bold mt-2">
                   100,000
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">
+                <label className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
                   Avg. Execution Time
                 </label>
                 <input
                   type="range"
-                  className="w-full h-2 bg-[#111] rounded-lg appearance-none cursor-pointer accent-[#00ff88]" />
+                  className="w-full h-2 bg-[color:var(--bg-secondary)] rounded-lg appearance-none cursor-pointer accent-[color:var(--accent)]" />
 
-                <div className="text-right text-[#00ff88] font-bold mt-2">
+                <div className="text-right text-[color:var(--accent)] font-bold mt-2">
                   500ms
                 </div>
               </div>
-              <div className="pt-8 border-t border-white/10 flex justify-between items-center">
+              <div className="pt-8 border-t border-[color:var(--border-color)] flex justify-between items-center">
                 <span className="text-xl font-bold">
                   Estimated Monthly Cost
                 </span>
-                <span className="text-4xl font-bold text-[#00ff88]">
+                <span className="text-4xl font-bold text-[color:var(--accent)]">
                   $145.00
                 </span>
               </div>
@@ -354,36 +782,36 @@ export function InferencePage() {
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold mb-4">Watch the tutorial</h2>
-              <p className="text-gray-400">
+              <p className="text-[color:var(--text-secondary)]">
                 Learn how to deploy a production-ready inference endpoint.
               </p>
             </div>
-            <div className="aspect-video bg-[#111] rounded-2xl border border-white/10 flex items-center justify-center relative group cursor-pointer overflow-hidden shadow-2xl">
+            <div className="aspect-video bg-[color:var(--bg-secondary)] rounded-3xl border border-[color:var(--border-color)] flex items-center justify-center relative group cursor-pointer overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.22)]">
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-              <div className="w-24 h-24 bg-[#00ff88] rounded-full flex items-center justify-center z-10 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(0,255,136,0.4)]">
-                <Play size={40} className="text-black ml-2" />
+              <div className="w-24 h-24 bg-[color:var(--accent)] rounded-full flex items-center justify-center z-10 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(var(--accent-rgb),0.30)]">
+                <Play size={40} className="text-white ml-2" />
               </div>
             </div>
           </div>
         </section>
 
         {/* 10. Monitoring Dashboard */}
-        <section className="py-32 px-6 bg-[#050505] border-y border-white/5">
+        <section className="py-32 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1 bg-[#0a0a0a] border border-white/10 rounded-2xl p-4 shadow-2xl">
+            <div className="order-2 lg:order-1 bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-3xl p-4 shadow-[0_30px_90px_rgba(0,0,0,0.22)]">
               {/* Mock Chart */}
-              <div className="h-64 flex items-end justify-between gap-2 px-4 pb-4 border-b border-white/10">
+              <div className="h-64 flex items-end justify-between gap-2 px-4 pb-4 border-b border-[color:var(--border-color)]">
                 {[40, 60, 45, 70, 85, 60, 75, 50, 65, 80].map((h, i) =>
                 <div
                   key={i}
-                  className="w-full bg-[#00ff88]/20 rounded-t-sm hover:bg-[#00ff88] transition-colors"
+                  className="w-full bg-[rgba(var(--accent-rgb),0.18)] rounded-t-sm hover:bg-[rgba(var(--accent-rgb),0.55)] transition-colors"
                   style={{
                     height: `${h}%`
                   }} />
 
                 )}
               </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-2 px-4">
+              <div className="flex justify-between text-xs text-[color:var(--text-secondary)] mt-2 px-4">
                 <span>00:00</span>
                 <span>12:00</span>
                 <span>24:00</span>
@@ -393,19 +821,19 @@ export function InferencePage() {
               <h2 className="text-4xl font-bold mb-6">
                 Real-time observability
               </h2>
-              <p className="text-xl text-gray-400 mb-8">
+              <p className="text-xl text-[color:var(--text-secondary)] mb-8">
                 Monitor throughput, latency, and error rates in real-time. Drill
                 down into individual request logs.
               </p>
               <ul className="space-y-4">
-                <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Live metric streaming
+                <li className="flex items-center gap-3 text-[color:var(--text-primary)]">
+                  <Activity className="text-[color:var(--accent)]" /> Live metric streaming
                 </li>
-                <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Structured logging
+                <li className="flex items-center gap-3 text-[color:var(--text-primary)]">
+                  <Activity className="text-[color:var(--accent)]" /> Structured logging
                 </li>
-                <li className="flex items-center gap-3 text-gray-300">
-                  <Activity className="text-[#00ff88]" /> Custom alerts
+                <li className="flex items-center gap-3 text-[color:var(--text-primary)]">
+                  <Activity className="text-[color:var(--accent)]" /> Custom alerts
                 </li>
               </ul>
             </div>
@@ -417,24 +845,24 @@ export function InferencePage() {
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-12">Secure by design</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 bg-[#0a0a0a] rounded-2xl border border-white/10">
-                <Shield className="mx-auto mb-6 text-[#00ff88]" size={32} />
+              <div className="p-8 bg-[color:var(--bg-secondary)] rounded-3xl border border-[color:var(--border-color)]">
+                <Shield className="mx-auto mb-6 text-[color:var(--accent)]" size={32} />
                 <h3 className="text-xl font-bold mb-4">
                   End-to-End Encryption
                 </h3>
-                <p className="text-gray-400">
+                <p className="text-[color:var(--text-secondary)]">
                   Data is encrypted in transit and at rest.
                 </p>
               </div>
-              <div className="p-8 bg-[#0a0a0a] rounded-2xl border border-white/10">
-                <Lock className="mx-auto mb-6 text-[#00ff88]" size={32} />
+              <div className="p-8 bg-[color:var(--bg-secondary)] rounded-3xl border border-[color:var(--border-color)]">
+                <Lock className="mx-auto mb-6 text-[color:var(--accent)]" size={32} />
                 <h3 className="text-xl font-bold mb-4">Private Networking</h3>
-                <p className="text-gray-400">Connect securely to your VPC.</p>
+                <p className="text-[color:var(--text-secondary)]">Connect securely to your VPC.</p>
               </div>
-              <div className="p-8 bg-[#0a0a0a] rounded-2xl border border-white/10">
-                {/* <Users className="mx-auto mb-6 text-[#00ff88]" size={32} /> */}
+              <div className="p-8 bg-[color:var(--bg-secondary)] rounded-3xl border border-[color:var(--border-color)]">
+                {/* <Users className="mx-auto mb-6 text-[color:var(--accent)]" size={32} /> */}
                 <h3 className="text-xl font-bold mb-4">RBAC</h3>
-                <p className="text-gray-400">
+                <p className="text-[color:var(--text-secondary)]">
                   Fine-grained access controls for your team.
                 </p>
               </div>
@@ -443,40 +871,40 @@ export function InferencePage() {
         </section>
 
         {/* 12. Case Studies */}
-        <section className="py-32 px-6 bg-[#050505]">
+        <section className="py-32 px-6 bg-[color:var(--bg-secondary)]">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold mb-16 text-center">
               Success Stories
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div className="p-10 bg-[#0a0a0a] rounded-2xl border border-white/10">
-                <div className="text-[#00ff88] font-bold mb-4">RAMP</div>
+              <div className="p-10 bg-[color:var(--bg-primary)] rounded-3xl border border-[color:var(--border-color)]">
+                <div className="text-[color:var(--accent)] font-bold mb-4">RAMP</div>
                 <h3 className="text-2xl font-bold mb-4">
                   Scaling OCR to millions of documents
                 </h3>
-                <p className="text-gray-400 mb-8">
+                <p className="text-[color:var(--text-secondary)] mb-8">
                   "We reduced our invoice processing costs by 70% while
                   improving accuracy."
                 </p>
                 <a
                   href="#"
-                  className="text-[#00ff88] font-bold hover:underline">
+                  className="text-[color:var(--accent)] font-bold hover:underline">
 
                   Read case study &rarr;
                 </a>
               </div>
-              <div className="p-10 bg-[#0a0a0a] rounded-2xl border border-white/10">
-                <div className="text-[#00ff88] font-bold mb-4">SUBSTACK</div>
+              <div className="p-10 bg-[color:var(--bg-primary)] rounded-3xl border border-[color:var(--border-color)]">
+                <div className="text-[color:var(--accent)] font-bold mb-4">SUBSTACK</div>
                 <h3 className="text-2xl font-bold mb-4">
                   Personalized recommendations at scale
                 </h3>
-                <p className="text-gray-400 mb-8">
+                <p className="text-[color:var(--text-secondary)] mb-8">
                   "Modal enabled us to deploy a complex recommendation engine in
                   days, not months."
                 </p>
                 <a
                   href="#"
-                  className="text-[#00ff88] font-bold hover:underline">
+                  className="text-[color:var(--accent)] font-bold hover:underline">
 
                   Read case study &rarr;
                 </a>
@@ -491,19 +919,19 @@ export function InferencePage() {
             <h2 className="text-3xl font-bold mb-12 text-center">
               Migrating from SageMaker?
             </h2>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8">
-              <div className="grid grid-cols-2 gap-8 mb-8 border-b border-white/10 pb-8">
+            <div className="bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-3xl p-8">
+              <div className="grid grid-cols-2 gap-8 mb-8 border-b border-[color:var(--border-color)] pb-8">
                 <div>
                   <h4 className="font-bold mb-4 text-red-400">SageMaker</h4>
-                  <ul className="space-y-2 text-gray-400 text-sm">
+                  <ul className="space-y-2 text-[color:var(--text-secondary)] text-sm">
                     <li>• Complex configuration</li>
                     <li>• Slow deployment times</li>
                     <li>• Expensive idle instances</li>
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-bold mb-4 text-[#00ff88]">Modal</h4>
-                  <ul className="space-y-2 text-gray-400 text-sm">
+                  <h4 className="font-bold mb-4 text-[color:var(--accent)]">Modal</h4>
+                  <ul className="space-y-2 text-[color:var(--text-secondary)] text-sm">
                     <li>• Pure Python definition</li>
                     <li>• Instant deployment</li>
                     <li>• Scale to zero</li>
@@ -511,7 +939,7 @@ export function InferencePage() {
                 </div>
               </div>
               <div className="text-center">
-                <button className="text-white font-bold hover:text-[#00ff88] transition-colors">
+                <button className="text-[color:var(--text-primary)] font-bold hover:text-[color:var(--accent)] transition-colors">
                   View migration guide &rarr;
                 </button>
               </div>
@@ -520,27 +948,27 @@ export function InferencePage() {
         </section>
 
         {/* 14. API Reference Preview */}
-        <section className="py-32 px-6 bg-[#050505]">
+        <section className="py-32 px-6 bg-[color:var(--bg-secondary)]">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold mb-12 text-center">
               Developer-first API
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-6 bg-[#0a0a0a] rounded-xl border border-white/10 font-mono text-sm">
-                <div className="text-[#00ff88] mb-2">modal.App</div>
-                <p className="text-gray-500">
+              <div className="p-6 bg-[color:var(--bg-primary)] rounded-2xl border border-[color:var(--border-color)] font-mono text-sm">
+                <div className="text-[color:var(--accent)] mb-2">modal.App</div>
+                <p className="text-[color:var(--text-secondary)]">
                   Define your application and its resources.
                 </p>
               </div>
-              <div className="p-6 bg-[#0a0a0a] rounded-xl border border-white/10 font-mono text-sm">
-                <div className="text-[#00ff88] mb-2">modal.Image</div>
-                <p className="text-gray-500">
+              <div className="p-6 bg-[color:var(--bg-primary)] rounded-2xl border border-[color:var(--border-color)] font-mono text-sm">
+                <div className="text-[color:var(--accent)] mb-2">modal.Image</div>
+                <p className="text-[color:var(--text-secondary)]">
                   Define container environments in code.
                 </p>
               </div>
-              <div className="p-6 bg-[#0a0a0a] rounded-xl border border-white/10 font-mono text-sm">
-                <div className="text-[#00ff88] mb-2">modal.Volume</div>
-                <p className="text-gray-500">
+              <div className="p-6 bg-[color:var(--bg-primary)] rounded-2xl border border-[color:var(--border-color)] font-mono text-sm">
+                <div className="text-[color:var(--accent)] mb-2">modal.Volume</div>
+                <p className="text-[color:var(--text-secondary)]">
                   Persist data across function calls.
                 </p>
               </div>
@@ -573,7 +1001,7 @@ export function InferencePage() {
               map((faq, i) =>
               <div
                 key={i}
-                className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden hover:border-white/20 transition-colors">
+                className="border border-[color:var(--border-color)] rounded-2xl bg-[color:var(--bg-secondary)] overflow-hidden hover:border-[rgba(var(--accent-rgb),0.35)] transition-colors">
 
                   <button
                   className="w-full flex justify-between items-center p-6 text-left"
@@ -581,16 +1009,16 @@ export function InferencePage() {
 
                     <span className="font-medium text-lg">{faq.q}</span>
                     {openFaq === i ?
-                  <ChevronUp size={20} className="text-[#00ff88]" /> :
+                  <ChevronUp size={20} className="text-[color:var(--accent)]" /> :
 
-                  <ChevronDown size={20} className="text-gray-500" />
+                  <ChevronDown size={20} className="text-[color:var(--text-secondary)]" />
                   }
                   </button>
                   <div
                   className={`grid transition-all duration-300 ease-in-out ${openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
 
                     <div className="overflow-hidden">
-                      <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                      <div className="px-6 pb-6 text-[color:var(--text-secondary)] leading-relaxed border-t border-[color:var(--border-color)] pt-4">
                         {faq.a}
                       </div>
                     </div>
@@ -602,16 +1030,16 @@ export function InferencePage() {
         </section>
 
         {/* 16. CTA */}
-        <section className="py-40 px-6 text-center border-t border-white/5 bg-gradient-to-b from-black to-[#05150d]">
+        <section className="py-40 px-6 text-center border-t border-[color:var(--border-color)] bg-[color:var(--bg-secondary)]">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-5xl font-bold mb-8">
               Start deploying in minutes
             </h2>
-            <p className="text-2xl text-gray-400 mb-12 font-light">
+            <p className="text-2xl text-[color:var(--text-secondary)] mb-12 font-light">
               Get $30 in free credits every month. No credit card required to
               start.
             </p>
-            <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.4)]">
+            <button className="px-10 py-5 rounded-full bg-[color:var(--accent)] text-white font-bold text-xl hover:opacity-95 transition-all hover:scale-105 shadow-[0_0_30px_rgba(var(--accent-rgb),0.30)]">
               Deploy your first model
             </button>
           </div>

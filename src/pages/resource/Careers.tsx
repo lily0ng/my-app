@@ -1,12 +1,15 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowRight,
   Boxes,
   Briefcase,
+  ChevronRight,
   Code2,
   Cpu,
   Handshake,
+  LayoutGrid,
   Layers,
+  List,
   Rocket,
   Sparkles,
   Zap,
@@ -16,9 +19,12 @@ import { Link } from 'react-router-dom';
 import { ResourceLayout, sectionReveal, stagger } from './ResourceLayout';
 
 type RoleTrack = 'engineering' | 'product' | 'gtm' | 'all';
+type ViewMode = 'grid' | 'list';
 
 export function CareersPage() {
   const [track, setTrack] = useState<RoleTrack>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [openRoleTitle, setOpenRoleTitle] = useState<string>('');
 
   const roles = useMemo(
     () =>
@@ -28,6 +34,9 @@ export function CareersPage() {
           track: 'engineering',
           level: 'Senior',
           focus: 'Product surfaces + motion',
+          location: 'Remote / US timezones',
+          type: 'Full-time',
+          highlights: ['Design systems', 'Animation + polish', 'React + TypeScript'],
           icon: Sparkles,
         },
         {
@@ -35,6 +44,9 @@ export function CareersPage() {
           track: 'engineering',
           level: 'Senior',
           focus: 'Runtime + performance',
+          location: 'Remote / SF optional',
+          type: 'Full-time',
+          highlights: ['Latency tuning', 'GPU scheduling', 'Reliability'],
           icon: Cpu,
         },
         {
@@ -42,6 +54,9 @@ export function CareersPage() {
           track: 'gtm',
           level: 'Mid/Senior',
           focus: 'Examples + community',
+          location: 'Remote',
+          type: 'Full-time',
+          highlights: ['Workshops', 'Docs + examples', 'Community programs'],
           icon: Handshake,
         },
         {
@@ -49,6 +64,9 @@ export function CareersPage() {
           track: 'product',
           level: 'Senior',
           focus: 'UX + craft',
+          location: 'Remote / SF optional',
+          type: 'Full-time',
+          highlights: ['Visual systems', 'UX flows', 'Prototyping'],
           icon: Boxes,
         },
         {
@@ -56,6 +74,9 @@ export function CareersPage() {
           track: 'engineering',
           level: 'Mid/Senior',
           focus: 'Guides + tooling',
+          location: 'Remote',
+          type: 'Full-time',
+          highlights: ['DX', 'Tooling', 'API docs'],
           icon: Code2,
         },
         {
@@ -63,6 +84,9 @@ export function CareersPage() {
           track: 'product',
           level: 'Senior',
           focus: 'Partners + integrations',
+          location: 'Remote',
+          type: 'Full-time',
+          highlights: ['Partnerships', 'Roadmaps', 'Launches'],
           icon: Layers,
         },
       ] as const,
@@ -94,64 +118,167 @@ export function CareersPage() {
               Filter by track to quickly find where you fit.
             </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {([
-              { key: 'all', label: 'All' },
-              { key: 'engineering', label: 'Engineering' },
-              { key: 'product', label: 'Product' },
-              { key: 'gtm', label: 'GTM' },
-            ] as const).map((t) => (
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap gap-2">
+              {([
+                { key: 'all', label: 'All' },
+                { key: 'engineering', label: 'Engineering' },
+                { key: 'product', label: 'Product' },
+                { key: 'gtm', label: 'GTM' },
+              ] as const).map((t) => (
+                <button
+                  key={t.key}
+                  type="button"
+                  onClick={() => setTrack(t.key)}
+                  className={
+                    track === t.key
+                      ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white'
+                      : 'rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]'
+                  }
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="ml-0 md:ml-2 flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-1">
               <button
-                key={t.key}
                 type="button"
-                onClick={() => setTrack(t.key)}
+                onClick={() => setViewMode('grid')}
                 className={
-                  track === t.key
-                    ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white'
-                    : 'rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]'
+                  viewMode === 'grid'
+                    ? 'inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold text-white'
+                    : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold text-[color:var(--text-primary)]'
                 }
               >
-                {t.label}
+                <LayoutGrid size={14} />
+                Grid
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => setViewMode('list')}
+                className={
+                  viewMode === 'list'
+                    ? 'inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold text-white'
+                    : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold text-[color:var(--text-primary)]'
+                }
+              >
+                <List size={14} />
+                List
+              </button>
+            </div>
           </div>
         </div>
 
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
-          className="grid gap-4 p-7 md:grid-cols-2"
-        >
-          {filtered.map((r) => (
-            <motion.div
-              key={r.title}
-              variants={sectionReveal}
-              className="group rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-6 py-5 transition-colors hover:bg-[color:var(--bg-tertiary)]"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.10)]">
-                    <r.icon size={18} className="text-[color:var(--accent)]" />
+        <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }} className="p-7">
+          <div className={viewMode === 'grid' ? 'grid gap-4 md:grid-cols-2' : 'space-y-3'}>
+            {filtered.map((r) => {
+              const isOpen = openRoleTitle === r.title;
+              const CardIcon = r.icon;
+
+              return (
+                <motion.div
+                  key={r.title}
+                  variants={sectionReveal}
+                  className={
+                    viewMode === 'grid'
+                      ? 'group rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-6 py-5 transition-colors hover:bg-[color:var(--bg-tertiary)]'
+                      : 'group rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-5 py-4 transition-colors hover:bg-[color:var(--bg-tertiary)]'
+                  }
+                >
+                  <div className={viewMode === 'grid' ? 'flex items-start justify-between gap-4' : 'flex flex-col gap-4 md:flex-row md:items-start md:justify-between'}>
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.10)]">
+                        <CardIcon size={18} className="text-[color:var(--accent)]" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold">{r.title}</div>
+                        <div className="mt-1 text-sm text-[color:var(--text-secondary)]">{r.focus}</div>
+                        <div className="mt-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--text-secondary)]">
+                          {r.level} • {r.type} • {r.location}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1 text-xs font-semibold">
+                        {r.track}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setOpenRoleTitle((cur) => (cur === r.title ? '' : r.title))}
+                        className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-2 text-xs font-semibold"
+                      >
+                        View details
+                        <ChevronRight
+                          size={14}
+                          className={
+                            isOpen
+                              ? 'text-[color:var(--text-secondary)] rotate-90 transition-transform'
+                              : 'text-[color:var(--text-secondary)] transition-transform'
+                          }
+                        />
+                      </button>
+                      <Link
+                        to="/contact"
+                        className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-semibold text-white"
+                      >
+                        Apply
+                        <ArrowRight size={14} />
+                      </Link>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-lg font-bold">{r.title}</div>
-                    <div className="mt-1 text-sm text-[color:var(--text-secondary)]">{r.focus}</div>
-                  </div>
-                </div>
-                <div className="text-xs font-semibold uppercase tracking-wide text-[color:var(--text-secondary)]">{r.level}</div>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1 text-xs font-semibold">
-                  {r.track}
-                </span>
-                <span className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1 text-xs font-semibold">
-                  Remote-friendly
-                </span>
-              </div>
-            </motion.div>
-          ))}
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-4 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-5">
+                          <div className="text-sm font-semibold">Role details</div>
+                          <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                            You’ll own a real product surface end-to-end: shipping UX, building performance intuition, and collaborating tightly across disciplines.
+                          </div>
+
+                          <div className="mt-4 grid gap-3 md:grid-cols-3">
+                            {r.highlights.map((h) => (
+                              <div
+                                key={h}
+                                className="rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-3 text-sm"
+                              >
+                                {h}
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="mt-5 flex flex-wrap gap-3">
+                            <Link
+                              to="/contact"
+                              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold text-white"
+                            >
+                              Apply now
+                              <ArrowRight size={16} />
+                            </Link>
+                            <Link
+                              to="/resources/about"
+                              className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-5 py-3 text-sm font-semibold"
+                            >
+                              Learn more
+                              <ArrowRight size={16} />
+                            </Link>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
         </motion.div>
       </motion.section>
 
