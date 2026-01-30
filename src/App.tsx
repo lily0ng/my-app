@@ -24,6 +24,15 @@ import { ContactUsPage } from './pages/ContactUsPage';
 import { AboutUsPage } from './pages/AboutUs';
 import { EventsPage } from './pages/Event';
 import { GuidesPage } from './pages/Guides';
+import {
+  PlaygroundPage,
+  GpuGlossaryPage,
+  LlmEngineAdvisorPage,
+  StartupCreditsPage,
+  PartnersPage,
+  CommunityPage,
+  CareersPage,
+} from './pages/resource/ResourcePages';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
 
@@ -49,6 +58,13 @@ export function App() {
           {/* Main Routes */}
           <Route path="/solutions" element={<SolutionsPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/resources/playground" element={<PlaygroundPage />} />
+          <Route path="/resources/gpu-glossary" element={<GpuGlossaryPage />} />
+          <Route path="/resources/llm-engine-advisor" element={<LlmEngineAdvisorPage />} />
+          <Route path="/resources/startup-credits" element={<StartupCreditsPage />} />
+          <Route path="/resources/partners" element={<PartnersPage />} />
+          <Route path="/resources/community" element={<CommunityPage />} />
+          <Route path="/resources/careers" element={<CareersPage />} />
           <Route path="/resources/marketplace-apps" element={<MarketplaceAppsPage />} />
           <Route path="/resources/about" element={<AboutUsPage />} />
           <Route path="/resources/events" element={<EventsPage />} />

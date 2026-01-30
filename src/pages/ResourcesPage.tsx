@@ -272,18 +272,24 @@ export function ResourcesPage() {
                     View Guides <ArrowRight size={16} />
                   </div>
                 </Link>
-                <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group flex flex-col">
+                <Link
+                  to="/resources/gpu-glossary"
+                  className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group block flex flex-col"
+                >
                   <Terminal className="text-[#00ff88] mb-6" size={40} />
                   <h3 className="font-bold text-2xl mb-4">GPU Glossary</h3>
                   <p className="text-gray-400 mb-8 text-lg line-clamp-1">
                     A comprehensive guide to understanding GPU specs, memory
                     types, and terminology.
                   </p>
-                  <button className="text-[#00ff88] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                  <div className="text-[#00ff88] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
                     Explore Glossary <ArrowRight size={16} />
-                  </button>
-                </div>
-                <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group flex flex-col">
+                  </div>
+                </Link>
+                <Link
+                  to="/resources/llm-engine-advisor"
+                  className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-all group block flex flex-col"
+                >
                   <Zap className="text-[#00ff88] mb-6" size={40} />
                   <h3 className="font-bold text-2xl mb-4">
                     LLM Engine Advisor
@@ -292,10 +298,10 @@ export function ResourcesPage() {
                     Find the best inference engine (vLLM, TGI, TensorRT) for
                     your specific model and use case.
                   </p>
-                  <button className="text-[#00ff88] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+                  <div className="text-[#00ff88] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
                     Start Advisor <ArrowRight size={16} />
-                  </button>
-                </div>
+                  </div>
+                </Link>
               </div>
             </section>
 

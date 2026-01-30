@@ -104,7 +104,7 @@ export function Nav() {
     name: 'Playground',
     icon: Play,
     desc: 'Explore Modal in the browser',
-    path: '/resources'
+    path: '/resources/playground'
   },
   {
     name: 'Marketplace Apps',
@@ -116,13 +116,13 @@ export function Nav() {
     name: 'GPU Glossary',
     icon: BookOpen,
     desc: 'A fast guide to GPU concepts',
-    path: '/resources'
+    path: '/resources/gpu-glossary'
   },
   {
     name: 'LLM Engine Advisor',
     icon: Zap,
     desc: 'Pick the right model',
-    path: '/resources'
+    path: '/resources/llm-engine-advisor'
   }];
 
   const resourceLinks = [
@@ -136,7 +136,7 @@ export function Nav() {
     name: 'Startup Credits',
     icon: Layers,
     desc: 'Get credits to start building',
-    path: '/resources'
+    path: '/resources/startup-credits'
   },
   {
     name: 'Events',
@@ -148,13 +148,13 @@ export function Nav() {
     name: 'Partners',
     icon: BoxIcon,
     desc: 'Integrations and ecosystem partners',
-    path: '/resources'
+    path: '/resources/partners'
   },
   {
     name: 'Slack Community',
     icon: Shield,
     desc: 'Join the developer community',
-    path: '/resources'
+    path: '/resources/community'
   }];
 
   const companyLinks = [
@@ -168,7 +168,7 @@ export function Nav() {
     name: 'Careers',
     icon: Cpu,
     desc: 'We’re hiring across engineering',
-    path: '/resources'
+    path: '/resources/careers'
   }];
 
   const resourceItems = [...resourceTools, ...resourceLinks, ...companyLinks];
