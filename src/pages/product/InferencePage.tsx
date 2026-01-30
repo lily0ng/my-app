@@ -439,9 +439,115 @@ export function InferencePage() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="relative max-w-6xl mx-auto"
+            >
+              <div className="absolute inset-y-0 left-0 w-16 pointer-events-none bg-[linear-gradient(90deg,var(--bg-primary),transparent)]" />
+              <div className="absolute inset-y-0 right-0 w-16 pointer-events-none bg-[linear-gradient(270deg,var(--bg-primary),transparent)]" />
+
+              <div className="flex gap-3 overflow-x-auto pb-2 px-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {[
+                  { t: 'Batch summarization runner', I: Cpu },
+                  { t: 'GPU warm-start test', I: Zap },
+                  { t: 'Prompt evaluation harness', I: Code2 },
+                  { t: 'Latency baseline suite', I: Clock },
+                  { t: 'Streaming chat endpoint', I: Server },
+                ].map((x) => (
+                  <motion.div
+                    key={x.t}
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="h-9 w-9 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] flex items-center justify-center">
+                        <x.I size={16} className="text-[color:var(--accent)]" />
+                      </div>
+                      <div className="text-sm font-semibold whitespace-nowrap">{x.t}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.03 }}
+              className="mt-10 max-w-6xl mx-auto"
+            >
+              <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8">
+                <div className="flex items-start justify-between gap-6">
+                  <div>
+                    <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">CREATE INSTANCE</div>
+                    <div className="mt-2 text-2xl font-bold">From size → running workload</div>
+                    <div className="mt-2 text-[color:var(--text-secondary)]">
+                      A simple flow that mirrors how teams provision compute for inference.
+                    </div>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-3 py-2 text-xs font-semibold text-[color:var(--text-secondary)]">
+                    <CheckCircle size={14} className="text-[color:var(--accent)]" />
+                    2–3 minutes
+                  </div>
+                </div>
+
+                <div className="mt-8 relative">
+                  <div className="hidden md:block pointer-events-none absolute left-6 right-6 top-1/2 -translate-y-1/2">
+                    <div className="h-px w-full bg-[linear-gradient(90deg,transparent,rgba(var(--accent-rgb),0.35),transparent)]" />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    {[
+                      {
+                        t: 'Choose a size',
+                        d: 'Pick vCPU + RAM for your workload.',
+                        I: Server,
+                      },
+                      {
+                        t: 'Attach storage',
+                        d: 'Use NVMe for fast reads and caching.',
+                        I: HardDrive,
+                      },
+                      {
+                        t: 'Deploy image',
+                        d: 'Bring your runtime and dependencies.',
+                        I: Code2,
+                      },
+                      {
+                        t: 'Scale & observe',
+                        d: 'Autoscale and keep P95 stable.',
+                        I: Activity,
+                      },
+                    ].map((x) => (
+                      <motion.div
+                        key={x.t}
+                        whileHover={{ y: -4 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="relative rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-5"
+                      >
+                        <div className="hidden md:block pointer-events-none absolute -top-2 left-1/2 -translate-x-1/2">
+                          <div className="h-4 w-4 rounded-full border border-[rgba(var(--accent-rgb),0.55)] bg-[color:var(--bg-primary)] shadow-[0_12px_40px_rgba(var(--accent-rgb),0.18)]" />
+                        </div>
+                        <div className="flex items-center gap-2 font-semibold">
+                          <x.I size={18} className="text-[color:var(--accent)]" />
+                          {x.t}
+                        </div>
+                        <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{x.d}</div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.45, ease: 'easeOut' }}
-              className="relative overflow-hidden rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 max-w-4xl mx-auto shadow-[0_30px_90px_rgba(0,0,0,0.22)]"
+              className="mt-10 relative overflow-hidden rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 max-w-4xl mx-auto shadow-[0_30px_90px_rgba(0,0,0,0.22)]"
             >
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute -top-24 -left-24 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.12)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
