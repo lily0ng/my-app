@@ -332,12 +332,12 @@ export function ResourcesPage() {
                   className="p-10 border border-[color:var(--border-color)] rounded-3xl bg-[color:var(--bg-secondary)] hover:border-[rgba(var(--accent-rgb),0.55)] transition-all group block flex flex-col hover:-translate-y-1"
                 >
                   <Calendar className="text-[color:var(--accent)] mb-6" size={40} />
-                  <h3 className="font-bold text-2xl mb-4">Events</h3>
+                  <h3 className="font-bold text-2xl mb-4">Event &amp; News</h3>
                   <p className="text-[color:var(--text-secondary)] mb-8 text-lg line-clamp-1">
-                    Talks, meetups, announcements, and community sessions.
+                    Upcoming events and product news in one place.
                   </p>
                   <div className="text-[color:var(--accent)] font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
-                    View Events <ArrowRight size={16} />
+                    View updates <ArrowRight size={16} />
                   </div>
                 </Link>
                 <Link

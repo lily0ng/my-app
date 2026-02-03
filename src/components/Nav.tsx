@@ -146,9 +146,9 @@ export function Nav() {
     path: '/resources/startup-credits'
   },
   {
-    name: 'Events',
+    name: 'Event & News',
     icon: Activity,
-    desc: 'Talks, meetups, and community',
+    desc: 'Events, news, and community updates',
     path: '/resources/events'
   },
   {

@@ -69,7 +69,7 @@ export function Footer() {
       path: '/resources'
     },
     {
-      name: 'Events',
+      name: 'Event & News',
       path: '/resources/events'
     },
     {

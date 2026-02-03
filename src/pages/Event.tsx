@@ -29,6 +29,27 @@ export function EventsPage() {
   const orbitRef = useRef<HTMLDivElement | null>(null);
   const lastAutoSelectedGalleryId = useRef('g0');
 
+  const newsPosts = [
+    {
+      title: 'Launch Week Live agenda is out',
+      date: 'Feb 2026',
+      tag: 'Product',
+      desc: 'A full schedule of demos, workshops, and platform deep dives with the team.',
+    },
+    {
+      title: 'New meetup kit for local organizers',
+      date: 'Jan 2026',
+      tag: 'Community',
+      desc: 'Templates, speaker notes, and a quick-start checklist to host your first chapter night.',
+    },
+    {
+      title: 'Workshop: Deploying low-latency inference',
+      date: 'Jan 2026',
+      tag: 'Inference',
+      desc: 'A practical walkthrough from container build to production traffic with monitoring.',
+    },
+  ];
+
   const featuredEvents = [
     {
       title: 'Realtime Infra Summit',
@@ -271,28 +292,28 @@ export function EventsPage() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] text-sm text-[color:var(--text-secondary)]"
             >
               <Sparkles size={16} className="text-[color:var(--accent)]" />
-              Events • Talks • Meetups • Community
+              Events & News • Updates • Community
             </motion.div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end mt-8">
               <div>
-                <h1 className="text-6xl md:text-7xl font-bold leading-[1.0] mb-6">Events</h1>
+                <h1 className="text-6xl md:text-7xl font-bold leading-[1.0] mb-6">Event &amp; News</h1>
                 <p className="text-xl text-[color:var(--text-secondary)] max-w-xl leading-relaxed">
-                  Join live sessions, community meetups, and product announcements. Built for teams shipping in real time.
+                  Upcoming events, meetups, and the latest product news — curated for teams shipping in real time.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row gap-3">
                   <a
-                    href="#featured"
+                    href="#events"
                     className="px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
                   >
-                    View upcoming <ArrowRight size={18} />
+                    Browse events <ArrowRight size={18} />
                   </a>
                   <a
-                    href="#newsletter"
+                    href="#news"
                     className="px-7 py-3 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] text-[color:var(--text-primary)] font-bold hover:bg-[color:var(--bg-tertiary)] transition-colors inline-flex items-center justify-center gap-2"
                   >
-                    Get updates <Mail size={18} />
+                    Read news <Newspaper size={18} />
                   </a>
                 </div>
               </div>
@@ -331,8 +352,23 @@ export function EventsPage() {
           </div>
         </section>
 
-        <section className="px-6 pb-20">
+        <section id="news" className="px-6 pb-20">
           <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+              <div>
+                <h2 className="text-4xl font-bold mb-3">News</h2>
+                <p className="text-[color:var(--text-secondary)] max-w-2xl">
+                  Product updates, community announcements, and what we’re shipping next.
+                </p>
+              </div>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)] hover:underline underline-offset-4"
+              >
+                Share an announcement <ArrowRight size={16} />
+              </Link>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {announcements.map((a, i) => (
                 <motion.div
@@ -349,11 +385,33 @@ export function EventsPage() {
                 </motion.div>
               ))}
             </div>
+
+            <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {newsPosts.map((p, idx) => (
+                <motion.div
+                  key={p.title}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.45, ease: 'easeOut', delay: idx * 0.05 }}
+                  className="p-7 rounded-2xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{p.tag}</div>
+                    <div className="text-xs text-[color:var(--text-tertiary)]">{p.date}</div>
+                  </div>
+                  <div className="mt-3 font-bold text-lg">{p.title}</div>
+                  <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                    {p.desc}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
         <section
-          id="featured"
+          id="events"
           className="px-6 py-24 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]"
         >
           <div className="max-w-7xl mx-auto">
