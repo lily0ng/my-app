@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
   BarChart,
@@ -7,14 +8,9 @@ import {
   CheckCircle,
   ChevronDown,
   ChevronUp,
-  Cpu,
   Factory,
   HeartPulse,
-  Layers,
-  Network,
-  Server,
   Shield,
-  ShieldCheck,
   ShoppingCart,
   Sparkles,
 } from 'lucide-react';
@@ -22,131 +18,80 @@ import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
 
 export function IndustrySolutionsPage() {
+  const prefersReducedMotion = useReducedMotion();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [selectedIndustryId, setSelectedIndustryId] = useState<string>('fintech');
+  const [selectedIndustry, setSelectedIndustry] = useState<string>('Fintech');
 
   const industries = useMemo(
     () => [
       {
-        id: 'fintech',
         t: 'Fintech',
         d: 'Fraud detection, document OCR, risk scoring.',
         I: BarChart,
-        signals: [
-          { k: 'P95', v: '< 300ms' },
-          { k: 'Throughput', v: '10k req/min' },
-          { k: 'Data', v: 'PII + PCI' },
-        ],
-        outcomes: ['Real-time scoring', 'Batch backfills', 'Auditable decisions'],
-        templates: [
-          { name: 'Fraud scoring API', desc: 'Streaming model endpoint with autoscaling and rate limits.' },
-          { name: 'Receipt OCR pipeline', desc: 'Batch OCR + extraction with retries and queueing.' },
-        ],
+        u: ['Streaming fraud scoring', 'KYC / ID verification', 'Document intelligence'],
       },
       {
-        id: 'healthcare',
         t: 'Healthcare',
         d: 'Imaging pipelines, de-identification, clinical NLP.',
         I: HeartPulse,
-        signals: [
-          { k: 'Storage', v: 'DICOM + blobs' },
-          { k: 'Controls', v: 'audit logs' },
-          { k: 'Isolation', v: 'private net' },
-        ],
-        outcomes: ['Secure processing', 'Reproducible runs', 'Dataset governance'],
-        templates: [
-          { name: 'Imaging batch jobs', desc: 'GPU batch inference over studies with checkpointing.' },
-          { name: 'Clinical notes NLP', desc: 'PHI-safe pipelines with redaction and logging.' },
-        ],
+        u: ['Medical imaging batch jobs', 'De-identification pipelines', 'Clinical note extraction'],
       },
       {
-        id: 'retail',
         t: 'Retail',
         d: 'Personalization, visual search, catalog enrichment.',
         I: ShoppingCart,
-        signals: [
-          { k: 'SKU scale', v: '1M+' },
-          { k: 'Latency', v: '< 200ms' },
-          { k: 'Batch', v: 'nightly' },
-        ],
-        outcomes: ['Better conversion', 'Faster search', 'Lower unit cost'],
-        templates: [
-          { name: 'Embedding refresh', desc: 'Incremental embeddings with caching and shard queues.' },
-          { name: 'Visual search API', desc: 'Low-latency retrieval + vector store integration.' },
-        ],
+        u: ['Personalization services', 'Visual search + tagging', 'Catalog enrichment'],
       },
       {
-        id: 'manufacturing',
         t: 'Manufacturing',
         d: 'Defect detection, forecasting, digital twins.',
         I: Factory,
-        signals: [
-          { k: 'Edge', v: 'hybrid' },
-          { k: 'Batch', v: 'continuous' },
-          { k: 'SLA', v: '99.9%' },
-        ],
-        outcomes: ['Reduced scrap', 'Fewer outages', 'Faster QA cycles'],
-        templates: [
-          { name: 'Defect detection', desc: 'GPU inference + thresholding + alerting hooks.' },
-          { name: 'Forecasting jobs', desc: 'Scheduled training runs with versioned artifacts.' },
-        ],
+        u: ['Defect detection', 'Demand forecasting', 'Simulation workloads'],
       },
       {
-        id: 'saas',
         t: 'SaaS',
         d: 'Agent workflows, analytics, LLM endpoints.',
         I: Briefcase,
-        signals: [
-          { k: 'Tenants', v: 'multi-tenant' },
-          { k: 'Quotas', v: 'per-org' },
-          { k: 'Deploy', v: 'blue/green' },
-        ],
-        outcomes: ['Tenant isolation', 'Predictable scaling', 'Rapid iteration'],
-        templates: [
-          { name: 'LLM endpoint', desc: 'OpenAI-compatible API with streaming and auth.' },
-          { name: 'Agent sandbox', desc: 'Secure code runners with tool allowlists.' },
-        ],
+        u: ['Agent tools + sandboxes', 'Customer-facing inference', 'Internal analytics'],
       },
       {
-        id: 'public-sector',
         t: 'Public sector',
         d: 'Secure processing, airgapped deployments, audits.',
         I: Shield,
-        signals: [
-          { k: 'Network', v: 'restricted' },
-          { k: 'Audit', v: 'required' },
-          { k: 'Data', v: 'sensitive' },
-        ],
-        outcomes: ['Private environments', 'Stronger controls', 'Clear audit trails'],
-        templates: [
-          { name: 'Secure batch compute', desc: 'Locked-down jobs with artifact provenance.' },
-          { name: 'Document processing', desc: 'OCR + extraction with policy gates and logs.' },
-        ],
+        u: ['Secure data processing', 'Audit-ready pipelines', 'Private networking'],
       },
       {
-        id: 'media',
         t: 'Media',
         d: 'Transcoding, captioning, content generation.',
         I: Sparkles,
-        signals: [
-          { k: 'Video', v: 'large' },
-          { k: 'GPU', v: 'bursty' },
-          { k: 'Batch', v: 'queues' },
-        ],
-        outcomes: ['Faster publish', 'Lower render cost', 'More variants'],
-        templates: [
-          { name: 'Captioning', desc: 'Whisper batch processing with shard queues.' },
-          { name: 'Transcoding farm', desc: 'Parallel FFmpeg workers with autoscaling.' },
-        ],
+        u: ['Transcoding + rendering', 'Captioning pipelines', 'Content generation'],
+      },
+      {
+        t: 'Research',
+        d: 'Large batch compute and reproducible pipelines.',
+        I: BarChart,
+        u: ['Distributed batch compute', 'Reproducible pipelines', 'GPU experiments'],
+      },
+      {
+        t: 'Security',
+        d: 'Log analysis, detection engineering, red teaming.',
+        I: Shield,
+        u: ['Log analytics', 'Sandboxed execution', 'Detection pipelines'],
+      },
+      {
+        t: 'Marketing',
+        d: 'Creative generation and campaign automation.',
+        I: Sparkles,
+        u: ['Creative generation', 'Campaign automation', 'Asset transformation'],
       },
     ],
     []
   );
 
-  const selectedIndustry = useMemo(
-    () => industries.find((x) => x.id === selectedIndustryId) ?? industries[0],
-    [industries, selectedIndustryId]
-  );
+  const activeIndustry = useMemo(() => {
+    const found = industries.find((x) => x.t === selectedIndustry);
+    return found ?? industries[0];
+  }, [industries, selectedIndustry]);
 
   const valueProps = useMemo(
     () => [
@@ -181,6 +126,54 @@ export function IndustrySolutionsPage() {
     []
   );
 
+  const blueprints = useMemo(
+    () => [
+      {
+        t: 'Secure inference endpoint',
+        d: 'Ship a stable P95 with isolation, rate limits, and audit trails.',
+        tag: 'API',
+        I: Shield,
+        k: ['Private networking', 'Per-tenant quotas', 'Structured logs'],
+      },
+      {
+        t: 'Batch document processing',
+        d: 'OCR + extraction pipelines with retries, checkpoints, and cost controls.',
+        tag: 'Batch',
+        I: BarChart,
+        k: ['Idempotent tasks', 'Queue-based fanout', 'Budget alerts'],
+      },
+      {
+        t: 'Media transformation',
+        d: 'Transcode, caption, and generate assets in parallel—without new infra.',
+        tag: 'Media',
+        I: Sparkles,
+        k: ['GPU acceleration', 'Parallel fanout', 'Artifact storage'],
+      },
+      {
+        t: 'Vision quality inspection',
+        d: 'Detect defects and anomalies with repeatable training + inference loops.',
+        tag: 'Vision',
+        I: Factory,
+        k: ['Batch labeling jobs', 'Model registry', 'Threshold tuning'],
+      },
+      {
+        t: 'Agent workflows',
+        d: 'Run tools safely with sandboxing, secrets isolation, and observability.',
+        tag: 'Agents',
+        I: Briefcase,
+        k: ['Ephemeral sandboxes', 'Network allowlists', 'Traceable actions'],
+      },
+      {
+        t: 'Clinical NLP pipeline',
+        d: 'Extract entities, summarize notes, and enforce de-identification.',
+        tag: 'NLP',
+        I: HeartPulse,
+        k: ['PHI controls', 'Human-in-the-loop', 'Versioned prompts'],
+      },
+    ],
+    []
+  );
+
   return (
     <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black font-sans">
       <Nav />
@@ -196,8 +189,8 @@ export function IndustrySolutionsPage() {
 
               <div className="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                  animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, ease: 'easeOut' }}
                 >
                   <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-xs font-semibold tracking-wide text-[color:var(--text-secondary)]">
@@ -214,47 +207,74 @@ export function IndustrySolutionsPage() {
                   </p>
 
                   <div className="mt-8 flex flex-wrap gap-3">
-                    <button
-                      type="button"
+                    <Link
+                      to="/contact"
                       className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
                     >
                       Talk to an expert
                       <ArrowRight size={18} />
-                    </button>
-                    <button
-                      type="button"
+                    </Link>
+                    <Link
+                      to="/customers"
                       className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
                     >
                       View case studies
-                    </button>
+                    </Link>
                   </div>
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+                  animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, ease: 'easeOut', delay: 0.06 }}
                   className="relative"
                 >
                   <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 md:p-8 shadow-[0_30px_90px_rgba(0,0,0,0.22)]">
-                    <div className="text-xs font-semibold tracking-wide text-[color:var(--text-tertiary)]">QUICK WINS</div>
-                    <div className="mt-2 text-lg font-bold">Common outcomes</div>
-                    <div className="mt-5 space-y-3">
-                      {[
-                        'Cut cold start and provisioning overhead.',
-                        'Scale batch jobs without new infra.',
-                        'Deploy secure sandboxes for agents.',
-                        'Ship inference endpoints with stable P95.',
-                      ].map((t) => (
-                        <div
-                          key={t}
-                          className="flex items-start gap-3 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <div className="text-xs font-semibold tracking-wide text-[color:var(--text-tertiary)]">INDUSTRY SPOTLIGHT</div>
+                        <div className="mt-2 text-lg font-bold">Pick a vertical</div>
+                      </div>
+                      <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1.5 text-xs font-semibold text-[color:var(--text-secondary)]">
+                        <Sparkles size={14} className="text-[color:var(--accent)]" />
+                        blueprints
+                      </div>
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {industries.slice(0, 6).map((x) => (
+                        <button
+                          key={x.t}
+                          type="button"
+                          onClick={() => setSelectedIndustry(x.t)}
+                          className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                            selectedIndustry === x.t
+                              ? 'border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.14)] text-[color:var(--text-primary)]'
+                              : 'border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] text-[color:var(--text-secondary)] hover:bg-[color:var(--bg-tertiary)]'
+                          }`}
                         >
-                          <CheckCircle size={18} className="text-[color:var(--accent)] mt-0.5" />
-                          <div className="text-sm text-[color:var(--text-secondary)]">{t}</div>
-                        </div>
+                          {x.t}
+                        </button>
                       ))}
                     </div>
+
+                    {activeIndustry ? (
+                      <div className="mt-5 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
+                        <div className="flex items-center gap-2 font-bold">
+                          <activeIndustry.I size={18} className="text-[color:var(--accent)]" />
+                          {activeIndustry.t}
+                        </div>
+                        <div className="mt-1 text-sm text-[color:var(--text-secondary)]">{activeIndustry.d}</div>
+                        <div className="mt-4 space-y-2">
+                          {activeIndustry.u.slice(0, 3).map((t) => (
+                            <div key={t} className="flex items-start gap-3">
+                              <CheckCircle size={16} className="text-[color:var(--accent)] mt-0.5" />
+                              <div className="text-sm text-[color:var(--text-secondary)]">{t}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 </motion.div>
               </div>
@@ -268,10 +288,7 @@ export function IndustrySolutionsPage() {
             <div className="flex items-end justify-between gap-6 mb-10">
               <div>
                 <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">INDUSTRIES</div>
-                <h2 className="mt-2 text-3xl font-bold">Choose your blueprint</h2>
-                <p className="mt-3 text-[color:var(--text-secondary)] max-w-2xl">
-                  Start with an opinionated architecture per vertical, then customize controls, scaling, and cost.
-                </p>
+                <h2 className="mt-2 text-3xl font-bold">10+ solution areas</h2>
               </div>
               <div className="hidden md:flex items-center gap-2 text-sm text-[color:var(--text-secondary)]">
                 <Sparkles size={16} className="text-[color:var(--accent)]" />
@@ -279,235 +296,52 @@ export function IndustrySolutionsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-6 items-start">
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                {industries.map((x) => {
-                  const active = x.id === selectedIndustryId;
-                  return (
-                    <motion.button
-                      key={x.id}
-                      type="button"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.2 }}
-                      transition={{ duration: 0.35, ease: 'easeOut' }}
-                      whileHover={{ y: -3 }}
-                      onClick={() => setSelectedIndustryId(x.id)}
-                      className={`text-left rounded-3xl border bg-[color:var(--bg-secondary)] p-6 transition-colors ${
-                        active
-                          ? 'border-[rgba(var(--accent-rgb),0.70)]'
-                          : 'border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)]'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-2 text-lg font-bold">
-                          <x.I size={18} className="text-[color:var(--accent)]" />
-                          {x.t}
-                        </div>
-                        <div
-                          className={`h-2 w-2 rounded-full ${
-                            active ? 'bg-[color:var(--accent)]' : 'bg-[color:var(--text-tertiary)]'
-                          }`}
-                        />
-                      </div>
-                      <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{x.d}</div>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {x.outcomes.slice(0, 2).map((o) => (
-                          <span
-                            key={o}
-                            className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-3 py-1 text-xs font-semibold text-[color:var(--text-secondary)]"
-                          >
-                            {o}
-                          </span>
-                        ))}
-                      </div>
-                    </motion.button>
-                  );
-                })}
-              </div>
-
-              <motion.div
-                key={selectedIndustry?.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 lg:sticky lg:top-28"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-xs font-semibold tracking-wide text-[color:var(--text-tertiary)]">BLUEPRINT</div>
-                    <div className="mt-2 text-xl font-bold">{selectedIndustry.t}</div>
-                    <div className="mt-2 text-sm text-[color:var(--text-secondary)]">{selectedIndustry.d}</div>
-                  </div>
-                  <div className="h-10 w-10 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] flex items-center justify-center">
-                    <selectedIndustry.I size={18} className="text-[color:var(--accent)]" />
-                  </div>
-                </div>
-
-                <div className="mt-5 grid grid-cols-3 gap-2">
-                  {selectedIndustry.signals.map((s) => (
-                    <div
-                      key={s.k}
-                      className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-3 py-3"
-                    >
-                      <div className="text-[11px] font-semibold text-[color:var(--text-tertiary)]">{s.k}</div>
-                      <div className="mt-1 text-sm font-semibold">{s.v}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-4">
-                  <div className="text-sm font-semibold">Suggested templates</div>
-                  <div className="mt-3 space-y-2">
-                    {selectedIndustry.templates.map((t) => (
-                      <div key={t.name} className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3">
-                        <div className="font-semibold">{t.name}</div>
-                        <div className="mt-1 text-sm text-[color:var(--text-secondary)]">{t.desc}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-5 flex gap-3 flex-wrap">
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.18)] transition-transform hover:-translate-y-0.5"
-                  >
-                    Open template
-                    <ArrowRight size={16} />
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-5 py-2.5 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
-                  >
-                    Architecture review
-                  </button>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">BLUEPRINT LIBRARY</div>
-              <h2 className="mt-2 text-3xl font-bold">Reference architectures you can ship</h2>
-              <p className="mt-3 text-[color:var(--text-secondary)] max-w-2xl mx-auto">
-                Use these building blocks across verticals—then tune for latency, throughput, and controls.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                {
-                  t: 'Secure batch processing',
-                  d: 'Queues, retries, provenance, and auditable artifacts.',
-                  I: ShieldCheck,
-                  tags: ['queues', 'artifacts', 'audit'],
-                },
-                {
-                  t: 'Low-latency inference',
-                  d: 'Streaming endpoints with autoscaling and rate limits.',
-                  I: Cpu,
-                  tags: ['P95', 'autoscale', 'auth'],
-                },
-                {
-                  t: 'RAG + retrieval',
-                  d: 'Embedding refresh, vector DB, evaluation harnesses.',
-                  I: Layers,
-                  tags: ['embeddings', 'vector DB', 'evals'],
-                },
-                {
-                  t: 'Event-driven pipelines',
-                  d: 'React to new data and run compute only when needed.',
-                  I: Network,
-                  tags: ['events', 'scale-to-zero', 'SLA'],
-                },
-                {
-                  t: 'Storage + caching',
-                  d: 'Keep hot shards close and stream the rest on demand.',
-                  I: Server,
-                  tags: ['cache', 'blobs', 'shards'],
-                },
-                {
-                  t: 'Multi-tenant governance',
-                  d: 'Quotas, isolation, policy gates, and cost breakdowns.',
-                  I: Shield,
-                  tags: ['tenants', 'quotas', 'policies'],
-                },
-              ].map((x) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {industries.map((x) => (
                 <motion.div
                   key={x.t}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+                  whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.35, ease: 'easeOut' }}
-                  whileHover={{ y: -4 }}
-                  className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-7"
+                  whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+                  className="group rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 transition-colors hover:border-[rgba(var(--accent-rgb),0.45)]"
                 >
-                  <div className="h-11 w-11 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] flex items-center justify-center">
-                    <x.I size={18} className="text-[color:var(--accent)]" />
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-2 text-lg font-bold">
+                      <x.I size={18} className="text-[color:var(--accent)]" />
+                      {x.t}
+                    </div>
+                    <div className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-2.5 py-1 text-[11px] font-semibold text-[color:var(--text-secondary)] group-hover:border-[rgba(var(--accent-rgb),0.45)]">
+                      Templates
+                    </div>
                   </div>
-                  <div className="mt-5 text-xl font-bold">{x.t}</div>
                   <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{x.d}</div>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {x.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1 text-xs font-semibold text-[color:var(--text-secondary)]"
-                      >
-                        {t}
-                      </span>
+
+                  <div className="mt-4 space-y-2">
+                    {x.u.slice(0, 2).map((t) => (
+                      <div key={t} className="flex items-start gap-3">
+                        <CheckCircle size={16} className="text-[color:var(--accent)] mt-0.5" />
+                        <div className="text-sm text-[color:var(--text-secondary)]">{t}</div>
+                      </div>
                     ))}
                   </div>
-                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[color:var(--accent)]">
-                    Open blueprint <ArrowRight size={16} />
+
+                  <div className="mt-5 flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedIndustry(x.t)}
+                      className="text-sm font-semibold text-[color:var(--text-primary)]"
+                    >
+                      Spotlight
+                    </button>
+                    <div className="text-sm font-semibold text-[color:var(--accent)] inline-flex items-center gap-2">
+                      Explore
+                      <ArrowRight size={16} />
+                    </div>
                   </div>
                 </motion.div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-end justify-between gap-6 mb-10">
-              <div>
-                <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">DELIVERY</div>
-                <h2 className="mt-2 text-3xl font-bold">A pragmatic adoption path</h2>
-              </div>
-              <div className="hidden md:flex items-center gap-2 text-sm text-[color:var(--text-secondary)]">
-                <CheckCircle size={16} className="text-[color:var(--accent)]" />
-                repeatable
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-7">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {[
-                  { t: 'Assess', d: 'Pick the blueprint and success metrics.', n: '01' },
-                  { t: 'Prototype', d: 'Stand up a minimal slice with real data.', n: '02' },
-                  { t: 'Harden', d: 'Add controls, SLOs, and scaling policies.', n: '03' },
-                  { t: 'Operate', d: 'Run cost reporting and incident playbooks.', n: '04' },
-                ].map((x, idx) => (
-                  <div key={x.n} className="relative">
-                    {idx !== 0 && (
-                      <div className="hidden md:block absolute -left-2 top-1/2 h-[2px] w-4 bg-[color:var(--border-color)]" />
-                    )}
-                    <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 h-full">
-                      <div className="flex items-center justify-between">
-                        <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{x.n}</div>
-                        <div className="h-9 w-9 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] flex items-center justify-center">
-                          <CheckCircle size={16} className="text-[color:var(--accent)]" />
-                        </div>
-                      </div>
-                      <div className="mt-4 text-lg font-bold">{x.t}</div>
-                      <div className="mt-2 text-sm text-[color:var(--text-secondary)]">{x.d}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </section>
@@ -560,6 +394,118 @@ export function IndustrySolutionsPage() {
           </div>
         </section>
 
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-end justify-between gap-6 mb-10">
+              <div>
+                <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">BLUEPRINTS</div>
+                <h2 className="mt-2 text-3xl font-bold">Start from a reference architecture</h2>
+                <p className="mt-3 text-[color:var(--text-secondary)] max-w-2xl">
+                  Choose a blueprint and adapt it to your data, security posture, and latency targets.
+                </p>
+              </div>
+              <Link
+                to="/resources"
+                className="hidden md:inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+              >
+                Browse resources
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {blueprints.map((x) => (
+                <motion.div
+                  key={x.t}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+                  whileInView={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+                  className="group rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-7 hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-2 text-lg font-bold">
+                      <x.I size={18} className="text-[color:var(--accent)]" />
+                      {x.t}
+                    </div>
+                    <div className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-2.5 py-1 text-[11px] font-semibold text-[color:var(--text-secondary)]">
+                      {x.tag}
+                    </div>
+                  </div>
+                  <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{x.d}</div>
+
+                  <div className="mt-5 space-y-2">
+                    {x.k.slice(0, 3).map((t) => (
+                      <div key={t} className="flex items-start gap-3">
+                        <CheckCircle size={16} className="text-[color:var(--accent)] mt-0.5" />
+                        <div className="text-sm text-[color:var(--text-secondary)]">{t}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)]">
+                    Use this blueprint
+                    <ArrowRight size={16} />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+              <div>
+                <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">DELIVERY</div>
+                <h2 className="mt-2 text-3xl font-bold">From workshop to production</h2>
+                <p className="mt-4 text-[color:var(--text-secondary)] leading-relaxed">
+                  A lightweight path most teams follow to ship safely and iterate quickly.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-8">
+                <div className="space-y-4">
+                  {[
+                    {
+                      t: 'Align on constraints',
+                      d: 'Latency target, security model, and success metrics.',
+                    },
+                    {
+                      t: 'Prototype a blueprint',
+                      d: 'Start with a reference architecture and your real data.',
+                    },
+                    {
+                      t: 'Harden with guardrails',
+                      d: 'Quotas, retries, auditing, and cost visibility.',
+                    },
+                    {
+                      t: 'Scale + standardize',
+                      d: 'Roll out patterns across teams and tenants.',
+                    },
+                  ].map((x, idx) => (
+                    <div
+                      key={x.t}
+                      className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-5 py-4"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="h-9 w-9 rounded-full bg-[rgba(var(--accent-rgb),0.16)] border border-[rgba(var(--accent-rgb),0.35)] flex items-center justify-center font-bold text-[color:var(--text-primary)]">
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <div className="font-bold">{x.t}</div>
+                          <div className="mt-1 text-sm text-[color:var(--text-secondary)]">{x.d}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 4. Case study grid */}
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto">
@@ -577,7 +523,7 @@ export function IndustrySolutionsPage() {
               ].map((x) => (
                 <motion.div
                   key={x.t}
-                  whileHover={{ y: -4 }}
+                  whileHover={prefersReducedMotion ? undefined : { y: -4 }}
                   transition={{ duration: 0.2, ease: 'easeOut' }}
                   className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-7"
                 >
@@ -683,19 +629,19 @@ export function IndustrySolutionsPage() {
               <div className="mt-4 text-2xl font-bold">Find your best path</div>
               <div className="mt-2 text-[color:var(--text-secondary)]">We’ll map patterns to your workload and requirements.</div>
               <div className="mt-6 flex justify-center gap-3 flex-wrap">
-                <button
-                  type="button"
+                <Link
+                  to="/contact"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
                 >
                   Contact sales
                   <ArrowRight size={18} />
-                </button>
-                <button
-                  type="button"
+                </Link>
+                <Link
+                  to="/resources"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
                 >
                   View templates
-                </button>
+                </Link>
               </div>
             </div>
           </div>
