@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
 import { useTheme } from "../contexts/ThemeContext";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import uiDark from "../assets/images/UI Dark Thmes.png";
 import uiLight from "../assets/images/UI Light Thmes.png";
 import {
@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [hoveredConnectivityNode, setHoveredConnectivityNode] = useState<string | null>(null);
   const { theme } = useTheme();
   const faqs = [
     {
@@ -40,6 +41,95 @@ export function LandingPage() {
       q: "Is Modal secure?",
       a: "Yes. Every function runs in a gVisor-sandboxed container with strict isolation guarantees. We are SOC 2 Type II compliant.",
     },
+  ];
+
+  const connectivityNodes = [
+    {
+      id: "iaas",
+      x: 120,
+      y: 270,
+      label: "1CNG",
+      sublabel: "IaaS",
+      tone: "primary" as const,
+      desc: "Your workloads run on 1CNG infrastructure with predictable performance and private networking controls.",
+    },
+    {
+      id: "local-as",
+      x: 330,
+      y: 270,
+      label: "Local",
+      sublabel: "AS",
+      tone: "accent" as const,
+      desc: "Local routing domain that aggregates uplinks and enforces policy for low-latency paths.",
+    },
+    {
+      id: "globalnet",
+      x: 650,
+      y: 88,
+      label: "GlobalNet",
+      sublabel: "",
+      tone: "primary" as const,
+      desc: "Tier-1 backbone connectivity for high availability and long-haul performance.",
+    },
+    {
+      id: "mpt",
+      x: 650,
+      y: 182,
+      label: "MPT",
+      sublabel: "",
+      tone: "primary" as const,
+      desc: "Multi-uplink provider for redundancy and fast convergence during failures.",
+    },
+    {
+      id: "atom",
+      x: 650,
+      y: 276,
+      label: "ATOM",
+      sublabel: "",
+      tone: "primary" as const,
+      desc: "Peering and transit blend optimized for real-time workloads and burst traffic.",
+    },
+    {
+      id: "hti",
+      x: 650,
+      y: 370,
+      label: "HTI",
+      sublabel: "",
+      tone: "primary" as const,
+      desc: "High-throughput interconnect path for bulk egress and large model artifacts.",
+    },
+    {
+      id: "mmix",
+      x: 650,
+      y: 464,
+      label: "MMIX",
+      sublabel: "",
+      tone: "primary" as const,
+      desc: "Regional uplink mix that improves locality and reduces tail latency.",
+    },
+    {
+      id: "internet",
+      x: 920,
+      y: 270,
+      label: "Internet",
+      sublabel: "",
+      tone: "primary" as const,
+      desc: "Global public endpoints reach your applications through multi-provider paths.",
+    },
+  ];
+
+  const connectivityEdges = [
+    { from: "iaas", to: "local-as", dir: "both" as const },
+    { from: "local-as", to: "globalnet", dir: "both" as const },
+    { from: "local-as", to: "mpt", dir: "both" as const },
+    { from: "local-as", to: "atom", dir: "both" as const },
+    { from: "local-as", to: "hti", dir: "both" as const },
+    { from: "local-as", to: "mmix", dir: "both" as const },
+    { from: "globalnet", to: "internet", dir: "both" as const },
+    { from: "mpt", to: "internet", dir: "both" as const },
+    { from: "atom", to: "internet", dir: "both" as const },
+    { from: "hti", to: "internet", dir: "both" as const },
+    { from: "mmix", to: "internet", dir: "both" as const },
   ];
 
   return (
@@ -322,63 +412,297 @@ export function LandingPage() {
         </section>
 
         {/* 4. Interactive Demo Section */}
-        <section className="py-32 px-6 bg-[#050505]">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <div className="inline-block px-4 py-1.5 rounded-full bg-[#00ff88]/10 text-[#00ff88] font-medium text-sm mb-6">
-                  Interactive Playground
-                </div>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                  Try it yourself
-                </h2>
-                <p className="text-xl text-gray-400 mb-8 leading-relaxed">
-                  See how easy it is to deploy a function to the cloud. Edit the
-                  code and watch it run instantly.
-                </p>
-                <div className="flex gap-4">
-                  <button className="flex items-center gap-2 text-[#00ff88] font-bold hover:underline underline-offset-4">
-                    <Play size={20} /> Run Code
-                  </button>
-                  <button className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-                    Reset
-                  </button>
-                </div>
+        <section
+          className="relative overflow-hidden pt-24 pb-24 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]"
+          style={{ ['--net-rgb' as any]: '56,189,248', ['--net-local-rgb' as any]: '250,204,21' }}
+        >
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_35%,rgba(var(--net-rgb),0.10),transparent_58%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_35%,rgba(var(--net-rgb),0.08),transparent_56%)]" />
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(var(--net-rgb),0.16)_1px,transparent_1px)] [background-size:56px_56px]" />
+          </div>
+          <div className="relative max-w-7xl mx-auto">
+            <div className="max-w-4xl">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[rgba(var(--net-rgb),0.10)] text-[rgba(var(--net-rgb),0.95)] font-semibold text-sm mb-6 border border-[rgba(var(--net-rgb),0.22)]">
+                Network Connectivity
               </div>
-              <div className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
-                <div className="flex items-center justify-between px-4 py-3 bg-[#111] border-b border-white/10">
-                  <span className="text-sm text-gray-400">hello_world.py</span>
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 rounded-full bg-gray-600" />
-                    <div className="w-2 h-2 rounded-full bg-gray-600" />
-                  </div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">1CNG Network Connectivity</h2>
+              <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-8 leading-relaxed">
+                Multi-uplink routing with redundant providers to keep traffic flowing with low latency and fast failover.
+              </p>
+
+              <div className="flex flex-wrap gap-3">
+                <div className="px-4 py-2 rounded-full border border-[var(--border-color)] bg-[color:var(--bg-primary)] text-sm text-[var(--text-secondary)]">
+                  Local AS policies
                 </div>
-                <div className="p-6 font-mono text-sm h-80 overflow-y-auto">
-                  <div className="text-gray-500 mb-4">
-                    # Click 'Run Code' to execute
-                  </div>
-                  <div className="text-purple-400">import</div>{" "}
-                  <div className="text-white inline">modal</div>
-                  <br />
-                  <br />
-                  <div className="text-white">stub = modal.Stub()</div>
-                  <br />
-                  <div className="text-blue-400">@stub.function()</div>
-                  <div className="text-purple-400">def</div>{" "}
-                  <div className="text-yellow-300 inline">f</div>
-                  <div className="text-white inline">(i):</div>
-                  <div className="pl-4 text-purple-400">if</div>{" "}
-                  <div className="text-white inline">i % 2 == 0:</div>
-                  <div className="pl-8 text-purple-400">print</div>
-                  <div className="text-white inline">
-                    (f"Hello {`{i}`} from Modal!")
-                  </div>
-                  <div className="pl-8 text-purple-400">return</div>{" "}
-                  <div className="text-white inline">i * i</div>
+                <div className="px-4 py-2 rounded-full border border-[var(--border-color)] bg-[color:var(--bg-primary)] text-sm text-[var(--text-secondary)]">
+                  Multi-provider transit
+                </div>
+                <div className="px-4 py-2 rounded-full border border-[var(--border-color)] bg-[color:var(--bg-primary)] text-sm text-[var(--text-secondary)]">
+                  Real-time failover {'–'} Live topology
                 </div>
               </div>
             </div>
-          </div>
+
+            <div className="mt-12 relative rounded-3xl border border-[var(--border-color)] bg-[color:var(--bg-primary)] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.18)]">
+                <style>{`@keyframes cng-flow{to{stroke-dashoffset:-60}}@keyframes cng-flow-rev{to{stroke-dashoffset:60}}`}</style>
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-rgb),0.18),transparent_58%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.10),transparent_55%)]" />
+                  <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(var(--net-rgb),0.22)_1px,transparent_1px)] [background-size:46px_46px]" />
+                </div>
+
+                <div className="relative p-6 md:p-12">
+                  <div className="relative w-full h-[420px] sm:h-[460px] md:h-[520px] lg:h-[600px]">
+                    <svg
+                      viewBox="0 0 1000 520"
+                      className="absolute inset-0 h-full w-full"
+                      aria-hidden="true"
+                    >
+                      <defs>
+                        <marker
+                          id="cng-arrow"
+                          viewBox="0 0 10 10"
+                          refX="9"
+                          refY="5"
+                          markerWidth="7"
+                          markerHeight="7"
+                          orient="auto-start-reverse"
+                        >
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill={`rgba(var(--net-rgb),0.92)`} />
+                        </marker>
+                      </defs>
+
+                      {connectivityEdges.map((e, idx) => {
+                        const from = connectivityNodes.find((n) => n.id === e.from);
+                        const to = connectivityNodes.find((n) => n.id === e.to);
+                        if (!from || !to) return null;
+                        const dx = to.x - from.x;
+                        const dy = to.y - from.y;
+                        const len = Math.max(1, Math.hypot(dx, dy));
+                        const ux = dx / len;
+                        const uy = dy / len;
+                        const offset = 12;
+                        const sx = from.x + ux * 54;
+                        const sy = from.y + uy * 54;
+                        const tx = to.x - ux * 54;
+                        const ty = to.y - uy * 54;
+                        const ox = -uy * offset;
+                        const oy = ux * offset;
+                        const pathA = `M ${sx + ox} ${sy + oy} L ${tx + ox} ${ty + oy}`;
+                        const pathB = `M ${tx - ox} ${ty - oy} L ${sx - ox} ${sy - oy}`;
+
+                        return (
+                          <g key={`${e.from}-${e.to}-${idx}`}>
+                            <path
+                              d={pathA}
+                              fill="none"
+                              stroke={`rgba(var(--net-rgb),0.18)`}
+                              strokeWidth={3}
+                              strokeLinecap="round"
+                            />
+                            <path
+                              d={pathA}
+                              fill="none"
+                              stroke={`rgba(var(--net-rgb),0.78)`}
+                              strokeWidth={3}
+                              strokeLinecap="round"
+                              strokeDasharray="10 10"
+                              markerEnd="url(#cng-arrow)"
+                              style={{ animation: "cng-flow 1.05s linear infinite" }}
+                            />
+                            {e.dir === "both" ? (
+                              <>
+                                <path
+                                  d={pathB}
+                                  fill="none"
+                                  stroke={`rgba(var(--net-rgb),0.16)`}
+                                  strokeWidth={3}
+                                  strokeLinecap="round"
+                                />
+                                <path
+                                  d={pathB}
+                                  fill="none"
+                                  stroke={`rgba(var(--net-rgb),0.62)`}
+                                  strokeWidth={3}
+                                  strokeLinecap="round"
+                                  strokeDasharray="10 10"
+                                  markerEnd="url(#cng-arrow)"
+                                  style={{ animation: "cng-flow-rev 1.05s linear infinite" }}
+                                />
+                              </>
+                            ) : null}
+                          </g>
+                        );
+                      })}
+                    </svg>
+
+                    {connectivityNodes.map((n) => {
+                      const isHovered = hoveredConnectivityNode === n.id;
+                      const isAccent = n.tone === "accent";
+                      const nodeKind =
+                        n.id === 'iaas'
+                          ? ('iaas' as const)
+                          : n.id === 'local-as'
+                            ? ('local' as const)
+                            : n.id === 'internet'
+                              ? ('internet' as const)
+                              : ('provider' as const);
+                      const wrapperClass =
+                        "absolute -translate-x-1/2 -translate-y-1/2";
+                      const circleClass =
+                        "relative h-28 w-28 md:h-32 md:w-32 rounded-full border flex items-center justify-center transition-all" +
+                        (isHovered
+                          ? " shadow-[0_18px_60px_rgba(var(--net-rgb),0.20)]"
+                          : "");
+                      const borderClass = isHovered
+                        ? "border-[rgba(var(--net-rgb),0.78)]"
+                        : "border-[var(--border-color)]";
+                      const fillClass = isAccent
+                        ? "bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-local-rgb),0.60),rgba(var(--net-local-rgb),0.16)_52%,rgba(0,0,0,0)_100%)]"
+                        : "bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-rgb),0.48),rgba(var(--net-rgb),0.12)_52%,rgba(0,0,0,0)_100%)]";
+
+                      return (
+                        <div
+                          key={n.id}
+                          className={wrapperClass}
+                          style={{ left: `${(n.x / 1000) * 100}%`, top: `${(n.y / 520) * 100}%` }}
+                        >
+                          <button
+                            type="button"
+                            onMouseEnter={() => setHoveredConnectivityNode(n.id)}
+                            onMouseLeave={() => setHoveredConnectivityNode((prev) => (prev === n.id ? null : prev))}
+                            onFocus={() => setHoveredConnectivityNode(n.id)}
+                            onBlur={() => setHoveredConnectivityNode((prev) => (prev === n.id ? null : prev))}
+                            className="group"
+                            aria-label={`${n.label} ${n.sublabel}`.trim()}
+                          >
+                            <div className="flex flex-col items-center">
+                              {nodeKind === 'provider' ? (
+                                <div className="mb-2 text-[11px] font-bold tracking-wide px-4 py-1 rounded-full bg-black/60 text-white border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+                                  {n.label}
+                                </div>
+                              ) : null}
+
+                              <div
+                                className={`${circleClass} ${borderClass} ${fillClass} ${
+                                  nodeKind === 'internet' ? 'rounded-[32px]' : ''
+                                }`}
+                              >
+                                <div className="absolute inset-2 rounded-full bg-[color:var(--bg-primary)]/55 backdrop-blur-sm" />
+
+                                {nodeKind === 'internet' ? (
+                                  <svg
+                                    width="62"
+                                    height="62"
+                                    viewBox="0 0 64 64"
+                                    className="relative"
+                                    aria-hidden="true"
+                                  >
+                                    <path
+                                      d="M22 45h26c6 0 10-4 10-10s-4-10-10-10h-2C44 18 38 14 31 14c-8 0-15 6-16 14h-1C8 28 4 32 4 38s4 7 8 7h10z"
+                                      fill="rgba(var(--net-rgb),0.25)"
+                                      stroke="rgba(var(--net-rgb),0.85)"
+                                      strokeWidth="2"
+                                      strokeLinejoin="round"
+                                    />
+                                    <text
+                                      x="32"
+                                      y="40"
+                                      textAnchor="middle"
+                                      fontSize="11"
+                                      fontWeight="700"
+                                      fill="rgba(var(--text-primary),0.92)"
+                                    >
+                                      Internet
+                                    </text>
+                                  </svg>
+                                ) : nodeKind === 'iaas' ? (
+                                  <svg
+                                    width="60"
+                                    height="60"
+                                    viewBox="0 0 64 64"
+                                    className="relative"
+                                    aria-hidden="true"
+                                  >
+                                    <path
+                                      d="M32 8 12 18v28l20 10 20-10V18L32 8z"
+                                      fill="rgba(var(--net-rgb),0.18)"
+                                      stroke="rgba(var(--net-rgb),0.85)"
+                                      strokeWidth="2"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M32 8v28l20-10M32 36 12 26"
+                                      fill="none"
+                                      stroke="rgba(var(--net-rgb),0.55)"
+                                      strokeWidth="2"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    width="38"
+                                    height="38"
+                                    viewBox="0 0 24 24"
+                                    className="relative"
+                                    aria-hidden="true"
+                                  >
+                                    <path
+                                      d="M12 3v18M3 12h18M7 7l-4 4 4 4M17 7l4 4-4 4M7 17l4 4 4-4"
+                                      stroke={
+                                        nodeKind === 'local'
+                                          ? 'rgba(var(--net-local-rgb),0.95)'
+                                          : 'rgba(var(--net-rgb),0.92)'
+                                      }
+                                      strokeWidth="1.9"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      fill="none"
+                                    />
+                                  </svg>
+                                )}
+                              </div>
+
+                              {nodeKind !== 'provider' && nodeKind !== 'internet' ? (
+                                <div className="mt-3 text-center">
+                                  <div className="text-sm font-bold text-[var(--text-primary)] leading-tight">
+                                    {n.label}
+                                  </div>
+                                  {n.sublabel ? (
+                                    <div className="text-xs font-semibold text-[var(--text-secondary)]">{n.sublabel}</div>
+                                  ) : null}
+                                </div>
+                              ) : null}
+                            </div>
+                          </button>
+
+                          <AnimatePresence>
+                            {isHovered ? (
+                              <motion.div
+                                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                                transition={{ duration: 0.18, ease: "easeOut" }}
+                                className="absolute left-1/2 top-[-14px] -translate-x-1/2 -translate-y-full w-[240px] rounded-2xl border border-[var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.22)]"
+                              >
+                                <div className="text-xs font-bold text-[rgba(var(--net-rgb),0.95)]">{n.label}{n.sublabel ? ` ${n.sublabel}` : ""}</div>
+                                <div className="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">{n.desc}</div>
+                                <div className="absolute left-1/2 bottom-[-6px] h-3 w-3 -translate-x-1/2 rotate-45 border-r border-b border-[var(--border-color)] bg-[color:var(--bg-secondary)]" />
+                              </motion.div>
+                            ) : null}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-6 text-xs text-[var(--text-secondary)]">
+                    Hover a node to see details. Arrows animate continuously to represent real-time routing flows.
+                  </div>
+                </div>
+              </div>
+            </div>
         </section>
 
         {/* 5. Technical Architecture */}
