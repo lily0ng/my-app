@@ -65,7 +65,7 @@ export function LandingPage() {
     {
       id: "globalnet",
       x: 650,
-      y: 88,
+      y: 64,
       label: "GlobalNet",
       sublabel: "",
       tone: "primary" as const,
@@ -74,7 +74,7 @@ export function LandingPage() {
     {
       id: "mpt",
       x: 650,
-      y: 182,
+      y: 170,
       label: "MPT",
       sublabel: "",
       tone: "primary" as const,
@@ -92,7 +92,7 @@ export function LandingPage() {
     {
       id: "hti",
       x: 650,
-      y: 370,
+      y: 382,
       label: "HTI",
       sublabel: "",
       tone: "primary" as const,
@@ -101,7 +101,7 @@ export function LandingPage() {
     {
       id: "mmix",
       x: 650,
-      y: 464,
+      y: 488,
       label: "MMIX",
       sublabel: "",
       tone: "primary" as const,
