@@ -134,10 +134,10 @@ export function Nav() {
 
   const resourceLinks = [
   {
-    name: 'Blog',
+    name: 'SLA',
     icon: BookOpen,
-    desc: 'Product updates and technical deep dives',
-    path: '/resources'
+    desc: 'Service reliability commitments',
+    path: '/resources/sla'
   },
   {
     name: 'Startup Credits',

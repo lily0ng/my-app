@@ -82,30 +82,29 @@ export function ResourcesPage() {
 
             {/* Featured */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-32">
-              <div className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl hover:border-[rgba(var(--accent-rgb),0.45)] transition-all">
+              <Link
+                to="/resources/sla"
+                className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl hover:border-[rgba(var(--accent-rgb),0.45)] transition-all block"
+              >
                 <div className="h-80 bg-[color:var(--bg-primary)] relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-[rgba(var(--accent-rgb),0.20)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  {/* Placeholder for blog image */}
                   <div className="absolute inset-0 flex items-center justify-center text-[color:var(--text-tertiary)]">
                     <FileText size={64} />
                   </div>
                 </div>
                 <div className="p-10">
-                  <div className="text-[color:var(--accent)] text-sm font-bold mb-4 tracking-wider">
-                    LATEST BLOG POST
-                  </div>
+                  <div className="text-[color:var(--accent)] text-sm font-bold mb-4 tracking-wider">LATEST SLA</div>
                   <h2 className="text-3xl font-bold mb-4 group-hover:text-[color:var(--accent)] transition-colors">
-                    Optimizing Cold Starts for Large Language Models
+                    Cloud Services Agreement
                   </h2>
                   <p className="text-[color:var(--text-secondary)] mb-8 text-lg leading-relaxed">
-                    Learn how we reduced boot times for 70B+ parameter models
-                    from minutes to seconds using our custom container runtime.
+                    Preview the agreement, download PDF/DOCX versions, and get answers to common SLA questions.
                   </p>
                   <span className="text-[color:var(--text-primary)] font-bold underline decoration-[color:var(--accent)] underline-offset-4 flex items-center gap-2">
-                    Read article <ArrowRight size={16} />
+                    Open SLA <ArrowRight size={16} />
                   </span>
                 </div>
-              </div>
+              </Link>
               <div className="space-y-6">
                 {[
                 'Announcing Modal Sandboxes: Secure Code Execution',
@@ -119,7 +118,7 @@ export function ResourcesPage() {
 
                     <div>
                       <div className="text-xs text-[color:var(--text-tertiary)] mb-2">
-                      BLOG • 5 MIN READ
+                      SLA • UPDATED
                     </div>
                     <h3 className="font-bold text-xl group-hover:text-[color:var(--accent)] transition-colors">
                       {title}

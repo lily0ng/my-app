@@ -38,6 +38,7 @@ import {
   PartnersPage,
   CommunityPage,
   CareersPage,
+  SlaPage,
 } from './pages/resource/ResourcePages';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
@@ -77,6 +78,7 @@ export function App() {
           <Route path="/resources/partners" element={<PartnersPage />} />
           <Route path="/resources/community" element={<CommunityPage />} />
           <Route path="/resources/careers" element={<CareersPage />} />
+          <Route path="/resources/sla" element={<SlaPage />} />
           <Route path="/resources/marketplace-apps" element={<MarketplaceAppsPage />} />
           <Route path="/resources/about" element={<AboutUsPage />} />
           <Route path="/resources/events" element={<EventsPage />} />

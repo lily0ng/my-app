@@ -5,3 +5,4 @@ export { StartupCreditsPage } from './StartupCredits';
 export { PartnersPage } from './Partners';
 export { CommunityPage } from './Community';
 export { CareersPage } from './Careers';
+export { SlaPage } from './SLA';
