@@ -7,9 +7,14 @@ import {
   CheckCircle,
   ChevronDown,
   ChevronUp,
+  Cpu,
   Factory,
   HeartPulse,
+  Layers,
+  Network,
+  Server,
   Shield,
+  ShieldCheck,
   ShoppingCart,
   Sparkles,
 } from 'lucide-react';
@@ -18,21 +23,129 @@ import { Footer } from '../../components/Footer';
 
 export function IndustrySolutionsPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [selectedIndustryId, setSelectedIndustryId] = useState<string>('fintech');
 
   const industries = useMemo(
     () => [
-      { t: 'Fintech', d: 'Fraud detection, document OCR, risk scoring.', I: BarChart },
-      { t: 'Healthcare', d: 'Imaging pipelines, de-identification, clinical NLP.', I: HeartPulse },
-      { t: 'Retail', d: 'Personalization, visual search, catalog enrichment.', I: ShoppingCart },
-      { t: 'Manufacturing', d: 'Defect detection, forecasting, digital twins.', I: Factory },
-      { t: 'SaaS', d: 'Agent workflows, analytics, LLM endpoints.', I: Briefcase },
-      { t: 'Public sector', d: 'Secure processing, airgapped deployments, audits.', I: Shield },
-      { t: 'Media', d: 'Transcoding, captioning, content generation.', I: Sparkles },
-      { t: 'Research', d: 'Large batch compute and reproducible pipelines.', I: BarChart },
-      { t: 'Security', d: 'Log analysis, detection engineering, red teaming.', I: Shield },
-      { t: 'Marketing', d: 'Creative generation and campaign automation.', I: Sparkles },
+      {
+        id: 'fintech',
+        t: 'Fintech',
+        d: 'Fraud detection, document OCR, risk scoring.',
+        I: BarChart,
+        signals: [
+          { k: 'P95', v: '< 300ms' },
+          { k: 'Throughput', v: '10k req/min' },
+          { k: 'Data', v: 'PII + PCI' },
+        ],
+        outcomes: ['Real-time scoring', 'Batch backfills', 'Auditable decisions'],
+        templates: [
+          { name: 'Fraud scoring API', desc: 'Streaming model endpoint with autoscaling and rate limits.' },
+          { name: 'Receipt OCR pipeline', desc: 'Batch OCR + extraction with retries and queueing.' },
+        ],
+      },
+      {
+        id: 'healthcare',
+        t: 'Healthcare',
+        d: 'Imaging pipelines, de-identification, clinical NLP.',
+        I: HeartPulse,
+        signals: [
+          { k: 'Storage', v: 'DICOM + blobs' },
+          { k: 'Controls', v: 'audit logs' },
+          { k: 'Isolation', v: 'private net' },
+        ],
+        outcomes: ['Secure processing', 'Reproducible runs', 'Dataset governance'],
+        templates: [
+          { name: 'Imaging batch jobs', desc: 'GPU batch inference over studies with checkpointing.' },
+          { name: 'Clinical notes NLP', desc: 'PHI-safe pipelines with redaction and logging.' },
+        ],
+      },
+      {
+        id: 'retail',
+        t: 'Retail',
+        d: 'Personalization, visual search, catalog enrichment.',
+        I: ShoppingCart,
+        signals: [
+          { k: 'SKU scale', v: '1M+' },
+          { k: 'Latency', v: '< 200ms' },
+          { k: 'Batch', v: 'nightly' },
+        ],
+        outcomes: ['Better conversion', 'Faster search', 'Lower unit cost'],
+        templates: [
+          { name: 'Embedding refresh', desc: 'Incremental embeddings with caching and shard queues.' },
+          { name: 'Visual search API', desc: 'Low-latency retrieval + vector store integration.' },
+        ],
+      },
+      {
+        id: 'manufacturing',
+        t: 'Manufacturing',
+        d: 'Defect detection, forecasting, digital twins.',
+        I: Factory,
+        signals: [
+          { k: 'Edge', v: 'hybrid' },
+          { k: 'Batch', v: 'continuous' },
+          { k: 'SLA', v: '99.9%' },
+        ],
+        outcomes: ['Reduced scrap', 'Fewer outages', 'Faster QA cycles'],
+        templates: [
+          { name: 'Defect detection', desc: 'GPU inference + thresholding + alerting hooks.' },
+          { name: 'Forecasting jobs', desc: 'Scheduled training runs with versioned artifacts.' },
+        ],
+      },
+      {
+        id: 'saas',
+        t: 'SaaS',
+        d: 'Agent workflows, analytics, LLM endpoints.',
+        I: Briefcase,
+        signals: [
+          { k: 'Tenants', v: 'multi-tenant' },
+          { k: 'Quotas', v: 'per-org' },
+          { k: 'Deploy', v: 'blue/green' },
+        ],
+        outcomes: ['Tenant isolation', 'Predictable scaling', 'Rapid iteration'],
+        templates: [
+          { name: 'LLM endpoint', desc: 'OpenAI-compatible API with streaming and auth.' },
+          { name: 'Agent sandbox', desc: 'Secure code runners with tool allowlists.' },
+        ],
+      },
+      {
+        id: 'public-sector',
+        t: 'Public sector',
+        d: 'Secure processing, airgapped deployments, audits.',
+        I: Shield,
+        signals: [
+          { k: 'Network', v: 'restricted' },
+          { k: 'Audit', v: 'required' },
+          { k: 'Data', v: 'sensitive' },
+        ],
+        outcomes: ['Private environments', 'Stronger controls', 'Clear audit trails'],
+        templates: [
+          { name: 'Secure batch compute', desc: 'Locked-down jobs with artifact provenance.' },
+          { name: 'Document processing', desc: 'OCR + extraction with policy gates and logs.' },
+        ],
+      },
+      {
+        id: 'media',
+        t: 'Media',
+        d: 'Transcoding, captioning, content generation.',
+        I: Sparkles,
+        signals: [
+          { k: 'Video', v: 'large' },
+          { k: 'GPU', v: 'bursty' },
+          { k: 'Batch', v: 'queues' },
+        ],
+        outcomes: ['Faster publish', 'Lower render cost', 'More variants'],
+        templates: [
+          { name: 'Captioning', desc: 'Whisper batch processing with shard queues.' },
+          { name: 'Transcoding farm', desc: 'Parallel FFmpeg workers with autoscaling.' },
+        ],
+      },
     ],
     []
+  );
+
+  const selectedIndustry = useMemo(
+    () => industries.find((x) => x.id === selectedIndustryId) ?? industries[0],
+    [industries, selectedIndustryId]
   );
 
   const valueProps = useMemo(
@@ -155,7 +268,10 @@ export function IndustrySolutionsPage() {
             <div className="flex items-end justify-between gap-6 mb-10">
               <div>
                 <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">INDUSTRIES</div>
-                <h2 className="mt-2 text-3xl font-bold">10+ solution areas</h2>
+                <h2 className="mt-2 text-3xl font-bold">Choose your blueprint</h2>
+                <p className="mt-3 text-[color:var(--text-secondary)] max-w-2xl">
+                  Start with an opinionated architecture per vertical, then customize controls, scaling, and cost.
+                </p>
               </div>
               <div className="hidden md:flex items-center gap-2 text-sm text-[color:var(--text-secondary)]">
                 <Sparkles size={16} className="text-[color:var(--accent)]" />
@@ -163,8 +279,164 @@ export function IndustrySolutionsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {industries.map((x) => (
+            <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-6 items-start">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                {industries.map((x) => {
+                  const active = x.id === selectedIndustryId;
+                  return (
+                    <motion.button
+                      key={x.id}
+                      type="button"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                      whileHover={{ y: -3 }}
+                      onClick={() => setSelectedIndustryId(x.id)}
+                      className={`text-left rounded-3xl border bg-[color:var(--bg-secondary)] p-6 transition-colors ${
+                        active
+                          ? 'border-[rgba(var(--accent-rgb),0.70)]'
+                          : 'border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-2 text-lg font-bold">
+                          <x.I size={18} className="text-[color:var(--accent)]" />
+                          {x.t}
+                        </div>
+                        <div
+                          className={`h-2 w-2 rounded-full ${
+                            active ? 'bg-[color:var(--accent)]' : 'bg-[color:var(--text-tertiary)]'
+                          }`}
+                        />
+                      </div>
+                      <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{x.d}</div>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {x.outcomes.slice(0, 2).map((o) => (
+                          <span
+                            key={o}
+                            className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-3 py-1 text-xs font-semibold text-[color:var(--text-secondary)]"
+                          >
+                            {o}
+                          </span>
+                        ))}
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              <motion.div
+                key={selectedIndustry?.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 lg:sticky lg:top-28"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-xs font-semibold tracking-wide text-[color:var(--text-tertiary)]">BLUEPRINT</div>
+                    <div className="mt-2 text-xl font-bold">{selectedIndustry.t}</div>
+                    <div className="mt-2 text-sm text-[color:var(--text-secondary)]">{selectedIndustry.d}</div>
+                  </div>
+                  <div className="h-10 w-10 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] flex items-center justify-center">
+                    <selectedIndustry.I size={18} className="text-[color:var(--accent)]" />
+                  </div>
+                </div>
+
+                <div className="mt-5 grid grid-cols-3 gap-2">
+                  {selectedIndustry.signals.map((s) => (
+                    <div
+                      key={s.k}
+                      className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-3 py-3"
+                    >
+                      <div className="text-[11px] font-semibold text-[color:var(--text-tertiary)]">{s.k}</div>
+                      <div className="mt-1 text-sm font-semibold">{s.v}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-5 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-4">
+                  <div className="text-sm font-semibold">Suggested templates</div>
+                  <div className="mt-3 space-y-2">
+                    {selectedIndustry.templates.map((t) => (
+                      <div key={t.name} className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3">
+                        <div className="font-semibold">{t.name}</div>
+                        <div className="mt-1 text-sm text-[color:var(--text-secondary)]">{t.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-5 flex gap-3 flex-wrap">
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.18)] transition-transform hover:-translate-y-0.5"
+                  >
+                    Open template
+                    <ArrowRight size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-5 py-2.5 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+                  >
+                    Architecture review
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">BLUEPRINT LIBRARY</div>
+              <h2 className="mt-2 text-3xl font-bold">Reference architectures you can ship</h2>
+              <p className="mt-3 text-[color:var(--text-secondary)] max-w-2xl mx-auto">
+                Use these building blocks across verticals—then tune for latency, throughput, and controls.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                {
+                  t: 'Secure batch processing',
+                  d: 'Queues, retries, provenance, and auditable artifacts.',
+                  I: ShieldCheck,
+                  tags: ['queues', 'artifacts', 'audit'],
+                },
+                {
+                  t: 'Low-latency inference',
+                  d: 'Streaming endpoints with autoscaling and rate limits.',
+                  I: Cpu,
+                  tags: ['P95', 'autoscale', 'auth'],
+                },
+                {
+                  t: 'RAG + retrieval',
+                  d: 'Embedding refresh, vector DB, evaluation harnesses.',
+                  I: Layers,
+                  tags: ['embeddings', 'vector DB', 'evals'],
+                },
+                {
+                  t: 'Event-driven pipelines',
+                  d: 'React to new data and run compute only when needed.',
+                  I: Network,
+                  tags: ['events', 'scale-to-zero', 'SLA'],
+                },
+                {
+                  t: 'Storage + caching',
+                  d: 'Keep hot shards close and stream the rest on demand.',
+                  I: Server,
+                  tags: ['cache', 'blobs', 'shards'],
+                },
+                {
+                  t: 'Multi-tenant governance',
+                  d: 'Quotas, isolation, policy gates, and cost breakdowns.',
+                  I: Shield,
+                  tags: ['tenants', 'quotas', 'policies'],
+                },
+              ].map((x) => (
                 <motion.div
                   key={x.t}
                   initial={{ opacity: 0, y: 10 }}
@@ -172,15 +444,70 @@ export function IndustrySolutionsPage() {
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.35, ease: 'easeOut' }}
                   whileHover={{ y: -4 }}
-                  className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors"
+                  className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-7"
                 >
-                  <div className="flex items-center gap-2 text-lg font-bold">
+                  <div className="h-11 w-11 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] flex items-center justify-center">
                     <x.I size={18} className="text-[color:var(--accent)]" />
-                    {x.t}
                   </div>
+                  <div className="mt-5 text-xl font-bold">{x.t}</div>
                   <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">{x.d}</div>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {x.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-3 py-1 text-xs font-semibold text-[color:var(--text-secondary)]"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[color:var(--accent)]">
+                    Open blueprint <ArrowRight size={16} />
+                  </div>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-end justify-between gap-6 mb-10">
+              <div>
+                <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">DELIVERY</div>
+                <h2 className="mt-2 text-3xl font-bold">A pragmatic adoption path</h2>
+              </div>
+              <div className="hidden md:flex items-center gap-2 text-sm text-[color:var(--text-secondary)]">
+                <CheckCircle size={16} className="text-[color:var(--accent)]" />
+                repeatable
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-7">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {[
+                  { t: 'Assess', d: 'Pick the blueprint and success metrics.', n: '01' },
+                  { t: 'Prototype', d: 'Stand up a minimal slice with real data.', n: '02' },
+                  { t: 'Harden', d: 'Add controls, SLOs, and scaling policies.', n: '03' },
+                  { t: 'Operate', d: 'Run cost reporting and incident playbooks.', n: '04' },
+                ].map((x, idx) => (
+                  <div key={x.n} className="relative">
+                    {idx !== 0 && (
+                      <div className="hidden md:block absolute -left-2 top-1/2 h-[2px] w-4 bg-[color:var(--border-color)]" />
+                    )}
+                    <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 h-full">
+                      <div className="flex items-center justify-between">
+                        <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{x.n}</div>
+                        <div className="h-9 w-9 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] flex items-center justify-center">
+                          <CheckCircle size={16} className="text-[color:var(--accent)]" />
+                        </div>
+                      </div>
+                      <div className="mt-4 text-lg font-bold">{x.t}</div>
+                      <div className="mt-2 text-sm text-[color:var(--text-secondary)]">{x.d}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
