@@ -14,6 +14,7 @@ import {
   Shield,
   Activity,
   Image as ImageIcon,
+  Briefcase,
   BookOpen,
   Play,
   Zap,
@@ -72,31 +73,37 @@ export function Nav() {
     name: 'Audio Transcription',
     icon: Mic,
     desc: 'Speech to text at scale',
-    path: '/solutions'
+    path: '/solutions/audio-transcription'
   },
   {
     name: 'LLM Inference',
     icon: Zap,
     desc: 'Low-latency inference at scale',
-    path: '/solutions'
+    path: '/solutions/llm-inference'
   },
   {
     name: 'Coding Agents',
     icon: Shield,
     desc: 'Secure code execution',
-    path: '/solutions'
+    path: '/solutions/coding-agents'
   },
   {
     name: 'Computational Bio',
     icon: Activity,
     desc: 'Accelerate scientific workloads',
-    path: '/solutions'
+    path: '/solutions/computational-bio'
   },
   {
-    name: 'Image + Video Inference',
+    name: 'Image Generation',
     icon: ImageIcon,
     desc: 'High-performance generation',
-    path: '/solutions'
+    path: '/solutions/image-generation'
+  },
+  {
+    name: 'Industry Solutions',
+    icon: Briefcase,
+    desc: 'Reference architectures by vertical',
+    path: '/solutions/industry-solutions'
   }];
 
   const resourceTools = [

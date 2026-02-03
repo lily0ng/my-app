@@ -24,6 +24,12 @@ import { ContactUsPage } from './pages/ContactUsPage';
 import { AboutUsPage } from './pages/AboutUs';
 import { EventsPage } from './pages/Event';
 import { GuidesPage } from './pages/Guides';
+import { AudioTranscriptionPage } from './pages/solutions/AudioTranscription';
+import { LlmInferencePage } from './pages/solutions/LlmInference';
+import { CodingAgentsPage } from './pages/solutions/CodingAgents';
+import { ComputationalBioPage } from './pages/solutions/ComputationalBio';
+import { ImageGenerationPage } from './pages/solutions/ImageGeneration';
+import { IndustrySolutionsPage } from './pages/solutions/IndustrySolutions';
 import {
   PlaygroundPage,
   GpuGlossaryPage,
@@ -57,6 +63,12 @@ export function App() {
 
           {/* Main Routes */}
           <Route path="/solutions" element={<SolutionsPage />} />
+          <Route path="/solutions/audio-transcription" element={<AudioTranscriptionPage />} />
+          <Route path="/solutions/llm-inference" element={<LlmInferencePage />} />
+          <Route path="/solutions/coding-agents" element={<CodingAgentsPage />} />
+          <Route path="/solutions/computational-bio" element={<ComputationalBioPage />} />
+          <Route path="/solutions/image-generation" element={<ImageGenerationPage />} />
+          <Route path="/solutions/industry-solutions" element={<IndustrySolutionsPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/resources/playground" element={<PlaygroundPage />} />
           <Route path="/resources/gpu-glossary" element={<GpuGlossaryPage />} />
