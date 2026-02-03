@@ -851,42 +851,160 @@ export function InferencePage() {
 
         {/* 8. Cost Calculator */}
         <section className="py-32 px-6 bg-[color:var(--bg-secondary)]">
-          <div className="max-w-4xl mx-auto bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-3xl p-12">
-            <h2 className="text-3xl font-bold mb-8 text-center">
-              Estimate your costs
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold">
+              Instance pricing comparison
             </h2>
-            <div className="space-y-8">
-              <div>
-                <label className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
-                  Requests per day
-                </label>
-                <input
-                  type="range"
-                  className="w-full h-2 bg-[color:var(--bg-secondary)] rounded-lg appearance-none cursor-pointer accent-[color:var(--accent)]" />
+            <div className="mt-3 text-[color:var(--text-secondary)] max-w-2xl">
+              Compare a similar CPU instance footprint across common providers. Rates vary by region and commitment.
+            </div>
 
-                <div className="text-right text-[color:var(--accent)] font-bold mt-2">
-                  100,000
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
-                  Avg. Execution Time
-                </label>
-                <input
-                  type="range"
-                  className="w-full h-2 bg-[color:var(--bg-secondary)] rounded-lg appearance-none cursor-pointer accent-[color:var(--accent)]" />
+            {(() => {
+              const hoursPerMonth = 730;
+              const perMonth = (hourly: number) => `$${(hourly * hoursPerMonth).toFixed(2)} / mo`;
 
-                <div className="text-right text-[color:var(--accent)] font-bold mt-2">
-                  500ms
+              const providers = [
+                { k: '1cng', name: '1CNG', note: 'Recommended', accent: true },
+                { k: 'aws', name: 'AWS', note: 'Comparable', accent: false },
+                { k: 'do', name: 'DigitalOcean', note: 'Comparable', accent: false },
+                { k: 'z', name: 'Z.com', note: 'Comparable', accent: false },
+              ] as const;
+
+              const rows = [
+                {
+                  label: 'VM Small',
+                  values: {
+                    '1cng': { price: perMonth(0.035), meta: '2 vCPU, 8 GB RAM' },
+                    aws: { price: `From ${perMonth(0.07)}`, meta: '2 vCPU, 8 GB RAM (varies)' },
+                    do: { price: `From ${perMonth(0.06)}`, meta: '2 vCPU, 8 GB RAM (Basic)' },
+                    z: { price: `From ${perMonth(0.06)}`, meta: '2 vCPU, 8 GB RAM' },
+                  } as const,
+                },
+                {
+                  label: 'VM Medium',
+                  values: {
+                    '1cng': { price: perMonth(0.07), meta: '4 vCPU, 16 GB RAM' },
+                    aws: { price: `From ${perMonth(0.14)}`, meta: '4 vCPU, 16 GB RAM (varies)' },
+                    do: { price: `From ${perMonth(0.12)}`, meta: '4 vCPU, 16 GB RAM (Basic)' },
+                    z: { price: `From ${perMonth(0.12)}`, meta: '4 vCPU, 16 GB RAM' },
+                  } as const,
+                },
+                {
+                  label: 'VM Large',
+                  values: {
+                    '1cng': { price: perMonth(0.14), meta: '8 vCPU, 32 GB RAM' },
+                    aws: { price: `From ${perMonth(0.28)}`, meta: '8 vCPU, 32 GB RAM (varies)' },
+                    do: { price: `From ${perMonth(0.24)}`, meta: '8 vCPU, 32 GB RAM (Basic)' },
+                    z: { price: `From ${perMonth(0.24)}`, meta: '8 vCPU, 32 GB RAM' },
+                  } as const,
+                },
+                {
+                  label: 'Block Storage',
+                  values: {
+                    '1cng': { price: 'Included', meta: 'NVMe / attached storage' },
+                    aws: { price: 'Varies', meta: 'EBS (per GB-month)' },
+                    do: { price: 'From $10.00 / mo', meta: '100 GB volume' },
+                    z: { price: 'Varies', meta: 'per GB-month' },
+                  } as const,
+                },
+                {
+                  label: 'Free egress allowance',
+                  values: {
+                    '1cng': { price: 'Included', meta: 'Depends on plan' },
+                    aws: { price: 'Limited', meta: 'Depends on service' },
+                    do: { price: 'Included', meta: 'Plan-dependent' },
+                    z: { price: 'Varies', meta: 'Region-dependent' },
+                  } as const,
+                },
+              ] as const;
+
+              return (
+                <div className="mt-10">
+                  <table className="w-full table-fixed border-collapse text-left bg-[color:var(--bg-primary)]">
+                    <colgroup>
+                      <col style={{ width: '28%' }} />
+                      {providers.map((p) => (
+                        <col key={p.k} style={{ width: `${72 / providers.length}%` }} />
+                      ))}
+                    </colgroup>
+                    <thead className="bg-[color:var(--bg-secondary)]">
+                      <tr className="border-b border-[color:var(--border-color)]">
+                        <th className="px-4 md:px-6 py-4 text-sm font-semibold text-[color:var(--text-primary)]">
+                          Example configuration
+                        </th>
+                        {providers.map((p) => (
+                          <th key={p.k} className="px-4 md:px-6 py-4">
+                            <div className="font-semibold text-[color:var(--text-primary)]">{p.name}</div>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rows.map((row) => (
+                        <tr
+                          key={row.label}
+                          className="group border-b border-[color:var(--border-color)] last:border-b-0 transition-colors hover:bg-[rgba(var(--accent-rgb),0.06)]"
+                        >
+                          <td className="px-4 md:px-6 py-5">
+                            <div className="text-sm font-medium text-[color:var(--text-primary)]">{row.label}</div>
+                          </td>
+                          {providers.map((p) => {
+                            const cell = row.values[p.k];
+                            return (
+                              <td key={p.k} className="px-4 md:px-6 py-5 align-top">
+                                <div className="text-sm font-medium text-[color:var(--text-primary)] transition-colors group-hover:text-[color:var(--accent)]">
+                                  {cell.price}
+                                </div>
+                                <div className="mt-1 text-xs text-[color:var(--text-secondary)] leading-relaxed">
+                                  {cell.meta}
+                                </div>
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              </div>
-              <div className="pt-8 border-t border-[color:var(--border-color)] flex justify-between items-center">
-                <span className="text-xl font-bold">
-                  Estimated Monthly Cost
-                </span>
-                <span className="text-4xl font-bold text-[color:var(--accent)]">
-                  $145.00
-                </span>
+              );
+            })()}
+
+            <div className="mt-10 border-t border-[color:var(--border-color)] pt-10">
+              <div className="grid gap-10 md:grid-cols-2 md:gap-0 md:divide-x md:divide-[color:var(--border-color)]">
+                <div className="md:pr-10">
+                  <div className="text-xs font-semibold tracking-wide text-[color:var(--text-tertiary)]">WHAT YOU GET</div>
+                  <div className="mt-3 text-xl font-bold">Built for inference economics</div>
+                  <div className="mt-5 grid gap-3 text-sm text-[color:var(--text-secondary)]">
+                    {[
+                      'Scale-to-zero defaults for spiky workloads.',
+                      'Simple instance families tuned for latency.',
+                      'Transparent pricing you can reason about.',
+                    ].map((t) => (
+                      <div key={t} className="flex items-start gap-3">
+                        <CheckCircle size={18} className="text-[color:var(--accent)] mt-0.5" />
+                        <div>{t}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="md:pl-10">
+                  <div className="text-xs font-semibold tracking-wide text-[color:var(--text-tertiary)]">NEXT STEP</div>
+                  <div className="mt-3 text-xl font-bold">Compare with your workload</div>
+                  <div className="mt-3 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                    Share your traffic shape and model sizes and we’ll propose an instance mix and scaling plan.
+                  </div>
+                  <div className="mt-6 flex flex-wrap items-center gap-4">
+                    <a
+                      href="/contact"
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)] hover:underline underline-offset-4"
+                    >
+                      Contact sales
+                      <ArrowRight size={16} />
+                    </a>
+                    <div className="text-sm text-[color:var(--text-tertiary)]">Updated rates available on request</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
