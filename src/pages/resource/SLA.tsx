@@ -4,6 +4,7 @@ import {
   ArrowRight,
   CheckCircle,
   Download,
+  ExternalLink,
   FileText,
   HelpCircle,
   MessageCircle,
@@ -27,6 +28,24 @@ export function SlaPage() {
     () => new URL('../../assets/File/1CNG_Cloud Services Agreement.docx', import.meta.url).toString(),
     []
   );
+
+  const activeFile = useMemo(() => {
+    if (version === 'pdf') {
+      return {
+        label: 'PDF',
+        name: '1CNG Cloud Services Agreement (PDF)',
+        url: pdfUrl,
+        downloadName: '1CNG_Cloud_Services_Agreement.pdf',
+      } as const;
+    }
+
+    return {
+      label: 'DOCX',
+      name: '1CNG Cloud Services Agreement (DOCX)',
+      url: docxUrl,
+      downloadName: '1CNG_Cloud_Services_Agreement.docx',
+    } as const;
+  }, [docxUrl, pdfUrl, version]);
 
   const faqs = useMemo(
     () => [
@@ -172,11 +191,11 @@ export function SlaPage() {
               </div>
               <div>
                 <div className="text-sm font-semibold">File preview</div>
-                <div className="mt-1 text-xs text-[color:var(--text-secondary)]">Switch between PDF and DOCX</div>
+                <div className="mt-1 text-xs text-[color:var(--text-secondary)]">{activeFile.name}</div>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
               {versionTabs.map((x) => (
                 <button
                   key={x.k}
@@ -191,37 +210,88 @@ export function SlaPage() {
                   {x.t}
                 </button>
               ))}
+
+              <a
+                href={activeFile.url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-xs font-semibold text-[color:var(--text-secondary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+              >
+                Open
+                <ExternalLink size={14} className="text-[color:var(--text-tertiary)]" />
+              </a>
+
+              <a
+                href={activeFile.url}
+                download={activeFile.downloadName}
+                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.18)] transition-transform hover:-translate-y-0.5"
+              >
+                Download
+                <Download size={14} />
+              </a>
             </div>
           </div>
 
           <div className="p-6 md:p-8">
             {version === 'pdf' ? (
               <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] overflow-hidden">
-                <iframe
-                  title="Cloud Services Agreement PDF"
-                  src={pdfUrl}
-                  className="h-[70vh] w-full"
-                />
+                <object data={pdfUrl} type="application/pdf" className="h-[70vh] w-full">
+                  <div className="p-10 text-left">
+                    <div className="text-xl font-bold">PDF preview unavailable</div>
+                    <div className="mt-2 text-sm text-[color:var(--text-secondary)]">
+                      Your browser may block embedded PDF previews. Use the buttons above to open or download.
+                    </div>
+                    <a
+                      href={pdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-6 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white"
+                    >
+                      Open PDF
+                      <ExternalLink size={16} />
+                    </a>
+                  </div>
+                </object>
               </div>
             ) : (
               <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-8">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.12)]">
-                    <Download size={20} className="text-[color:var(--accent)]" />
-                  </div>
-                  <div>
-                    <div className="text-lg font-bold">DOCX version</div>
-                    <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
-                      DOCX preview isn’t rendered in-browser. Download the DOCX for redlines or internal review.
+                <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.12)]">
+                      <FileText size={20} className="text-[color:var(--accent)]" />
                     </div>
-                    <a
-                      href={docxUrl}
-                      download
-                      className="mt-4 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
-                    >
-                      Download DOCX
-                      <Download size={16} />
-                    </a>
+                    <div>
+                      <div className="text-lg font-bold">DOCX version</div>
+                      <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                        DOCX previews aren’t rendered in-browser. Download for redlines, or open in a new tab if your browser supports it.
+                      </div>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <a
+                          href={docxUrl}
+                          download={activeFile.downloadName}
+                          className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                        >
+                          Download DOCX
+                          <Download size={16} />
+                        </a>
+                        <a
+                          href={docxUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-5 py-2.5 text-sm font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+                        >
+                          Open DOCX
+                          <ExternalLink size={16} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4 text-left md:max-w-xs">
+                    <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">TIP</div>
+                    <div className="mt-2 text-sm text-[color:var(--text-secondary)]">
+                      For redlines, download the DOCX and open it in Word or Google Docs.
+                    </div>
                   </div>
                 </div>
               </div>
