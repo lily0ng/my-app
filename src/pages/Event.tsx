@@ -293,11 +293,43 @@ export function EventsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.06 }}
-                  className="p-8 rounded-2xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors"
+                  className="relative rounded-3xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] overflow-hidden p-7 group hover:border-[rgba(var(--accent-rgb),0.55)] transition-colors"
                 >
-                  <a.icon className="text-[color:var(--accent)] mb-6" size={34} />
-                  <div className="text-xl font-bold mb-3">{a.title}</div>
-                  <p className="text-[color:var(--text-secondary)] leading-relaxed">{a.desc}</p>
+                  <div className="absolute inset-0 pointer-events-none opacity-30 group-hover:opacity-45 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[rgba(var(--accent-rgb),0.10)] to-transparent" />
+                    <div className="absolute left-[-35%] top-1/2 w-[170%] h-[1px] rotate-45 blur-[0.5px] bg-[linear-gradient(90deg,transparent,rgba(var(--accent-rgb),0.14),transparent)]" />
+                    <div className="absolute left-[-35%] top-1/2 w-[170%] h-[8px] rotate-45 blur-[16px] bg-[linear-gradient(90deg,transparent,rgba(var(--accent-rgb),0.08),transparent)]" />
+                  </div>
+
+                  <div className="relative">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] flex items-center justify-center">
+                          <a.icon className="text-[color:var(--accent)]" size={22} />
+                        </div>
+                        <div className="text-xs px-3 py-1 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] text-[color:var(--text-secondary)]">
+                          Announcement
+                        </div>
+                      </div>
+
+                      <div className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--accent)]">
+                        New <ArrowRight size={14} />
+                      </div>
+                    </div>
+
+                    <div className="mt-6 text-xl font-bold">{a.title}</div>
+                    <p className="mt-3 text-[color:var(--text-secondary)] leading-relaxed">{a.desc}</p>
+
+                    <div className="mt-6 flex items-center justify-between gap-4">
+                      <div className="text-xs text-[color:var(--text-tertiary)]">Posted recently</div>
+                      <Link
+                        to="/contact"
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)] hover:underline underline-offset-4"
+                      >
+                        Learn more <ArrowRight size={16} />
+                      </Link>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
