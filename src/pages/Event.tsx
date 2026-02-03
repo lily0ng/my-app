@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   X,
@@ -23,12 +23,6 @@ export function EventsPage() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [eventDetailsOpen, setEventDetailsOpen] = useState(false);
   const [selectedEventTitle, setSelectedEventTitle] = useState<string>('');
-  const [galleryAngle, setGalleryAngle] = useState(0);
-  const [galleryDragging, setGalleryDragging] = useState(false);
-  const dragLastX = useRef(0);
-  const dragLastAngle = useRef(0);
-  const orbitRef = useRef<HTMLDivElement | null>(null);
-  const lastAutoSelectedGalleryId = useRef('g0');
 
   const featuredEvents = [
     {
@@ -186,74 +180,16 @@ export function EventsPage() {
     featuredEvents[0];
 
   useEffect(() => {
-    let raf = 0;
-    const tick = () => {
-      raf = window.requestAnimationFrame(tick);
-      if (galleryDragging) return;
-      setGalleryAngle((a) => a + 0.12);
-    };
-    raf = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(raf);
-  }, [galleryDragging]);
-
-  useEffect(() => {
-    if (galleryDragging || detailsOpen) return;
-
-    const step = 360 / galleryCards.length;
-    let bestId = lastAutoSelectedGalleryId.current;
-    let bestDist = Number.POSITIVE_INFINITY;
-
-    for (let idx = 0; idx < galleryCards.length; idx += 1) {
-      const id = galleryCards[idx].id;
-      const rot = (step * idx + galleryAngle) % 360;
-      const norm = ((rot + 180) % 360) - 180;
-      const dist = Math.abs(norm);
-      if (dist < bestDist) {
-        bestDist = dist;
-        bestId = id;
-      }
-    }
-
-    if (bestId !== lastAutoSelectedGalleryId.current) {
-      lastAutoSelectedGalleryId.current = bestId;
-      setSelectedGalleryId(bestId);
-    }
-  }, [detailsOpen, galleryAngle, galleryCards.length, galleryDragging]);
-
-  useEffect(() => {
-    const el = orbitRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) + Math.abs(e.deltaY) < 1) return;
-      e.preventDefault();
-      const delta = (e.deltaX !== 0 ? e.deltaX : e.deltaY) * 0.06;
-      setGalleryAngle((a) => a + delta);
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel as any);
-  }, []);
-
-  const onOrbitPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    setGalleryDragging(true);
-    dragLastX.current = e.clientX;
-    dragLastAngle.current = galleryAngle;
-    (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
-  };
-
-  const onOrbitPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (!galleryDragging) return;
-    const dx = e.clientX - dragLastX.current;
-    setGalleryAngle(dragLastAngle.current + dx * 0.22);
-  };
-
-  const onOrbitPointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
-    setGalleryDragging(false);
-    try {
-      (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId);
-    } catch {
-      null;
-    }
-  };
+    if (detailsOpen) return;
+    const id = window.setInterval(() => {
+      setSelectedGalleryId((prev) => {
+        const idx = galleryCards.findIndex((c) => c.id === prev);
+        const next = galleryCards[(idx + 1 + galleryCards.length) % galleryCards.length];
+        return next?.id ?? galleryCards[0].id;
+      });
+    }, 5200);
+    return () => window.clearInterval(id);
+  }, [detailsOpen]);
 
   return (
     <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] overflow-hidden font-sans selection:bg-[rgba(var(--accent-rgb),0.30)] selection:text-[color:var(--bg-primary)]">
@@ -627,150 +563,228 @@ export function EventsPage() {
                 <p className="text-[color:var(--text-secondary)]">A live look at recent sessions and community moments.</p>
               </div>
               <div className="hidden md:block text-sm text-[color:var(--text-secondary)]">
-                Drag to rotate • Scroll to browse • Click to view details
+                Browse highlights • Use arrows to navigate • Open full view
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
-              <div
-                ref={orbitRef}
-                className="relative rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden h-[520px] md:h-[560px]"
-              >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.08),transparent_55%)]" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgba(var(--accent-rgb),0.10),transparent_55%)]" />
-                <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(255,255,255,0.10)_1px,transparent_1px)] [background-size:56px_56px] pointer-events-none" />
-
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-[420px] h-[420px] md:w-[460px] md:h-[460px] rounded-full border border-[color:var(--border-color)] bg-[radial-gradient(circle,rgba(255,255,255,0.06),transparent_62%)] shadow-[0_40px_120px_rgba(0,0,0,0.22)]" />
-                </div>
-
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-[340px] h-[340px] md:w-[380px] md:h-[380px] [perspective:1200px]">
-                    <div
-                      className="absolute inset-0"
-                      style={{ transformStyle: 'preserve-3d', transform: 'rotateX(14deg)' }}
-                    >
-                      <div
-                        className="absolute inset-0"
-                        style={{ transformStyle: 'preserve-3d' }}
-                      >
-                        <div
-                          onPointerDown={onOrbitPointerDown}
-                          onPointerMove={onOrbitPointerMove}
-                          onPointerUp={onOrbitPointerUp}
-                          onPointerCancel={onOrbitPointerUp}
-                          className="absolute inset-0 select-none"
-                          style={{ cursor: galleryDragging ? 'grabbing' : 'grab' }}
-                        >
-                          {galleryCards.map((c, idx) => {
-                            const step = 360 / galleryCards.length;
-                            const rot = step * idx + galleryAngle;
-                            const radius = 260;
-                            const isActive = c.id === selectedGalleryId;
-
-                            return (
-                              <button
-                                key={c.id}
-                                type="button"
-                                onClick={() => {
-                                  lastAutoSelectedGalleryId.current = c.id;
-                                  setSelectedGalleryId(c.id);
-                                  setDetailsOpen(true);
-                                }}
-                                className={
-                                  'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border overflow-hidden text-left transition-all ' +
-                                  (isActive
-                                    ? 'border-[rgba(var(--accent-rgb),0.60)] shadow-[0_24px_70px_rgba(0,0,0,0.22)]'
-                                    : 'border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)]')
-                                }
-                                style={{
-                                  width: isActive ? 164 : 132,
-                                  height: isActive ? 220 : 180,
-                                  transform:
-                                    `rotateY(${rot}deg) translateZ(${radius}px) rotateY(${-rot}deg)`
-                                }}
-                              >
-                                <div className="absolute inset-0 bg-[color:var(--bg-primary)]" />
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_30%,rgba(var(--accent-rgb),0.18),transparent_55%)] opacity-70" />
-                                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.10),transparent_55%)]" />
-
-                                <div className="relative h-full p-4 flex flex-col justify-between">
-                                  <div className="inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-black/40 border border-[color:var(--border-color)] text-[color:var(--text-primary)] w-fit">
-                                    <ImageIcon size={14} className="text-[color:var(--accent)]" />
-                                    {c.category}
-                                  </div>
-                                  <div>
-                                    <div className="font-bold leading-tight">
-                                      {c.title}
-                                    </div>
-                                    <div className="text-xs text-[color:var(--text-secondary)] mt-1">{c.meta}</div>
-                                  </div>
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-[220px] md:w-[240px] rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.22)]">
-                        <div className="h-44 bg-[color:var(--bg-primary)] relative">
-                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_25%,rgba(var(--accent-rgb),0.18),transparent_58%)]" />
-                          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.10),transparent_55%)]" />
-                          <div className="absolute bottom-3 left-3 inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-black/50 border border-[color:var(--border-color)] text-[color:var(--text-primary)]">
-                            <Sparkles size={14} className="text-[color:var(--accent)]" />
-                            Featured
-                          </div>
-                        </div>
-                        <div className="p-4">
-                          <div className="font-bold text-lg leading-tight">{selectedGallery.title}</div>
-                          <div className="text-sm text-[color:var(--text-secondary)] mt-1">{selectedGallery.meta}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/70 via-black/10 to-transparent">
-                  <div className="text-xs text-[color:var(--text-secondary)]">Tip: drag anywhere on the orbit, or scroll to rotate</div>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden">
-                <div className="p-7 border-b border-[color:var(--border-color)] flex items-start justify-between gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-10 items-start">
+              <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden">
+                <div className="p-7 border-b border-[color:var(--border-color)] flex items-center justify-between gap-4">
                   <div>
-                    <div className="text-sm text-[color:var(--text-secondary)]">Selected</div>
-                    <div className="text-2xl font-bold">{selectedGallery.title}</div>
+                    <div className="text-sm text-[color:var(--text-secondary)]">Featured highlight</div>
+                    <div className="mt-1 text-2xl font-bold">{selectedGallery.title}</div>
                     <div className="text-sm text-[color:var(--text-secondary)] mt-1">{selectedGallery.meta}</div>
                   </div>
-                  <div className="text-xs px-3 py-1 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] text-[color:var(--text-secondary)] whitespace-nowrap">
-                    {selectedGallery.category}
+
+                  <div className="flex items-center gap-2">
+                    <div className="hidden sm:inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] text-[color:var(--text-secondary)] whitespace-nowrap">
+                      <ImageIcon size={14} className="text-[color:var(--accent)]" />
+                      {selectedGallery.category}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedGalleryId((prev) => {
+                          const idx = galleryCards.findIndex((c) => c.id === prev);
+                          const next = galleryCards[(idx - 1 + galleryCards.length) % galleryCards.length];
+                          return next?.id ?? galleryCards[0].id;
+                        });
+                      }}
+                      className="w-10 h-10 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] flex items-center justify-center hover:border-[rgba(var(--accent-rgb),0.55)] transition-colors"
+                      aria-label="Previous"
+                    >
+                      <ArrowRight size={18} className="text-[color:var(--text-secondary)] rotate-180" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedGalleryId((prev) => {
+                          const idx = galleryCards.findIndex((c) => c.id === prev);
+                          const next = galleryCards[(idx + 1 + galleryCards.length) % galleryCards.length];
+                          return next?.id ?? galleryCards[0].id;
+                        });
+                      }}
+                      className="w-10 h-10 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] flex items-center justify-center hover:border-[rgba(var(--accent-rgb),0.55)] transition-colors"
+                      aria-label="Next"
+                    >
+                      <ArrowRight size={18} className="text-[color:var(--text-secondary)]" />
+                    </button>
                   </div>
                 </div>
 
                 <div className="p-7">
-                  <p className="text-[color:var(--text-secondary)] leading-relaxed">
-                    {selectedGallery.desc}
-                  </p>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={selectedGalleryId}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setDetailsOpen(true)}
+                        className="relative w-full overflow-hidden rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] aspect-[16/9] text-left"
+                      >
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(var(--accent-rgb),0.22),transparent_62%)]" />
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.08),transparent_55%)]" />
+                        <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(255,255,255,0.10)_1px,transparent_1px)] [background-size:44px_44px]" />
+                        <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+                          <div className="inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-black/45 border border-[color:var(--border-color)] text-[color:var(--text-primary)] w-fit">
+                            <Sparkles size={14} className="text-[color:var(--accent)]" />
+                            Open full view
+                          </div>
+                        </div>
+                      </button>
 
-                  <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setDetailsOpen(true)}
-                      className="px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
-                    >
-                      View details <ArrowRight size={18} />
-                    </button>
-                    <Link
-                      to="/contact"
-                      className="px-7 py-3 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] font-bold hover:bg-[color:var(--bg-tertiary)] transition-colors inline-flex items-center justify-center gap-2"
-                    >
-                      Get notified <Mail size={18} />
-                    </Link>
+                      <p className="mt-6 text-[color:var(--text-secondary)] leading-relaxed">{selectedGallery.desc}</p>
+
+                      <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setDetailsOpen(true)}
+                          className="px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                        >
+                          View details <ArrowRight size={18} />
+                        </button>
+                        <Link
+                          to="/contact"
+                          className="px-7 py-3 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] font-bold hover:bg-[color:var(--bg-tertiary)] transition-colors inline-flex items-center justify-center gap-2"
+                        >
+                          Get notified <Mail size={18} />
+                        </Link>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden">
+                <div className="p-7 border-b border-[color:var(--border-color)]">
+                  <div className="text-sm text-[color:var(--text-secondary)]">Browse</div>
+                  <div className="mt-1 text-2xl font-bold">Gallery picks</div>
+                  <div className="text-sm text-[color:var(--text-secondary)] mt-2">Select a card to update the preview.</div>
+                </div>
+
+                <div className="p-4 md:p-6">
+                  <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-visible">
+                    {galleryCards.map((c, idx) => {
+                      const isActive = c.id === selectedGalleryId;
+                      return (
+                        <motion.button
+                          key={c.id}
+                          type="button"
+                          onClick={() => setSelectedGalleryId(c.id)}
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, amount: 0.2 }}
+                          transition={{ duration: 0.35, ease: 'easeOut', delay: idx * 0.03 }}
+                          whileHover={{ y: -4 }}
+                          className={
+                            'shrink-0 w-[280px] lg:w-full rounded-2xl border bg-[color:var(--bg-primary)] p-4 text-left transition-colors ' +
+                            (isActive
+                              ? 'border-[rgba(var(--accent-rgb),0.60)]'
+                              : 'border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)]')
+                          }
+                          aria-pressed={isActive}
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="relative h-12 w-12 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden">
+                              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(var(--accent-rgb),0.22),transparent_62%)]" />
+                              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.10),transparent_55%)]" />
+                            </div>
+
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-3">
+                                <div className="font-bold truncate">{c.title}</div>
+                                <div className="text-[10px] px-2.5 py-1 rounded-full bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] text-[color:var(--text-secondary)] whitespace-nowrap">
+                                  {c.category}
+                                </div>
+                              </div>
+                              <div className="text-sm text-[color:var(--text-secondary)] mt-1 truncate">{c.meta}</div>
+                            </div>
+                          </div>
+                        </motion.button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
+
+              <AnimatePresence>
+                {detailsOpen && (
+                  <motion.div
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <button
+                      type="button"
+                      className="absolute inset-0 bg-black/60"
+                      onClick={() => setDetailsOpen(false)}
+                      aria-label="Close"
+                    />
+
+                    <motion.div
+                      role="dialog"
+                      aria-modal="true"
+                      className="relative w-full max-w-3xl rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden"
+                      initial={{ opacity: 0, y: 14, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 14, scale: 0.98 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                    >
+                      <div className="p-6 border-b border-[color:var(--border-color)] flex items-start justify-between gap-6">
+                        <div>
+                          <div className="text-xs text-[color:var(--text-secondary)]">Gallery detail</div>
+                          <div className="text-2xl font-bold mt-1">{selectedGallery.title}</div>
+                          <div className="text-sm text-[color:var(--text-secondary)] mt-2">{selectedGallery.meta}</div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setDetailsOpen(false)}
+                          className="w-10 h-10 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] flex items-center justify-center"
+                          aria-label="Close"
+                        >
+                          <X size={18} className="text-[color:var(--text-secondary)]" />
+                        </button>
+                      </div>
+
+                      <div className="p-6">
+                        <div className="relative w-full overflow-hidden rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] aspect-[16/9]">
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(var(--accent-rgb),0.26),transparent_62%)]" />
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.10),transparent_55%)]" />
+                          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(255,255,255,0.10)_1px,transparent_1px)] [background-size:44px_44px]" />
+                          <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-black/45 border border-[color:var(--border-color)] text-[color:var(--text-primary)]">
+                            <ImageIcon size={14} className="text-[color:var(--accent)]" />
+                            {selectedGallery.category}
+                          </div>
+                        </div>
+
+                        <p className="mt-6 text-[color:var(--text-secondary)] leading-relaxed">{selectedGallery.desc}</p>
+
+                        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                          <Link
+                            to="/contact"
+                            className="px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                          >
+                            Get notified <ArrowRight size={18} />
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => setDetailsOpen(false)}
+                            className="px-7 py-3 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] font-bold hover:bg-[color:var(--bg-tertiary)] transition-colors inline-flex items-center justify-center gap-2"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
               {eventDetailsOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -836,40 +850,6 @@ export function EventsPage() {
                   </div>
                 </div>
               )}
-
-              {detailsOpen && (
-                <div className="lg:hidden fixed inset-0 z-50 flex items-end">
-                  <button
-                    type="button"
-                    className="absolute inset-0 bg-black/60"
-                    onClick={() => setDetailsOpen(false)}
-                  />
-                  <div className="relative w-full rounded-t-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6">
-                    <div className="flex items-start justify-between gap-4 mb-3">
-                      <div>
-                        <div className="text-xs text-[color:var(--text-secondary)]">Details</div>
-                        <div className="text-xl font-bold">{selectedGallery.title}</div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setDetailsOpen(false)}
-                        className="w-10 h-10 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] flex items-center justify-center"
-                      >
-                        <X size={18} className="text-[color:var(--text-secondary)]" />
-                      </button>
-                    </div>
-                    <div className="text-sm text-[color:var(--text-secondary)] mb-4">{selectedGallery.meta}</div>
-                    <p className="text-[color:var(--text-secondary)] leading-relaxed">{selectedGallery.desc}</p>
-                    <button
-                      type="button"
-                      className="mt-5 w-full px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
-                    >
-                      View details <ArrowRight size={18} />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
 
             <div className="mt-10 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden p-10">
               <div className="text-sm text-[color:var(--text-secondary)] mb-4">Want your event featured?</div>
