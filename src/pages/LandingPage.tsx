@@ -65,7 +65,7 @@ export function LandingPage() {
     {
       id: "globalnet",
       x: 650,
-      y: 64,
+      y: 44,
       label: "GlobalNet",
       sublabel: "",
       tone: "primary" as const,
@@ -74,7 +74,7 @@ export function LandingPage() {
     {
       id: "mpt",
       x: 650,
-      y: 170,
+      y: 154,
       label: "MPT",
       sublabel: "",
       tone: "primary" as const,
@@ -83,7 +83,7 @@ export function LandingPage() {
     {
       id: "atom",
       x: 650,
-      y: 276,
+      y: 270,
       label: "ATOM",
       sublabel: "",
       tone: "primary" as const,
@@ -92,7 +92,7 @@ export function LandingPage() {
     {
       id: "hti",
       x: 650,
-      y: 382,
+      y: 386,
       label: "HTI",
       sublabel: "",
       tone: "primary" as const,
@@ -101,7 +101,7 @@ export function LandingPage() {
     {
       id: "mmix",
       x: 650,
-      y: 488,
+      y: 502,
       label: "MMIX",
       sublabel: "",
       tone: "primary" as const,
@@ -413,17 +413,16 @@ export function LandingPage() {
 
         {/* 4. Interactive Demo Section */}
         <section
-          className="relative overflow-hidden pt-24 pb-24 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]"
+          className="relative overflow-hidden pt-24 pb-24 px-6 bg-[rgba(var(--net-rgb),0.06)] dark:bg-[color:var(--bg-secondary)]"
           style={{ ['--net-rgb' as any]: '56,189,248', ['--net-local-rgb' as any]: '250,204,21' }}
         >
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_35%,rgba(var(--net-rgb),0.10),transparent_58%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_35%,rgba(var(--net-rgb),0.08),transparent_56%)]" />
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(var(--net-rgb),0.16)_1px,transparent_1px)] [background-size:56px_56px]" />
           </div>
           <div className="relative max-w-7xl mx-auto">
             <div className="max-w-4xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[rgba(var(--net-rgb),0.10)] text-[rgba(var(--net-rgb),0.95)] font-semibold text-sm mb-6 border border-[rgba(var(--net-rgb),0.22)]">
+              <div className="text-sm font-semibold text-[var(--text-secondary)] mb-3">
                 Network Connectivity
               </div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">1CNG Network Connectivity</h2>
@@ -432,24 +431,23 @@ export function LandingPage() {
               </p>
 
               <div className="flex flex-wrap gap-3">
-                <div className="px-4 py-2 rounded-full border border-[var(--border-color)] bg-[color:var(--bg-primary)] text-sm text-[var(--text-secondary)]">
+                <div className="px-4 py-2 rounded-full bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.06)] backdrop-blur-sm text-sm text-[var(--text-secondary)]">
                   Local AS policies
                 </div>
-                <div className="px-4 py-2 rounded-full border border-[var(--border-color)] bg-[color:var(--bg-primary)] text-sm text-[var(--text-secondary)]">
+                <div className="px-4 py-2 rounded-full bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.06)] backdrop-blur-sm text-sm text-[var(--text-secondary)]">
                   Multi-provider transit
                 </div>
-                <div className="px-4 py-2 rounded-full border border-[var(--border-color)] bg-[color:var(--bg-primary)] text-sm text-[var(--text-secondary)]">
+                <div className="px-4 py-2 rounded-full bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.06)] backdrop-blur-sm text-sm text-[var(--text-secondary)]">
                   Real-time failover {'–'} Live topology
                 </div>
               </div>
             </div>
 
-            <div className="mt-12 relative rounded-3xl border border-[var(--border-color)] bg-[color:var(--bg-primary)] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.18)]">
+            <div className="mt-12 relative rounded-3xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] backdrop-blur-md overflow-visible shadow-[0_18px_55px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.30)]">
                 <style>{`@keyframes cng-flow{to{stroke-dashoffset:-60}}@keyframes cng-flow-rev{to{stroke-dashoffset:60}}`}</style>
                 <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-rgb),0.18),transparent_58%)]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.10),transparent_55%)]" />
-                  <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(var(--net-rgb),0.22)_1px,transparent_1px)] [background-size:46px_46px]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(var(--net-rgb),0.10),transparent_62%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_46%,rgba(var(--net-rgb),0.06),transparent_60%)]" />
                 </div>
 
                 <div className="relative p-6 md:p-12">
@@ -497,15 +495,15 @@ export function LandingPage() {
                             <path
                               d={pathA}
                               fill="none"
-                              stroke={`rgba(var(--net-rgb),0.18)`}
-                              strokeWidth={3}
+                              stroke={`rgba(var(--net-rgb),0.12)`}
+                              strokeWidth={2}
                               strokeLinecap="round"
                             />
                             <path
                               d={pathA}
                               fill="none"
-                              stroke={`rgba(var(--net-rgb),0.78)`}
-                              strokeWidth={3}
+                              stroke={`rgba(var(--net-rgb),0.60)`}
+                              strokeWidth={2}
                               strokeLinecap="round"
                               strokeDasharray="10 10"
                               markerEnd="url(#cng-arrow)"
@@ -516,15 +514,15 @@ export function LandingPage() {
                                 <path
                                   d={pathB}
                                   fill="none"
-                                  stroke={`rgba(var(--net-rgb),0.16)`}
-                                  strokeWidth={3}
+                                  stroke={`rgba(var(--net-rgb),0.10)`}
+                                  strokeWidth={2}
                                   strokeLinecap="round"
                                 />
                                 <path
                                   d={pathB}
                                   fill="none"
-                                  stroke={`rgba(var(--net-rgb),0.62)`}
-                                  strokeWidth={3}
+                                  stroke={`rgba(var(--net-rgb),0.50)`}
+                                  strokeWidth={2}
                                   strokeLinecap="round"
                                   strokeDasharray="10 10"
                                   markerEnd="url(#cng-arrow)"
@@ -540,6 +538,12 @@ export function LandingPage() {
                     {connectivityNodes.map((n) => {
                       const isHovered = hoveredConnectivityNode === n.id;
                       const isAccent = n.tone === "accent";
+                      const tooltipAlign =
+                        n.x >= 780
+                          ? ("right" as const)
+                          : n.x <= 220
+                            ? ("left" as const)
+                            : ("center" as const);
                       const nodeKind =
                         n.id === 'iaas'
                           ? ('iaas' as const)
@@ -551,13 +555,10 @@ export function LandingPage() {
                       const wrapperClass =
                         "absolute -translate-x-1/2 -translate-y-1/2";
                       const circleClass =
-                        "relative h-28 w-28 md:h-32 md:w-32 rounded-full border flex items-center justify-center transition-all" +
+                        "relative h-28 w-28 md:h-32 md:w-32 rounded-full flex items-center justify-center transition-all ring-1 ring-black/5 dark:ring-white/10" +
                         (isHovered
-                          ? " shadow-[0_18px_60px_rgba(var(--net-rgb),0.20)]"
+                          ? " shadow-[0_10px_30px_rgba(0,0,0,0.10)] dark:shadow-[0_14px_40px_rgba(0,0,0,0.35)]"
                           : "");
-                      const borderClass = isHovered
-                        ? "border-[rgba(var(--net-rgb),0.78)]"
-                        : "border-[var(--border-color)]";
                       const fillClass = isAccent
                         ? "bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-local-rgb),0.60),rgba(var(--net-local-rgb),0.16)_52%,rgba(0,0,0,0)_100%)]"
                         : "bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-rgb),0.48),rgba(var(--net-rgb),0.12)_52%,rgba(0,0,0,0)_100%)]";
@@ -567,11 +568,15 @@ export function LandingPage() {
                           key={n.id}
                           className={wrapperClass}
                           style={{ left: `${(n.x / 1000) * 100}%`, top: `${(n.y / 520) * 100}%` }}
+                          onMouseEnter={() => setHoveredConnectivityNode(n.id)}
+                          onMouseLeave={() =>
+                            setHoveredConnectivityNode((prev) =>
+                              prev === n.id ? null : prev
+                            )
+                          }
                         >
                           <button
                             type="button"
-                            onMouseEnter={() => setHoveredConnectivityNode(n.id)}
-                            onMouseLeave={() => setHoveredConnectivityNode((prev) => (prev === n.id ? null : prev))}
                             onFocus={() => setHoveredConnectivityNode(n.id)}
                             onBlur={() => setHoveredConnectivityNode((prev) => (prev === n.id ? null : prev))}
                             className="group"
@@ -579,17 +584,17 @@ export function LandingPage() {
                           >
                             <div className="flex flex-col items-center">
                               {nodeKind === 'provider' ? (
-                                <div className="mb-2 text-[11px] font-bold tracking-wide px-4 py-1 rounded-full bg-black/60 text-white border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+                                <div className="mb-2 text-[11px] font-bold tracking-wide px-4 py-1 rounded-full bg-black/55 text-white/95 backdrop-blur-sm">
                                   {n.label}
                                 </div>
                               ) : null}
 
                               <div
-                                className={`${circleClass} ${borderClass} ${fillClass} ${
+                                className={`${circleClass} ${fillClass} ${
                                   nodeKind === 'internet' ? 'rounded-[32px]' : ''
                                 }`}
                               >
-                                <div className="absolute inset-2 rounded-full bg-[color:var(--bg-primary)]/55 backdrop-blur-sm" />
+                                <div className="absolute inset-2 rounded-full bg-[rgba(255,255,255,0.45)] dark:bg-[rgba(0,0,0,0.18)] backdrop-blur-sm" />
 
                                 {nodeKind === 'internet' ? (
                                   <svg
@@ -684,11 +689,25 @@ export function LandingPage() {
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                                 transition={{ duration: 0.18, ease: "easeOut" }}
-                                className="absolute left-1/2 top-[-14px] -translate-x-1/2 -translate-y-full w-[240px] rounded-2xl border border-[var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.22)]"
+                                className={`absolute top-[-14px] -translate-y-full w-[240px] rounded-2xl bg-[rgba(255,255,255,0.85)] dark:bg-[rgba(0,0,0,0.45)] backdrop-blur-md px-4 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_55px_rgba(0,0,0,0.35)] z-20 ${
+                                  tooltipAlign === 'right'
+                                    ? 'left-1/2 -translate-x-full -ml-6'
+                                    : tooltipAlign === 'left'
+                                      ? 'left-1/2 ml-6'
+                                      : 'left-1/2 -translate-x-1/2'
+                                }`}
                               >
                                 <div className="text-xs font-bold text-[rgba(var(--net-rgb),0.95)]">{n.label}{n.sublabel ? ` ${n.sublabel}` : ""}</div>
                                 <div className="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">{n.desc}</div>
-                                <div className="absolute left-1/2 bottom-[-6px] h-3 w-3 -translate-x-1/2 rotate-45 border-r border-b border-[var(--border-color)] bg-[color:var(--bg-secondary)]" />
+                                <div
+                                  className={`absolute bottom-[-6px] h-3 w-3 rotate-45 bg-[rgba(255,255,255,0.85)] dark:bg-[rgba(0,0,0,0.45)] ${
+                                    tooltipAlign === 'right'
+                                      ? 'right-10'
+                                      : tooltipAlign === 'left'
+                                        ? 'left-10'
+                                        : 'left-1/2 -translate-x-1/2'
+                                  }`}
+                                />
                               </motion.div>
                             ) : null}
                           </AnimatePresence>
