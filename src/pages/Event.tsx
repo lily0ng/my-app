@@ -16,6 +16,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { Nav } from '../components/Nav';
+import { newsPosts } from './eventNewsData';
 
 export function EventsPage() {
   const [selectedGalleryId, setSelectedGalleryId] = useState('g0');
@@ -28,27 +29,6 @@ export function EventsPage() {
   const dragLastAngle = useRef(0);
   const orbitRef = useRef<HTMLDivElement | null>(null);
   const lastAutoSelectedGalleryId = useRef('g0');
-
-  const newsPosts = [
-    {
-      title: 'Launch Week Live agenda is out',
-      date: 'Feb 2026',
-      tag: 'Product',
-      desc: 'A full schedule of demos, workshops, and platform deep dives with the team.',
-    },
-    {
-      title: 'New meetup kit for local organizers',
-      date: 'Jan 2026',
-      tag: 'Community',
-      desc: 'Templates, speaker notes, and a quick-start checklist to host your first chapter night.',
-    },
-    {
-      title: 'Workshop: Deploying low-latency inference',
-      date: 'Jan 2026',
-      tag: 'Inference',
-      desc: 'A practical walkthrough from container build to production traffic with monitoring.',
-    },
-  ];
 
   const featuredEvents = [
     {
@@ -394,16 +374,21 @@ export function EventsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.45, ease: 'easeOut', delay: idx * 0.05 }}
-                  className="p-7 rounded-2xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors"
+                  className="rounded-2xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors overflow-hidden"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{p.tag}</div>
-                    <div className="text-xs text-[color:var(--text-tertiary)]">{p.date}</div>
-                  </div>
-                  <div className="mt-3 font-bold text-lg">{p.title}</div>
-                  <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
-                    {p.desc}
-                  </div>
+                  <Link to={`/resources/events/news/${p.slug}`} className="block p-7 h-full">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{p.tag}</div>
+                      <div className="text-xs text-[color:var(--text-tertiary)]">{p.date}</div>
+                    </div>
+                    <div className="mt-3 font-bold text-lg">{p.title}</div>
+                    <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                      {p.desc}
+                    </div>
+                    <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)]">
+                      Read more <ArrowRight size={16} />
+                    </div>
+                  </Link>
                 </motion.div>
               ))}
             </div>
@@ -521,38 +506,35 @@ export function EventsPage() {
               </div>
             </div>
 
-            <div className="border border-[color:var(--border-color)] rounded-2xl overflow-hidden bg-[color:var(--bg-secondary)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingList.map((row, i) => (
                 <motion.div
                   key={row.title}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.4, ease: 'easeOut', delay: i * 0.04 }}
-                  whileHover={{ x: 8 }}
+                  transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.05 }}
+                  whileHover={{ y: -8 }}
                   onClick={() => {
                     setSelectedEventTitle(row.title);
                     setEventDetailsOpen(true);
                   }}
-                  className="grid grid-cols-1 md:grid-cols-[150px_1fr_180px] gap-4 items-center p-6 border-b border-[color:var(--border-color)] last:border-b-0 hover:bg-[color:var(--bg-tertiary)] transition-colors cursor-pointer"
+                  className="rounded-2xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] p-6 cursor-pointer hover:border-[rgba(var(--accent-rgb),0.45)] transition-all"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] flex flex-col items-center justify-center">
-                      <div className="text-xs text-[color:var(--text-secondary)]">{row.day}</div>
-                      <div className="font-bold">{row.date}</div>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] flex flex-col items-center justify-center">
+                        <div className="text-xs text-[color:var(--text-secondary)]">{row.day}</div>
+                        <div className="font-bold">{row.date}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{row.time}</div>
+                        <div className="mt-1 text-xs px-3 py-1 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] text-[color:var(--text-secondary)] w-fit">
+                          {row.tag}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-xs px-3 py-1 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] text-[color:var(--text-secondary)]">
-                      {row.tag}
-                    </div>
-                  </div>
 
-                  <div>
-                    <div className="font-bold text-lg">{row.title}</div>
-                    <div className="text-sm text-[color:var(--text-secondary)]">{row.location}</div>
-                  </div>
-
-                  <div className="flex items-center justify-between md:justify-end gap-3">
-                    <div className="text-sm text-[color:var(--text-secondary)]">{row.time}</div>
                     <button
                       type="button"
                       onClick={(e) => {
@@ -560,10 +542,17 @@ export function EventsPage() {
                         setSelectedEventTitle(row.title);
                         setEventDetailsOpen(true);
                       }}
-                      className="px-4 py-2 rounded-full bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] text-[color:var(--text-primary)] font-bold hover:border-[rgba(var(--accent-rgb),0.55)] transition-colors"
+                      className="shrink-0 inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:border-[rgba(var(--accent-rgb),0.55)] transition-colors"
                     >
                       RSVP
+                      <ArrowRight size={16} className="text-[color:var(--accent)]" />
                     </button>
+                  </div>
+
+                  <div className="mt-5 font-bold text-lg leading-snug">{row.title}</div>
+                  <div className="mt-2 text-sm text-[color:var(--text-secondary)] flex items-center gap-2">
+                    <MapPin size={16} className="text-[color:var(--text-tertiary)]" />
+                    {row.location}
                   </div>
                 </motion.div>
               ))}

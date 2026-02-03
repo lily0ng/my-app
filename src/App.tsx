@@ -23,6 +23,7 @@ import { MarketplaceAppsPage } from './pages/MarketplaceAppsPage';
 import { ContactUsPage } from './pages/ContactUsPage';
 import { AboutUsPage } from './pages/AboutUs';
 import { EventsPage } from './pages/Event';
+import { EventNewsDetailPage } from './pages/EventNewsDetail';
 import { GuidesPage } from './pages/Guides';
 import { AudioTranscriptionPage } from './pages/solutions/AudioTranscription';
 import { LlmInferencePage } from './pages/solutions/LlmInference';
@@ -82,6 +83,7 @@ export function App() {
           <Route path="/resources/marketplace-apps" element={<MarketplaceAppsPage />} />
           <Route path="/resources/about" element={<AboutUsPage />} />
           <Route path="/resources/events" element={<EventsPage />} />
+          <Route path="/resources/events/news/:slug" element={<EventNewsDetailPage />} />
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
