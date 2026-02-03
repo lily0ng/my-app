@@ -767,23 +767,32 @@ export function InferencePage() {
         <section className="py-32 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-16">How it works</h2>
-            <div className="max-w-4xl mx-auto bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-3xl p-12 relative overflow-hidden">
+            <div className="max-w-4xl mx-auto bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-3xl p-8 md:p-10 relative overflow-hidden">
               {/* Simplified CSS Diagram */}
-              <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                <div className="p-6 bg-[color:var(--bg-secondary)] rounded-2xl border border-[color:var(--border-color)] w-48">
-                  <Code2 className="mx-auto mb-4 text-blue-400" size={32} />
-                  <div className="font-bold">Your Code</div>
-                </div>
-                <ArrowRight className="text-[color:var(--text-secondary)] hidden md:block" />
-                <div className="p-6 bg-[color:var(--bg-secondary)] rounded-2xl border border-[color:var(--border-color)] w-48">
-                  <Layers className="mx-auto mb-4 text-[color:var(--accent)]" size={32} />
-                  <div className="font-bold">Modal Cloud</div>
-                </div>
-                <ArrowRight className="text-[color:var(--text-secondary)] hidden md:block" />
-                <div className="p-6 bg-[color:var(--bg-secondary)] rounded-2xl border border-[color:var(--border-color)] w-48">
-                  <Globe className="mx-auto mb-4 text-purple-400" size={32} />
-                  <div className="font-bold">API Endpoint</div>
-                </div>
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 relative z-10">
+                {(
+                  [
+                    { t: 'Compute Instance', I: Server },
+                    { t: 'Network & Firewall', I: Shield },
+                    { t: 'Global Network', I: Layers },
+                    { t: 'Public Internet', I: Globe },
+                    { t: 'TLS + Auth', I: Lock },
+                  ] as const
+                ).map((step, idx, arr) => (
+                  <div key={step.t} className="flex items-center gap-4">
+                    <motion.div
+                      whileHover={{ y: -4 }}
+                      transition={{ duration: 0.2, ease: 'easeOut' }}
+                      className="p-4 bg-[color:var(--bg-secondary)] rounded-2xl border border-[color:var(--border-color)] w-32 hover:border-[rgba(var(--accent-rgb),0.55)] transition-colors"
+                    >
+                      <step.I className="mx-auto mb-3 text-[color:var(--accent)]" size={26} />
+                      <div className="font-bold text-xs leading-tight">{step.t}</div>
+                    </motion.div>
+                    {idx < arr.length - 1 ? (
+                      <ArrowRight className="text-[color:var(--text-secondary)] hidden md:block" />
+                    ) : null}
+                  </div>
+                ))}
               </div>
               <div className="absolute inset-0 bg-grid-white/[0.02]" />
             </div>
