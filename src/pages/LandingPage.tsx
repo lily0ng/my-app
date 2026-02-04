@@ -212,16 +212,19 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section className="px-6 py-5 bg-[var(--bg-secondary)] border-y border-[var(--border-color)]">
-          <div className="max-w-7xl mx-auto">
+        <section className="relative px-6 py-3 bg-[color:var(--bg-secondary)] border-y border-[var(--border-color)] overflow-hidden">
+          <div className="pointer-events-none absolute inset-0 opacity-40">
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(var(--accent-rgb),0.06),transparent)]" />
+          </div>
+          <div className="max-w-7xl mx-auto relative">
             <div className="relative overflow-hidden">
-              <div className="eventNewsMarquee flex min-w-max items-center gap-14 pr-14 text-sm">
+              <div className="eventNewsMarquee flex min-w-max items-center gap-12 pr-12 text-xs sm:text-sm">
                 {[...newsPosts, ...newsPosts].map((p, idx) => (
                   <div key={`${p.slug}-${idx}`} className="flex items-center gap-3 whitespace-nowrap">
-                    <span className="font-semibold text-[color:var(--text-primary)]">{p.title}</span>
+                    <span className="font-medium text-[color:var(--text-secondary)]">{p.title}</span>
                     <Link
                       to={`/resources/events/news/${p.slug}`}
-                      className="text-[color:var(--text-secondary)] hover:text-[color:var(--accent)] transition-colors"
+                      className="font-semibold text-[color:var(--text-primary)] hover:text-[color:var(--accent)] transition-colors"
                       aria-label={`View ${p.title}`}
                     >
                       {formatViews(p.views)} views
