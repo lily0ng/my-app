@@ -3,8 +3,10 @@ import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
 import { useTheme } from "../contexts/ThemeContext";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import uiDark from "../assets/images/UI Dark Thmes.png";
 import uiLight from "../assets/images/UI Light Thmes.png";
+import { newsPosts } from "./eventNewsData";
 import {
   Terminal,
   Cpu,
@@ -24,6 +26,17 @@ export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [hoveredConnectivityNode, setHoveredConnectivityNode] = useState<string | null>(null);
   const { theme } = useTheme();
+
+  const formatViews = (views: number) => {
+    try {
+      return new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+      }).format(views);
+    } catch {
+      return String(views);
+    }
+  };
   const faqs = [
     {
       q: "How does billing work?",
@@ -137,6 +150,16 @@ export function LandingPage() {
       <Nav />
 
       <main>
+        <style>{`
+          @keyframes eventNewsMarquee {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+          }
+          .eventNewsMarquee {
+            animation: eventNewsMarquee 70s linear infinite;
+            will-change: transform;
+          }
+        `}</style>
         {/* 1. Hero Section */}
         <section className="pt-32 pb-16 px-6 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.12)] via-[rgba(0,0,0,0)] to-[rgba(0,0,0,0)] pointer-events-none transition-colors duration-300" />
@@ -185,6 +208,30 @@ export function LandingPage() {
                   loading="lazy"
                 />
               </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-6 py-5 bg-[var(--bg-secondary)] border-y border-[var(--border-color)]">
+          <div className="max-w-7xl mx-auto">
+            <div className="relative overflow-hidden">
+              <div className="eventNewsMarquee flex min-w-max items-center gap-14 pr-14 text-sm">
+                {[...newsPosts, ...newsPosts].map((p, idx) => (
+                  <div key={`${p.slug}-${idx}`} className="flex items-center gap-3 whitespace-nowrap">
+                    <span className="font-semibold text-[color:var(--text-primary)]">{p.title}</span>
+                    <Link
+                      to={`/resources/events/news/${p.slug}`}
+                      className="text-[color:var(--text-secondary)] hover:text-[color:var(--accent)] transition-colors"
+                      aria-label={`View ${p.title}`}
+                    >
+                      {formatViews(p.views)} views
+                    </Link>
+                    <span className="mx-2 h-1 w-1 rounded-full bg-[color:var(--border-color)]" />
+                  </div>
+                ))}
+              </div>
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-[linear-gradient(to_right,var(--bg-secondary),transparent)]" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-[linear-gradient(to_left,var(--bg-secondary),transparent)]" />
             </div>
           </div>
         </section>
