@@ -272,7 +272,14 @@ export function Nav() {
             title="Resources"
             id="resources"
             activeId={activeDropdown}
-            setActive={setActiveDropdown}>
+            setActive={setActiveDropdown}
+            topBadge={
+              hasUnreadNews ? (
+                <span className="inline-flex items-center rounded-full bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 animate-pulse shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
+                  New
+                </span>
+              ) : null
+            }>
 
             <div className="w-[700px] p-2 grid grid-cols-2 gap-2">
               {resourceItems.map((item) => (
@@ -443,6 +450,7 @@ function Dropdown({
   id,
   activeId,
   setActive,
+  topBadge,
   children
 
 
@@ -450,12 +458,18 @@ function Dropdown({
 
 
 
-}: {title: string;id: string;activeId: string | null;setActive: (id: string | null) => void;children: React.ReactNode;}) {
+}: {title: string;id: string;activeId: string | null;setActive: (id: string | null) => void;topBadge?: React.ReactNode;children: React.ReactNode;}) {
   return (
     <div
       className="relative h-full flex items-center"
       onMouseEnter={() => setActive(id)}
       onMouseLeave={() => setActive(null)}>
+
+      {topBadge ? (
+        <div className="pointer-events-none absolute top-0 right-2 -translate-y-1/2">
+          {topBadge}
+        </div>
+      ) : null}
 
       <button
         className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors ${activeId === id ? 'text-[color:var(--text-primary)]' : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]'}`}>
