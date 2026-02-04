@@ -55,6 +55,8 @@ export function ContactUsPage() {
       icon: Wrench,
       type: 'Integrations'
     }
+    // add one of the new card for topic
+    
   ] as const;
 
   const gridContainer = {
