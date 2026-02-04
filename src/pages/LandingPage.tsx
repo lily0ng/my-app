@@ -74,8 +74,8 @@ export function LandingPage() {
   const connectivityNodes = [
     {
       id: "iaas",
-      x: 120,
-      y: 270,
+      x: 500,
+      y: 476,
       label: "1CNG",
       sublabel: "IaaS",
       tone: "primary" as const,
@@ -83,8 +83,8 @@ export function LandingPage() {
     },
     {
       id: "local-as",
-      x: 330,
-      y: 270,
+      x: 500,
+      y: 360,
       label: "Local",
       sublabel: "AS",
       tone: "accent" as const,
@@ -92,8 +92,8 @@ export function LandingPage() {
     },
     {
       id: "globalnet",
-      x: 650,
-      y: 44,
+      x: 160,
+      y: 220,
       label: "GlobalNet",
       sublabel: "",
       tone: "primary" as const,
@@ -101,8 +101,8 @@ export function LandingPage() {
     },
     {
       id: "mpt",
-      x: 650,
-      y: 154,
+      x: 330,
+      y: 220,
       label: "MPT",
       sublabel: "",
       tone: "primary" as const,
@@ -110,8 +110,8 @@ export function LandingPage() {
     },
     {
       id: "atom",
-      x: 650,
-      y: 270,
+      x: 670,
+      y: 220,
       label: "ATOM",
       sublabel: "",
       tone: "primary" as const,
@@ -119,8 +119,8 @@ export function LandingPage() {
     },
     {
       id: "hti",
-      x: 650,
-      y: 386,
+      x: 500,
+      y: 220,
       label: "HTI",
       sublabel: "",
       tone: "primary" as const,
@@ -128,8 +128,8 @@ export function LandingPage() {
     },
     {
       id: "mmix",
-      x: 650,
-      y: 502,
+      x: 840,
+      y: 220,
       label: "MMIX",
       sublabel: "",
       tone: "primary" as const,
@@ -137,8 +137,8 @@ export function LandingPage() {
     },
     {
       id: "internet",
-      x: 920,
-      y: 270,
+      x: 500,
+      y: 74,
       label: "Internet",
       sublabel: "",
       tone: "primary" as const,
