@@ -598,7 +598,7 @@ export function LandingPage() {
             </div>
 
             <div className="mt-12 relative overflow-hidden rounded-3xl bg-[#07070a] ring-1 ring-white/10">
-                <style>{`@keyframes cng-beam{to{stroke-dashoffset:-220}}@keyframes cng-beam-rev{to{stroke-dashoffset:220}}`}</style>
+                <style>{`@keyframes cng-beam{to{stroke-dashoffset:-320}}@keyframes cng-beam-rev{to{stroke-dashoffset:320}}`}</style>
                 <div className="absolute inset-0 pointer-events-none">
                   <div
                     className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(255,255,255,0.10),transparent_62%)]"
@@ -618,6 +618,8 @@ export function LandingPage() {
                       const toRef = connectivityNodeRefById[e.to];
                       if (!fromRef || !toRef) return null;
 
+                      const isLocalAsToIaas = e.from === 'local-as' && e.to === 'iaas';
+
                       const baseCurvature =
                         (e.from === 'local-as' && e.to === 'iaas') ||
                         (e.from === 'internet' && e.to === 'hti')
@@ -634,9 +636,15 @@ export function LandingPage() {
                           containerRef={connectivityContainerRef}
                           fromRef={fromRef}
                           toRef={toRef}
-                          duration={duration}
+                          duration={isLocalAsToIaas ? 3.8 : duration}
                           delay={delay}
                           curvature={baseCurvature}
+                          dashArray={isLocalAsToIaas ? '6 10' : undefined}
+                          pingPong={isLocalAsToIaas ? false : true}
+                          reverse={isLocalAsToIaas ? true : undefined}
+                          beamOpacity={isLocalAsToIaas ? 0.92 : undefined}
+                          baseOpacity={isLocalAsToIaas ? 0.22 : undefined}
+                          beamWidth={isLocalAsToIaas ? 1.8 : undefined}
                           className="z-0"
                         />
                       );
@@ -645,18 +653,6 @@ export function LandingPage() {
                     {connectivityNodes.map((n) => {
                       const isHovered = hoveredConnectivityNode === n.id;
                       const logoSrc = connectivityNodeLogoById[n.id];
-                      const tooltipPositionClass =
-                        n.x >= 780
-                          ? 'left-1/2 -translate-x-full -ml-16'
-                          : n.x <= 220
-                            ? 'left-1/2 ml-16'
-                            : 'left-1/2 -translate-x-1/2';
-                      const tooltipArrowClass =
-                        n.x >= 780
-                          ? 'right-10'
-                          : n.x <= 220
-                            ? 'left-10'
-                            : 'left-1/2 -translate-x-1/2';
                       const nodeKind =
                         n.id === 'iaas'
                           ? ('iaas' as const)
@@ -666,7 +662,7 @@ export function LandingPage() {
                               ? ('internet' as const)
                               : ('provider' as const);
                       const wrapperClass =
-                        "absolute -translate-x-1/2 -translate-y-1/2 z-10";
+                        `absolute -translate-x-1/2 -translate-y-1/2 ${isHovered ? 'z-50' : 'z-10'}`;
                       const nodeBaseClass = 'relative h-16 w-16 md:h-20 md:w-20';
                       const circleSkinClass = 'border-black/10 bg-white';
                       const circleHoverClass = isHovered
@@ -810,7 +806,7 @@ export function LandingPage() {
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                                 transition={{ duration: 0.18, ease: "easeOut" }}
-                                className={`pointer-events-none absolute top-[-12px] -translate-y-full w-[220px] rounded-2xl backdrop-blur-xl px-3.5 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.50)] z-30 bg-black/65 ring-1 ring-white/10 ${tooltipPositionClass}`}
+                                className="pointer-events-none absolute left-1/2 bottom-full -translate-x-1/2 mb-4 w-[220px] rounded-2xl backdrop-blur-xl px-3.5 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.50)] z-30 bg-black/65 ring-1 ring-white/10"
                               >
                                 <div className="text-[11px] font-semibold tracking-wide text-white/90">
                                   {n.label}
@@ -820,7 +816,7 @@ export function LandingPage() {
                                   {n.desc}
                                 </div>
                                 <div
-                                  className={`absolute bottom-[-6px] h-3 w-3 rotate-45 bg-black/65 ring-1 ring-white/10 ${tooltipArrowClass}`}
+                                  className="absolute -bottom-1 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-black/65 ring-1 ring-white/10"
                                 />
                               </motion.div>
                             ) : null}

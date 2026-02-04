@@ -7,7 +7,12 @@ type AnimatedBeamProps = {
   duration?: number;
   delay?: number;
   reverse?: boolean;
+  pingPong?: boolean;
   curvature?: number;
+  dashArray?: string;
+  baseOpacity?: number;
+  beamOpacity?: number;
+  beamWidth?: number;
   className?: string;
 };
 
@@ -20,7 +25,12 @@ export function AnimatedBeam({
   duration = 3,
   delay = 0,
   reverse = false,
+  pingPong = true,
   curvature = 0.35,
+  dashArray = "10 80",
+  baseOpacity = 0.26,
+  beamOpacity = 0.9,
+  beamWidth = 1.7,
   className,
 }: AnimatedBeamProps) {
   const id = useId();
@@ -58,14 +68,18 @@ export function AnimatedBeam({
       const fromR = Math.min(fromRect.width, fromRect.height) / 2;
       const toR = Math.min(toRect.width, toRect.height) / 2;
 
+      const inset = -1;
+      const fromOffset = Math.max(0, fromR - inset);
+      const toOffset = Math.max(0, toR - inset);
+
       setStart({
-        x: fromCenter.x + ux * fromR,
-        y: fromCenter.y + uy * fromR,
+        x: fromCenter.x + ux * fromOffset,
+        y: fromCenter.y + uy * fromOffset,
       });
 
       setEnd({
-        x: toCenter.x - ux * toR,
-        y: toCenter.y - uy * toR,
+        x: toCenter.x - ux * toOffset,
+        y: toCenter.y - uy * toOffset,
       });
     };
 
@@ -138,29 +152,68 @@ export function AnimatedBeam({
       <path
         d={d}
         fill="none"
-        stroke="rgba(var(--net-rgb),0.18)"
-        strokeWidth={1.2}
+        stroke={`rgba(var(--net-rgb),${baseOpacity})`}
+        strokeWidth={1.35}
         strokeLinecap="round"
         vectorEffect="non-scaling-stroke"
       />
 
-      <path
-        d={d}
-        fill="none"
-        stroke="rgba(var(--net-rgb),0.75)"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeDasharray="14 260"
-        filter={`url(#cng-beam-glow-${id})`}
-        vectorEffect="non-scaling-stroke"
-        style={{
-          animationName: reverse ? "cng-beam-rev" : "cng-beam",
-          animationDuration: `${duration}s`,
-          animationTimingFunction: "linear",
-          animationIterationCount: "infinite",
-          animationDelay: `${delay}s`,
-        }}
-      />
+      {pingPong ? (
+        <>
+          <path
+            d={d}
+            fill="none"
+            stroke={`rgba(var(--net-rgb),${beamOpacity})`}
+            strokeWidth={beamWidth}
+            strokeLinecap="round"
+            strokeDasharray={dashArray}
+            filter={`url(#cng-beam-glow-${id})`}
+            vectorEffect="non-scaling-stroke"
+            style={{
+              animationName: "cng-beam",
+              animationDuration: `${duration}s`,
+              animationTimingFunction: "linear",
+              animationIterationCount: "infinite",
+              animationDelay: `${delay}s`,
+            }}
+          />
+          <path
+            d={d}
+            fill="none"
+            stroke={`rgba(var(--net-rgb),${Math.max(0, beamOpacity - 0.20)})`}
+            strokeWidth={beamWidth}
+            strokeLinecap="round"
+            strokeDasharray={dashArray}
+            filter={`url(#cng-beam-glow-${id})`}
+            vectorEffect="non-scaling-stroke"
+            style={{
+              animationName: "cng-beam-rev",
+              animationDuration: `${duration}s`,
+              animationTimingFunction: "linear",
+              animationIterationCount: "infinite",
+              animationDelay: `${delay + duration * 0.35}s`,
+            }}
+          />
+        </>
+      ) : (
+        <path
+          d={d}
+          fill="none"
+          stroke={`rgba(var(--net-rgb),${beamOpacity})`}
+          strokeWidth={beamWidth}
+          strokeLinecap="round"
+          strokeDasharray={dashArray}
+          filter={`url(#cng-beam-glow-${id})`}
+          vectorEffect="non-scaling-stroke"
+          style={{
+            animationName: reverse ? "cng-beam-rev" : "cng-beam",
+            animationDuration: `${duration}s`,
+            animationTimingFunction: "linear",
+            animationIterationCount: "infinite",
+            animationDelay: `${delay}s`,
+          }}
+        />
+      )}
     </svg>
   );
 }
