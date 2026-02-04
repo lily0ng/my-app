@@ -661,48 +661,50 @@ export function NotebooksPage() {
         </section>
 
         {/* Customer Stories */}
-        <section className="py-32 px-6 border-y border-white/5">
+        <section className="py-32 px-6 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-4xl font-bold mb-16 text-center">
               How teams use Local Dev
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-              <div className="bg-gradient-to-br from-[#0a2a1a] to-[#05150d] p-10 rounded-2xl border border-white/10">
-                <div className="h-12 w-32 bg-white/10 rounded mb-8 animate-pulse" />
+              <div className="relative overflow-hidden p-10 rounded-2xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] ring-1 ring-black/5 dark:ring-white/10">
+                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_30%_20%,rgba(var(--accent-rgb),0.16),transparent_58%)]" />
+                <div className="relative h-12 w-32 bg-black/10 dark:bg-white/10 rounded mb-8 animate-pulse" />
                 <h3 className="text-2xl font-bold mb-4">
                   Accelerating Research
                 </h3>
-                <p className="text-gray-300 mb-8 leading-relaxed">
+                <p className="text-[color:var(--text-secondary)] mb-8 leading-relaxed">
                   "Local Dev Experience allowed our research team to iterate 10x
                   faster. We can spin up an H100 for an hour to test a
                   hypothesis and shut it down immediately, saving thousands in
                   idle costs."
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gray-700" />
+                  <div className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10" />
                   <div>
                     <div className="font-bold">Sarah Chen</div>
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-[color:var(--text-tertiary)]">
                       Lead AI Researcher
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-[#0a2a1a] to-[#05150d] p-10 rounded-2xl border border-white/10">
-                <div className="h-12 w-32 bg-white/10 rounded mb-8 animate-pulse" />
+              <div className="relative overflow-hidden p-10 rounded-2xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] ring-1 ring-black/5 dark:ring-white/10">
+                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_30%_20%,rgba(var(--accent-rgb),0.16),transparent_58%)]" />
+                <div className="relative h-12 w-32 bg-black/10 dark:bg-white/10 rounded mb-8 animate-pulse" />
                 <h3 className="text-2xl font-bold mb-4">
                   Collaborative Education
                 </h3>
-                <p className="text-gray-300 mb-8 leading-relaxed">
+                <p className="text-[color:var(--text-secondary)] mb-8 leading-relaxed">
                   "We use Local Dev Experience for our internal ML bootcamp. Being able to
                   share a link to a running environment with all dependencies
                   pre-installed removed so much friction for our students."
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gray-700" />
+                  <div className="w-12 h-12 rounded-full bg-black/10 dark:bg-white/10 ring-1 ring-black/5 dark:ring-white/10" />
                   <div>
                     <div className="font-bold">David Miller</div>
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-[color:var(--text-tertiary)]">
                       Engineering Manager
                     </div>
                   </div>
