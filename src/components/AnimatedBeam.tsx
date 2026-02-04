@@ -39,14 +39,33 @@ export function AnimatedBeam({
       const fromRect = fromEl.getBoundingClientRect();
       const toRect = toEl.getBoundingClientRect();
 
-      setStart({
+      const fromCenter = {
         x: fromRect.left + fromRect.width / 2 - containerRect.left,
         y: fromRect.top + fromRect.height / 2 - containerRect.top,
+      };
+
+      const toCenter = {
+        x: toRect.left + toRect.width / 2 - containerRect.left,
+        y: toRect.top + toRect.height / 2 - containerRect.top,
+      };
+
+      const dx = toCenter.x - fromCenter.x;
+      const dy = toCenter.y - fromCenter.y;
+      const len = Math.max(1, Math.hypot(dx, dy));
+      const ux = dx / len;
+      const uy = dy / len;
+
+      const fromR = Math.min(fromRect.width, fromRect.height) / 2;
+      const toR = Math.min(toRect.width, toRect.height) / 2;
+
+      setStart({
+        x: fromCenter.x + ux * fromR,
+        y: fromCenter.y + uy * fromR,
       });
 
       setEnd({
-        x: toRect.left + toRect.width / 2 - containerRect.left,
-        y: toRect.top + toRect.height / 2 - containerRect.top,
+        x: toCenter.x - ux * toR,
+        y: toCenter.y - uy * toR,
       });
     };
 
@@ -71,14 +90,20 @@ export function AnimatedBeam({
     const dx = end.x - start.x;
     const dy = end.y - start.y;
 
+    const len = Math.max(1, Math.hypot(dx, dy));
+    const nx = -dy / len;
+    const ny = dx / len;
+    const dir = dx === 0 ? 1 : Math.sign(dx);
+    const bend = curvature * len * 0.22;
+
     const c1: Point = {
-      x: start.x + dx * 0.15,
-      y: start.y + dy * curvature,
+      x: start.x + dx * 0.25 + nx * bend * dir,
+      y: start.y + dy * 0.25 + ny * bend * dir,
     };
 
     const c2: Point = {
-      x: start.x + dx * 0.85,
-      y: end.y - dy * curvature,
+      x: start.x + dx * 0.75 + nx * bend * dir,
+      y: start.y + dy * 0.75 + ny * bend * dir,
     };
 
     return `M ${start.x} ${start.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${end.x} ${end.y}`;
@@ -95,19 +120,12 @@ export function AnimatedBeam({
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id={`cng-beam-grad-${id}`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="rgba(var(--net-rgb),0.0)" />
-          <stop offset="0.35" stopColor="rgba(var(--net-rgb),0.72)" />
-          <stop offset="0.65" stopColor="rgba(var(--net-rgb),0.72)" />
-          <stop offset="1" stopColor="rgba(var(--net-rgb),0.0)" />
-        </linearGradient>
-
         <filter id={`cng-beam-glow-${id}`} x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="3.2" result="blur" />
+          <feGaussianBlur stdDeviation="3.8" result="blur" />
           <feColorMatrix
             in="blur"
             type="matrix"
-            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.75 0"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.6 0"
             result="glow"
           />
           <feMerge>
@@ -120,19 +138,21 @@ export function AnimatedBeam({
       <path
         d={d}
         fill="none"
-        stroke="rgba(var(--net-rgb),0.10)"
-        strokeWidth={1.0}
+        stroke="rgba(var(--net-rgb),0.18)"
+        strokeWidth={1.2}
         strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
       />
 
       <path
         d={d}
         fill="none"
-        stroke={`url(#cng-beam-grad-${id})`}
-        strokeWidth={1.35}
+        stroke="rgba(var(--net-rgb),0.75)"
+        strokeWidth={1.5}
         strokeLinecap="round"
-        strokeDasharray="28 220"
+        strokeDasharray="14 260"
         filter={`url(#cng-beam-glow-${id})`}
+        vectorEffect="non-scaling-stroke"
         style={{
           animationName: reverse ? "cng-beam-rev" : "cng-beam",
           animationDuration: `${duration}s`,

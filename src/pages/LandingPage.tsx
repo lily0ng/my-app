@@ -618,8 +618,14 @@ export function LandingPage() {
                       const toRef = connectivityNodeRefById[e.to];
                       if (!fromRef || !toRef) return null;
 
-                      const baseCurvature = e.from === 'local-as' || e.to === 'local-as' ? 0.28 : 0.22;
-                      const duration = 2.9 + (idx % 3) * 0.35;
+                      const baseCurvature =
+                        (e.from === 'local-as' && e.to === 'iaas') ||
+                        (e.from === 'internet' && e.to === 'hti')
+                          ? 0
+                          : e.from === 'local-as' || e.to === 'local-as'
+                            ? 0.22
+                            : 0.18;
+                      const duration = 3.1 + (idx % 3) * 0.25;
                       const delay = (idx % 6) * 0.12;
 
                       return (
@@ -631,6 +637,7 @@ export function LandingPage() {
                           duration={duration}
                           delay={delay}
                           curvature={baseCurvature}
+                          className="z-0"
                         />
                       );
                     })}
@@ -638,12 +645,18 @@ export function LandingPage() {
                     {connectivityNodes.map((n) => {
                       const isHovered = hoveredConnectivityNode === n.id;
                       const logoSrc = connectivityNodeLogoById[n.id];
-                      const tooltipAlign =
+                      const tooltipPositionClass =
                         n.x >= 780
-                          ? ("right" as const)
+                          ? 'left-1/2 -translate-x-full -ml-16'
                           : n.x <= 220
-                            ? ("left" as const)
-                            : ("center" as const);
+                            ? 'left-1/2 ml-16'
+                            : 'left-1/2 -translate-x-1/2';
+                      const tooltipArrowClass =
+                        n.x >= 780
+                          ? 'right-10'
+                          : n.x <= 220
+                            ? 'left-10'
+                            : 'left-1/2 -translate-x-1/2';
                       const nodeKind =
                         n.id === 'iaas'
                           ? ('iaas' as const)
@@ -654,10 +667,7 @@ export function LandingPage() {
                               : ('provider' as const);
                       const wrapperClass =
                         "absolute -translate-x-1/2 -translate-y-1/2 z-10";
-                      const nodeBaseClass =
-                        nodeKind === 'provider'
-                          ? 'relative h-14 w-14 md:h-16 md:w-16'
-                          : 'relative h-24 w-24 md:h-28 md:w-28';
+                      const nodeBaseClass = 'relative h-16 w-16 md:h-20 md:w-20';
                       const circleSkinClass = 'border-black/10 bg-white';
                       const circleHoverClass = isHovered
                         ? theme === 'dark'
@@ -691,14 +701,14 @@ export function LandingPage() {
 
                               <ConnectivityCircle
                                 className={`${nodeBaseClass} ${circleSkinClass} ${circleHoverClass} ${
-                                  nodeKind === 'provider' ? 'p-2.5 md:p-3' : 'p-3 md:p-4'
+                                  'p-3 md:p-3.5'
                                 }`}
                                 ref={connectivityNodeRefById[n.id]}
                               >
                                 {nodeKind === 'internet' ? (
                                   <svg
-                                    width="84"
-                                    height="84"
+                                    width="62"
+                                    height="62"
                                     viewBox="0 0 64 64"
                                     className="relative"
                                     aria-hidden="true"
@@ -727,8 +737,8 @@ export function LandingPage() {
                                     alt={n.label}
                                     className={`relative z-10 block object-contain max-h-full max-w-full ${
                                       n.id === 'iaas' || n.id === 'local-as'
-                                        ? 'h-14 w-32 md:h-16 md:w-40'
-                                        : 'h-11 w-24 md:h-12 md:w-28'
+                                        ? 'h-9 w-14 md:h-10 md:w-16'
+                                        : 'h-8 w-10 md:h-9 md:w-12'
                                     }`}
                                     loading="lazy"
                                     draggable={false}
@@ -782,11 +792,11 @@ export function LandingPage() {
 
                               {nodeKind !== 'provider' && nodeKind !== 'internet' ? (
                                 <div className="mt-3 text-center">
-                                  <div className={`text-sm font-bold leading-tight ${theme === 'dark' ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>
+                                  <div className="text-sm font-bold leading-tight text-white">
                                     {n.label}
                                   </div>
                                   {n.sublabel ? (
-                                    <div className={`text-xs font-semibold ${theme === 'dark' ? 'text-white/70' : 'text-[color:var(--text-secondary)]'}`}>{n.sublabel}</div>
+                                    <div className="text-xs font-semibold text-white/70">{n.sublabel}</div>
                                   ) : null}
                                 </div>
                               ) : null}
@@ -800,32 +810,17 @@ export function LandingPage() {
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                                 transition={{ duration: 0.18, ease: "easeOut" }}
-                                className={`pointer-events-none absolute top-[-12px] -translate-y-full w-[220px] rounded-2xl backdrop-blur-xl px-3.5 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.50)] z-30 ${
-                                  theme === 'dark'
-                                    ? 'bg-black/65 ring-1 ring-white/10'
-                                    : 'bg-white/90 ring-1 ring-black/10'
-                                } ${
-                                  tooltipAlign === 'right'
-                                    ? 'left-1/2 -translate-x-full -ml-16'
-                                    : tooltipAlign === 'left'
-                                      ? 'left-1/2 ml-16'
-                                      : 'left-1/2 -translate-x-1/2'
-                                }`}
+                                className={`pointer-events-none absolute top-[-12px] -translate-y-full w-[220px] rounded-2xl backdrop-blur-xl px-3.5 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.50)] z-30 bg-black/65 ring-1 ring-white/10 ${tooltipPositionClass}`}
                               >
-                                <div className={`text-[11px] font-semibold tracking-wide ${theme === 'dark' ? 'text-white/90' : 'text-black/90'}`}>{n.label}{n.sublabel ? ` ${n.sublabel}` : ""}</div>
-                                <div className={`mt-1.5 text-[13px] leading-relaxed ${theme === 'dark' ? 'text-white/70' : 'text-black/70'}`}>{n.desc}</div>
+                                <div className="text-[11px] font-semibold tracking-wide text-white/90">
+                                  {n.label}
+                                  {n.sublabel ? ` ${n.sublabel}` : ""}
+                                </div>
+                                <div className="mt-1.5 text-[13px] leading-relaxed text-white/70">
+                                  {n.desc}
+                                </div>
                                 <div
-                                  className={`absolute bottom-[-6px] h-3 w-3 rotate-45 ${
-                                    theme === 'dark'
-                                      ? 'bg-black/65 ring-1 ring-white/10'
-                                      : 'bg-white/90 ring-1 ring-black/10'
-                                  } ${
-                                    tooltipAlign === 'right'
-                                      ? 'right-10'
-                                      : tooltipAlign === 'left'
-                                        ? 'left-10'
-                                        : 'left-1/2 -translate-x-1/2'
-                                  }`}
+                                  className={`absolute bottom-[-6px] h-3 w-3 rotate-45 bg-black/65 ring-1 ring-white/10 ${tooltipArrowClass}`}
                                 />
                               </motion.div>
                             ) : null}

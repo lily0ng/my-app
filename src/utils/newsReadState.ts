@@ -35,7 +35,7 @@ export function subscribeNewsReadStateChanged(callback: () => void): () => void 
   const onStorage = (e: StorageEvent) => {
     if (e.key === STORAGE_KEY) callback();
   };
-  const onCustom = () => callback();
+  const onCustom = () => callback();  
 
   window.addEventListener('storage', onStorage);
   window.addEventListener(CHANGE_EVENT, onCustom);
