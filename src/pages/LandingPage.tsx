@@ -75,7 +75,7 @@ export function LandingPage() {
     {
       id: "iaas",
       x: 500,
-      y: 476,
+      y: 472,
       label: "1CNG",
       sublabel: "IaaS",
       tone: "primary" as const,
@@ -84,7 +84,7 @@ export function LandingPage() {
     {
       id: "local-as",
       x: 500,
-      y: 360,
+      y: 350,
       label: "Local",
       sublabel: "AS",
       tone: "accent" as const,
@@ -92,8 +92,8 @@ export function LandingPage() {
     },
     {
       id: "globalnet",
-      x: 160,
-      y: 220,
+      x: 170,
+      y: 216,
       label: "GlobalNet",
       sublabel: "",
       tone: "primary" as const,
@@ -101,8 +101,8 @@ export function LandingPage() {
     },
     {
       id: "mpt",
-      x: 330,
-      y: 220,
+      x: 350,
+      y: 216,
       label: "MPT",
       sublabel: "",
       tone: "primary" as const,
@@ -110,8 +110,8 @@ export function LandingPage() {
     },
     {
       id: "atom",
-      x: 670,
-      y: 220,
+      x: 650,
+      y: 216,
       label: "ATOM",
       sublabel: "",
       tone: "primary" as const,
@@ -120,7 +120,7 @@ export function LandingPage() {
     {
       id: "hti",
       x: 500,
-      y: 220,
+      y: 216,
       label: "HTI",
       sublabel: "",
       tone: "primary" as const,
@@ -128,8 +128,8 @@ export function LandingPage() {
     },
     {
       id: "mmix",
-      x: 840,
-      y: 220,
+      x: 830,
+      y: 216,
       label: "MMIX",
       sublabel: "",
       tone: "primary" as const,
@@ -138,7 +138,7 @@ export function LandingPage() {
     {
       id: "internet",
       x: 500,
-      y: 74,
+      y: 70,
       label: "Internet",
       sublabel: "",
       tone: "primary" as const,
@@ -146,18 +146,19 @@ export function LandingPage() {
     },
   ];
 
-  const connectivityEdges = [
-    { from: "iaas", to: "local-as", dir: "both" as const },
-    { from: "local-as", to: "globalnet", dir: "both" as const },
-    { from: "local-as", to: "mpt", dir: "both" as const },
-    { from: "local-as", to: "atom", dir: "both" as const },
-    { from: "local-as", to: "hti", dir: "both" as const },
-    { from: "local-as", to: "mmix", dir: "both" as const },
-    { from: "globalnet", to: "internet", dir: "both" as const },
-    { from: "mpt", to: "internet", dir: "both" as const },
-    { from: "atom", to: "internet", dir: "both" as const },
-    { from: "hti", to: "internet", dir: "both" as const },
-    { from: "mmix", to: "internet", dir: "both" as const },
+  type ConnectivityEdge = { from: string; to: string; dir: 'single' | 'both' };
+  const connectivityEdges: ConnectivityEdge[] = [
+    { from: "internet", to: "globalnet", dir: "single" as const },
+    { from: "internet", to: "mpt", dir: "single" as const },
+    { from: "internet", to: "hti", dir: "single" as const },
+    { from: "internet", to: "atom", dir: "single" as const },
+    { from: "internet", to: "mmix", dir: "single" as const },
+    { from: "globalnet", to: "local-as", dir: "single" as const },
+    { from: "mpt", to: "local-as", dir: "single" as const },
+    { from: "hti", to: "local-as", dir: "single" as const },
+    { from: "atom", to: "local-as", dir: "single" as const },
+    { from: "mmix", to: "local-as", dir: "single" as const },
+    { from: "local-as", to: "iaas", dir: "single" as const },
   ];
 
   return (
@@ -545,11 +546,12 @@ export function LandingPage() {
                         const len = Math.max(1, Math.hypot(dx, dy));
                         const ux = dx / len;
                         const uy = dy / len;
-                        const offset = 12;
-                        const sx = from.x + ux * 54;
-                        const sy = from.y + uy * 54;
-                        const tx = to.x - ux * 54;
-                        const ty = to.y - uy * 54;
+                        const offset = e.dir === 'both' ? 12 : 0;
+                        const nodePad = 62;
+                        const sx = from.x + ux * nodePad;
+                        const sy = from.y + uy * nodePad;
+                        const tx = to.x - ux * nodePad;
+                        const ty = to.y - uy * nodePad;
                         const ox = -uy * offset;
                         const oy = ux * offset;
                         const pathA = `M ${sx + ox} ${sy + oy} L ${tx + ox} ${ty + oy}`;
@@ -561,18 +563,18 @@ export function LandingPage() {
                               d={pathA}
                               fill="none"
                               stroke={`rgba(var(--net-rgb),0.12)`}
-                              strokeWidth={2}
+                              strokeWidth={1.8}
                               strokeLinecap="round"
                             />
                             <path
                               d={pathA}
                               fill="none"
                               stroke={`rgba(var(--net-rgb),0.60)`}
-                              strokeWidth={2}
+                              strokeWidth={1.8}
                               strokeLinecap="round"
-                              strokeDasharray="10 10"
+                              strokeDasharray="9 10"
                               markerEnd="url(#cng-arrow)"
-                              style={{ animation: "cng-flow 1.05s linear infinite" }}
+                              style={{ animation: "cng-flow 1.35s linear infinite" }}
                             />
                             {e.dir === "both" ? (
                               <>
@@ -580,18 +582,18 @@ export function LandingPage() {
                                   d={pathB}
                                   fill="none"
                                   stroke={`rgba(var(--net-rgb),0.10)`}
-                                  strokeWidth={2}
+                                  strokeWidth={1.8}
                                   strokeLinecap="round"
                                 />
                                 <path
                                   d={pathB}
                                   fill="none"
                                   stroke={`rgba(var(--net-rgb),0.50)`}
-                                  strokeWidth={2}
+                                  strokeWidth={1.8}
                                   strokeLinecap="round"
-                                  strokeDasharray="10 10"
+                                  strokeDasharray="9 10"
                                   markerEnd="url(#cng-arrow)"
-                                  style={{ animation: "cng-flow-rev 1.05s linear infinite" }}
+                                  style={{ animation: "cng-flow-rev 1.35s linear infinite" }}
                                 />
                               </>
                             ) : null}
@@ -620,8 +622,13 @@ export function LandingPage() {
                               : ('provider' as const);
                       const wrapperClass =
                         "absolute -translate-x-1/2 -translate-y-1/2";
+                      const nodeBaseClass =
+                        nodeKind === 'provider'
+                          ? 'relative h-20 w-32 md:h-24 md:w-36 rounded-2xl'
+                          : 'relative h-28 w-28 md:h-32 md:w-32 rounded-full';
                       const circleClass =
-                        "relative h-28 w-28 md:h-32 md:w-32 rounded-full flex items-center justify-center transition-all ring-1 ring-black/5 dark:ring-white/10" +
+                        nodeBaseClass +
+                        " flex items-center justify-center transition-all ring-1 ring-black/5 dark:ring-white/10" +
                         (isHovered
                           ? " shadow-[0_10px_30px_rgba(0,0,0,0.10)] dark:shadow-[0_14px_40px_rgba(0,0,0,0.35)]"
                           : "");
