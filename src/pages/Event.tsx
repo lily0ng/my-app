@@ -17,12 +17,28 @@ import { Link } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { Nav } from '../components/Nav';
 import { newsPosts } from './eventNewsData';
+import {
+  getReadNewsSlugs,
+  subscribeNewsReadStateChanged,
+} from '../utils/newsReadState';
 
 export function EventsPage() {
   const [selectedGalleryId, setSelectedGalleryId] = useState('g0');
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [eventDetailsOpen, setEventDetailsOpen] = useState(false);
   const [selectedEventTitle, setSelectedEventTitle] = useState<string>('');
+  const [readNewsSlugs, setReadNewsSlugs] = useState<string[]>(() => getReadNewsSlugs());
+
+  const formatViews = (views: number) => {
+    try {
+      return new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+      }).format(views);
+    } catch {
+      return `${views}`;
+    }
+  };
 
   const featuredEvents = [
     {
@@ -191,11 +207,27 @@ export function EventsPage() {
     return () => window.clearInterval(id);
   }, [detailsOpen]);
 
+  useEffect(() => {
+    const update = () => setReadNewsSlugs(getReadNewsSlugs());
+    update();
+    return subscribeNewsReadStateChanged(update);
+  }, []);
+
   return (
     <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] overflow-hidden font-sans selection:bg-[rgba(var(--accent-rgb),0.30)] selection:text-[color:var(--bg-primary)]">
       <Nav />
 
       <main>
+        <style>{`
+          @keyframes eventNewsMarquee {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+          }
+          .eventNewsMarquee {
+            animation: eventNewsMarquee 70s linear infinite;
+            will-change: transform;
+          }
+        `}</style>
         <section className="pt-40 pb-20 px-6 relative">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(var(--accent-rgb),0.14),transparent_55%)] pointer-events-none" />
           <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.18)_1px,transparent_1px)] [background-size:44px_44px] pointer-events-none" />
@@ -268,6 +300,30 @@ export function EventsPage() {
           </div>
         </section>
 
+        <section className="px-6 py-5 bg-[color:var(--bg-secondary)] border-y border-[color:var(--border-color)]">
+          <div className="max-w-7xl mx-auto">
+            <div className="relative overflow-hidden">
+              <div className="eventNewsMarquee flex min-w-max items-center gap-14 pr-14 text-sm">
+                {[...newsPosts, ...newsPosts].map((p, idx) => (
+                  <div key={`${p.slug}-${idx}`} className="flex items-center gap-3 whitespace-nowrap">
+                    <span className="font-semibold text-[color:var(--text-primary)]">{p.title}</span>
+                    <Link
+                      to={`/resources/events/news/${p.slug}`}
+                      className="text-[color:var(--text-secondary)] hover:text-[color:var(--accent)] transition-colors"
+                      aria-label={`View ${p.title}`}
+                    >
+                      {formatViews(p.views)} views
+                    </Link>
+                    <span className="mx-2 h-1 w-1 rounded-full bg-[color:var(--border-color)]" />
+                  </div>
+                ))}
+              </div>
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-[linear-gradient(to_right,var(--bg-secondary),transparent)]" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-[linear-gradient(to_left,var(--bg-secondary),transparent)]" />
+            </div>
+          </div>
+        </section>
+
         <section id="news" className="px-6 pb-20">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
@@ -335,30 +391,40 @@ export function EventsPage() {
             </div>
 
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {newsPosts.map((p, idx) => (
-                <motion.div
-                  key={p.title}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.45, ease: 'easeOut', delay: idx * 0.05 }}
-                  className="rounded-2xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors overflow-hidden"
-                >
-                  <Link to={`/resources/events/news/${p.slug}`} className="block p-7 h-full">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{p.tag}</div>
-                      <div className="text-xs text-[color:var(--text-tertiary)]">{p.date}</div>
-                    </div>
-                    <div className="mt-3 font-bold text-lg">{p.title}</div>
-                    <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
-                      {p.desc}
-                    </div>
-                    <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)]">
-                      Read more <ArrowRight size={16} />
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+              {newsPosts.map((p, idx) => {
+                const isUnread = !readNewsSlugs.includes(p.slug);
+                return (
+                  <motion.div
+                    key={p.title}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.45, ease: 'easeOut', delay: idx * 0.05 }}
+                    className="rounded-2xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors overflow-hidden"
+                  >
+                    <Link to={`/resources/events/news/${p.slug}`} className="block p-7 h-full">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{p.tag}</div>
+                        <div className="flex items-center gap-2">
+                          {isUnread ? (
+                            <span className="inline-flex items-center rounded-full bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 animate-pulse ring-1 ring-white/20">
+                              News
+                            </span>
+                          ) : null}
+                          <div className="text-xs text-[color:var(--text-tertiary)]">{p.date}</div>
+                        </div>
+                      </div>
+                      <div className="mt-3 font-bold text-lg">{p.title}</div>
+                      <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                        {p.desc}
+                      </div>
+                      <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)]">
+                        Read more <ArrowRight size={16} />
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>

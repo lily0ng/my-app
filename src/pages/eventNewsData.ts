@@ -3,6 +3,7 @@ export type EventNewsPost = {
   title: string;
   date: string;
   tag: string;
+  views: number;
   desc: string;
   sections: Array<{ heading: string; body: string[] }>;
 };
@@ -13,6 +14,7 @@ export const newsPosts: EventNewsPost[] = [
     title: 'Launch Week Live agenda is out',
     date: 'Feb 2026',
     tag: 'Product',
+    views: 18294,
     desc: 'A full schedule of demos, workshops, and platform deep dives with the team.',
     sections: [
       {
@@ -38,6 +40,7 @@ export const newsPosts: EventNewsPost[] = [
     title: 'New meetup kit for local organizers',
     date: 'Jan 2026',
     tag: 'Community',
+    views: 9460,
     desc: 'Templates, speaker notes, and a quick-start checklist to host your first chapter night.',
     sections: [
       {
@@ -62,6 +65,7 @@ export const newsPosts: EventNewsPost[] = [
     title: 'Workshop: Deploying low-latency inference',
     date: 'Jan 2026',
     tag: 'Inference',
+    views: 12031,
     desc: 'A practical walkthrough from container build to production traffic with monitoring.',
     sections: [
       {

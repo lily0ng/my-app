@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
@@ -24,12 +24,29 @@ import {
 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { newsPosts } from '../pages/eventNewsData';
+import {
+  getReadNewsSlugs,
+  subscribeNewsReadStateChanged,
+} from '../utils/newsReadState';
 import logo from '../assets/images/Logo.png';
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [hasUnreadNews, setHasUnreadNews] = useState(false);
   const { theme, toggleTheme } = useTheme();
   useLocation();
+
+  useEffect(() => {
+    const compute = () => {
+      const read = new Set(getReadNewsSlugs());
+      return newsPosts.some((p) => !read.has(p.slug));
+    };
+
+    const update = () => setHasUnreadNews(compute());
+    update();
+    return subscribeNewsReadStateChanged(update);
+  }, []);
   const productItems = [
   {
     name: 'Cloud Compute',
@@ -258,9 +275,20 @@ export function Nav() {
             setActive={setActiveDropdown}>
 
             <div className="w-[700px] p-2 grid grid-cols-2 gap-2">
-              {resourceItems.map((item) =>
-              <DropdownItem key={item.name} item={item} />
-              )}
+              {resourceItems.map((item) => (
+                <DropdownItem
+                  key={item.name}
+                  item={item}
+                  badge={
+                    item.path === '/resources/events' && hasUnreadNews ? (
+                      <span className="ml-2 inline-flex items-center rounded-full bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 animate-pulse shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
+                        <span className="group-hover:hidden">News Updates</span>
+                        <span className="hidden group-hover:inline">News</span>
+                      </span>
+                    ) : null
+                  }
+                />
+              ))}
             </div>
           </Dropdown>
 
@@ -468,7 +496,7 @@ function Dropdown({
     </div>);
 
 }
-function DropdownItem({ item }: {item: any;}) {
+function DropdownItem({ item, badge }: {item: any; badge?: React.ReactNode;}) {
   return (
     <Link
       to={item.path}
@@ -478,8 +506,9 @@ function DropdownItem({ item }: {item: any;}) {
         <item.icon size={20} />
       </div>
       <div>
-        <div className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors text-sm">
-          {item.name}
+        <div className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors text-sm flex items-center gap-2">
+          <span>{item.name}</span>
+          {badge}
         </div>
         <p className="text-xs text-[color:var(--text-secondary)] mt-1 leading-relaxed">
           {item.desc}

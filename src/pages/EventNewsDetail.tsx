@@ -1,13 +1,20 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Newspaper } from 'lucide-react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { Nav } from '../components/Nav';
 import { getNewsPost } from './eventNewsData';
+import { markNewsRead } from '../utils/newsReadState';
 
 export function EventNewsDetailPage() {
   const { slug } = useParams();
   const post = getNewsPost(slug);
+
+  useEffect(() => {
+    if (!post) return;
+    markNewsRead(post.slug);
+  }, [post]);
 
   return (
     <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] font-sans selection:bg-[rgba(var(--accent-rgb),0.30)] selection:text-[color:var(--bg-primary)]">
