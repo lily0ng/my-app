@@ -6,6 +6,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import uiDark from "../assets/images/UI Dark Thmes.png";
 import uiLight from "../assets/images/UI Light Thmes.png";
+import mptLogo from "../assets/images/mpt.png";
+import htiLogo from "../assets/images/hti.png";
+import atomLogo from "../assets/images/Atom.png";
+import mmixLogo from "../assets/images/mmix-b.png";
+import oneCngLogo from "../assets/images/1clodung.png";
+import globalNetLogo from "../assets/images/GlobalNet.svg";
 import { newsPosts } from "./eventNewsData";
 import {
   Terminal,
@@ -26,6 +32,15 @@ export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [hoveredConnectivityNode, setHoveredConnectivityNode] = useState<string | null>(null);
   const { theme } = useTheme();
+
+  const connectivityNodeLogoById: Record<string, string> = {
+    mpt: mptLogo,
+    hti: htiLogo,
+    atom: atomLogo,
+    mmix: mmixLogo,
+    globalnet: globalNetLogo,
+    iaas: oneCngLogo,
+  };
 
   const formatViews = (views: number) => {
     try {
@@ -588,6 +603,7 @@ export function LandingPage() {
                     {connectivityNodes.map((n) => {
                       const isHovered = hoveredConnectivityNode === n.id;
                       const isAccent = n.tone === "accent";
+                      const logoSrc = connectivityNodeLogoById[n.id];
                       const tooltipAlign =
                         n.x >= 780
                           ? ("right" as const)
@@ -633,7 +649,7 @@ export function LandingPage() {
                             aria-label={`${n.label} ${n.sublabel}`.trim()}
                           >
                             <div className="flex flex-col items-center">
-                              {nodeKind === 'provider' ? (
+                              {nodeKind === 'provider' && !logoSrc ? (
                                 <div className="mb-2 text-[11px] font-bold tracking-wide px-4 py-1 rounded-full bg-black/55 text-white/95 backdrop-blur-sm">
                                   {n.label}
                                 </div>
@@ -672,6 +688,20 @@ export function LandingPage() {
                                       Internet
                                     </text>
                                   </svg>
+                                ) : logoSrc ? (
+                                  <div className="relative z-10 rounded-2xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(0,0,0,0.24)] px-4 py-2 ring-1 ring-black/5 dark:ring-white/10 backdrop-blur-sm">
+                                    <img
+                                      src={logoSrc}
+                                      alt={n.label}
+                                      className={`block object-contain ${
+                                        n.id === 'iaas'
+                                          ? 'h-12 w-24'
+                                          : 'h-9 w-20'
+                                      }`}
+                                      loading="lazy"
+                                      draggable={false}
+                                    />
+                                  </div>
                                 ) : nodeKind === 'iaas' ? (
                                   <svg
                                     width="60"
