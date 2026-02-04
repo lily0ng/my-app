@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { forwardRef, useRef, useState, type RefObject } from "react";
 import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
 import { useTheme } from "../contexts/ThemeContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { AnimatedBeam } from "../components/AnimatedBeam";
 import uiDark from "../assets/images/UI Dark Thmes.png";
 import uiLight from "../assets/images/UI Light Thmes.png";
 import mptLogo from "../assets/images/mpt.png";
@@ -12,6 +13,7 @@ import atomLogo from "../assets/images/Atom.png";
 import mmixLogo from "../assets/images/mmix-b.png";
 import oneCngLogo from "../assets/images/1clodung.png";
 import globalNetLogo from "../assets/images/GlobalNet.svg";
+import ayarnetLogo from "../assets/images/ayarnet.jpg";
 import { newsPosts } from "./eventNewsData";
 import {
   Terminal,
@@ -28,10 +30,50 @@ import {
   Shield,
   Layers,
 } from "lucide-react";
+
+const ConnectivityCircle = forwardRef<
+  HTMLDivElement,
+  { className?: string; children?: React.ReactNode }
+>(({ className, children }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={
+        "z-10 flex items-center justify-center rounded-full border-2 shadow-[0_0_20px_-12px_rgba(0,0,0,0.55)] transition-transform duration-200 ease-out will-change-transform group-hover:scale-[1.04] group-focus-visible:scale-[1.04] " +
+        (className ?? "")
+      }
+    >
+      {children}
+    </div>
+  );
+});
+
+ConnectivityCircle.displayName = "ConnectivityCircle";
 export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [hoveredConnectivityNode, setHoveredConnectivityNode] = useState<string | null>(null);
   const { theme } = useTheme();
+
+  const connectivityContainerRef = useRef<HTMLDivElement>(null);
+  const internetRef = useRef<HTMLDivElement>(null);
+  const globalnetRef = useRef<HTMLDivElement>(null);
+  const mptRef = useRef<HTMLDivElement>(null);
+  const htiRef = useRef<HTMLDivElement>(null);
+  const atomRef = useRef<HTMLDivElement>(null);
+  const mmixRef = useRef<HTMLDivElement>(null);
+  const localAsRef = useRef<HTMLDivElement>(null);
+  const iaasRef = useRef<HTMLDivElement>(null);
+
+  const connectivityNodeRefById: Partial<Record<string, RefObject<HTMLDivElement>>> = {
+    internet: internetRef,
+    globalnet: globalnetRef,
+    mpt: mptRef,
+    hti: htiRef,
+    atom: atomRef,
+    mmix: mmixRef,
+    'local-as': localAsRef,
+    iaas: iaasRef,
+  };
 
   const connectivityNodeLogoById: Record<string, string> = {
     mpt: mptLogo,
@@ -40,6 +82,7 @@ export function LandingPage() {
     mmix: mmixLogo,
     globalnet: globalNetLogo,
     iaas: oneCngLogo,
+    'local-as': ayarnetLogo,
   };
 
   const formatViews = (views: number) => {
@@ -75,7 +118,7 @@ export function LandingPage() {
     {
       id: "iaas",
       x: 500,
-      y: 472,
+      y: 575,
       label: "1CNG",
       sublabel: "IaaS",
       tone: "primary" as const,
@@ -84,7 +127,7 @@ export function LandingPage() {
     {
       id: "local-as",
       x: 500,
-      y: 350,
+      y: 395,
       label: "Local",
       sublabel: "AS",
       tone: "accent" as const,
@@ -93,7 +136,7 @@ export function LandingPage() {
     {
       id: "globalnet",
       x: 170,
-      y: 216,
+      y: 240,
       label: "GlobalNet",
       sublabel: "",
       tone: "primary" as const,
@@ -102,7 +145,7 @@ export function LandingPage() {
     {
       id: "mpt",
       x: 350,
-      y: 216,
+      y: 240,
       label: "MPT",
       sublabel: "",
       tone: "primary" as const,
@@ -111,7 +154,7 @@ export function LandingPage() {
     {
       id: "atom",
       x: 650,
-      y: 216,
+      y: 240,
       label: "ATOM",
       sublabel: "",
       tone: "primary" as const,
@@ -120,7 +163,7 @@ export function LandingPage() {
     {
       id: "hti",
       x: 500,
-      y: 216,
+      y: 240,
       label: "HTI",
       sublabel: "",
       tone: "primary" as const,
@@ -129,7 +172,7 @@ export function LandingPage() {
     {
       id: "mmix",
       x: 830,
-      y: 216,
+      y: 240,
       label: "MMIX",
       sublabel: "",
       tone: "primary" as const,
@@ -138,7 +181,7 @@ export function LandingPage() {
     {
       id: "internet",
       x: 500,
-      y: 70,
+      y: 92,
       label: "Internet",
       sublabel: "",
       tone: "primary" as const,
@@ -479,132 +522,121 @@ export function LandingPage() {
 
         {/* 4. Interactive Demo Section */}
         <section
-          className="relative overflow-hidden pt-24 pb-24 px-6 bg-[rgba(var(--net-rgb),0.06)] dark:bg-[color:var(--bg-secondary)]"
-          style={{ ['--net-rgb' as any]: '56,189,248', ['--net-local-rgb' as any]: '250,204,21' }}
+          className={`relative overflow-hidden pt-24 pb-24 px-6 text-[color:var(--text-primary)] ${
+            theme === 'dark'
+              ? 'bg-[color:var(--bg-tertiary)]'
+              : 'bg-[color:var(--bg-primary)]'
+          }`}
+          style={{
+            ['--net-rgb' as any]: '255,255,255',
+            ['--net-local-rgb' as any]: '255,255,255',
+          }}
         >
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_35%,rgba(var(--net-rgb),0.10),transparent_58%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_35%,rgba(var(--net-rgb),0.08),transparent_56%)]" />
+            <div
+              className={`absolute inset-0 ${
+                theme === 'dark'
+                  ? 'bg-[radial-gradient(circle_at_18%_35%,rgba(var(--net-rgb),0.02),transparent_58%)]'
+                  : 'bg-[radial-gradient(circle_at_18%_35%,rgba(var(--net-rgb),0.10),transparent_58%)]'
+              }`}
+            />
+            <div
+              className={`absolute inset-0 ${
+                theme === 'dark'
+                  ? 'bg-[radial-gradient(circle_at_78%_35%,rgba(var(--net-rgb),0.015),transparent_56%)]'
+                  : 'bg-[radial-gradient(circle_at_78%_35%,rgba(var(--net-rgb),0.08),transparent_56%)]'
+              }`}
+            />
           </div>
           <div className="relative max-w-7xl mx-auto">
             <div className="max-w-4xl">
-              <div className="text-sm font-semibold text-[var(--text-secondary)] mb-3">
+              <div
+                className={`text-sm font-semibold mb-3 ${
+                  theme === 'dark' ? 'text-white/70' : 'text-[color:var(--text-secondary)]'
+                }`}
+              >
                 Network Connectivity
               </div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6">1CNG Network Connectivity</h2>
-              <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-8 leading-relaxed">
+              <p
+                className={`text-lg md:text-xl mb-8 leading-relaxed ${
+                  theme === 'dark' ? 'text-white/70' : 'text-[color:var(--text-secondary)]'
+                }`}
+              >
                 Multi-uplink routing with redundant providers to keep traffic flowing with low latency and fast failover.
               </p>
 
               <div className="flex flex-wrap gap-3">
-                <div className="px-4 py-2 rounded-full bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.06)] backdrop-blur-sm text-sm text-[var(--text-secondary)]">
+                <div
+                  className={`px-4 py-2 rounded-full backdrop-blur-sm text-sm ${
+                    theme === 'dark'
+                      ? 'bg-white/10 text-white/75'
+                      : 'bg-black/5 text-[color:var(--text-secondary)]'
+                  }`}
+                >
                   Local AS policies
                 </div>
-                <div className="px-4 py-2 rounded-full bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.06)] backdrop-blur-sm text-sm text-[var(--text-secondary)]">
+                <div
+                  className={`px-4 py-2 rounded-full backdrop-blur-sm text-sm ${
+                    theme === 'dark'
+                      ? 'bg-white/10 text-white/75'
+                      : 'bg-black/5 text-[color:var(--text-secondary)]'
+                  }`}
+                >
                   Multi-provider transit
                 </div>
-                <div className="px-4 py-2 rounded-full bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.06)] backdrop-blur-sm text-sm text-[var(--text-secondary)]">
+                <div
+                  className={`px-4 py-2 rounded-full backdrop-blur-sm text-sm ${
+                    theme === 'dark'
+                      ? 'bg-white/10 text-white/75'
+                      : 'bg-black/5 text-[color:var(--text-secondary)]'
+                  }`}
+                >
                   Real-time failover {'–'} Live topology
                 </div>
               </div>
             </div>
 
-            <div className="mt-12 relative rounded-3xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] backdrop-blur-md overflow-visible shadow-[0_18px_55px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.30)]">
-                <style>{`@keyframes cng-flow{to{stroke-dashoffset:-60}}@keyframes cng-flow-rev{to{stroke-dashoffset:60}}`}</style>
+            <div className="mt-12 relative overflow-hidden rounded-3xl bg-[#07070a] ring-1 ring-white/10">
+                <style>{`@keyframes cng-beam{to{stroke-dashoffset:-220}}@keyframes cng-beam-rev{to{stroke-dashoffset:220}}`}</style>
                 <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(var(--net-rgb),0.10),transparent_62%)]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_46%,rgba(var(--net-rgb),0.06),transparent_60%)]" />
+                  <div
+                    className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(255,255,255,0.10),transparent_62%)]"
+                  />
+                  <div
+                    className="absolute inset-0 bg-[radial-gradient(circle_at_76%_46%,rgba(255,255,255,0.08),transparent_60%)]"
+                  />
                 </div>
 
-                <div className="relative p-6 md:p-12">
-                  <div className="relative w-full h-[420px] sm:h-[460px] md:h-[520px] lg:h-[600px]">
-                    <svg
-                      viewBox="0 0 1000 520"
-                      className="absolute inset-0 h-full w-full"
-                      aria-hidden="true"
-                    >
-                      <defs>
-                        <marker
-                          id="cng-arrow"
-                          viewBox="0 0 10 10"
-                          refX="9"
-                          refY="5"
-                          markerWidth="7"
-                          markerHeight="7"
-                          orient="auto-start-reverse"
-                        >
-                          <path d="M 0 0 L 10 5 L 0 10 z" fill={`rgba(var(--net-rgb),0.92)`} />
-                        </marker>
-                      </defs>
+                <div className="relative p-6 md:p-8">
+                  <div
+                    className="relative w-full h-[460px] sm:h-[500px] md:h-[560px] lg:h-[620px]"
+                    ref={connectivityContainerRef}
+                  >
+                    {connectivityEdges.map((e, idx) => {
+                      const fromRef = connectivityNodeRefById[e.from];
+                      const toRef = connectivityNodeRefById[e.to];
+                      if (!fromRef || !toRef) return null;
 
-                      {connectivityEdges.map((e, idx) => {
-                        const from = connectivityNodes.find((n) => n.id === e.from);
-                        const to = connectivityNodes.find((n) => n.id === e.to);
-                        if (!from || !to) return null;
-                        const dx = to.x - from.x;
-                        const dy = to.y - from.y;
-                        const len = Math.max(1, Math.hypot(dx, dy));
-                        const ux = dx / len;
-                        const uy = dy / len;
-                        const offset = e.dir === 'both' ? 12 : 0;
-                        const nodePad = 62;
-                        const sx = from.x + ux * nodePad;
-                        const sy = from.y + uy * nodePad;
-                        const tx = to.x - ux * nodePad;
-                        const ty = to.y - uy * nodePad;
-                        const ox = -uy * offset;
-                        const oy = ux * offset;
-                        const pathA = `M ${sx + ox} ${sy + oy} L ${tx + ox} ${ty + oy}`;
-                        const pathB = `M ${tx - ox} ${ty - oy} L ${sx - ox} ${sy - oy}`;
+                      const baseCurvature = e.from === 'local-as' || e.to === 'local-as' ? 0.28 : 0.22;
+                      const duration = 2.9 + (idx % 3) * 0.35;
+                      const delay = (idx % 6) * 0.12;
 
-                        return (
-                          <g key={`${e.from}-${e.to}-${idx}`}>
-                            <path
-                              d={pathA}
-                              fill="none"
-                              stroke={`rgba(var(--net-rgb),0.12)`}
-                              strokeWidth={1.8}
-                              strokeLinecap="round"
-                            />
-                            <path
-                              d={pathA}
-                              fill="none"
-                              stroke={`rgba(var(--net-rgb),0.60)`}
-                              strokeWidth={1.8}
-                              strokeLinecap="round"
-                              strokeDasharray="9 10"
-                              markerEnd="url(#cng-arrow)"
-                              style={{ animation: "cng-flow 1.35s linear infinite" }}
-                            />
-                            {e.dir === "both" ? (
-                              <>
-                                <path
-                                  d={pathB}
-                                  fill="none"
-                                  stroke={`rgba(var(--net-rgb),0.10)`}
-                                  strokeWidth={1.8}
-                                  strokeLinecap="round"
-                                />
-                                <path
-                                  d={pathB}
-                                  fill="none"
-                                  stroke={`rgba(var(--net-rgb),0.50)`}
-                                  strokeWidth={1.8}
-                                  strokeLinecap="round"
-                                  strokeDasharray="9 10"
-                                  markerEnd="url(#cng-arrow)"
-                                  style={{ animation: "cng-flow-rev 1.35s linear infinite" }}
-                                />
-                              </>
-                            ) : null}
-                          </g>
-                        );
-                      })}
-                    </svg>
+                      return (
+                        <AnimatedBeam
+                          key={`${e.from}-${e.to}-${idx}`}
+                          containerRef={connectivityContainerRef}
+                          fromRef={fromRef}
+                          toRef={toRef}
+                          duration={duration}
+                          delay={delay}
+                          curvature={baseCurvature}
+                        />
+                      );
+                    })}
 
                     {connectivityNodes.map((n) => {
                       const isHovered = hoveredConnectivityNode === n.id;
-                      const isAccent = n.tone === "accent";
                       const logoSrc = connectivityNodeLogoById[n.id];
                       const tooltipAlign =
                         n.x >= 780
@@ -617,30 +649,30 @@ export function LandingPage() {
                           ? ('iaas' as const)
                           : n.id === 'local-as'
                             ? ('local' as const)
-                            : n.id === 'internet'
+                          : n.id === 'internet'
                               ? ('internet' as const)
                               : ('provider' as const);
                       const wrapperClass =
-                        "absolute -translate-x-1/2 -translate-y-1/2";
+                        "absolute -translate-x-1/2 -translate-y-1/2 z-10";
                       const nodeBaseClass =
                         nodeKind === 'provider'
-                          ? 'relative h-20 w-32 md:h-24 md:w-36 rounded-2xl'
-                          : 'relative h-28 w-28 md:h-32 md:w-32 rounded-full';
-                      const circleClass =
-                        nodeBaseClass +
-                        " flex items-center justify-center transition-all ring-1 ring-black/5 dark:ring-white/10" +
-                        (isHovered
-                          ? " shadow-[0_10px_30px_rgba(0,0,0,0.10)] dark:shadow-[0_14px_40px_rgba(0,0,0,0.35)]"
-                          : "");
-                      const fillClass = isAccent
-                        ? "bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-local-rgb),0.60),rgba(var(--net-local-rgb),0.16)_52%,rgba(0,0,0,0)_100%)]"
-                        : "bg-[radial-gradient(circle_at_30%_25%,rgba(var(--net-rgb),0.48),rgba(var(--net-rgb),0.12)_52%,rgba(0,0,0,0)_100%)]";
+                          ? 'relative h-14 w-14 md:h-16 md:w-16'
+                          : 'relative h-24 w-24 md:h-28 md:w-28';
+                      const circleSkinClass = 'border-black/10 bg-white';
+                      const circleHoverClass = isHovered
+                        ? theme === 'dark'
+                          ? 'border-[rgba(var(--accent-rgb),0.45)]'
+                          : 'border-[rgba(var(--accent-rgb),0.35)]'
+                        : '';
+                      const internetStroke = 'rgba(0,0,0,0.72)';
+                      const internetFill = 'rgba(0,0,0,0.04)';
+                      const internetText = 'rgba(0,0,0,0.78)';
 
                       return (
                         <div
                           key={n.id}
                           className={wrapperClass}
-                          style={{ left: `${(n.x / 1000) * 100}%`, top: `${(n.y / 520) * 100}%` }}
+                          style={{ left: `${(n.x / 1000) * 100}%`, top: `${(n.y / 600) * 100}%` }}
                           onMouseEnter={() => setHoveredConnectivityNode(n.id)}
                           onMouseLeave={() =>
                             setHoveredConnectivityNode((prev) =>
@@ -656,59 +688,51 @@ export function LandingPage() {
                             aria-label={`${n.label} ${n.sublabel}`.trim()}
                           >
                             <div className="flex flex-col items-center">
-                              {nodeKind === 'provider' && !logoSrc ? (
-                                <div className="mb-2 text-[11px] font-bold tracking-wide px-4 py-1 rounded-full bg-black/55 text-white/95 backdrop-blur-sm">
-                                  {n.label}
-                                </div>
-                              ) : null}
 
-                              <div
-                                className={`${circleClass} ${fillClass} ${
-                                  nodeKind === 'internet' ? 'rounded-[32px]' : ''
+                              <ConnectivityCircle
+                                className={`${nodeBaseClass} ${circleSkinClass} ${circleHoverClass} ${
+                                  nodeKind === 'provider' ? 'p-2.5 md:p-3' : 'p-3 md:p-4'
                                 }`}
+                                ref={connectivityNodeRefById[n.id]}
                               >
-                                <div className="absolute inset-2 rounded-full bg-[rgba(255,255,255,0.45)] dark:bg-[rgba(0,0,0,0.18)] backdrop-blur-sm" />
-
                                 {nodeKind === 'internet' ? (
                                   <svg
-                                    width="62"
-                                    height="62"
+                                    width="84"
+                                    height="84"
                                     viewBox="0 0 64 64"
                                     className="relative"
                                     aria-hidden="true"
                                   >
                                     <path
                                       d="M22 45h26c6 0 10-4 10-10s-4-10-10-10h-2C44 18 38 14 31 14c-8 0-15 6-16 14h-1C8 28 4 32 4 38s4 7 8 7h10z"
-                                      fill="rgba(var(--net-rgb),0.25)"
-                                      stroke="rgba(var(--net-rgb),0.85)"
+                                      fill={internetFill}
+                                      stroke={internetStroke}
                                       strokeWidth="2"
                                       strokeLinejoin="round"
                                     />
                                     <text
                                       x="32"
-                                      y="40"
+                                      y="41"
                                       textAnchor="middle"
-                                      fontSize="11"
+                                      fontSize="12"
                                       fontWeight="700"
-                                      fill="rgba(var(--text-primary),0.92)"
+                                      fill={internetText}
                                     >
                                       Internet
                                     </text>
                                   </svg>
                                 ) : logoSrc ? (
-                                  <div className="relative z-10 rounded-2xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(0,0,0,0.24)] px-4 py-2 ring-1 ring-black/5 dark:ring-white/10 backdrop-blur-sm">
-                                    <img
-                                      src={logoSrc}
-                                      alt={n.label}
-                                      className={`block object-contain ${
-                                        n.id === 'iaas'
-                                          ? 'h-12 w-24'
-                                          : 'h-9 w-20'
-                                      }`}
-                                      loading="lazy"
-                                      draggable={false}
-                                    />
-                                  </div>
+                                  <img
+                                    src={logoSrc}
+                                    alt={n.label}
+                                    className={`relative z-10 block object-contain max-h-full max-w-full ${
+                                      n.id === 'iaas' || n.id === 'local-as'
+                                        ? 'h-14 w-32 md:h-16 md:w-40'
+                                        : 'h-11 w-24 md:h-12 md:w-28'
+                                    }`}
+                                    loading="lazy"
+                                    draggable={false}
+                                  />
                                 ) : nodeKind === 'iaas' ? (
                                   <svg
                                     width="60"
@@ -719,15 +743,15 @@ export function LandingPage() {
                                   >
                                     <path
                                       d="M32 8 12 18v28l20 10 20-10V18L32 8z"
-                                      fill="rgba(var(--net-rgb),0.18)"
-                                      stroke="rgba(var(--net-rgb),0.85)"
+                                      fill="rgba(var(--net-rgb),0.10)"
+                                      stroke="rgba(var(--net-rgb),0.95)"
                                       strokeWidth="2"
                                       strokeLinejoin="round"
                                     />
                                     <path
                                       d="M32 8v28l20-10M32 36 12 26"
                                       fill="none"
-                                      stroke="rgba(var(--net-rgb),0.55)"
+                                      stroke="rgba(var(--net-rgb),0.65)"
                                       strokeWidth="2"
                                       strokeLinejoin="round"
                                     />
@@ -754,15 +778,15 @@ export function LandingPage() {
                                     />
                                   </svg>
                                 )}
-                              </div>
+                              </ConnectivityCircle>
 
                               {nodeKind !== 'provider' && nodeKind !== 'internet' ? (
                                 <div className="mt-3 text-center">
-                                  <div className="text-sm font-bold text-[var(--text-primary)] leading-tight">
+                                  <div className={`text-sm font-bold leading-tight ${theme === 'dark' ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>
                                     {n.label}
                                   </div>
                                   {n.sublabel ? (
-                                    <div className="text-xs font-semibold text-[var(--text-secondary)]">{n.sublabel}</div>
+                                    <div className={`text-xs font-semibold ${theme === 'dark' ? 'text-white/70' : 'text-[color:var(--text-secondary)]'}`}>{n.sublabel}</div>
                                   ) : null}
                                 </div>
                               ) : null}
@@ -776,18 +800,26 @@ export function LandingPage() {
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                                 transition={{ duration: 0.18, ease: "easeOut" }}
-                                className={`absolute top-[-14px] -translate-y-full w-[240px] rounded-2xl bg-[rgba(255,255,255,0.85)] dark:bg-[rgba(0,0,0,0.45)] backdrop-blur-md px-4 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_55px_rgba(0,0,0,0.35)] z-20 ${
+                                className={`pointer-events-none absolute top-[-12px] -translate-y-full w-[220px] rounded-2xl backdrop-blur-xl px-3.5 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.50)] z-30 ${
+                                  theme === 'dark'
+                                    ? 'bg-black/65 ring-1 ring-white/10'
+                                    : 'bg-white/90 ring-1 ring-black/10'
+                                } ${
                                   tooltipAlign === 'right'
-                                    ? 'left-1/2 -translate-x-full -ml-6'
+                                    ? 'left-1/2 -translate-x-full -ml-16'
                                     : tooltipAlign === 'left'
-                                      ? 'left-1/2 ml-6'
+                                      ? 'left-1/2 ml-16'
                                       : 'left-1/2 -translate-x-1/2'
                                 }`}
                               >
-                                <div className="text-xs font-bold text-[rgba(var(--net-rgb),0.95)]">{n.label}{n.sublabel ? ` ${n.sublabel}` : ""}</div>
-                                <div className="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">{n.desc}</div>
+                                <div className={`text-[11px] font-semibold tracking-wide ${theme === 'dark' ? 'text-white/90' : 'text-black/90'}`}>{n.label}{n.sublabel ? ` ${n.sublabel}` : ""}</div>
+                                <div className={`mt-1.5 text-[13px] leading-relaxed ${theme === 'dark' ? 'text-white/70' : 'text-black/70'}`}>{n.desc}</div>
                                 <div
-                                  className={`absolute bottom-[-6px] h-3 w-3 rotate-45 bg-[rgba(255,255,255,0.85)] dark:bg-[rgba(0,0,0,0.45)] ${
+                                  className={`absolute bottom-[-6px] h-3 w-3 rotate-45 ${
+                                    theme === 'dark'
+                                      ? 'bg-black/65 ring-1 ring-white/10'
+                                      : 'bg-white/90 ring-1 ring-black/10'
+                                  } ${
                                     tooltipAlign === 'right'
                                       ? 'right-10'
                                       : tooltipAlign === 'left'
@@ -803,7 +835,7 @@ export function LandingPage() {
                     })}
                   </div>
 
-                  <div className="mt-6 text-xs text-[var(--text-secondary)]">
+                  <div className="mt-6 text-xs text-white/60">
                     Hover a node to see details. Arrows animate continuously to represent real-time routing flows.
                   </div>
                 </div>
