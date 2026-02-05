@@ -131,6 +131,12 @@ export function Nav() {
     path: '/resources/playground'
   },
   {
+    name: 'Infra Design',
+    icon: Activity,
+    desc: 'Real-time data center + topology overview',
+    path: '/resources/infra-design'
+  },
+  {
     name: 'Marketplace Apps',
     icon: BoxIcon,
     desc: 'Browse apps and deploy in one click',
