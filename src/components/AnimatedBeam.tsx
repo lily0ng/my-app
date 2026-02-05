@@ -10,6 +10,12 @@ type AnimatedBeamProps = {
   pingPong?: boolean;
   curvature?: number;
   dashArray?: string;
+  baseDashArray?: string;
+  baseColor?: string;
+  beamColor?: string;
+  arrow?: boolean;
+  arrowSize?: number;
+  glow?: boolean;
   baseOpacity?: number;
   beamOpacity?: number;
   beamWidth?: number;
@@ -28,6 +34,12 @@ export function AnimatedBeam({
   pingPong = true,
   curvature = 0.35,
   dashArray = "10 80",
+  baseDashArray,
+  baseColor,
+  beamColor,
+  arrow = false,
+  arrowSize = 10,
+  glow = true,
   baseOpacity = 0.26,
   beamOpacity = 0.9,
   beamWidth = 1.7,
@@ -147,14 +159,33 @@ export function AnimatedBeam({
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+
+        {arrow ? (
+          <marker
+            id={`cng-beam-arrow-${id}`}
+            markerWidth={arrowSize}
+            markerHeight={arrowSize}
+            refX={arrowSize - 1}
+            refY={arrowSize / 2}
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+            <path
+              d={`M0 0 L${arrowSize} ${arrowSize / 2} L0 ${arrowSize} Z`}
+              fill={beamColor ?? `rgba(var(--net-rgb),${beamOpacity})`}
+            />
+          </marker>
+        ) : null}
       </defs>
 
       <path
         d={d}
         fill="none"
-        stroke={`rgba(var(--net-rgb),${baseOpacity})`}
+        stroke={baseColor ?? `rgba(var(--net-rgb),${baseOpacity})`}
         strokeWidth={1.35}
         strokeLinecap="round"
+        strokeDasharray={baseDashArray}
+        opacity={baseColor ? 1 : undefined}
         vectorEffect="non-scaling-stroke"
       />
 
@@ -163,11 +194,13 @@ export function AnimatedBeam({
           <path
             d={d}
             fill="none"
-            stroke={`rgba(var(--net-rgb),${beamOpacity})`}
+            stroke={beamColor ?? `rgba(var(--net-rgb),${beamOpacity})`}
             strokeWidth={beamWidth}
             strokeLinecap="round"
             strokeDasharray={dashArray}
-            filter={`url(#cng-beam-glow-${id})`}
+            filter={glow ? `url(#cng-beam-glow-${id})` : undefined}
+            markerEnd={arrow ? `url(#cng-beam-arrow-${id})` : undefined}
+            opacity={beamColor ? 1 : undefined}
             vectorEffect="non-scaling-stroke"
             style={{
               animationName: "cng-beam",
@@ -180,11 +213,13 @@ export function AnimatedBeam({
           <path
             d={d}
             fill="none"
-            stroke={`rgba(var(--net-rgb),${Math.max(0, beamOpacity - 0.20)})`}
+            stroke={beamColor ?? `rgba(var(--net-rgb),${Math.max(0, beamOpacity - 0.20)})`}
             strokeWidth={beamWidth}
             strokeLinecap="round"
             strokeDasharray={dashArray}
-            filter={`url(#cng-beam-glow-${id})`}
+            filter={glow ? `url(#cng-beam-glow-${id})` : undefined}
+            markerStart={arrow ? `url(#cng-beam-arrow-${id})` : undefined}
+            opacity={beamColor ? 0.75 : undefined}
             vectorEffect="non-scaling-stroke"
             style={{
               animationName: "cng-beam-rev",
@@ -199,11 +234,13 @@ export function AnimatedBeam({
         <path
           d={d}
           fill="none"
-          stroke={`rgba(var(--net-rgb),${beamOpacity})`}
+          stroke={beamColor ?? `rgba(var(--net-rgb),${beamOpacity})`}
           strokeWidth={beamWidth}
           strokeLinecap="round"
           strokeDasharray={dashArray}
-          filter={`url(#cng-beam-glow-${id})`}
+          filter={glow ? `url(#cng-beam-glow-${id})` : undefined}
+          markerEnd={arrow ? `url(#cng-beam-arrow-${id})` : undefined}
+          opacity={beamColor ? 1 : undefined}
           vectorEffect="non-scaling-stroke"
           style={{
             animationName: reverse ? "cng-beam-rev" : "cng-beam",

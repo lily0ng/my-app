@@ -269,7 +269,7 @@ export function LandingPage() {
             </div>
           </div>
         </section>
-
+                
         <section className="relative px-6 py-3 bg-[color:var(--bg-secondary)] border-y border-[var(--border-color)] overflow-hidden">
           <div className="pointer-events-none absolute inset-0 opacity-40">
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(var(--accent-rgb),0.06),transparent)]" />
@@ -625,7 +625,6 @@ export function LandingPage() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(255,255,255,0.10),transparent_62%)]" />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_46%,rgba(255,255,255,0.08),transparent_60%)]" />
               </div>
-
               <div className="relative p-6 md:p-8">
                 <div
                   className="relative w-full h-[460px] sm:h-[500px] md:h-[560px] lg:h-[620px]"
@@ -636,17 +635,17 @@ export function LandingPage() {
                     const toRef = connectivityNodeRefById[e.to];
                     if (!fromRef || !toRef) return null;
 
-                    const isLocalAsToIaas =
-                      e.from === "local-as" && e.to === "iaas";
+                    const expBlue = "rgba(0, 191, 255, 0.95)";
+                    const expBlueSoft = "rgba(0, 191, 255, 0.28)";
+                    const isLocalAsToIaas = e.from === "local-as" && e.to === "iaas";
 
                     const baseCurvature =
-                      (e.from === "local-as" && e.to === "iaas") ||
-                      (e.from === "internet" && e.to === "hti")
+                      isLocalAsToIaas || (e.from === "internet" && e.to === "hti")
                         ? 0
                         : e.from === "local-as" || e.to === "local-as"
                           ? 0.22
                           : 0.18;
-                    const duration = 3.1 + (idx % 3) * 0.25;
+                    const duration = 3.2 + (idx % 3) * 0.28;
                     const delay = (idx % 6) * 0.12;
 
                     return (
@@ -658,12 +657,18 @@ export function LandingPage() {
                         duration={isLocalAsToIaas ? 3.8 : duration}
                         delay={delay}
                         curvature={baseCurvature}
-                        dashArray={isLocalAsToIaas ? "6 10" : undefined}
-                        pingPong={isLocalAsToIaas ? false : true}
-                        reverse={isLocalAsToIaas ? true : undefined}
-                        beamOpacity={isLocalAsToIaas ? 0.92 : undefined}
-                        baseOpacity={isLocalAsToIaas ? 0.22 : undefined}
-                        beamWidth={isLocalAsToIaas ? 1.8 : undefined}
+                        dashArray={isLocalAsToIaas ? "2 8" : "2 10"}
+                        baseDashArray={"2 14"}
+                        pingPong={e.dir === "both"}
+                        reverse={isLocalAsToIaas ? true : false}
+                        arrow
+                        arrowSize={9}
+                        glow={false}
+                        baseColor={expBlueSoft}
+                        beamColor={expBlue}
+                        baseOpacity={1}
+                        beamOpacity={1}
+                        beamWidth={1.6}
                         className="z-0"
                       />
                     );
@@ -808,8 +813,7 @@ export function LandingPage() {
                               )}
                             </ConnectivityCircle>
 
-                            {nodeKind !== "provider" &&
-                            nodeKind !== "internet" ? (
+                            {nodeKind !== "provider" && nodeKind !== "internet" ? (
                               <div className="mt-3 text-center">
                                 <div className="text-sm font-bold leading-tight text-white">
                                   {n.label}

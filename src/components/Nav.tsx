@@ -275,7 +275,7 @@ export function Nav() {
             setActive={setActiveDropdown}
             topBadge={
               hasUnreadNews ? (
-                <span className="inline-flex items-center rounded-full bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 animate-pulse shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
+                <span className="inline-flex items-center rounded-full bg-red-500 text-[#fff] text-[10px] font-bold px-2 py-0.5 animate-pulse shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
                   New
                 </span>
               ) : null
@@ -288,7 +288,7 @@ export function Nav() {
                   item={item}
                   badge={
                     item.path === '/resources/events' && hasUnreadNews ? (
-                      <span className="ml-2 inline-flex items-center rounded-full bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 animate-pulse shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
+                      <span className="ml-2 inline-flex items-center rounded-full bg-red-500 text-[#fff] text-[10px] font-bold px-2 py-0.5 animate-pulse shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
                         <span className="group-hover:hidden">News Updates</span>
                         <span className="hidden group-hover:inline">News</span>
                       </span>

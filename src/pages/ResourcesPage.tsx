@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
@@ -24,8 +24,25 @@ import {
   Rocket } from
 'lucide-react';
 import { Link } from 'react-router-dom';
+import { newsPosts } from './eventNewsData';
+import {
+  getReadNewsSlugs,
+  subscribeNewsReadStateChanged,
+} from '../utils/newsReadState';
 export function ResourcesPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [hasUnreadNews, setHasUnreadNews] = useState(false);
+
+  useEffect(() => {
+    const compute = () => {
+      const read = new Set(getReadNewsSlugs());
+      return newsPosts.some((p) => !read.has(p.slug));
+    };
+
+    const update = () => setHasUnreadNews(compute());
+    update();
+    return subscribeNewsReadStateChanged(update);
+  }, []);
 
   const solutionLinks = useMemo(
     () => [
@@ -329,8 +346,13 @@ export function ResourcesPage() {
                 </Link>
                 <Link
                   to="/resources/events"
-                  className="p-10 border border-[color:var(--border-color)] rounded-3xl bg-[color:var(--bg-secondary)] hover:border-[rgba(var(--accent-rgb),0.55)] transition-all group block flex flex-col hover:-translate-y-1"
+                  className="relative p-10 border border-[color:var(--border-color)] rounded-3xl bg-[color:var(--bg-secondary)] hover:border-[rgba(var(--accent-rgb),0.55)] transition-all group block flex flex-col hover:-translate-y-1"
                 >
+                  {hasUnreadNews ? (
+                    <span className="absolute top-6 right-6 inline-flex items-center rounded-full bg-red-500 text-[#fff] text-[10px] font-bold px-2 py-0.5 shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
+                      New
+                    </span>
+                  ) : null}
                   <Calendar className="text-[color:var(--accent)] mb-6" size={40} />
                   <h3 className="font-bold text-2xl mb-4">Event &amp; News</h3>
                   <p className="text-[color:var(--text-secondary)] mb-8 text-lg line-clamp-1">
