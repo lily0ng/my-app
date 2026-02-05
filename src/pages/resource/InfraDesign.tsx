@@ -115,11 +115,25 @@ export function InfraDesignPage() {
         }
       `}</style>
 
-      <section className="mt-14 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden">
+      <section
+        className="mt-14 rounded-3xl border border-[color:var(--border-color)] overflow-hidden"
+        style={{
+          background:
+            theme === 'dark'
+              ? 'linear-gradient(135deg,rgba(13,22,34,0.72),rgba(10,16,26,0.86))'
+              : 'linear-gradient(180deg, rgba(248,250,252,1), rgba(241,245,249,0.92))',
+        }}
+      >
         <div className="relative p-8 md:p-12">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -top-36 -left-36 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.16)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
-            <div className="absolute -bottom-36 -right-36 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.12)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
+            <div
+              className="absolute -top-36 -left-36 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.14)_0%,rgba(var(--accent-rgb),0.00)_62%)]"
+              style={{ opacity: theme === 'dark' ? 1 : 0.25 }}
+            />
+            <div
+              className="absolute -bottom-36 -right-36 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.10)_0%,rgba(var(--accent-rgb),0.00)_62%)]"
+              style={{ opacity: theme === 'dark' ? 1 : 0.22 }}
+            />
           </div>
 
           <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -146,6 +160,12 @@ export function InfraDesignPage() {
                   <div
                     key={x.label}
                     className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-5 py-4"
+                    style={{
+                      boxShadow:
+                        theme === 'dark'
+                          ? 'none'
+                          : '0 18px 40px rgba(2, 6, 23, 0.06), 0 2px 8px rgba(2, 6, 23, 0.04)',
+                    }}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-xs font-semibold text-[color:var(--text-tertiary)]">
@@ -160,7 +180,15 @@ export function InfraDesignPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 md:p-7">
+            <div
+              className="rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 md:p-7"
+              style={{
+                boxShadow:
+                  theme === 'dark'
+                    ? 'none'
+                    : '0 24px 70px rgba(2, 6, 23, 0.08), 0 2px 10px rgba(2, 6, 23, 0.04)',
+              }}
+            >
               <div className="flex items-center justify-between">
                 <div className="text-sm font-semibold text-[color:var(--text-secondary)]">
                   Real-time flow
@@ -177,7 +205,15 @@ export function InfraDesignPage() {
                 </div>
               </div>
 
-              <div className="mt-5 relative h-[260px] w-full overflow-hidden rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)]">
+              <div
+                className="mt-5 relative h-[260px] w-full overflow-hidden rounded-2xl border border-[color:var(--border-color)]"
+                style={{
+                  background:
+                    theme === 'dark'
+                      ? 'linear-gradient(180deg, rgba(15,23,42,0.55), rgba(15,23,42,0.18))'
+                      : 'linear-gradient(180deg, rgba(248,250,252,1), rgba(241,245,249,0.92))',
+                }}
+              >
                 <svg className="absolute inset-0 h-full w-full" aria-hidden="true">
                   <defs>
                     <linearGradient id="infra-line" x1="0" y1="0" x2="1" y2="1">
@@ -263,11 +299,75 @@ export function InfraDesignPage() {
                     { t: 'Edge', s: 'Ingress + BGP', Icon: Network },
                     { t: 'Core', s: 'Fabric + LB', Icon: Server },
                     { t: 'Rack', s: 'Compute + Storage', Icon: Cpu },
-                  ].map((x) => (
+                  ].map((x, idx) => (
                     <div
                       key={x.t}
-                      className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)]/70 backdrop-blur px-4 py-3"
+                      className="rounded-2xl border border-[color:var(--border-color)] px-4 py-3"
+                      style={{
+                        background:
+                          theme === 'dark'
+                            ? 'rgba(2, 6, 23, 0.32)'
+                            : 'rgba(255, 255, 255, 0.82)',
+                        boxShadow:
+                          theme === 'dark'
+                            ? 'inset 0 1px 0 rgba(255,255,255,0.06)'
+                            : '0 10px 26px rgba(2, 6, 23, 0.06)',
+                        backdropFilter: 'blur(10px)',
+                      }}
                     >
+                      {idx !== 0 ? (
+                        <div
+                          className="absolute left-[-7px] top-1/2 -translate-y-1/2 h-[14px] w-[14px] rounded-full"
+                          style={{
+                            background: theme === 'dark' ? 'rgba(2,6,23,0.88)' : 'rgba(255,255,255,0.96)',
+                            border:
+                              theme === 'dark'
+                                ? '1.5px solid rgba(255,255,255,0.28)'
+                                : '1.5px solid rgba(15,23,42,0.16)',
+                            boxShadow:
+                              theme === 'dark'
+                                ? '0 0 0 3px rgba(var(--accent-rgb),0.10)'
+                                : '0 0 0 3px rgba(37,99,235,0.06)',
+                          }}
+                        >
+                          <div
+                            className="absolute left-1/2 top-1/2 h-[6px] w-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                            style={{
+                              background:
+                                theme === 'dark'
+                                  ? 'rgba(var(--accent-rgb),0.95)'
+                                  : 'rgba(37,99,235,0.70)',
+                            }}
+                          />
+                        </div>
+                      ) : null}
+                      {idx !== 2 ? (
+                        <div
+                          className="absolute right-[-7px] top-1/2 -translate-y-1/2 h-[14px] w-[14px] rounded-full"
+                          style={{
+                            background: theme === 'dark' ? 'rgba(2,6,23,0.88)' : 'rgba(255,255,255,0.96)',
+                            border:
+                              theme === 'dark'
+                                ? '1.5px solid rgba(255,255,255,0.28)'
+                                : '1.5px solid rgba(15,23,42,0.16)',
+                            boxShadow:
+                              theme === 'dark'
+                                ? '0 0 0 3px rgba(var(--accent-rgb),0.10)'
+                                : '0 0 0 3px rgba(37,99,235,0.06)',
+                          }}
+                        >
+                          <div
+                            className="absolute left-1/2 top-1/2 h-[6px] w-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                            style={{
+                              background:
+                                theme === 'dark'
+                                  ? 'rgba(var(--accent-rgb),0.95)'
+                                  : 'rgba(37,99,235,0.70)',
+                            }}
+                          />
+                        </div>
+                      ) : null}
+
                       <div className="flex items-center justify-between">
                         <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">
                           {x.t}
@@ -1113,6 +1213,346 @@ export function InfraDesignPage() {
                         />
                       ))}
                     </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      <section id="cloud-technology" className="mt-16">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Cloud technology</h2>
+          <p className="mt-2 text-[color:var(--text-secondary)] leading-relaxed">
+            A high-level service map for cloud capabilities, with real-time link animations.
+          </p>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.45, ease: 'easeOut' }}
+          className="mt-8 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] overflow-hidden"
+        >
+          <div className="relative p-7 md:p-10">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-xs font-semibold tracking-wider text-[color:var(--text-tertiary)]">ISOMETRIC INFOGRAPHIC</div>
+                <div className="mt-2 text-2xl md:text-3xl font-bold tracking-tight">Cloud services overview</div>
+                <p className="mt-3 text-[color:var(--text-secondary)] leading-relaxed max-w-2xl">
+                  Branched service domains (storage, security, communication, analytics) connected through a common cloud
+                  platform.
+                </p>
+              </div>
+
+              <div
+                className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-3 py-1 text-xs font-semibold text-[color:var(--text-secondary)]"
+                style={{ animation: 'infra-glow 2.4s ease-in-out infinite' }}
+              >
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]"
+                  style={{ animation: 'infra-pulse 1.6s ease-in-out infinite' }}
+                />
+                Real-time links
+              </div>
+            </div>
+
+            <div
+              className="mt-8 relative w-full h-[520px] rounded-2xl border border-[color:var(--border-color)] overflow-hidden"
+              style={{
+                background:
+                  theme === 'dark'
+                    ? 'radial-gradient(900px 520px at 50% 0%, rgba(56,189,248,0.08), rgba(2,6,23,0.92))'
+                    : 'linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92))',
+              }}
+            >
+              <div className="absolute inset-0 flex items-center justify-center p-6">
+                <div className="relative h-full max-w-full aspect-[1000/520]">
+                  <svg
+                    className="absolute inset-0 h-full w-full"
+                    viewBox="0 0 1000 520"
+                    preserveAspectRatio="xMidYMid meet"
+                    aria-hidden="true"
+                  >
+                    <defs>
+                      <pattern id="ct-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                        <path
+                          d="M 24 0 L 0 0 0 24"
+                          fill="none"
+                          stroke={theme === 'dark' ? 'rgba(148,163,184,0.10)' : 'rgba(148,163,184,0.14)'}
+                          strokeWidth="1"
+                        />
+                      </pattern>
+                      <linearGradient id="ct-title" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor={theme === 'dark' ? 'rgba(56,189,248,0.30)' : 'rgba(37,99,235,0.16)'} />
+                        <stop offset="50%" stopColor={theme === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(37,99,235,0.08)'} />
+                        <stop offset="100%" stopColor={theme === 'dark' ? 'rgba(56,189,248,0.30)' : 'rgba(37,99,235,0.16)'} />
+                      </linearGradient>
+                      <linearGradient id="ct-link" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor={theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.10)'} />
+                        <stop offset="50%" stopColor={theme === 'dark' ? 'rgba(255,255,255,0.86)' : 'rgba(15,23,42,0.72)'} />
+                        <stop offset="100%" stopColor={theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.10)'} />
+                      </linearGradient>
+                      <filter id="ct-glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="3.2" result="blur" />
+                        <feColorMatrix
+                          in="blur"
+                          type="matrix"
+                          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.45 0"
+                          result="glow"
+                        />
+                        <feMerge>
+                          <feMergeNode in="glow" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                      <filter id="ct-accent-glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="3.2" result="blur" />
+                        <feColorMatrix
+                          in="blur"
+                          type="matrix"
+                          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0"
+                          result="glow"
+                        />
+                        <feMerge>
+                          <feMergeNode in="glow" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    <g transform="translate(500 260) rotate(-22) translate(-500 -260)">
+                      <rect x="0" y="0" width="1000" height="520" fill="url(#ct-grid)" opacity={theme === 'dark' ? 1 : 0.85} />
+                    </g>
+
+                    <g opacity={theme === 'dark' ? 0.9 : 0.75}>
+                      <path d="M 240 260 L 760 260" stroke={theme === 'dark' ? 'rgba(255,255,255,0.18)' : 'rgba(15,23,42,0.14)'} strokeWidth="8" strokeLinecap="round" />
+                      <path d="M 500 150 L 500 370" stroke={theme === 'dark' ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.12)'} strokeWidth="6" strokeLinecap="round" />
+                    </g>
+
+                    {/* central title */}
+                    <rect
+                      x="270"
+                      y="220"
+                      width="460"
+                      height="78"
+                      rx="39"
+                      fill={theme === 'dark' ? 'rgba(15,23,42,0.92)' : 'rgba(255,255,255,0.92)'}
+                      stroke={theme === 'dark' ? 'rgba(255,255,255,0.22)' : 'rgba(15,23,42,0.16)'}
+                      strokeWidth="2"
+                    />
+                    <rect x="286" y="236" width="428" height="46" rx="23" fill="url(#ct-title)" opacity={theme === 'dark' ? 1 : 0.9} />
+                    <text
+                      x="500"
+                      y="270"
+                      textAnchor="middle"
+                      fontSize="30"
+                      fontWeight="900"
+                      letterSpacing="2"
+                      fill={theme === 'dark' ? 'rgba(255,255,255,0.92)' : 'rgba(15,23,42,0.82)'}
+                    >
+                      CLOUD TECHNOLOGY
+                    </text>
+
+                    {/* link layout */}
+                    {(
+                      [
+                        { id: 'datacenter', label: 'DATACENTER', x: 140, y: 120 },
+                        { id: 'cloud-storage', label: 'CLOUD STORAGE', x: 160, y: 210 },
+                        { id: 'master-password', label: 'MASTER PASSWORD', x: 170, y: 320 },
+                        { id: 'data-sync', label: 'DATA SYNCHRONIZATION', x: 190, y: 420 },
+                        { id: 'working-files', label: 'WORKING FILES', x: 280, y: 470 },
+                        { id: 'personal-data', label: 'PERSONAL DATA', x: 430, y: 120 },
+                        { id: 'data-exchange', label: 'DATA EXCHANGE', x: 420, y: 390 },
+                        { id: 'wifi', label: 'WI-FI', x: 610, y: 240 },
+                        { id: 'cloud-medicine', label: 'CLOUD MEDICINE', x: 770, y: 330 },
+                        { id: 'cloud-comm', label: 'CLOUD COMMUNICATION', x: 650, y: 460 },
+                        { id: 'media-files', label: 'MEDIA FILES', x: 840, y: 150 },
+                        { id: 'email-service', label: 'EMAIL SERVICE', x: 860, y: 240 },
+                      ] as const
+                    ).map((n) => {
+                      const anchorX = n.x < 500 ? 260 : 740;
+                      const anchorY = n.y < 260 ? 240 : 280;
+                      const elbowX = n.x < 500 ? Math.min(n.x + 90, 360) : Math.max(n.x - 90, 640);
+                      const elbowY = n.y;
+                      const d = `M ${anchorX} ${anchorY} L ${elbowX} ${anchorY} L ${elbowX} ${elbowY} L ${n.x} ${n.y}`;
+                      return (
+                        <g key={n.id}>
+                          <path
+                            d={d}
+                            fill="none"
+                            stroke={theme === 'dark' ? 'rgba(255,255,255,0.38)' : 'rgba(15,23,42,0.28)'}
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                          />
+                          <path
+                            d={d}
+                            fill="none"
+                            stroke="url(#ct-link)"
+                            strokeWidth="3.2"
+                            strokeDasharray="1 8"
+                            strokeLinecap="round"
+                            filter={theme === 'dark' ? 'url(#ct-glow)' : undefined}
+                            style={{
+                              animation: `infra-dash ${n.x < 500 ? 3.4 : 3.9}s linear infinite`,
+                              animationDelay: `${(n.y % 80) / 200}s`,
+                            }}
+                          />
+                          <circle
+                            cx={n.x}
+                            cy={n.y}
+                            r="7"
+                            fill={theme === 'dark' ? 'rgba(2,6,23,0.85)' : 'rgba(255,255,255,0.92)'}
+                            stroke={theme === 'dark' ? 'rgba(255,255,255,0.55)' : 'rgba(15,23,42,0.32)'}
+                            strokeWidth="2"
+                          />
+                          <circle
+                            cx={n.x}
+                            cy={n.y}
+                            r="3"
+                            fill={theme === 'dark' ? 'rgba(56,189,248,0.92)' : 'rgba(37,99,235,0.74)'}
+                            filter={theme === 'dark' ? 'url(#ct-accent-glow)' : undefined}
+                          />
+                          <text
+                            x={n.x}
+                            y={n.y + 28}
+                            textAnchor="middle"
+                            fontSize="12"
+                            fontWeight="900"
+                            fill={theme === 'dark' ? 'rgba(255,255,255,0.70)' : 'rgba(15,23,42,0.68)'}
+                            transform={`rotate(${n.x < 500 ? -24 : 24} ${n.x} ${n.y + 28})`}
+                          >
+                            {n.label}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    {/* endpoints (simple icon cards) */}
+                    {(
+                      [
+                        { id: 's1', x: 120, y: 92, kind: 'server' },
+                        { id: 's2', x: 120, y: 184, kind: 'folder' },
+                        { id: 's3', x: 120, y: 296, kind: 'lock' },
+                        { id: 's4', x: 160, y: 400, kind: 'sync' },
+                        { id: 's5', x: 250, y: 448, kind: 'files' },
+                        { id: 's6', x: 430, y: 92, kind: 'cloud' },
+                        { id: 's7', x: 420, y: 362, kind: 'exchange' },
+                        { id: 's8', x: 590, y: 210, kind: 'wifi' },
+                        { id: 's9', x: 810, y: 300, kind: 'med' },
+                        { id: 's10', x: 650, y: 432, kind: 'comm' },
+                        { id: 's11', x: 860, y: 122, kind: 'media' },
+                        { id: 's12', x: 880, y: 212, kind: 'mail' },
+                      ] as const
+                    ).map((i) => (
+                      <g key={i.id}>
+                        <rect
+                          x={i.x - 24}
+                          y={i.y - 24}
+                          width="48"
+                          height="48"
+                          rx="12"
+                          fill={theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(15,23,42,0.04)'}
+                          stroke={theme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.10)'}
+                          strokeWidth="2"
+                        />
+                        {i.kind === 'server' ? (
+                          <g>
+                            <rect x={i.x - 10} y={i.y - 14} width="20" height="28" rx="4" fill={theme === 'dark' ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.12)'} />
+                            <rect x={i.x - 7} y={i.y - 9} width="14" height="3" rx="2" fill={theme === 'dark' ? 'rgba(56,189,248,0.65)' : 'rgba(37,99,235,0.45)'} />
+                            <circle cx={i.x - 5} cy={i.y + 10} r="2" fill={theme === 'dark' ? 'rgba(56,189,248,0.85)' : 'rgba(37,99,235,0.65)'} />
+                          </g>
+                        ) : null}
+                        {i.kind === 'folder' ? (
+                          <g>
+                            <path
+                              d={`M ${i.x - 12} ${i.y - 6} H ${i.x - 2} L ${i.x + 2} ${i.y - 11} H ${i.x + 12} V ${i.y + 12} H ${i.x - 12} Z`}
+                              fill={theme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.10)'}
+                              stroke={theme === 'dark' ? 'rgba(56,189,248,0.55)' : 'rgba(37,99,235,0.35)'}
+                              strokeWidth="1.6"
+                              strokeLinejoin="round"
+                            />
+                          </g>
+                        ) : null}
+                        {i.kind === 'lock' ? (
+                          <g>
+                            <rect x={i.x - 10} y={i.y - 2} width="20" height="16" rx="4" fill={theme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.10)'} />
+                            <path
+                              d={`M ${i.x - 6} ${i.y - 2} V ${i.y - 8} C ${i.x - 6} ${i.y - 14} ${i.x + 6} ${i.y - 14} ${i.x + 6} ${i.y - 8} V ${i.y - 2}`}
+                              fill="none"
+                              stroke={theme === 'dark' ? 'rgba(56,189,248,0.65)' : 'rgba(37,99,235,0.45)'}
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </g>
+                        ) : null}
+                        {i.kind === 'wifi' ? (
+                          <g>
+                            <path d={`M ${i.x - 14} ${i.y + 2} Q ${i.x} ${i.y - 10} ${i.x + 14} ${i.y + 2}`} fill="none" stroke={theme === 'dark' ? 'rgba(56,189,248,0.70)' : 'rgba(37,99,235,0.50)'} strokeWidth="2" strokeLinecap="round" />
+                            <path d={`M ${i.x - 9} ${i.y + 6} Q ${i.x} ${i.y - 2} ${i.x + 9} ${i.y + 6}`} fill="none" stroke={theme === 'dark' ? 'rgba(56,189,248,0.70)' : 'rgba(37,99,235,0.50)'} strokeWidth="2" strokeLinecap="round" />
+                            <circle cx={i.x} cy={i.y + 10} r="3" fill={theme === 'dark' ? 'rgba(56,189,248,0.85)' : 'rgba(37,99,235,0.65)'} />
+                          </g>
+                        ) : null}
+                        {i.kind === 'mail' ? (
+                          <g>
+                            <rect x={i.x - 14} y={i.y - 10} width="28" height="20" rx="4" fill={theme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.10)'} />
+                            <path d={`M ${i.x - 14} ${i.y - 8} L ${i.x} ${i.y + 2} L ${i.x + 14} ${i.y - 8}`} fill="none" stroke={theme === 'dark' ? 'rgba(56,189,248,0.65)' : 'rgba(37,99,235,0.45)'} strokeWidth="2" />
+                          </g>
+                        ) : null}
+                        {i.kind === 'med' ? (
+                          <g>
+                            <circle cx={i.x} cy={i.y} r="13" fill={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.08)'} stroke={theme === 'dark' ? 'rgba(56,189,248,0.45)' : 'rgba(37,99,235,0.30)'} strokeWidth="2" />
+                            <path d={`M ${i.x} ${i.y - 7} V ${i.y + 7} M ${i.x - 7} ${i.y} H ${i.x + 7}`} stroke={theme === 'dark' ? 'rgba(56,189,248,0.75)' : 'rgba(37,99,235,0.55)'} strokeWidth="2.6" strokeLinecap="round" />
+                          </g>
+                        ) : null}
+                        {i.kind === 'cloud' ? (
+                          <g>
+                            <path
+                              d={`M ${i.x - 10} ${i.y + 6} C ${i.x - 18} ${i.y + 6} ${i.x - 18} ${i.y - 2} ${i.x - 10} ${i.y - 2} C ${i.x - 8} ${i.y - 10} ${i.x + 4} ${i.y - 12} ${i.x + 8} ${i.y - 4} C ${i.x + 18} ${i.y - 6} ${i.x + 18} ${i.y + 6} ${i.x + 10} ${i.y + 6} H ${i.x - 10} Z`}
+                              fill={theme === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.08)'}
+                              stroke={theme === 'dark' ? 'rgba(56,189,248,0.60)' : 'rgba(37,99,235,0.35)'}
+                              strokeWidth="2"
+                            />
+                          </g>
+                        ) : null}
+                        {i.kind === 'comm' ? (
+                          <g>
+                            <rect x={i.x - 12} y={i.y - 10} width="24" height="18" rx="6" fill={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.08)'} />
+                            <path d={`M ${i.x - 2} ${i.y + 8} L ${i.x + 2} ${i.y + 8} L ${i.x} ${i.y + 14} Z`} fill={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.08)'} />
+                            <path d={`M ${i.x - 6} ${i.y - 2} H ${i.x + 6}`} stroke={theme === 'dark' ? 'rgba(56,189,248,0.70)' : 'rgba(37,99,235,0.45)'} strokeWidth="2" strokeLinecap="round" />
+                          </g>
+                        ) : null}
+                        {i.kind === 'media' ? (
+                          <g>
+                            <rect x={i.x - 12} y={i.y - 12} width="24" height="24" rx="6" fill={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.08)'} />
+                            <path d={`M ${i.x - 5} ${i.y - 4} L ${i.x + 7} ${i.y + 2} L ${i.x - 5} ${i.y + 8} Z`} fill={theme === 'dark' ? 'rgba(56,189,248,0.75)' : 'rgba(37,99,235,0.55)'} />
+                          </g>
+                        ) : null}
+                        {i.kind === 'sync' ? (
+                          <g>
+                            <path d={`M ${i.x - 10} ${i.y + 2} A 10 10 0 0 0 ${i.x + 6} ${i.y + 6}`} fill="none" stroke={theme === 'dark' ? 'rgba(56,189,248,0.70)' : 'rgba(37,99,235,0.50)'} strokeWidth="2" strokeLinecap="round" />
+                            <path d={`M ${i.x + 10} ${i.y - 2} A 10 10 0 0 1 ${i.x - 6} ${i.y - 6}`} fill="none" stroke={theme === 'dark' ? 'rgba(56,189,248,0.70)' : 'rgba(37,99,235,0.50)'} strokeWidth="2" strokeLinecap="round" />
+                          </g>
+                        ) : null}
+                        {i.kind === 'files' ? (
+                          <g>
+                            <rect x={i.x - 12} y={i.y - 10} width="20" height="22" rx="4" fill={theme === 'dark' ? 'rgba(255,255,255,0.10)' : 'rgba(15,23,42,0.08)'} />
+                            <rect x={i.x - 6} y={i.y - 14} width="20" height="22" rx="4" fill={theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(15,23,42,0.06)'} />
+                            <path d={`M ${i.x - 4} ${i.y - 2} H ${i.x + 10}`} stroke={theme === 'dark' ? 'rgba(56,189,248,0.65)' : 'rgba(37,99,235,0.45)'} strokeWidth="2" strokeLinecap="round" />
+                          </g>
+                        ) : null}
+                        {i.kind === 'exchange' ? (
+                          <g>
+                            <path d={`M ${i.x - 12} ${i.y - 2} H ${i.x + 8}`} stroke={theme === 'dark' ? 'rgba(56,189,248,0.70)' : 'rgba(37,99,235,0.50)'} strokeWidth="2.2" strokeLinecap="round" />
+                            <path d={`M ${i.x + 6} ${i.y - 8} L ${i.x + 12} ${i.y - 2} L ${i.x + 6} ${i.y + 4}`} fill={theme === 'dark' ? 'rgba(56,189,248,0.70)' : 'rgba(37,99,235,0.50)'} />
+                            <path d={`M ${i.x + 12} ${i.y + 2} H ${i.x - 8}`} stroke={theme === 'dark' ? 'rgba(56,189,248,0.55)' : 'rgba(37,99,235,0.40)'} strokeWidth="2.2" strokeLinecap="round" />
+                            <path d={`M ${i.x - 6} ${i.y - 4} L ${i.x - 12} ${i.y + 2} L ${i.x - 6} ${i.y + 8}`} fill={theme === 'dark' ? 'rgba(56,189,248,0.55)' : 'rgba(37,99,235,0.40)'} />
+                          </g>
+                        ) : null}
+                      </g>
+                    ))}
                   </svg>
                 </div>
               </div>
