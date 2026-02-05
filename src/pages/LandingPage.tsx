@@ -1,10 +1,9 @@
-import { forwardRef, useRef, useState, type RefObject } from "react";
+import { forwardRef, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
 import { useTheme } from "../contexts/ThemeContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { AnimatedBeam } from "../components/AnimatedBeam";
 import uiDark from "../assets/images/UI Dark Thmes.png";
 import uiLight from "../assets/images/UI Light Thmes.png";
 import mptLogo from "../assets/images/mpt.png";
@@ -55,6 +54,11 @@ export function LandingPage() {
     string | null
   >(null);
   const { theme } = useTheme();
+
+  const [connectivityCanvasSize, setConnectivityCanvasSize] = useState({
+    w: 0,
+    h: 0,
+  });
 
   const connectivityContainerRef = useRef<HTMLDivElement>(null);
   const internetRef = useRef<HTMLDivElement>(null);
@@ -207,6 +211,29 @@ export function LandingPage() {
     { from: "mmix", to: "local-as", dir: "single" as const },
     { from: "local-as", to: "iaas", dir: "single" as const },
   ];
+
+  useLayoutEffect(() => {
+    const el = connectivityContainerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      setConnectivityCanvasSize({ w: el.clientWidth, h: el.clientHeight });
+    };
+    update();
+
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(update);
+      ro.observe(el);
+    } else {
+      window.addEventListener("resize", update);
+    }
+
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[var(--accent)] selection:text-black font-sans transition-colors duration-300">
@@ -619,60 +646,162 @@ export function LandingPage() {
               </div>
             </div>
 
-            <div className="mt-12 relative overflow-hidden rounded-3xl bg-[#07070a] ring-1 ring-white/10">
+            <div
+              className={`mt-12 relative overflow-hidden rounded-3xl ring-1 ${
+                theme === "dark"
+                  ? "bg-[#07070a] ring-white/10"
+                  : "bg-[color:var(--bg-secondary)] ring-[color:var(--border-color)]"
+              }`}
+            >
               <style>{`@keyframes cng-beam{to{stroke-dashoffset:-320}}@keyframes cng-beam-rev{to{stroke-dashoffset:320}}`}</style>
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(255,255,255,0.10),transparent_62%)]" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_46%,rgba(255,255,255,0.08),transparent_60%)]" />
+                {theme === "dark" ? (
+                  <>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(255,255,255,0.10),transparent_62%)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_46%,rgba(255,255,255,0.08),transparent_60%)]" />
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_40%,rgba(var(--accent-rgb),0.14),transparent_62%)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_46%,rgba(var(--accent-rgb),0.10),transparent_60%)]" />
+                  </>
+                )}
               </div>
               <div className="relative p-6 md:p-8">
                 <div
                   className="relative w-full h-[460px] sm:h-[500px] md:h-[560px] lg:h-[620px]"
                   ref={connectivityContainerRef}
                 >
-                  {connectivityEdges.map((e, idx) => {
-                    const fromRef = connectivityNodeRefById[e.from];
-                    const toRef = connectivityNodeRefById[e.to];
-                    if (!fromRef || !toRef) return null;
+                  {connectivityCanvasSize.w > 0 && connectivityCanvasSize.h > 0 ? (
+                    <svg
+                      className="pointer-events-none absolute inset-0 h-full w-full z-10"
+                      aria-hidden="true"
+                    >
+                      <defs>
+                        <filter
+                          id="cng-connectivity-glow"
+                          x="-50%"
+                          y="-50%"
+                          width="200%"
+                          height="200%"
+                        >
+                          <feGaussianBlur stdDeviation="3.5" result="blur" />
+                          <feColorMatrix
+                            in="blur"
+                            type="matrix"
+                            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0"
+                            result="glow"
+                          />
+                          <feMerge>
+                            <feMergeNode in="glow" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
 
-                    const expBlue = "rgba(0, 191, 255, 0.95)";
-                    const expBlueSoft = "rgba(0, 191, 255, 0.28)";
-                    const isLocalAsToIaas = e.from === "local-as" && e.to === "iaas";
+                        <marker
+                          id="cng-connectivity-arrow"
+                          markerWidth="9"
+                          markerHeight="9"
+                          refX="8"
+                          refY="4.5"
+                          orient="auto"
+                          markerUnits="strokeWidth"
+                        >
+                          <path
+                            d="M0 0 L9 4.5 L0 9 Z"
+                            fill={
+                              theme === "dark"
+                                ? "rgba(0, 191, 255, 0.95)"
+                                : "rgba(0, 122, 255, 0.95)"
+                            }
+                          />
+                        </marker>
+                      </defs>
 
-                    const baseCurvature =
-                      isLocalAsToIaas || (e.from === "internet" && e.to === "hti")
-                        ? 0
-                        : e.from === "local-as" || e.to === "local-as"
-                          ? 0.22
-                          : 0.18;
-                    const duration = 3.2 + (idx % 3) * 0.28;
-                    const delay = (idx % 6) * 0.12;
+                      {connectivityEdges.map((e, idx) => {
+                        const from = connectivityNodes.find((n) => n.id === e.from);
+                        const to = connectivityNodes.find((n) => n.id === e.to);
+                        if (!from || !to) return null;
 
-                    return (
-                      <AnimatedBeam
-                        key={`${e.from}-${e.to}-${idx}`}
-                        containerRef={connectivityContainerRef}
-                        fromRef={fromRef}
-                        toRef={toRef}
-                        duration={isLocalAsToIaas ? 3.8 : duration}
-                        delay={delay}
-                        curvature={baseCurvature}
-                        dashArray={isLocalAsToIaas ? "2 8" : "2 10"}
-                        baseDashArray={"2 14"}
-                        pingPong={e.dir === "both"}
-                        reverse={isLocalAsToIaas ? true : false}
-                        arrow
-                        arrowSize={9}
-                        glow={false}
-                        baseColor={expBlueSoft}
-                        beamColor={expBlue}
-                        baseOpacity={1}
-                        beamOpacity={1}
-                        beamWidth={1.6}
-                        className="z-0"
-                      />
-                    );
-                  })}
+                        const w = connectivityCanvasSize.w;
+                        const h = connectivityCanvasSize.h;
+
+                        const sx = (from.x / 1000) * w;
+                        const sy = (from.y / 600) * h;
+                        const ex = (to.x / 1000) * w;
+                        const ey = (to.y / 600) * h;
+
+                        const dx = ex - sx;
+                        const dy = ey - sy;
+                        const len = Math.max(1, Math.hypot(dx, dy));
+                        const nx = -dy / len;
+                        const ny = dx / len;
+                        const dir = dx === 0 ? 1 : Math.sign(dx);
+
+                        const isLocalAsToIaas = e.from === "local-as" && e.to === "iaas";
+                        const curvature =
+                          isLocalAsToIaas || (e.from === "internet" && e.to === "hti")
+                            ? 0
+                            : e.from === "local-as" || e.to === "local-as"
+                              ? 0.22
+                              : 0.18;
+                        const bend = curvature * len * 0.22;
+
+                        const c1x = sx + dx * 0.25 + nx * bend * dir;
+                        const c1y = sy + dy * 0.25 + ny * bend * dir;
+                        const c2x = sx + dx * 0.75 + nx * bend * dir;
+                        const c2y = sy + dy * 0.75 + ny * bend * dir;
+
+                        const d = `M ${sx} ${sy} C ${c1x} ${c1y} ${c2x} ${c2y} ${ex} ${ey}`;
+
+                        const expBlue =
+                          theme === "dark"
+                            ? "rgba(0, 191, 255, 0.95)"
+                            : "rgba(0, 122, 255, 0.95)";
+                        const expBlueSoft =
+                          theme === "dark"
+                            ? "rgba(0, 191, 255, 0.42)"
+                            : "rgba(0, 122, 255, 0.28)";
+
+                        const dashArray = isLocalAsToIaas ? "1 6" : "1 8";
+                        const baseDashArray = "1 10";
+                        const duration = 3.2 + (idx % 3) * 0.28;
+                        const delay = (idx % 6) * 0.12;
+
+                        return (
+                          <g key={`${e.from}-${e.to}-${idx}`}>
+                            <path
+                              d={d}
+                              fill="none"
+                              stroke={expBlueSoft}
+                              strokeWidth={2.0}
+                              strokeLinecap="round"
+                              strokeDasharray={baseDashArray}
+                              vectorEffect="non-scaling-stroke"
+                            />
+                            <path
+                              d={d}
+                              fill="none"
+                              stroke={expBlue}
+                              strokeWidth={2.4}
+                              strokeLinecap="round"
+                              strokeDasharray={dashArray}
+                              vectorEffect="non-scaling-stroke"
+                              markerEnd="url(#cng-connectivity-arrow)"
+                              filter={theme === "dark" ? "url(#cng-connectivity-glow)" : undefined}
+                              style={{
+                                animationName: isLocalAsToIaas ? "cng-beam-rev" : "cng-beam",
+                                animationDuration: `${duration}s`,
+                                animationTimingFunction: "linear",
+                                animationIterationCount: "infinite",
+                                animationDelay: `${delay}s`,
+                              }}
+                            />
+                          </g>
+                        );
+                      })}
+                    </svg>
+                  ) : null}
 
                   {connectivityNodes.map((n) => {
                     const isHovered = hoveredConnectivityNode === n.id;
@@ -685,17 +814,39 @@ export function LandingPage() {
                           : n.id === "internet"
                             ? ("internet" as const)
                             : ("provider" as const);
-                    const wrapperClass = `absolute -translate-x-1/2 -translate-y-1/2 ${isHovered ? "z-50" : "z-10"}`;
+                    const wrapperClass = `absolute -translate-x-1/2 -translate-y-1/2 ${isHovered ? "z-50" : "z-20"}`;
                     const nodeBaseClass = "relative h-16 w-16 md:h-20 md:w-20";
-                    const circleSkinClass = "border-black/10 bg-white";
+                    const circleSkinClass =
+                      nodeKind === "internet"
+                        ? theme === "dark"
+                          ? "border-white/15 bg-black/60"
+                          : "border-black/10 bg-white"
+                        : "border-black/10 bg-white";
                     const circleHoverClass = isHovered
                       ? theme === "dark"
                         ? "border-[rgba(var(--accent-rgb),0.45)]"
                         : "border-[rgba(var(--accent-rgb),0.35)]"
                       : "";
-                    const internetStroke = "rgba(0,0,0,0.72)";
-                    const internetFill = "rgba(0,0,0,0.04)";
-                    const internetText = "rgba(0,0,0,0.78)";
+                    const nodeLabelClass =
+                      theme === "dark"
+                        ? "text-[#fff]"
+                        : "text-[color:var(--text-primary)]";
+                    const nodeSublabelClass =
+                      theme === "dark"
+                        ? "text-white/70"
+                        : "text-[color:var(--text-secondary)]";
+                    const internetStroke =
+                      theme === "dark"
+                        ? "rgba(255,255,255,0.78)"
+                        : "rgba(0,0,0,0.72)";
+                    const internetFill =
+                      theme === "dark"
+                        ? "rgba(255,255,255,0.06)"
+                        : "rgba(0,0,0,0.04)";
+                    const internetText =
+                      theme === "dark"
+                        ? "rgba(255,255,255,0.86)"
+                        : "rgba(0,0,0,0.78)";
 
                     return (
                       <div
@@ -815,11 +966,11 @@ export function LandingPage() {
 
                             {nodeKind !== "provider" && nodeKind !== "internet" ? (
                               <div className="mt-3 text-center">
-                                <div className="text-sm font-bold leading-tight text-white">
+                                <div className={`text-sm font-bold leading-tight ${nodeLabelClass}`}>
                                   {n.label}
                                 </div>
                                 {n.sublabel ? (
-                                  <div className="text-xs font-semibold text-white/70">
+                                  <div className={`text-xs font-semibold ${nodeSublabelClass}`}>
                                     {n.sublabel}
                                   </div>
                                 ) : null}
@@ -835,16 +986,38 @@ export function LandingPage() {
                               animate={{ opacity: 1, y: 0, scale: 1 }}
                               exit={{ opacity: 0, y: 8, scale: 0.98 }}
                               transition={{ duration: 0.18, ease: "easeOut" }}
-                              className="pointer-events-none absolute left-1/2 bottom-full -translate-x-1/2 mb-4 w-[220px] rounded-2xl backdrop-blur-xl px-3.5 py-3 shadow-[0_18px_55px_rgba(0,0,0,0.50)] z-30 bg-black/65 ring-1 ring-white/10"
+                              className={`pointer-events-none absolute left-1/2 bottom-full -translate-x-1/2 mb-4 w-[220px] rounded-2xl backdrop-blur-xl px-3.5 py-3 z-30 ring-1 shadow-[0_18px_55px_rgba(0,0,0,0.20)] ${
+                                theme === "dark"
+                                  ? "bg-black/65 ring-white/10 shadow-[0_18px_55px_rgba(0,0,0,0.50)]"
+                                  : "bg-white/80 ring-[color:var(--border-color)]"
+                              }`}
                             >
-                              <div className="text-[11px] font-semibold tracking-wide text-white/90">
+                              <div
+                                className={`text-[11px] font-semibold tracking-wide ${
+                                  theme === "dark"
+                                    ? "text-white/90"
+                                    : "text-[color:var(--text-primary)]"
+                                }`}
+                              >
                                 {n.label}
                                 {n.sublabel ? ` ${n.sublabel}` : ""}
                               </div>
-                              <div className="mt-1.5 text-[13px] leading-relaxed text-white/70">
+                              <div
+                                className={`mt-1.5 text-[13px] leading-relaxed ${
+                                  theme === "dark"
+                                    ? "text-white/70"
+                                    : "text-[color:var(--text-secondary)]"
+                                }`}
+                              >
                                 {n.desc}
                               </div>
-                              <div className="absolute -bottom-1 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-black/65 ring-1 ring-white/10" />
+                              <div
+                                className={`absolute -bottom-1 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 ring-1 ${
+                                  theme === "dark"
+                                    ? "bg-black/65 ring-white/10"
+                                    : "bg-white/80 ring-[color:var(--border-color)]"
+                                }`}
+                              />
                             </motion.div>
                           ) : null}
                         </AnimatePresence>
@@ -853,7 +1026,13 @@ export function LandingPage() {
                   })}
                 </div>
 
-                <div className="mt-6 text-xs text-white/60">
+                <div
+                  className={`mt-6 text-xs ${
+                    theme === "dark"
+                      ? "text-white/60"
+                      : "text-[color:var(--text-secondary)]"
+                  }`}
+                >
                   Hover a node to see details. Arrows animate continuously to
                   represent real-time routing flows.
                 </div>

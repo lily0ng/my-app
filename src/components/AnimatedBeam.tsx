@@ -50,16 +50,40 @@ export function AnimatedBeam({
   const [end, setEnd] = useState<Point | null>(null);
 
   useLayoutEffect(() => {
-    const container = containerRef.current;
-    const fromEl = fromRef.current;
-    const toEl = toRef.current;
+    const warmupDeadline =
+      typeof performance !== "undefined" ? performance.now() + 1500 : Date.now() + 1500;
 
-    if (!container || !fromEl || !toEl) return;
+    let scheduledRaf: number | null = null;
+    const scheduleUpdate = () => {
+      if (scheduledRaf != null) return;
+      scheduledRaf = window.requestAnimationFrame(() => {
+        scheduledRaf = null;
+        update();
+      });
+    };
 
     const update = () => {
+      const container = containerRef.current;
+      const fromEl = fromRef.current;
+      const toEl = toRef.current;
+      if (!container || !fromEl || !toEl) return;
+
       const containerRect = container.getBoundingClientRect();
       const fromRect = fromEl.getBoundingClientRect();
       const toRect = toEl.getBoundingClientRect();
+
+      if (
+        containerRect.width === 0 ||
+        containerRect.height === 0 ||
+        fromRect.width === 0 ||
+        fromRect.height === 0 ||
+        toRect.width === 0 ||
+        toRect.height === 0
+      ) {
+        const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+        if (now < warmupDeadline) scheduleUpdate();
+        return;
+      }
 
       const fromCenter = {
         x: fromRect.left + fromRect.width / 2 - containerRect.left,
@@ -84,29 +108,81 @@ export function AnimatedBeam({
       const fromOffset = Math.max(0, fromR - inset);
       const toOffset = Math.max(0, toR - inset);
 
-      setStart({
+      const nextStart = {
         x: fromCenter.x + ux * fromOffset,
         y: fromCenter.y + uy * fromOffset,
-      });
-
-      setEnd({
+      };
+      const nextEnd = {
         x: toCenter.x - ux * toOffset,
         y: toCenter.y - uy * toOffset,
-      });
+      };
+
+      if (
+        !Number.isFinite(nextStart.x) ||
+        !Number.isFinite(nextStart.y) ||
+        !Number.isFinite(nextEnd.x) ||
+        !Number.isFinite(nextEnd.y)
+      ) {
+        return;
+      }
+
+      setStart((prev) =>
+        prev && prev.x === nextStart.x && prev.y === nextStart.y ? prev : nextStart,
+      );
+      setEnd((prev) =>
+        prev && prev.x === nextEnd.x && prev.y === nextEnd.y ? prev : nextEnd,
+      );
     };
 
-    update();
+    let rafId: number | null = null;
+    let ro: ResizeObserver | null = null;
+    let intervalId: number | null = null;
+    let liveRaf: number | null = null;
+    let lastTick = 0;
 
-    const ro = new ResizeObserver(update);
-    ro.observe(container);
-    ro.observe(fromEl);
-    ro.observe(toEl);
+    const ensureObservers = () => {
+      const container = containerRef.current;
+      const fromEl = fromRef.current;
+      const toEl = toRef.current;
+      if (!container || !fromEl || !toEl) {
+        rafId = window.requestAnimationFrame(ensureObservers);
+        return;
+      }
 
-    window.addEventListener("resize", update);
+      update();
+
+      if (typeof ResizeObserver !== "undefined") {
+        ro = new ResizeObserver(scheduleUpdate);
+        ro.observe(container);
+        ro.observe(fromEl);
+        ro.observe(toEl);
+      } else {
+        intervalId = window.setInterval(update, 250);
+      }
+    };
+
+    ensureObservers();
+
+    const tick = (t: number) => {
+      if (t - lastTick > 150) {
+        lastTick = t;
+        update();
+      }
+      liveRaf = window.requestAnimationFrame(tick);
+    };
+    liveRaf = window.requestAnimationFrame(tick);
+
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("scroll", scheduleUpdate, true);
 
     return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", update);
+      if (rafId != null) window.cancelAnimationFrame(rafId);
+      if (scheduledRaf != null) window.cancelAnimationFrame(scheduledRaf);
+      if (liveRaf != null) window.cancelAnimationFrame(liveRaf);
+      if (ro) ro.disconnect();
+      if (intervalId != null) window.clearInterval(intervalId);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("scroll", scheduleUpdate, true);
     };
   }, [containerRef, fromRef, toRef]);
 
