@@ -5,6 +5,7 @@ import {
   Shield,
   Code,
   Lock,
+  Database,
   ChevronDown,
   ChevronUp,
   Play,
@@ -145,15 +146,60 @@ export function SandboxesPage() {
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-16">Defense in Depth</h2>
             <div className="max-w-4xl mx-auto bg-[#0a0a0a] border border-white/10 rounded-2xl p-12 relative">
-              <div className="flex flex-col gap-4 relative z-10">
-                <div className="p-4 bg-[#111] rounded-xl border border-white/10 w-full font-bold text-red-400">
-                  Application
+              <div className="relative z-10 flex flex-col md:flex-row md:items-stretch md:justify-between gap-4">
+                <div className="flex-1 rounded-2xl border border-white/10 bg-[#111] p-6">
+                  <div className="flex items-center justify-center">
+                    <div className="h-12 w-12 rounded-2xl border border-white/10 bg-[#0a0a0a] flex items-center justify-center text-red-400">
+                      <Code size={22} />
+                    </div>
+                  </div>
+                  <div className="mt-4 font-bold text-center leading-tight">Application</div>
+                  <div className="mt-2 text-sm text-gray-400 text-center leading-relaxed">
+                    Your workload writes state to attached storage.
+                  </div>
                 </div>
-                <div className="p-4 bg-[#111] rounded-xl border border-[#00ff88] w-full font-bold text-[#00ff88]">
-                  Encrypted Volume
+
+                <div className="md:hidden flex justify-center">
+                  <div className="h-7 w-px border-l border-dashed border-white/20" />
                 </div>
-                <div className="p-4 bg-[#111] rounded-xl border border-white/10 w-full font-bold text-blue-400">
-                  Storage Backend
+                <div className="hidden md:flex items-center justify-center px-2">
+                  <div className="w-12 h-px border-t border-dashed border-white/20" />
+                </div>
+
+                <div className="flex-1 rounded-2xl border border-[#00ff88]/60 bg-[#0f1412] p-6 shadow-[0_0_0_1px_rgba(0,255,136,0.10)]">
+                  <div className="flex items-center justify-center">
+                    <div className="h-12 w-12 rounded-2xl border border-[#00ff88]/25 bg-[#0a0a0a] flex items-center justify-center text-[#00ff88]">
+                      <Database size={22} />
+                    </div>
+                  </div>
+                  <div className="mt-4 font-bold text-center leading-tight text-[#00ff88]">Block Storage Volume</div>
+                  <div className="mt-3 flex items-center justify-center gap-2">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-[#00ff88]/25 bg-[#00ff88]/10 px-3 py-1 text-xs font-semibold text-[#00ff88]">
+                      <Lock size={14} /> Encryption at rest
+                    </span>
+                  </div>
+                  <div className="mt-3 text-sm text-gray-400 text-center leading-relaxed">
+                    Persistent data lives beyond a single instance lifecycle.
+                  </div>
+                </div>
+
+                <div className="md:hidden flex justify-center">
+                  <div className="h-7 w-px border-l border-dashed border-white/20" />
+                </div>
+                <div className="hidden md:flex items-center justify-center px-2">
+                  <div className="w-12 h-px border-t border-dashed border-white/20" />
+                </div>
+
+                <div className="flex-1 rounded-2xl border border-white/10 bg-[#111] p-6">
+                  <div className="flex items-center justify-center">
+                    <div className="h-12 w-12 rounded-2xl border border-white/10 bg-[#0a0a0a] flex items-center justify-center text-blue-400">
+                      <Shield size={22} />
+                    </div>
+                  </div>
+                  <div className="mt-4 font-bold text-center leading-tight">Storage backend</div>
+                  <div className="mt-2 text-sm text-gray-400 text-center leading-relaxed">
+                    Durable replication and snapshotting behind the scenes.
+                  </div>
                 </div>
               </div>
               <div className="absolute inset-0 bg-grid-white/[0.02]" />
