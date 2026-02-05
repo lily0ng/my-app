@@ -35,7 +35,20 @@ export function Nav() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [hasUnreadNews, setHasUnreadNews] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  useLocation();
+  const { pathname } = useLocation();
+
+  const norm = (p: string) => {
+    const base = p.split('#')[0];
+    return base.endsWith('/') && base !== '/' ? base.slice(0, -1) : base;
+  };
+
+  const handleNavLinkClick = (to: string) => {
+    setIsOpen(false);
+    setActiveDropdown(null);
+    if (norm(pathname) === norm(to)) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     const compute = () => {
@@ -234,7 +247,8 @@ export function Nav() {
       <div className="mx-auto pointer-events-auto w-full max-w-6xl rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)]/80 backdrop-blur-xl shadow-[0_14px_40px_rgba(0,0,0,0.18)]">
         <div className="w-full px-5 h-12 flex items-center gap-6">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
+            <Link to="/" className="flex items-center gap-2 group" onClick={() => handleNavLinkClick('/')}
+            >
               <img
                 src={logo}
                 alt="Logo"
@@ -254,7 +268,7 @@ export function Nav() {
 
             <div className="w-[600px] p-2 grid grid-cols-2 gap-2">
               {productItems.map((item) =>
-              <DropdownItem key={item.name} item={item} />
+              <DropdownItem key={item.name} item={item} onNavigate={handleNavLinkClick} />
               )}
             </div>
           </Dropdown>
@@ -268,7 +282,7 @@ export function Nav() {
 
             <div className="w-[600px] p-2 grid grid-cols-2 gap-2">
               {solutionItems.map((item) =>
-              <DropdownItem key={item.name} item={item} />
+              <DropdownItem key={item.name} item={item} onNavigate={handleNavLinkClick} />
               )}
             </div>
           </Dropdown>
@@ -292,6 +306,7 @@ export function Nav() {
                 <DropdownItem
                   key={item.name}
                   item={item}
+                  onNavigate={handleNavLinkClick}
                   badge={
                     item.path === '/resources/events' && hasUnreadNews ? (
                       <span className="ml-2 inline-flex items-center rounded-full bg-red-500 text-[#fff] text-[10px] font-bold px-2 py-0.5 animate-pulse shadow-[0_10px_26px_rgba(0,0,0,0.20)] ring-1 ring-white/20">
@@ -307,12 +322,14 @@ export function Nav() {
 
           <Link
             to="/customers"
+            onClick={() => handleNavLinkClick('/customers')}
             className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
 
             Customers
           </Link>
           <Link
             to="/pricing"
+            onClick={() => handleNavLinkClick('/pricing')}
             className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
 
             Pricing
@@ -320,6 +337,7 @@ export function Nav() {
 
           <Link
             to="/contact"
+            onClick={() => handleNavLinkClick('/contact')}
             className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
 
             Contact
@@ -334,7 +352,7 @@ export function Nav() {
 
             <div className="w-[500px] p-2 grid grid-cols-2 gap-2">
               {docItems.map((item) =>
-              <DropdownItem key={item.name} item={item} />
+              <DropdownItem key={item.name} item={item} onNavigate={handleNavLinkClick} />
               )}
             </div>
           </Dropdown>
@@ -356,12 +374,14 @@ export function Nav() {
           
           <Link
             to="/login"
+            onClick={() => handleNavLinkClick('/login')}
             className="text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
 
             Log In
           </Link>
           <Link
             to="/signup"
+            onClick={() => handleNavLinkClick('/signup')}
             className="px-3 py-1.5 rounded-full bg-[color:var(--accent)] text-white text-sm font-semibold transition-colors flex items-center gap-1 hover:bg-[color:var(--accent-hover)]">
             Sign Up
             <ArrowUpRight size={16} />
@@ -399,48 +419,54 @@ export function Nav() {
               <div className="px-6 py-4 space-y-4">
                 <Link
                 to="/product/inference"
+                onClick={() => handleNavLinkClick('/product/inference')}
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
                   Product
                 </Link>
                 <Link
                 to="/solutions"
+                onClick={() => handleNavLinkClick('/solutions')}
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
                   Solutions
                 </Link>
                 <Link
                 to="/resources"
+                onClick={() => handleNavLinkClick('/resources')}
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
                   Resources
                 </Link>
                 <Link
                 to="/customers"
+                onClick={() => handleNavLinkClick('/customers')}
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
                   Customers
                 </Link>
                 <Link
                 to="/pricing"
+                onClick={() => handleNavLinkClick('/pricing')}
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
                   Pricing
                 </Link>
                 <Link
                 to="/contact"
+                onClick={() => handleNavLinkClick('/contact')}
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
 
                   Contact
                 </Link>
-                <Link to="/docs" className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
+                <Link to="/docs" onClick={() => handleNavLinkClick('/docs')} className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]">
                   Docs
                 </Link>
                 <div className="pt-4 border-t border-[color:var(--border-color)] flex gap-4">
-                  <Link to="/login" className="flex-1 py-2 rounded bg-[color:var(--bg-secondary)] text-[color:var(--text-primary)] font-medium text-center border border-[color:var(--border-color)]">
+                  <Link to="/login" onClick={() => handleNavLinkClick('/login')} className="flex-1 py-2 rounded bg-[color:var(--bg-secondary)] text-[color:var(--text-primary)] font-medium text-center border border-[color:var(--border-color)]">
                     Log In
                   </Link>
-                  <Link to="/signup" className="flex-1 py-2 rounded bg-[color:var(--accent)] text-white font-bold text-center">
+                  <Link to="/signup" onClick={() => handleNavLinkClick('/signup')} className="flex-1 py-2 rounded bg-[color:var(--accent)] text-white font-bold text-center">
                     Sign Up
                   </Link>
                 </div>
@@ -516,10 +542,11 @@ function Dropdown({
     </div>);
 
 }
-function DropdownItem({ item, badge }: {item: any; badge?: React.ReactNode;}) {
+function DropdownItem({ item, badge, onNavigate }: {item: any; badge?: React.ReactNode; onNavigate?: (to: string) => void;}) {
   return (
     <Link
       to={item.path}
+      onClick={() => onNavigate?.(item.path)}
       className="flex items-start gap-3 p-3 rounded-md hover:bg-[rgba(var(--accent-rgb),0.08)] transition-colors group">
 
       <div className="mt-0.5 text-[color:var(--text-tertiary)] group-hover:text-[color:var(--accent)] transition-colors">

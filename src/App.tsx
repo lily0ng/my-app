@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { InferencePage } from './pages/product/InferencePage';
 import { TrainingPage } from './pages/product/TrainingPage';
@@ -46,10 +47,21 @@ import {
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+
+  return null;
+}
+
 export function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<LandingPage />} />
 

@@ -2,7 +2,18 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ArrowRight, BookOpen, Check, ChevronDown, Copy, ExternalLink } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  Check,
+  ChevronDown,
+  Copy,
+  ExternalLink,
+  Layers,
+  Rocket,
+  Sparkles,
+  type LucideIcon,
+} from 'lucide-react';
 import { DocsShell } from '../components/DocsShell';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -151,6 +162,14 @@ export function GuidesPage() {
     });
   }, [posts, query]);
 
+  const iconForSlug = (value: string): LucideIcon => {
+    const s = value.toLowerCase();
+    if (s === 'quickstart') return Rocket;
+    if (s === 'markdown-style') return Sparkles;
+    if (s.includes('concept')) return Layers;
+    return BookOpen;
+  };
+
   const selected = useMemo(() => {
     if (!slug) return null;
     return posts.find((p) => p.slug === slug) ?? null;
@@ -183,31 +202,40 @@ export function GuidesPage() {
   }, [filteredPosts]);
 
   const sidebar = (
-    <nav className="pr-2 pb-6">
+    <div className="pr-2 pb-6">
       {sections.map(({ section, items }, groupIndex) => (
-        <div key={section} className={groupIndex === 0 ? '' : 'mt-5'}>
-          <ul className="space-y-0.5">
+        <div key={section} className={groupIndex === 0 ? '' : 'mt-6'}>
+          <div className="text-[11px] font-bold text-[color:var(--docs-muted-2)] uppercase tracking-wider mb-2">
+            {section}
+          </div>
+          <ul className="space-y-1">
             {items.map((p) => {
               const active = p.slug === slug;
-              const pad = p.indent ? 'pl-8' : 'pl-3';
-              const tone = p.indent
-                ? 'text-[color:var(--docs-muted)]'
-                : 'text-[color:var(--text-primary)] font-medium';
+              const pad = p.indent ? 'pl-8' : '';
+              const Icon = iconForSlug(p.slug);
               return (
                 <li key={p.slug}>
                   <Link
                     to={`/docs/guides/${p.slug}`}
                     className={
-                      'relative block w-full -mx-3 px-3 pr-3 py-2 leading-tight transition-colors ' +
+                      'group relative flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] transition-colors ' +
                       pad +
-                      ' text-[13px] ' +
-                      tone +
                       (active
-                        ? ' bg-[color:var(--docs-panel-2)] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[2px] before:bg-accent-green'
-                        : ' hover:bg-[color:var(--docs-panel-2)]')
+                        ? 'bg-[color:var(--docs-panel-2)] text-[color:var(--text-primary)] font-semibold before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[2px] before:bg-[color:var(--accent)]'
+                        : 'text-[color:var(--docs-muted)] hover:text-[color:var(--text-primary)] hover:bg-[color:var(--docs-panel-2)]')
                     }
                   >
-                    <span className="truncate block">{p.title}</span>
+                    <span
+                      className={
+                        'flex h-7 w-7 items-center justify-center rounded-md border border-[color:var(--docs-border)] bg-[color:var(--docs-panel)] ' +
+                        (active
+                          ? 'text-[color:var(--accent)]'
+                          : 'text-[color:var(--docs-muted-2)] group-hover:text-[color:var(--accent)]')
+                      }
+                    >
+                      <Icon size={15} />
+                    </span>
+                    <span className="truncate">{p.title}</span>
                   </Link>
                 </li>
               );
@@ -215,7 +243,7 @@ export function GuidesPage() {
           </ul>
         </div>
       ))}
-    </nav>
+    </div>
   );
 
   const rightRail = selected ? (
