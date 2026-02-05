@@ -1691,24 +1691,6 @@ export function InfraDesignPage() {
 
                     {/* dashed zones */}
                     <g>
-                      <line
-                        x1="500"
-                        y1="78"
-                        x2="500"
-                        y2="520"
-                        stroke={theme === 'dark' ? 'rgba(248,113,113,0.62)' : 'rgba(239,68,68,0.72)'}
-                        strokeWidth="2"
-                        strokeDasharray="6 10"
-                      />
-                      <line
-                        x1="70"
-                        y1="300"
-                        x2="930"
-                        y2="300"
-                        stroke={theme === 'dark' ? 'rgba(248,113,113,0.62)' : 'rgba(239,68,68,0.72)'}
-                        strokeWidth="2"
-                        strokeDasharray="6 10"
-                      />
                       <rect
                         x="545"
                         y="95"
@@ -1870,8 +1852,7 @@ export function InfraDesignPage() {
                     </text>
 
                     {/* internet clouds */}
-                    <use href="#dc-cloud" x="418" y="350" />
-                    <use href="#dc-cloud" x="610" y="300" />
+                    <use href="#dc-cloud" x="470" y="320" />
 
                     {/* client center bottom */}
                     <use href="#dc-server" x="585" y="382" />
@@ -1981,7 +1962,7 @@ export function InfraDesignPage() {
                     {/* yellow DDN / lightning links */}
                     <g opacity="0.98">
                       <polyline
-                        points="500,290 528,270 510,260 548,240 526,230 560,214"
+                        points="498,266 525,248 508,238 548,220 526,210 560,196 542,186 585,174"
                         fill="none"
                         stroke={theme === 'dark' ? 'rgba(250,204,21,0.92)' : 'rgba(234,179,8,0.92)'}
                         strokeWidth="4"
@@ -1989,7 +1970,7 @@ export function InfraDesignPage() {
                         filter={theme === 'dark' ? 'url(#dc-ddn-glow)' : undefined}
                       />
                       <polyline
-                        points="500,290 528,270 510,260 548,240 526,230 560,214"
+                        points="498,266 525,248 508,238 548,220 526,210 560,196 542,186 585,174"
                         fill="none"
                         stroke={theme === 'dark' ? 'rgba(250,204,21,0.98)' : 'rgba(234,179,8,0.98)'}
                         strokeWidth="4"
@@ -1998,17 +1979,27 @@ export function InfraDesignPage() {
                         filter={theme === 'dark' ? 'url(#dc-ddn-glow)' : undefined}
                         style={{ animation: 'infra-dash 2.7s linear infinite' }}
                       />
-                      <text x="525" y="252" fill={theme === 'dark' ? 'rgba(234,179,8,0.92)' : 'rgba(161,98,7,0.85)'} fontSize="12" fontWeight="800">
+                      <text x="540" y="230" fill={theme === 'dark' ? 'rgba(234,179,8,0.92)' : 'rgba(161,98,7,0.85)'} fontSize="12" fontWeight="800">
                         DDN
                       </text>
 
                       <polyline
-                        points="450,388 472,370 456,360 484,342"
+                        points="468,280 486,295 474,306 500,318 488,330 512,342"
                         fill="none"
                         stroke={theme === 'dark' ? 'rgba(250,204,21,0.92)' : 'rgba(234,179,8,0.92)'}
                         strokeWidth="4"
                         strokeLinejoin="round"
                         filter={theme === 'dark' ? 'url(#dc-ddn-glow)' : undefined}
+                      />
+                      <polyline
+                        points="468,280 486,295 474,306 500,318 488,330 512,342"
+                        fill="none"
+                        stroke={theme === 'dark' ? 'rgba(250,204,21,0.92)' : 'rgba(234,179,8,0.92)'}
+                        strokeWidth="4"
+                        strokeLinejoin="round"
+                        strokeDasharray="10 12"
+                        filter={theme === 'dark' ? 'url(#dc-ddn-glow)' : undefined}
+                        style={{ animation: 'infra-dash 3.1s linear infinite', animationDelay: '0.12s' }}
                       />
                     </g>
                   </svg>

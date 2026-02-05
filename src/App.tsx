@@ -20,6 +20,7 @@ import { CreateGuidePage } from './pages/doc/CreateGuide';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { MarketplaceAppsPage } from './pages/MarketplaceAppsPage';
+import { MarketplaceAppDetailsPage } from './pages/appdetails';
 import { ContactUsPage } from './pages/ContactUsPage';
 import { AboutUsPage } from './pages/AboutUs';
 import { EventsPage } from './pages/Event';
@@ -83,6 +84,7 @@ export function App() {
           <Route path="/resources/sla" element={<SlaPage />} />
           <Route path="/resources/infra-design" element={<InfraDesignPage />} />
           <Route path="/resources/marketplace-apps" element={<MarketplaceAppsPage />} />
+          <Route path="/resources/marketplace-apps/:appId" element={<MarketplaceAppDetailsPage />} />
           <Route path="/resources/about" element={<AboutUsPage />} />
           <Route path="/resources/events" element={<EventsPage />} />
           <Route path="/resources/events/news/:slug" element={<EventNewsDetailPage />} />

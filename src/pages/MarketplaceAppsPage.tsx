@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
 import {
@@ -10,7 +11,7 @@ import {
   FolderOpen,
 } from 'lucide-react';
 
-type MarketplaceApp = {
+export type MarketplaceApp = {
   id: string;
   name: string;
   vendor: string;
@@ -18,28 +19,23 @@ type MarketplaceApp = {
   category: string;
 };
 
-export function MarketplaceAppsPage() {
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState('All');
-  const [hideDuplicates, setHideDuplicates] = useState(true);
+export const logoDataUriFor = (name: string) => {
+  let hash = 0;
+  for (let i = 0; i < name.length; i += 1) {
+    hash = (hash * 31 + name.charCodeAt(i)) % 360;
+  }
 
-  const logoDataUriFor = (name: string) => {
-    let hash = 0;
-    for (let i = 0; i < name.length; i += 1) {
-      hash = (hash * 31 + name.charCodeAt(i)) % 360;
-    }
+  const hue = (hash + 360) % 360;
+  const hue2 = (hue + 18) % 360;
+  const initials = name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase();
 
-    const hue = (hash + 360) % 360;
-    const hue2 = (hue + 18) % 360;
-    const initials = name
-      .split(' ')
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((w) => w[0])
-      .join('')
-      .toUpperCase();
-
-    const svg = `<?xml version="1.0" encoding="UTF-8"?>
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -51,491 +47,498 @@ export function MarketplaceAppsPage() {
   <text x="44" y="52" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system" font-size="28" font-weight="700" fill="white">${initials}</text>
 </svg>`;
 
-    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-  };
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+};
 
-  const dashboardIconUrlFor = (appNameOrId: string) => {
-    const slug = appNameOrId
-      .toLowerCase()
-      .replace(/[^a-z0-9-]+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/(^-|-$)/g, '');
+export const dashboardIconUrlFor = (appNameOrId: string) => {
+  const slug = appNameOrId
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/(^-|-$)/g, '');
 
-    return `https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/${slug}.svg`;
-  };
+  return `https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/${slug}.svg`;
+};
+
+export const marketplaceAppsCatalog: MarketplaceApp[] = [
+  {
+    id: 'ansible-semaphore',
+    name: 'Ansible Semaphore',
+    vendor: 'TinyActive',
+    description: 'A modern UI for Ansible automation, simple, secure.',
+    category: 'DevOps',
+  },
+  {
+    id: 'appsmith',
+    name: 'Appsmith',
+    vendor: 'TinyActive',
+    description: 'Build internal tools and dashboards fast.',
+    category: 'Developer Tools',
+  },
+  {
+    id: 'gitea',
+    name: 'Gitea',
+    vendor: 'Community',
+    description: 'Lightweight Git service, self-hosted.',
+    category: 'Developer Tools',
+  },
+  {
+    id: 'grafana',
+    name: 'Grafana',
+    vendor: 'Community',
+    description: 'Dashboards and observability for metrics, logs, traces.',
+    category: 'Monitoring',
+  },
+  {
+    id: 'prometheus',
+    name: 'Prometheus',
+    vendor: 'Community',
+    description: 'Time-series monitoring with a powerful query language.',
+    category: 'Monitoring',
+  },
+  {
+    id: 'postgres',
+    name: 'PostgreSQL',
+    vendor: 'Community',
+    description: 'Reliable relational database for production workloads.',
+    category: 'Database',
+  },
+  {
+    id: 'redis',
+    name: 'Redis',
+    vendor: 'Community',
+    description: 'In-memory data store for caching and real-time apps.',
+    category: 'Database',
+  },
+  {
+    id: 'n8n',
+    name: 'n8n',
+    vendor: 'Community',
+    description: 'Workflow automation platform for your internal ops.',
+    category: 'Automation',
+  },
+  {
+    id: 'supabase',
+    name: 'Supabase',
+    vendor: 'Community',
+    description: 'Open source Firebase alternative built on Postgres.',
+    category: 'Database',
+  },
+  {
+    id: 'minio',
+    name: 'MinIO',
+    vendor: 'Community',
+    description: 'S3-compatible object storage for self-hosted stacks.',
+    category: 'Storage',
+  },
+  {
+    id: 'vault',
+    name: 'Vault',
+    vendor: 'Community',
+    description: 'Secure secrets management and encryption as a service.',
+    category: 'Security',
+  },
+  {
+    id: 'airbyte',
+    name: 'Airbyte',
+    vendor: 'Community',
+    description: 'ELT pipelines with connectors to sync your data.',
+    category: 'Data',
+  },
+  {
+    id: 'adguard-home',
+    name: 'AdGuard Home',
+    vendor: 'Community',
+    description: 'Network-wide ads and trackers blocking with DNS server.',
+    category: 'Security',
+  },
+  {
+    id: 'airflow',
+    name: 'Apache Airflow',
+    vendor: 'Community',
+    description: 'Orchestrate workflows and scheduled pipelines.',
+    category: 'Data',
+  },
+  {
+    id: 'ansible-awx',
+    name: 'AWX',
+    vendor: 'Community',
+    description: 'Open source upstream project for Ansible Automation Platform.',
+    category: 'DevOps',
+  },
+  {
+    id: 'argo-cd',
+    name: 'Argo CD',
+    vendor: 'Community',
+    description: 'GitOps continuous delivery for Kubernetes.',
+    category: 'DevOps',
+  },
+  {
+    id: 'arangodb',
+    name: 'ArangoDB',
+    vendor: 'Community',
+    description: 'Multi-model database for graphs, documents, and key-value.',
+    category: 'Database',
+  },
+  {
+    id: 'backstage',
+    name: 'Backstage',
+    vendor: 'Community',
+    description: 'Developer portal to manage services and ownership.',
+    category: 'Developer Tools',
+  },
+  {
+    id: 'caddy',
+    name: 'Caddy',
+    vendor: 'Community',
+    description: 'Modern web server with automatic HTTPS.',
+    category: 'Networking',
+  },
+  {
+    id: 'calcom',
+    name: 'Cal.com',
+    vendor: 'Community',
+    description: 'Scheduling infrastructure for individuals and teams.',
+    category: 'Productivity',
+  },
+  {
+    id: 'clickhouse',
+    name: 'ClickHouse',
+    vendor: 'Community',
+    description: 'Fast analytical database for real-time reporting.',
+    category: 'Database',
+  },
+  {
+    id: 'code-server',
+    name: 'code-server',
+    vendor: 'Community',
+    description: 'Run VS Code in your browser on remote compute.',
+    category: 'Developer Tools',
+  },
+  {
+    id: 'consul',
+    name: 'Consul',
+    vendor: 'Community',
+    description: 'Service discovery, config, and service mesh.',
+    category: 'Networking',
+  },
+  {
+    id: 'directus',
+    name: 'Directus',
+    vendor: 'Community',
+    description: 'Instant APIs and app for your SQL database.',
+    category: 'Developer Tools',
+  },
+  {
+    id: 'django',
+    name: 'Django',
+    vendor: 'Community',
+    description: 'Batteries-included web framework starter.',
+    category: 'Web',
+  },
+  {
+    id: 'elasticsearch',
+    name: 'Elasticsearch',
+    vendor: 'Community',
+    description: 'Search and analytics engine for logs and content.',
+    category: 'Search',
+  },
+  {
+    id: 'gitlab',
+    name: 'GitLab',
+    vendor: 'Community',
+    description: 'All-in-one DevOps platform for CI/CD and code hosting.',
+    category: 'DevOps',
+  },
+  {
+    id: 'github-runner',
+    name: 'GitHub Actions Runner',
+    vendor: 'Community',
+    description: 'Self-hosted runner for GitHub Actions workflows.',
+    category: 'DevOps',
+  },
+  {
+    id: 'harbor',
+    name: 'Harbor',
+    vendor: 'Community',
+    description: 'Private container registry with policy and scanning.',
+    category: 'DevOps',
+  },
+  {
+    id: 'heimdall',
+    name: 'Heimdall',
+    vendor: 'Community',
+    description: 'Simple dashboard for all your services.',
+    category: 'Productivity',
+  },
+  {
+    id: 'jellyfin',
+    name: 'Jellyfin',
+    vendor: 'Community',
+    description: 'Media server for streaming your content.',
+    category: 'Media',
+  },
+  {
+    id: 'jupyterhub',
+    name: 'JupyterHub',
+    vendor: 'Community',
+    description: 'Multi-user Jupyter notebooks for teams.',
+    category: 'Data',
+  },
+  {
+    id: 'keycloak',
+    name: 'Keycloak',
+    vendor: 'Community',
+    description: 'Identity and access management with SSO.',
+    category: 'Security',
+  },
+  {
+    id: 'kibana',
+    name: 'Kibana',
+    vendor: 'Community',
+    description: 'Visualize and explore Elasticsearch data.',
+    category: 'Search',
+  },
+  {
+    id: 'kong',
+    name: 'Kong',
+    vendor: 'Community',
+    description: 'API gateway for routing, auth, and rate limits.',
+    category: 'Networking',
+  },
+  {
+    id: 'kafka',
+    name: 'Kafka',
+    vendor: 'Community',
+    description: 'Distributed streaming platform for event-driven systems.',
+    category: 'Messaging',
+  },
+  {
+    id: 'loki',
+    name: 'Loki',
+    vendor: 'Community',
+    description: 'Log aggregation for Grafana.',
+    category: 'Monitoring',
+  },
+  {
+    id: 'metabase',
+    name: 'Metabase',
+    vendor: 'Community',
+    description: 'BI and analytics dashboards for your data.',
+    category: 'Analytics',
+  },
+  {
+    id: 'mongodb',
+    name: 'MongoDB',
+    vendor: 'Community',
+    description: 'Document database for flexible schemas.',
+    category: 'Database',
+  },
+  {
+    id: 'mysql',
+    name: 'MySQL',
+    vendor: 'Community',
+    description: 'Popular relational database for web apps.',
+    category: 'Database',
+  },
+  {
+    id: 'nats',
+    name: 'NATS',
+    vendor: 'Community',
+    description: 'High performance messaging for microservices.',
+    category: 'Messaging',
+  },
+  {
+    id: 'nginx',
+    name: 'NGINX',
+    vendor: 'Community',
+    description: 'Web server and reverse proxy for production traffic.',
+    category: 'Networking',
+  },
+  {
+    id: 'open-webui',
+    name: 'Open WebUI',
+    vendor: 'Community',
+    description: 'Web UI for LLMs and local inference stacks.',
+    category: 'AI',
+  },
+  {
+    id: 'opensearch',
+    name: 'OpenSearch',
+    vendor: 'Community',
+    description: 'Search and analytics suite for logs and text.',
+    category: 'Search',
+  },
+  {
+    id: 'pgadmin',
+    name: 'pgAdmin',
+    vendor: 'Community',
+    description: 'Admin UI for managing PostgreSQL databases.',
+    category: 'Database',
+  },
+  {
+    id: 'rabbitmq',
+    name: 'RabbitMQ',
+    vendor: 'Community',
+    description: 'Message broker for queues and pub/sub.',
+    category: 'Messaging',
+  },
+  {
+    id: 'redpanda',
+    name: 'Redpanda',
+    vendor: 'Community',
+    description: 'Kafka-compatible streaming with a simpler ops model.',
+    category: 'Messaging',
+  },
+  {
+    id: 'sentry',
+    name: 'Sentry',
+    vendor: 'Community',
+    description: 'Error tracking and performance monitoring for apps.',
+    category: 'Monitoring',
+  },
+  {
+    id: 'sonarqube',
+    name: 'SonarQube',
+    vendor: 'Community',
+    description: 'Code quality and security analysis for projects.',
+    category: 'Developer Tools',
+  },
+  {
+    id: 'superset',
+    name: 'Apache Superset',
+    vendor: 'Community',
+    description: 'Data exploration and visualization platform.',
+    category: 'Analytics',
+  },
+  {
+    id: 'temporal',
+    name: 'Temporal',
+    vendor: 'Community',
+    description: 'Durable execution for workflows and long-running jobs.',
+    category: 'Automation',
+  },
+  {
+    id: 'trivy',
+    name: 'Trivy',
+    vendor: 'Community',
+    description: 'Vulnerability scanner for containers and dependencies.',
+    category: 'Security',
+  },
+  {
+    id: 'weaviate',
+    name: 'Weaviate',
+    vendor: 'Community',
+    description: 'Vector database for semantic search applications.',
+    category: 'AI',
+  },
+  {
+    id: 'nextcloud',
+    name: 'Nextcloud',
+    vendor: 'Community',
+    description: 'File sync, sharing, and collaboration suite.',
+    category: 'Productivity',
+  },
+  {
+    id: 'mattermost',
+    name: 'Mattermost',
+    vendor: 'Community',
+    description: 'Team messaging for secure collaboration.',
+    category: 'Productivity',
+  },
+  {
+    id: 'portainer',
+    name: 'Portainer',
+    vendor: 'Community',
+    description: 'Simple UI for container management.',
+    category: 'DevOps',
+  },
+  {
+    id: 'jenkins',
+    name: 'Jenkins',
+    vendor: 'Community',
+    description: 'CI/CD automation server for builds and pipelines.',
+    category: 'DevOps',
+  },
+  {
+    id: 'traefik',
+    name: 'Traefik',
+    vendor: 'Community',
+    description: 'Edge router and reverse proxy for microservices.',
+    category: 'Networking',
+  },
+  {
+    id: 'strapi',
+    name: 'Strapi',
+    vendor: 'Community',
+    description: 'Headless CMS to build APIs fast.',
+    category: 'Web',
+  },
+  {
+    id: 'ghost',
+    name: 'Ghost',
+    vendor: 'Community',
+    description: 'Modern publishing platform for blogs and newsletters.',
+    category: 'Web',
+  },
+  {
+    id: 'hasura',
+    name: 'Hasura',
+    vendor: 'Community',
+    description: 'Instant GraphQL API on top of your database.',
+    category: 'Developer Tools',
+  },
+  {
+    id: 'duckdb',
+    name: 'DuckDB',
+    vendor: 'Community',
+    description: 'Fast embedded analytics database.',
+    category: 'Database',
+  },
+  {
+    id: 'vector',
+    name: 'Vector',
+    vendor: 'Community',
+    description: 'High-performance observability data pipeline.',
+    category: 'Monitoring',
+  },
+  {
+    id: 'meilisearch',
+    name: 'Meilisearch',
+    vendor: 'Community',
+    description: 'Fast, developer-friendly search engine.',
+    category: 'Search',
+  },
+  {
+    id: 'qdrant',
+    name: 'Qdrant',
+    vendor: 'Community',
+    description: 'Vector search engine for embeddings and RAG.',
+    category: 'AI',
+  },
+  {
+    id: 'ollama',
+    name: 'Ollama',
+    vendor: 'Community',
+    description: 'Run and manage LLMs locally with a simple runtime.',
+    category: 'AI',
+  },
+  {
+    id: 'whoami',
+    name: 'Whoami',
+    vendor: 'Community',
+    description: 'Tiny app for testing routing, headers, and networking.',
+    category: 'Networking',
+  },
+];
+
+export function MarketplaceAppsPage() {
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('All');
+  const [hideDuplicates, setHideDuplicates] = useState(true);
 
   const apps: MarketplaceApp[] = useMemo(
-    () => [
-      {
-        id: 'ansible-semaphore',
-        name: 'Ansible Semaphore',
-        vendor: 'TinyActive',
-        description: 'A modern UI for Ansible automation, simple, secure.',
-        category: 'DevOps',
-      },
-      {
-        id: 'appsmith',
-        name: 'Appsmith',
-        vendor: 'TinyActive',
-        description: 'Build internal tools and dashboards fast.',
-        category: 'Developer Tools',
-      },
-      {
-        id: 'gitea',
-        name: 'Gitea',
-        vendor: 'Community',
-        description: 'Lightweight Git service, self-hosted.',
-        category: 'Developer Tools',
-      },
-      {
-        id: 'grafana',
-        name: 'Grafana',
-        vendor: 'Community',
-        description: 'Dashboards and observability for metrics, logs, traces.',
-        category: 'Monitoring',
-      },
-      {
-        id: 'prometheus',
-        name: 'Prometheus',
-        vendor: 'Community',
-        description: 'Time-series monitoring with a powerful query language.',
-        category: 'Monitoring',
-      },
-      {
-        id: 'postgres',
-        name: 'PostgreSQL',
-        vendor: 'Community',
-        description: 'Reliable relational database for production workloads.',
-        category: 'Database',
-      },
-      {
-        id: 'redis',
-        name: 'Redis',
-        vendor: 'Community',
-        description: 'In-memory data store for caching and real-time apps.',
-        category: 'Database',
-      },
-      {
-        id: 'n8n',
-        name: 'n8n',
-        vendor: 'Community',
-        description: 'Workflow automation platform for your internal ops.',
-        category: 'Automation',
-      },
-      {
-        id: 'supabase',
-        name: 'Supabase',
-        vendor: 'Community',
-        description: 'Open source Firebase alternative built on Postgres.',
-        category: 'Database',
-      },
-      {
-        id: 'minio',
-        name: 'MinIO',
-        vendor: 'Community',
-        description: 'S3-compatible object storage for self-hosted stacks.',
-        category: 'Storage',
-      },
-      {
-        id: 'vault',
-        name: 'Vault',
-        vendor: 'Community',
-        description: 'Secure secrets management and encryption as a service.',
-        category: 'Security',
-      },
-      {
-        id: 'airbyte',
-        name: 'Airbyte',
-        vendor: 'Community',
-        description: 'ELT pipelines with connectors to sync your data.',
-        category: 'Data',
-      },
-      {
-        id: 'adguard-home',
-        name: 'AdGuard Home',
-        vendor: 'Community',
-        description: 'Network-wide ads and trackers blocking with DNS server.',
-        category: 'Security',
-      },
-      {
-        id: 'airflow',
-        name: 'Apache Airflow',
-        vendor: 'Community',
-        description: 'Orchestrate workflows and scheduled pipelines.',
-        category: 'Data',
-      },
-      {
-        id: 'ansible-awx',
-        name: 'AWX',
-        vendor: 'Community',
-        description: 'Open source upstream project for Ansible Automation Platform.',
-        category: 'DevOps',
-      },
-      {
-        id: 'argo-cd',
-        name: 'Argo CD',
-        vendor: 'Community',
-        description: 'GitOps continuous delivery for Kubernetes.',
-        category: 'DevOps',
-      },
-      {
-        id: 'arangodb',
-        name: 'ArangoDB',
-        vendor: 'Community',
-        description: 'Multi-model database for graphs, documents, and key-value.',
-        category: 'Database',
-      },
-      {
-        id: 'backstage',
-        name: 'Backstage',
-        vendor: 'Community',
-        description: 'Developer portal to manage services and ownership.',
-        category: 'Developer Tools',
-      },
-      {
-        id: 'caddy',
-        name: 'Caddy',
-        vendor: 'Community',
-        description: 'Modern web server with automatic HTTPS.',
-        category: 'Networking',
-      },
-      {
-        id: 'calcom',
-        name: 'Cal.com',
-        vendor: 'Community',
-        description: 'Scheduling infrastructure for individuals and teams.',
-        category: 'Productivity',
-      },
-      {
-        id: 'clickhouse',
-        name: 'ClickHouse',
-        vendor: 'Community',
-        description: 'Fast analytical database for real-time reporting.',
-        category: 'Database',
-      },
-      {
-        id: 'code-server',
-        name: 'code-server',
-        vendor: 'Community',
-        description: 'Run VS Code in your browser on remote compute.',
-        category: 'Developer Tools',
-      },
-      {
-        id: 'consul',
-        name: 'Consul',
-        vendor: 'Community',
-        description: 'Service discovery, config, and service mesh.',
-        category: 'Networking',
-      },
-      {
-        id: 'directus',
-        name: 'Directus',
-        vendor: 'Community',
-        description: 'Instant APIs and app for your SQL database.',
-        category: 'Developer Tools',
-      },
-      {
-        id: 'django',
-        name: 'Django',
-        vendor: 'Community',
-        description: 'Batteries-included web framework starter.',
-        category: 'Web',
-      },
-      {
-        id: 'elasticsearch',
-        name: 'Elasticsearch',
-        vendor: 'Community',
-        description: 'Search and analytics engine for logs and content.',
-        category: 'Search',
-      },
-      {
-        id: 'gitlab',
-        name: 'GitLab',
-        vendor: 'Community',
-        description: 'All-in-one DevOps platform for CI/CD and code hosting.',
-        category: 'DevOps',
-      },
-      {
-        id: 'github-runner',
-        name: 'GitHub Actions Runner',
-        vendor: 'Community',
-        description: 'Self-hosted runner for GitHub Actions workflows.',
-        category: 'DevOps',
-      },
-      {
-        id: 'harbor',
-        name: 'Harbor',
-        vendor: 'Community',
-        description: 'Private container registry with policy and scanning.',
-        category: 'DevOps',
-      },
-      {
-        id: 'heimdall',
-        name: 'Heimdall',
-        vendor: 'Community',
-        description: 'Simple dashboard for all your services.',
-        category: 'Productivity',
-      },
-      {
-        id: 'jellyfin',
-        name: 'Jellyfin',
-        vendor: 'Community',
-        description: 'Media server for streaming your content.',
-        category: 'Media',
-      },
-      {
-        id: 'jupyterhub',
-        name: 'JupyterHub',
-        vendor: 'Community',
-        description: 'Multi-user Jupyter notebooks for teams.',
-        category: 'Data',
-      },
-      {
-        id: 'keycloak',
-        name: 'Keycloak',
-        vendor: 'Community',
-        description: 'Identity and access management with SSO.',
-        category: 'Security',
-      },
-      {
-        id: 'kibana',
-        name: 'Kibana',
-        vendor: 'Community',
-        description: 'Visualize and explore Elasticsearch data.',
-        category: 'Search',
-      },
-      {
-        id: 'kong',
-        name: 'Kong',
-        vendor: 'Community',
-        description: 'API gateway for routing, auth, and rate limits.',
-        category: 'Networking',
-      },
-      {
-        id: 'kafka',
-        name: 'Kafka',
-        vendor: 'Community',
-        description: 'Distributed streaming platform for event-driven systems.',
-        category: 'Messaging',
-      },
-      {
-        id: 'loki',
-        name: 'Loki',
-        vendor: 'Community',
-        description: 'Log aggregation for Grafana.',
-        category: 'Monitoring',
-      },
-      {
-        id: 'metabase',
-        name: 'Metabase',
-        vendor: 'Community',
-        description: 'BI and analytics dashboards for your data.',
-        category: 'Analytics',
-      },
-      {
-        id: 'mongodb',
-        name: 'MongoDB',
-        vendor: 'Community',
-        description: 'Document database for flexible schemas.',
-        category: 'Database',
-      },
-      {
-        id: 'mysql',
-        name: 'MySQL',
-        vendor: 'Community',
-        description: 'Popular relational database for web apps.',
-        category: 'Database',
-      },
-      {
-        id: 'nats',
-        name: 'NATS',
-        vendor: 'Community',
-        description: 'High performance messaging for microservices.',
-        category: 'Messaging',
-      },
-      {
-        id: 'nginx',
-        name: 'NGINX',
-        vendor: 'Community',
-        description: 'Web server and reverse proxy for production traffic.',
-        category: 'Networking',
-      },
-      {
-        id: 'open-webui',
-        name: 'Open WebUI',
-        vendor: 'Community',
-        description: 'Web UI for LLMs and local inference stacks.',
-        category: 'AI',
-      },
-      {
-        id: 'opensearch',
-        name: 'OpenSearch',
-        vendor: 'Community',
-        description: 'Search and analytics suite for logs and text.',
-        category: 'Search',
-      },
-      {
-        id: 'pgadmin',
-        name: 'pgAdmin',
-        vendor: 'Community',
-        description: 'Admin UI for managing PostgreSQL databases.',
-        category: 'Database',
-      },
-      {
-        id: 'rabbitmq',
-        name: 'RabbitMQ',
-        vendor: 'Community',
-        description: 'Message broker for queues and pub/sub.',
-        category: 'Messaging',
-      },
-      {
-        id: 'redpanda',
-        name: 'Redpanda',
-        vendor: 'Community',
-        description: 'Kafka-compatible streaming with a simpler ops model.',
-        category: 'Messaging',
-      },
-      {
-        id: 'sentry',
-        name: 'Sentry',
-        vendor: 'Community',
-        description: 'Error tracking and performance monitoring for apps.',
-        category: 'Monitoring',
-      },
-      {
-        id: 'sonarqube',
-        name: 'SonarQube',
-        vendor: 'Community',
-        description: 'Code quality and security analysis for projects.',
-        category: 'Developer Tools',
-      },
-      {
-        id: 'superset',
-        name: 'Apache Superset',
-        vendor: 'Community',
-        description: 'Data exploration and visualization platform.',
-        category: 'Analytics',
-      },
-      {
-        id: 'temporal',
-        name: 'Temporal',
-        vendor: 'Community',
-        description: 'Durable execution for workflows and long-running jobs.',
-        category: 'Automation',
-      },
-      {
-        id: 'trivy',
-        name: 'Trivy',
-        vendor: 'Community',
-        description: 'Vulnerability scanner for containers and dependencies.',
-        category: 'Security',
-      },
-      {
-        id: 'weaviate',
-        name: 'Weaviate',
-        vendor: 'Community',
-        description: 'Vector database for semantic search applications.',
-        category: 'AI',
-      },
-      {
-        id: 'nextcloud',
-        name: 'Nextcloud',
-        vendor: 'Community',
-        description: 'File sync, sharing, and collaboration suite.',
-        category: 'Productivity',
-      },
-      {
-        id: 'mattermost',
-        name: 'Mattermost',
-        vendor: 'Community',
-        description: 'Team messaging for secure collaboration.',
-        category: 'Productivity',
-      },
-      {
-        id: 'portainer',
-        name: 'Portainer',
-        vendor: 'Community',
-        description: 'Simple UI for container management.',
-        category: 'DevOps',
-      },
-      {
-        id: 'jenkins',
-        name: 'Jenkins',
-        vendor: 'Community',
-        description: 'CI/CD automation server for builds and pipelines.',
-        category: 'DevOps',
-      },
-      {
-        id: 'traefik',
-        name: 'Traefik',
-        vendor: 'Community',
-        description: 'Edge router and reverse proxy for microservices.',
-        category: 'Networking',
-      },
-      {
-        id: 'strapi',
-        name: 'Strapi',
-        vendor: 'Community',
-        description: 'Headless CMS to build APIs fast.',
-        category: 'Web',
-      },
-      {
-        id: 'ghost',
-        name: 'Ghost',
-        vendor: 'Community',
-        description: 'Modern publishing platform for blogs and newsletters.',
-        category: 'Web',
-      },
-      {
-        id: 'hasura',
-        name: 'Hasura',
-        vendor: 'Community',
-        description: 'Instant GraphQL API on top of your database.',
-        category: 'Developer Tools',
-      },
-      {
-        id: 'duckdb',
-        name: 'DuckDB',
-        vendor: 'Community',
-        description: 'Fast embedded analytics database.',
-        category: 'Database',
-      },
-      {
-        id: 'vector',
-        name: 'Vector',
-        vendor: 'Community',
-        description: 'High-performance observability data pipeline.',
-        category: 'Monitoring',
-      },
-      {
-        id: 'meilisearch',
-        name: 'Meilisearch',
-        vendor: 'Community',
-        description: 'Fast, developer-friendly search engine.',
-        category: 'Search',
-      },
-      {
-        id: 'qdrant',
-        name: 'Qdrant',
-        vendor: 'Community',
-        description: 'Vector search engine for embeddings and RAG.',
-        category: 'AI',
-      },
-      {
-        id: 'ollama',
-        name: 'Ollama',
-        vendor: 'Community',
-        description: 'Run and manage LLMs locally with a simple runtime.',
-        category: 'AI',
-      },
-      {
-        id: 'whoami',
-        name: 'Whoami',
-        vendor: 'Community',
-        description: 'Tiny app for testing routing, headers, and networking.',
-        category: 'Networking',
-      },
-    ],
+    () => marketplaceAppsCatalog,
     []
   );
 
@@ -688,9 +691,13 @@ export function MarketplaceAppsPage() {
                     <Rocket size={16} />
                   </button>
 
-                  <button className="text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors">
+                  <Link
+                    to={`/resources/marketplace-apps/${app.id}`}
+                    className="text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
+                    aria-label={`View details for ${app.name}`}
+                  >
                     Details
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
