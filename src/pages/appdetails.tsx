@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
+  ArrowRight,
   ArrowLeft,
   CheckCircle2,
   Cpu,
@@ -13,7 +14,6 @@ import {
   Network,
   Rocket,
   Server,
-  Settings2,
   Shield,
   Zap,
 } from 'lucide-react';
@@ -371,45 +371,44 @@ function SelectField({
   );
 }
 
-function FlowNode({
+type DeployStep = 'app' | 'os' | 'vm' | 'network' | 'deploy';
+
+function StepCard({
   icon,
   title,
-  subtitle,
-  children,
+  active,
+  onClick,
 }: {
   icon: ReactNode;
   title: string;
-  subtitle: string;
-  children: ReactNode;
+  active: boolean;
+  onClick: () => void;
 }) {
   return (
-    <div className="relative flex-1 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] p-5 shadow-[0_14px_40px_rgba(0,0,0,0.12)] overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 opacity-60 bg-[radial-gradient(ellipse_at_top,_rgba(var(--accent-rgb),0.10),transparent_55%)]" />
-      <div className="relative">
-        <div className="flex items-start gap-3">
-          <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl bg-[rgba(var(--accent-rgb),0.12)] text-[color:var(--accent)]">
-            {icon}
-          </div>
-          <div className="min-w-0">
-            <div className="text-sm font-semibold text-[color:var(--text-primary)] truncate">{title}</div>
-            <div className="mt-1 text-xs text-[color:var(--text-tertiary)] leading-relaxed">{subtitle}</div>
-          </div>
-        </div>
-        <div className="mt-4">{children}</div>
+    <button
+      type="button"
+      onClick={onClick}
+      className={
+        'group w-[156px] h-[104px] rounded-2xl border px-4 py-4 transition-colors shadow-[0_6px_18px_rgba(0,0,0,0.06)] flex flex-col items-center justify-center ' +
+        (active
+          ? 'border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.08)]'
+          : 'border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] hover:bg-[color:var(--bg-tertiary)]')
+      }
+    >
+      <div
+        className={
+          'flex h-10 w-10 items-center justify-center rounded-xl border ' +
+          (active
+            ? 'border-[rgba(var(--accent-rgb),0.35)] bg-[color:var(--bg-secondary)] text-[color:var(--accent)]'
+            : 'border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] text-[color:var(--text-secondary)] group-hover:text-[color:var(--accent)]')
+        }
+      >
+        {icon}
       </div>
-    </div>
-  );
-}
-
-function FlowConnector() {
-  return (
-    <div className="hidden lg:flex items-center justify-center px-2">
-      <div className="relative w-10">
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-[rgba(var(--accent-rgb),0.35)] ring-2 ring-[rgba(var(--accent-rgb),0.16)]" />
-        <div className="h-px w-full border-t border-dashed border-[rgba(var(--accent-rgb),0.35)]" />
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-[rgba(var(--accent-rgb),0.35)] ring-2 ring-[rgba(var(--accent-rgb),0.16)]" />
+      <div className="mt-3 text-[13px] font-semibold leading-tight text-center text-[color:var(--text-primary)]">
+        {title}
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -453,6 +452,7 @@ export function MarketplaceAppDetailsPage() {
   const [deployVmType, setDeployVmType] = useState('General purpose');
   const [deployNetwork, setDeployNetwork] = useState('Private VPC');
   const [deployExposure, setDeployExposure] = useState('Internal');
+  const [deployStep, setDeployStep] = useState<DeployStep>('app');
 
   const scrollToDeploy = () => {
     const el = document.getElementById('deploy-flow');
@@ -613,7 +613,10 @@ export function MarketplaceAppDetailsPage() {
                               </div>
                             ))}
                           </div>
-                          <button className="mt-5 inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[color:var(--accent-hover)] transition-colors w-full">
+                          <button
+                            onClick={scrollToDeploy}
+                            className="mt-5 inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[color:var(--accent-hover)] transition-colors w-full"
+                          >
                             Deploy now
                             <Rocket size={16} />
                           </button>
@@ -650,117 +653,169 @@ export function MarketplaceAppDetailsPage() {
                       </div>
                     </div>
 
-                    <div className="mt-6 flex flex-col lg:flex-row lg:items-stretch">
-                      <FlowNode
-                        icon={<Layers size={18} />}
-                        title="Choose app"
-                        subtitle="Confirm what you’re deploying"
-                      >
-                        <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
-                          <div className="text-sm font-semibold text-[color:var(--text-primary)]">{app.name}</div>
-                          <div className="mt-1 text-xs text-[color:var(--text-tertiary)]">Vendor: {app.vendor}</div>
-                          <div className="mt-3 text-sm text-[color:var(--text-secondary)] leading-relaxed">
-                            {app.description}
-                          </div>
-                        </div>
-                      </FlowNode>
-
-                      <FlowConnector />
-
-                      <FlowNode
-                        icon={<Globe size={18} />}
-                        title="Select OS"
-                        subtitle="Pick a base image for the VM"
-                      >
-                        <SelectField
-                          label="Operating system"
-                          value={deployOs}
-                          onChange={setDeployOs}
-                          options={['Ubuntu 22.04 LTS', 'Debian 12', 'Rocky Linux 9']}
-                          helper="Ubuntu is a good default for broad compatibility."
-                        />
-                      </FlowNode>
-
-                      <FlowConnector />
-
-                      <FlowNode
-                        icon={<Server size={18} />}
-                        title="Select VM type"
-                        subtitle="Set CPU/RAM sizing and profile"
-                      >
-                        <SelectField
-                          label="Instance profile"
-                          value={deployVmType}
-                          onChange={setDeployVmType}
-                          options={['General purpose', 'Memory optimized', 'Storage optimized']}
-                          helper={`Recommended baseline: ${details.vm.vcpu} vCPU · ${details.vm.memoryGb} GB RAM · ${details.vm.storageGb} GB disk`}
-                        />
-                        <div className="mt-3 grid grid-cols-2 gap-2">
-                          <Pill>{details.vm.vcpu} vCPU</Pill>
-                          <Pill>{details.vm.memoryGb} GB RAM</Pill>
-                          <Pill>{details.vm.storageGb} GB disk</Pill>
-                          <Pill>
-                            {details.vm.network?.inboundPorts?.length
-                              ? `Ports ${details.vm.network.inboundPorts.join(', ')}`
-                              : 'Ports: review'}
-                          </Pill>
-                        </div>
-                      </FlowNode>
-
-                      <FlowConnector />
-
-                      <FlowNode
-                        icon={<Network size={18} />}
-                        title="Network"
-                        subtitle="Decide access and exposure"
-                      >
-                        <div className="grid grid-cols-1 gap-4">
-                          <SelectField
-                            label="Network"
-                            value={deployNetwork}
-                            onChange={setDeployNetwork}
-                            options={['Private VPC', 'Shared network', 'Public subnet (advanced)']}
+                    <div className="mt-6">
+                      <div className="w-full">
+                        <div className="flex items-center justify-center gap-6 overflow-x-auto pb-2">
+                          <StepCard
+                            icon={<Layers size={18} />}
+                            title="Choose app"
+                            active={deployStep === 'app'}
+                            onClick={() => setDeployStep('app')}
                           />
-                          <SelectField
-                            label="Exposure"
-                            value={deployExposure}
-                            onChange={setDeployExposure}
-                            options={['Internal', 'Private + VPN', 'Public (review firewall)']}
-                            helper="For production, prefer private networking and publish only required ports."
+                          <ArrowRight size={20} className="shrink-0 text-[color:var(--text-tertiary)]" />
+                          <StepCard
+                            icon={<Globe size={18} />}
+                            title="Select OS"
+                            active={deployStep === 'os'}
+                            onClick={() => setDeployStep('os')}
+                          />
+                          <ArrowRight size={20} className="shrink-0 text-[color:var(--text-tertiary)]" />
+                          <StepCard
+                            icon={<Server size={18} />}
+                            title="Select VM type"
+                            active={deployStep === 'vm'}
+                            onClick={() => setDeployStep('vm')}
+                          />
+                          <ArrowRight size={20} className="shrink-0 text-[color:var(--text-tertiary)]" />
+                          <StepCard
+                            icon={<Network size={18} />}
+                            title="Network select"
+                            active={deployStep === 'network'}
+                            onClick={() => setDeployStep('network')}
+                          />
+                          <ArrowRight size={20} className="shrink-0 text-[color:var(--text-tertiary)]" />
+                          <StepCard
+                            icon={<Rocket size={18} />}
+                            title="Deploy now"
+                            active={deployStep === 'deploy'}
+                            onClick={() => setDeployStep('deploy')}
                           />
                         </div>
-                      </FlowNode>
 
-                      <FlowConnector />
+                        <div className="mt-6 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] p-6 shadow-[0_12px_30px_rgba(0,0,0,0.10)]">
+                          {deployStep === 'app' ? (
+                            <div>
+                              <div className="text-sm font-semibold">Choose app</div>
+                              <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                                Confirm what you’re deploying.
+                              </div>
+                              <div className="mt-4 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
+                                <div className="text-sm font-semibold text-[color:var(--text-primary)]">{app.name}</div>
+                                <div className="mt-1 text-xs text-[color:var(--text-tertiary)]">Vendor: {app.vendor}</div>
+                                <div className="mt-3 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                                  {app.description}
+                                </div>
+                              </div>
+                            </div>
+                          ) : null}
 
-                      <FlowNode
-                        icon={<Settings2 size={18} />}
-                        title="Deploy"
-                        subtitle="Launch and verify health"
-                      >
-                        <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
-                          <div className="text-sm font-semibold">Deployment checklist</div>
-                          <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
-                            <div className="flex items-start gap-2">
-                              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[color:var(--text-tertiary)]" />
-                              <span>Confirm environment variables and credentials</span>
+                          {deployStep === 'os' ? (
+                            <div>
+                              <div className="text-sm font-semibold">Select OS</div>
+                              <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                                Pick a base image for the VM.
+                              </div>
+                              <div className="mt-4 max-w-xl">
+                                <SelectField
+                                  label="Operating system"
+                                  value={deployOs}
+                                  onChange={setDeployOs}
+                                  options={['Ubuntu 22.04 LTS', 'Debian 12', 'Rocky Linux 9']}
+                                  helper="Ubuntu is a good default for broad compatibility."
+                                />
+                              </div>
                             </div>
-                            <div className="flex items-start gap-2">
-                              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[color:var(--text-tertiary)]" />
-                              <span>Verify persistence/volumes and backups</span>
-                            </div>
-                            <div className="flex items-start gap-2">
-                              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[color:var(--text-tertiary)]" />
-                              <span>Check health endpoint and inbound ports</span>
-                            </div>
-                          </div>
+                          ) : null}
 
-                          <button className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[color:var(--accent-hover)] transition-colors">
-                            Deploy now
-                            <Rocket size={16} />
-                          </button>
+                          {deployStep === 'vm' ? (
+                            <div>
+                              <div className="text-sm font-semibold">Select instance / VM type</div>
+                              <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                                Set CPU/RAM sizing and profile.
+                              </div>
+                              <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <div>
+                                  <SelectField
+                                    label="Instance profile"
+                                    value={deployVmType}
+                                    onChange={setDeployVmType}
+                                    options={['General purpose', 'Memory optimized', 'Storage optimized']}
+                                    helper={`Recommended baseline: ${details.vm.vcpu} vCPU · ${details.vm.memoryGb} GB RAM · ${details.vm.storageGb} GB disk`}
+                                  />
+                                </div>
+                                <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
+                                  <div className="text-sm font-semibold">Baseline resources</div>
+                                  <div className="mt-3 grid grid-cols-2 gap-2">
+                                    <Pill>{details.vm.vcpu} vCPU</Pill>
+                                    <Pill>{details.vm.memoryGb} GB RAM</Pill>
+                                    <Pill>{details.vm.storageGb} GB disk</Pill>
+                                    <Pill>
+                                      {details.vm.network?.inboundPorts?.length
+                                        ? `Ports ${details.vm.network.inboundPorts.join(', ')}`
+                                        : 'Ports: review'}
+                                    </Pill>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ) : null}
+
+                          {deployStep === 'network' ? (
+                            <div>
+                              <div className="text-sm font-semibold">Network select</div>
+                              <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                                Decide access and exposure.
+                              </div>
+                              <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <SelectField
+                                  label="Network"
+                                  value={deployNetwork}
+                                  onChange={setDeployNetwork}
+                                  options={['Private VPC', 'Shared network', 'Public subnet (advanced)']}
+                                />
+                                <SelectField
+                                  label="Exposure"
+                                  value={deployExposure}
+                                  onChange={setDeployExposure}
+                                  options={['Internal', 'Private + VPN', 'Public (review firewall)']}
+                                  helper="For production, prefer private networking and publish only required ports."
+                                />
+                              </div>
+                            </div>
+                          ) : null}
+
+                          {deployStep === 'deploy' ? (
+                            <div>
+                              <div className="text-sm font-semibold">Deploy now</div>
+                              <div className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                                Launch and verify health.
+                              </div>
+                              <div className="mt-4 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-4">
+                                <div className="text-sm font-semibold">Deployment checklist</div>
+                                <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
+                                  <div className="flex items-start gap-2">
+                                    <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[color:var(--text-tertiary)]" />
+                                    <span>Confirm environment variables and credentials</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[color:var(--text-tertiary)]" />
+                                    <span>Verify persistence/volumes and backups</span>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[color:var(--text-tertiary)]" />
+                                    <span>Check health endpoint and inbound ports</span>
+                                  </div>
+                                </div>
+
+                                <button className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--accent)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[color:var(--accent-hover)] transition-colors">
+                                  Deploy now
+                                  <Rocket size={16} />
+                                </button>
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
-                      </FlowNode>
+                      </div>
                     </div>
                   </div>
                 </div>
