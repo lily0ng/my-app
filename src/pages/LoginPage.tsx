@@ -471,7 +471,7 @@ export function LoginPage() {
         </section>
 
         <section className="px-6 py-16">
-          <div className="max-w-6xl mx-auto rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 md:p-10">
+          <div className="max-w-6xl mx-auto rounded-2xl border   border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 md:p-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
                 <h3 className="text-3xl font-bold">New here?</h3>

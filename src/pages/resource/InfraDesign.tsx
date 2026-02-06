@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ResourceLayout, sectionReveal, stagger } from "./ResourceLayout";
 import mptLogo from "../../assets/images/mpt.png";
-import htiLogo from "../../assets/images/hti.png";
+import htiLogo from "../../assets/images/Horizon-Logo.png";
 import atomLogo from "../../assets/images/Atom.png";
 import mmixLogo from "../../assets/images/mmix-b.png";
 import oneCngLogo from "../../assets/images/1clodung.png";
