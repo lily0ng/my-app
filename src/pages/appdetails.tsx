@@ -824,9 +824,9 @@ export function MarketplaceAppDetailsPage() {
                   <div className="lg:col-span-2 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 shadow-[0_18px_55px_rgba(0,0,0,0.10)] overflow-hidden relative">
                     <div className="pointer-events-none absolute inset-0 opacity-40 bg-[radial-gradient(ellipse_at_top,_rgba(var(--accent-rgb),0.10),transparent_55%)]" />
                     <div className="relative">
-                      <div className="text-lg font-semibold">Recommendations</div>
+                      <div className="text-lg font-semibold">Maximum requirements (Recommendations)</div>
                       <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
-                        Default guidance for a clean, production-minded deployment.
+                        Recommended upper-sizing guidance for performance headroom and smoother operations.
                       </div>
 
                       <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -892,9 +892,9 @@ export function MarketplaceAppDetailsPage() {
 
                 <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="lg:col-span-2 rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-6 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-                    <div className="text-lg font-semibold">VM requirements</div>
+                    <div className="text-lg font-semibold">Minimum requirements</div>
                     <div className="mt-2 text-sm text-[color:var(--text-secondary)] leading-relaxed">
-                      Suggested starting point for a single-node deployment. Tune based on concurrency, data retention, and your environment.
+                      Minimum baseline for a single-node deployment. Scale up based on concurrency, data retention, and your environment.
                     </div>
 
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
