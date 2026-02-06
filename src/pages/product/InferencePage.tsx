@@ -426,6 +426,45 @@ export function InferencePage() {
           </div>
         </section>
 
+        <section className="py-16 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-end justify-between gap-6 mb-8">
+              <div>
+                <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">SUPPORTS OS</div>
+                <h2 className="mt-2 text-3xl font-bold">Supports OS</h2>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-7 sm:gap-10">
+              {[
+                { name: 'Ubuntu', src: 'https://cdn.simpleicons.org/ubuntu' },
+                { name: 'Debian', src: 'https://cdn.simpleicons.org/debian' },
+                { name: 'CentOS', src: 'https://cdn.simpleicons.org/centos' },
+                { name: 'Fedora', src: 'https://cdn.simpleicons.org/fedora' },
+                { name: 'Arch', src: 'https://cdn.simpleicons.org/archlinux' },
+                { name: 'Alpine', src: 'https://cdn.simpleicons.org/alpinelinux' },
+                { name: 'Windows', src: 'https://cdn.simpleicons.org/windows' },
+                { name: 'FreeBSD', src: 'https://cdn.simpleicons.org/freebsd' },
+                { name: 'Red Hat', src: 'https://cdn.simpleicons.org/redhat' },
+                { name: 'SUSE', src: 'https://cdn.simpleicons.org/opensuse' },
+              ].map((os) => (
+                <img
+                  key={os.name}
+                  src={os.src}
+                  alt=""
+                  className="h-11 w-11 sm:h-12 sm:w-12 object-contain opacity-85 transition-all duration-300 ease-out motion-reduce:transition-none hover:opacity-100 hover:-translate-y-1 hover:scale-110 hover:rotate-[-2deg] hover:drop-shadow-[0_10px_30px_rgba(var(--accent-rgb),0.28)]"
+                  loading="lazy"
+                  aria-label={os.name}
+                  title={os.name}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* 3. Live Demo */}
         <section className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
