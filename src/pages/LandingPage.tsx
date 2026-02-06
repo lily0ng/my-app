@@ -12,7 +12,7 @@ import atomLogo from "../assets/images/Atom.png";
 import mmixLogo from "../assets/images/mmix-b.png";
 import oneCngLogo from "../assets/images/1clodung.png";
 import globalNetLogo from "../assets/images/GlobalNet.svg";
-import ayarnetLogo from "../assets/images/ayarnet.jpg";
+import ayarnetLogo from "../assets/images/AyarNet.png";
 import { newsPosts } from "./eventNewsData";
 import {
   Terminal,
