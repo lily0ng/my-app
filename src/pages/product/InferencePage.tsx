@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, type ReactNode } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
 import {
@@ -24,6 +24,15 @@ import {
 } from 'lucide-react';
 export function InferencePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const liveDemoMarqueeControls = useAnimation();
+
+  useEffect(() => {
+    liveDemoMarqueeControls.start({
+      x: ['0%', '-50%'],
+      transition: { duration: 28, ease: 'linear', repeat: Infinity },
+    });
+  }, [liveDemoMarqueeControls]);
 
   const OsLogo = ({
     name,
@@ -553,28 +562,44 @@ export function InferencePage() {
               <div className="absolute inset-y-0 left-0 w-16 pointer-events-none bg-[linear-gradient(90deg,var(--bg-primary),transparent)]" />
               <div className="absolute inset-y-0 right-0 w-16 pointer-events-none bg-[linear-gradient(270deg,var(--bg-primary),transparent)]" />
 
-              <div className="flex gap-3 overflow-x-auto pb-2 px-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {[
-                  { t: 'Batch summarization runner', I: Cpu },
-                  { t: 'GPU warm-start test', I: Zap },
-                  { t: 'Prompt evaluation harness', I: Code2 },
-                  { t: 'Latency baseline suite', I: Clock },
-                  { t: 'Streaming chat endpoint', I: Server },
-                ].map((x) => (
-                  <motion.div
-                    key={x.t}
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.2, ease: 'easeOut' }}
-                    className="shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] flex items-center justify-center">
-                        <x.I size={16} className="text-[color:var(--accent)]" />
+              <div
+                className="overflow-hidden pb-2 px-1"
+                onMouseEnter={() => liveDemoMarqueeControls.stop()}
+                onMouseLeave={() =>
+                  liveDemoMarqueeControls.start({
+                    x: ['0%', '-50%'],
+                    transition: { duration: 28, ease: 'linear', repeat: Infinity },
+                  })
+                }
+              >
+                <motion.div className="flex w-max gap-3" animate={liveDemoMarqueeControls}>
+                  {[
+                    { t: 'Batch summarization runner', I: Cpu },
+                    { t: 'GPU warm-start test', I: Zap },
+                    { t: 'Prompt evaluation harness', I: Code2 },
+                    { t: 'Latency baseline suite', I: Clock },
+                    { t: 'Streaming chat endpoint', I: Server },
+                    { t: 'Batch summarization runner', I: Cpu },
+                    { t: 'GPU warm-start test', I: Zap },
+                    { t: 'Prompt evaluation harness', I: Code2 },
+                    { t: 'Latency baseline suite', I: Clock },
+                    { t: 'Streaming chat endpoint', I: Server },
+                  ].map((x, idx) => (
+                    <motion.div
+                      key={`${x.t}-${idx}`}
+                      whileHover={{ y: -4 }}
+                      transition={{ duration: 0.2, ease: 'easeOut' }}
+                      className="shrink-0 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] px-4 py-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-9 w-9 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] flex items-center justify-center">
+                          <x.I size={16} className="text-[color:var(--accent)]" />
+                        </div>
+                        <div className="text-sm font-semibold whitespace-nowrap">{x.t}</div>
                       </div>
-                      <div className="text-sm font-semibold whitespace-nowrap">{x.t}</div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
+                </motion.div>
               </div>
             </motion.div>
 
@@ -649,44 +674,7 @@ export function InferencePage() {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.45, ease: 'easeOut' }}
-              className="mt-10 relative overflow-hidden rounded-3xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] p-8 max-w-4xl mx-auto shadow-[0_30px_90px_rgba(0,0,0,0.22)]"
-            >
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute -top-24 -left-24 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.12)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
-                <div className="absolute -bottom-28 -right-28 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(var(--accent-rgb),0.10)_0%,rgba(var(--accent-rgb),0.00)_62%)]" />
-              </div>
-
-              <div className="relative">
-                <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                <input
-                  type="text"
-                  placeholder="Enter a prompt..."
-                  className="flex-1 bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-2xl px-5 py-3 text-[color:var(--text-primary)] focus:border-[color:var(--accent)] outline-none"
-                  defaultValue="Explain quantum computing to a 5 year old" />
-
-                <button
-                  type="button"
-                  className="px-7 py-3 rounded-2xl bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors"
-                >
-                  Generate
-                </button>
-              </div>
-
-              <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] p-6 min-h-[220px] text-[color:var(--text-secondary)] font-mono text-sm leading-relaxed">
-                <span className="text-[color:var(--accent)] animate-pulse">▋</span>
-              </div>
-
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-2 mt-4 text-xs text-[color:var(--text-secondary)]">
-                <span>Model: Llama 3 70B</span>
-                <span>Latency: 124ms</span>
-              </div>
-              </div>
-            </motion.div>
+            {/* Chat card removed */}
           </div>
         </section>
 
