@@ -435,7 +435,7 @@ export function InferencePage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-7 sm:gap-10">
+            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
               {[
                 { name: 'Ubuntu', src: 'https://cdn.simpleicons.org/ubuntu' },
                 { name: 'Debian', src: 'https://cdn.simpleicons.org/debian' },
@@ -448,16 +448,26 @@ export function InferencePage() {
                 { name: 'Red Hat', src: 'https://cdn.simpleicons.org/redhat' },
                 { name: 'SUSE', src: 'https://cdn.simpleicons.org/opensuse' },
               ].map((os) => (
-                <img
+                <motion.img
                   key={os.name}
                   src={os.src}
                   alt=""
-                  className="h-11 w-11 sm:h-12 sm:w-12 object-contain opacity-85 transition-all duration-300 ease-out motion-reduce:transition-none hover:opacity-100 hover:-translate-y-1 hover:scale-110 hover:rotate-[-2deg] hover:drop-shadow-[0_10px_30px_rgba(var(--accent-rgb),0.28)]"
+                  className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
                   loading="lazy"
                   aria-label={os.name}
                   title={os.name}
+                  initial={{ opacity: 0, y: 6 }}
+                  whileInView={{ opacity: 0.92, y: 0 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  animate={{ y: [0, -2, 0] }}
+                  whileHover={{ scale: 1.18, rotate: -4, y: -6, opacity: 1 }}
+                  whileTap={{ scale: 1.08 }}
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none';
+                    (e.currentTarget as HTMLImageElement).style.display = 'none';
+                  }}
+                  style={{
+                    filter: 'drop-shadow(0 10px 30px rgba(var(--accent-rgb), 0.22))',
                   }}
                 />
               ))}
