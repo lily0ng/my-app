@@ -886,6 +886,43 @@ export function PricingPage() {
                         </div>
                       )}
                     </div>
+                    {activeCatalogItem.id === 'cloud-compute' && (
+                      <div className="ml-auto shrink-0 flex flex-col items-end gap-2">
+                        <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
+                          {(['hour', 'monthly', 'year'] as const).map((period) => (
+                            <div key={period} className="relative flex items-stretch">
+                              <button
+                                onClick={() => setTimePeriod(period)}
+                                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                                  timePeriod === period
+                                    ? 'bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]'
+                                    : 'text-gray-300 hover:text-white'
+                                }`}
+                              >
+                                {period === 'hour' ? 'Hours' : period === 'monthly' ? 'Monthly' : 'Year'}
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
+                          {(['standard', 'developer', 'high-frequency'] as const).map((tier) => (
+                            <div key={tier} className="relative flex items-stretch">
+                              <button
+                                onClick={() => setComputeTier(tier)}
+                                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                                  computeTier === tier
+                                    ? 'bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]'
+                                    : 'text-gray-300 hover:text-white'
+                                }`}
+                              >
+                                {tier === 'high-frequency' ? 'High Frequency' : tier === 'developer' ? 'Developer' : 'Standard'}
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="mt-10 space-y-10">
@@ -942,28 +979,6 @@ export function PricingPage() {
                       ))
                     ) : activeCatalogItem.columns && activeCatalogItem.rows ? (
                       <div>
-                        {activeCatalogItem.id === 'cloud-compute' && (
-                          <>
-                            {/* Time Period Selection Buttons */}
-                            <div className="flex justify-center mb-6">
-                              <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10">
-                                {(['hour', 'monthly', 'year'] as const).map((period) => (
-                                  <button
-                                    key={period}
-                                    onClick={() => setTimePeriod(period)}
-                                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all capitalize ${
-                                      timePeriod === period 
-                                        ? 'bg-[#00ff88] text-black shadow-lg' 
-                                        : 'text-gray-400 hover:text-white'
-                                    }`}
-                                  >
-                                    {period === 'hour' ? 'Hour' : period === 'monthly' ? 'Monthly' : 'Year'}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          </>
-                        )}
                         <div className="bg-[#050505] border border-white/10 rounded-2xl overflow-hidden">
                           <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
@@ -1000,28 +1015,6 @@ export function PricingPage() {
                             </table>
                           </div>
                         </div>
-                        {activeCatalogItem.id === 'cloud-compute' && (
-                          <>
-                            {/* Compute Tier Selection Buttons */}
-                            <div className="flex justify-center mt-6">
-                              <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10">
-                                {(['standard', 'developer', 'high-frequency'] as const).map((tier) => (
-                                  <button
-                                    key={tier}
-                                    onClick={() => setComputeTier(tier)}
-                                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all capitalize ${
-                                      computeTier === tier 
-                                        ? 'bg-[#00ff88] text-black shadow-lg' 
-                                        : 'text-gray-400 hover:text-white'
-                                    }`}
-                                  >
-                                    {tier === 'high-frequency' ? 'High Frequency' : tier}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          </>
-                        )}
                       </div>
                     ) : (
                       <div className="text-sm text-gray-500">No pricing data available.</div>
