@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
@@ -20,9 +20,58 @@ import {
   Layers,
   Play,
   Lock,
+  Disc3,
 } from 'lucide-react';
 export function InferencePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const customOsInputRef = useRef<HTMLInputElement | null>(null);
+
+  const OsLogo = ({
+    name,
+    defaultSrc,
+    hoverSrc,
+  }: {
+    name: string;
+    defaultSrc: string;
+    hoverSrc: string;
+  }) => {
+    const [hovered, setHovered] = useState(false);
+
+    const src = hovered ? hoverSrc : defaultSrc;
+
+    return (
+      <motion.img
+        src={src}
+        alt=""
+        className="h-16 w-16 sm:h-[72px] sm:w-[72px] object-contain"
+        loading="lazy"
+        aria-label={name}
+        title={name}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        initial={{ opacity: 0, x: 0 }}
+        whileInView={{ opacity: 0.95 }}
+        viewport={{ once: true, amount: 0.6 }}
+        animate={hovered ? { x: 0 } : { x: [0, 6, 0, -6, 0] }}
+        transition={
+          hovered
+            ? { duration: 0.15, ease: 'easeOut' }
+            : { duration: 2.6, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }
+        }
+        whileHover={{ scale: 1.12, opacity: 1 }}
+        whileTap={{ scale: 1.06 }}
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).style.display = 'none';
+        }}
+        style={{
+          filter: hovered
+            ? 'drop-shadow(0 14px 34px rgba(var(--accent-rgb), 0.18))'
+            : 'drop-shadow(0 10px 30px rgba(var(--accent-rgb), 0.10))',
+        }}
+      />
+    );
+  };
 
   const heroInstances = [
     {
@@ -437,46 +486,51 @@ export function InferencePage() {
 
             <div className="mt-14 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
               {[
-                { name: 'Ubuntu', src: 'https://cdn.simpleicons.org/ubuntu' },
-                { name: 'Debian', src: 'https://cdn.simpleicons.org/debian' },
-                { name: 'CentOS', src: 'https://cdn.simpleicons.org/centos' },
-                { name: 'Fedora', src: 'https://cdn.simpleicons.org/fedora' },
-                { name: 'Arch', src: 'https://cdn.simpleicons.org/archlinux' },
-                { name: 'Alpine', src: 'https://cdn.simpleicons.org/alpinelinux' },
-                { name: 'Windows', src: 'https://cdn.simpleicons.org/windows' },
-                { name: 'FreeBSD', src: 'https://cdn.simpleicons.org/freebsd' },
-                { name: 'Red Hat', src: 'https://cdn.simpleicons.org/redhat' },
-                { name: 'SUSE', src: 'https://cdn.simpleicons.org/opensuse' },
-              ].map((os, idx) => (
-                <motion.img
-                  key={os.name}
-                  src={os.src}
-                  alt=""
-                  className="h-16 w-16 sm:h-[72px] sm:w-[72px] object-contain"
-                  loading="lazy"
-                  aria-label={os.name}
-                  title={os.name}
-                  initial={{ opacity: 0, y: 6 }}
-                  whileInView={{ opacity: 0.92, y: 0 }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  transition={{
-                    duration: 1.4,
-                    ease: 'easeInOut',
-                    repeat: Infinity,
-                    repeatType: 'mirror',
-                    delay: idx * 0.08,
-                  }}
-                  animate={{ y: [0, -4, 0] }}
-                  whileHover={{ scale: 1.22, rotate: -6, y: -8, opacity: 1 }}
-                  whileTap={{ scale: 1.08 }}
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.display = 'none';
-                  }}
-                  style={{
-                    filter: 'drop-shadow(0 10px 30px rgba(var(--accent-rgb), 0.22))',
-                  }}
-                />
-              ))}
+                { name: 'Ubuntu', slug: 'ubuntu', color: '#E95420' },
+                { name: 'Debian', slug: 'debian', color: '#A81D33' },
+                { name: 'CentOS', slug: 'centos', color: '#262577' },
+                { name: 'Fedora', slug: 'fedora', color: '#51A2DA' },
+                { name: 'Arch', slug: 'archlinux', color: '#1793D1' },
+                { name: 'Alpine', slug: 'alpinelinux', color: '#0D597F' },
+                { name: 'Windows', slug: 'windows', color: '#0078D4' },
+                { name: 'FreeBSD', slug: 'freebsd', color: '#AB2B28' },
+                { name: 'Red Hat', slug: 'redhat', color: '#EE0000' },
+                { name: 'SUSE', slug: 'opensuse', color: '#73BA25' },
+              ].map((os) => {
+                const base = `https://cdn.simpleicons.org/${os.slug}`;
+                const defaultSrc = `${base}/9ca3af`;
+                const hoverSrc = `${base}/${os.color.replace('#', '')}`;
+                return (
+                  <OsLogo
+                    key={os.slug}
+                    name={os.name}
+                    defaultSrc={defaultSrc}
+                    hoverSrc={hoverSrc}
+                  />
+                );
+              })}
+
+              <button
+                type="button"
+                onClick={() => customOsInputRef.current?.click()}
+                className="h-16 w-16 sm:h-[72px] sm:w-[72px] rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors flex items-center justify-center"
+                aria-label="Upload ISO"
+                title="Upload ISO"
+              >
+                <Disc3 size={24} />
+              </button>
+
+              <input
+                ref={customOsInputRef}
+                type="file"
+                accept=".iso"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.currentTarget.files?.[0];
+                  if (!file) return;
+                  e.currentTarget.value = '';
+                }}
+              />
             </div>
           </div>
         </section>
