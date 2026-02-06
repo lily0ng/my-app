@@ -426,16 +426,16 @@ export function InferencePage() {
           </div>
         </section>
 
-        <section className="py-16 px-6">
+        <section className="pt-24 pb-16 px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-end justify-between gap-6 mb-8">
+            <div className="flex items-end justify-between gap-6 mb-6">
               <div>
                 <div className="text-sm font-semibold text-[color:var(--text-tertiary)]">SUPPORTS OS</div>
                 <h2 className="mt-2 text-3xl font-bold">Supports OS</h2>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+            <div className="mt-14 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
               {[
                 { name: 'Ubuntu', src: 'https://cdn.simpleicons.org/ubuntu' },
                 { name: 'Debian', src: 'https://cdn.simpleicons.org/debian' },
@@ -447,21 +447,27 @@ export function InferencePage() {
                 { name: 'FreeBSD', src: 'https://cdn.simpleicons.org/freebsd' },
                 { name: 'Red Hat', src: 'https://cdn.simpleicons.org/redhat' },
                 { name: 'SUSE', src: 'https://cdn.simpleicons.org/opensuse' },
-              ].map((os) => (
+              ].map((os, idx) => (
                 <motion.img
                   key={os.name}
                   src={os.src}
                   alt=""
-                  className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+                  className="h-16 w-16 sm:h-[72px] sm:w-[72px] object-contain"
                   loading="lazy"
                   aria-label={os.name}
                   title={os.name}
                   initial={{ opacity: 0, y: 6 }}
                   whileInView={{ opacity: 0.92, y: 0 }}
                   viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
-                  animate={{ y: [0, -2, 0] }}
-                  whileHover={{ scale: 1.18, rotate: -4, y: -6, opacity: 1 }}
+                  transition={{
+                    duration: 1.4,
+                    ease: 'easeInOut',
+                    repeat: Infinity,
+                    repeatType: 'mirror',
+                    delay: idx * 0.08,
+                  }}
+                  animate={{ y: [0, -4, 0] }}
+                  whileHover={{ scale: 1.22, rotate: -6, y: -8, opacity: 1 }}
                   whileTap={{ scale: 1.08 }}
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = 'none';
