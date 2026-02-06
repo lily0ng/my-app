@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
@@ -25,20 +25,17 @@ import {
 export function InferencePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const customOsInputRef = useRef<HTMLInputElement | null>(null);
-
   const OsLogo = ({
     name,
-    defaultSrc,
-    hoverSrc,
+    sources,
   }: {
     name: string;
-    defaultSrc: string;
-    hoverSrc: string;
+    sources: string[];
   }) => {
     const [hovered, setHovered] = useState(false);
 
-    const src = hovered ? hoverSrc : defaultSrc;
+    const [sourceIndex, setSourceIndex] = useState(0);
+    const src = sources[Math.min(sourceIndex, sources.length - 1)] ?? '';
 
     return (
       <motion.img
@@ -50,26 +47,34 @@ export function InferencePage() {
         title={name}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        initial={{ opacity: 0, x: 0 }}
+        initial={{ opacity: 0 }}
         whileInView={{ opacity: 0.95 }}
         viewport={{ once: true, amount: 0.6 }}
-        animate={hovered ? { x: 0 } : { x: [0, 6, 0, -6, 0] }}
-        transition={
-          hovered
-            ? { duration: 0.15, ease: 'easeOut' }
-            : { duration: 2.6, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }
-        }
-        whileHover={{ scale: 1.12, opacity: 1 }}
+        whileHover={{ scale: 1.12, opacity: 1, x: 6 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
         whileTap={{ scale: 1.06 }}
         onError={(e) => {
+          if (sourceIndex < sources.length - 1) {
+            setSourceIndex((i) => i + 1);
+            return;
+          }
           (e.currentTarget as HTMLImageElement).style.display = 'none';
         }}
         style={{
           filter: hovered
-            ? 'drop-shadow(0 14px 34px rgba(var(--accent-rgb), 0.18))'
-            : 'drop-shadow(0 10px 30px rgba(var(--accent-rgb), 0.10))',
+            ? 'drop-shadow(0 14px 34px rgba(var(--accent-rgb), 0.22)) brightness(1.06)'
+            : 'drop-shadow(0 10px 30px rgba(var(--accent-rgb), 0.12))',
         }}
       />
+    );
+  };
+
+  const OsTile = ({ children, label }: { children: ReactNode; label: string }) => {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2">
+        {children}
+        <div className="text-xs font-semibold text-[color:var(--text-tertiary)]">{label}</div>
+      </div>
     );
   };
 
@@ -484,53 +489,46 @@ export function InferencePage() {
               </div>
             </div>
 
-            <div className="mt-14 flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+            <div className="mt-14 flex flex-wrap items-start justify-center gap-8 sm:gap-12">
               {[
-                { name: 'Ubuntu', slug: 'ubuntu', color: '#E95420' },
-                { name: 'Debian', slug: 'debian', color: '#A81D33' },
-                { name: 'CentOS', slug: 'centos', color: '#262577' },
-                { name: 'Fedora', slug: 'fedora', color: '#51A2DA' },
-                { name: 'Arch', slug: 'archlinux', color: '#1793D1' },
-                { name: 'Alpine', slug: 'alpinelinux', color: '#0D597F' },
-                { name: 'Windows', slug: 'windows', color: '#0078D4' },
-                { name: 'FreeBSD', slug: 'freebsd', color: '#AB2B28' },
-                { name: 'Red Hat', slug: 'redhat', color: '#EE0000' },
-                { name: 'SUSE', slug: 'opensuse', color: '#73BA25' },
+                { name: 'Ubuntu', slugs: ['ubuntu'], color: '#E95420' },
+                { name: 'Debian', slugs: ['debian'], color: '#A81D33' },
+                { name: 'CentOS', slugs: ['centos'], color: '#262577' },
+                { name: 'Fedora', slugs: ['fedora'], color: '#51A2DA' },
+                { name: 'Arch', slugs: ['archlinux'], color: '#1793D1' },
+                { name: 'Alpine', slugs: ['alpinelinux'], color: '#0D597F' },
+                { name: 'Windows', slugs: ['microsoftwindows', 'windows11', 'windows'], color: '#0078D4' },
+                { name: 'FreeBSD', slugs: ['freebsd'], color: '#AB2B28' },
+                { name: 'Red Hat', slugs: ['redhat'], color: '#EE0000' },
+                { name: 'SUSE', slugs: ['opensuse'], color: '#73BA25' },
               ].map((os) => {
-                const base = `https://cdn.simpleicons.org/${os.slug}`;
-                const defaultSrc = `${base}/9ca3af`;
-                const hoverSrc = `${base}/${os.color.replace('#', '')}`;
+                const hex = os.color.replace('#', '');
+                const sources = os.slugs.map((slug) => `https://cdn.simpleicons.org/${slug}/${hex}`);
+                if (os.name === 'Windows') {
+                  const fallbackSvg = `data:image/svg+xml,${encodeURIComponent(
+                    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#${hex}" d="M4 7.2 21 4.6v16.3H4V7.2zm0 20.9h17v16.3L4 41.8V28.1zm19 0h21v17.1L23 42.9V28.1zm0-23.8L44 1.9V20.9H23V4.3z"/></svg>`
+                  )}`;
+                  sources.push(fallbackSvg);
+                }
                 return (
-                  <OsLogo
-                    key={os.slug}
-                    name={os.name}
-                    defaultSrc={defaultSrc}
-                    hoverSrc={hoverSrc}
-                  />
+                  <OsTile key={os.name} label={os.name}>
+                    <OsLogo name={os.name} sources={sources} />
+                  </OsTile>
                 );
               })}
 
-              <button
-                type="button"
-                onClick={() => customOsInputRef.current?.click()}
-                className="h-16 w-16 sm:h-[72px] sm:w-[72px] rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:border-[rgba(var(--accent-rgb),0.45)] transition-colors flex items-center justify-center"
-                aria-label="Upload ISO"
-                title="Upload ISO"
-              >
-                <Disc3 size={24} />
-              </button>
-
-              <input
-                ref={customOsInputRef}
-                type="file"
-                accept=".iso"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.currentTarget.files?.[0];
-                  if (!file) return;
-                  e.currentTarget.value = '';
-                }}
-              />
+              <OsTile label="Custom OS">
+                <motion.div
+                  className="h-16 w-16 sm:h-[72px] sm:w-[72px] rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-secondary)] flex items-center justify-center"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 0.95 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  whileHover={{ scale: 1.08, opacity: 1, x: 6 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                >
+                  <Disc3 size={28} className="text-[color:var(--text-secondary)]" />
+                </motion.div>
+              </OsTile>
             </div>
           </div>
         </section>
