@@ -25,6 +25,8 @@ export function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'hour' | 'second'>(
     'second'
   );
+  const [timePeriod, setTimePeriod] = useState<'hour' | 'monthly' | 'year'>('hour');
+  const [computeTier, setComputeTier] = useState<'standard' | 'developer' | 'high-frequency'>('standard');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeCatalogSection, setActiveCatalogSection] = useState('vx1');
   const gpuTasks = [
@@ -65,11 +67,53 @@ export function PricingPage() {
     price: 0.000164
   }];
 
+  const computeTierData = {
+    standard: [
+      { vcpus: '1 vCPU', memory: '2 GB', bandwidth: '2.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.015 },
+      { vcpus: '2 vCPUs', memory: '4 GB', bandwidth: '3.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.030 },
+      { vcpus: '4 vCPUs', memory: '8 GB', bandwidth: '4.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.060 },
+      { vcpus: '8 vCPUs', memory: '16 GB', bandwidth: '5.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.120 },
+      { vcpus: '16 vCPUs', memory: '32 GB', bandwidth: '6.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.240 },
+      { vcpus: '32 vCPUs', memory: '64 GB', bandwidth: '7.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.480 },
+    ],
+    developer: [
+      { vcpus: '2 vCPUs', memory: '8 GB', bandwidth: '4.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.045 },
+      { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '6.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.090 },
+      { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '8.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.180 },
+      { vcpus: '16 vCPUs', memory: '64 GB', bandwidth: '10.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.360 },
+      { vcpus: '32 vCPUs', memory: '128 GB', bandwidth: '12.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.720 },
+      { vcpus: '64 vCPUs', memory: '256 GB', bandwidth: '15.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 1.440 },
+    ],
+    'high-frequency': [
+      { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '8.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.085 },
+      { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '12.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.170 },
+      { vcpus: '16 vCPUs', memory: '64 GB', bandwidth: '16.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.340 },
+      { vcpus: '32 vCPUs', memory: '128 GB', bandwidth: '20.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.680 },
+      { vcpus: '64 vCPUs', memory: '256 GB', bandwidth: '25.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 1.360 },
+      { vcpus: '96 vCPUs', memory: '384 GB', bandwidth: '30.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 2.040 },
+    ]
+  };
+
   const formatPrice = (price: number) => {
     if (billingPeriod === 'hour') {
       return `$${(price * 3600).toFixed(2)} / hr`;
     }
     return `$${price.toFixed(6)} / sec`;
+  };
+
+  const formatPriceForTimePeriod = (baseHourlyPrice: number) => {
+    switch (timePeriod) {
+      case 'hour':
+        return `$${baseHourlyPrice.toFixed(3)} / hr`;
+      case 'monthly':
+        const monthlyPrice = baseHourlyPrice * 730; // Average hours per month
+        return `$${monthlyPrice.toFixed(0)} / mo`;
+      case 'year':
+        const yearlyPrice = baseHourlyPrice * 730 * 12;
+        return `$${(yearlyPrice / 1000).toFixed(1)}k / yr`;
+      default:
+        return `$${baseHourlyPrice.toFixed(3)} / hr`;
+    }
   };
 
   type CatalogColumn = { key: string; label: string };
@@ -163,15 +207,14 @@ export function PricingPage() {
           'Choose a size that fits your workload and scale as needed.',
         ],
         useCases: 'web apps, microservices, and internal tools.',
-        columns: ['vCPUs', 'Memory', 'Bandwidth', 'Storage', 'Hourly Price'],
-        rows: [
-          { vcpus: '1 vCPU', memory: '2 GB', bandwidth: '2.00 TB', storage: 'Block Storage', price: '$0.015 / hr' },
-          { vcpus: '2 vCPUs', memory: '4 GB', bandwidth: '3.00 TB', storage: 'Block Storage', price: '$0.030 / hr' },
-          { vcpus: '4 vCPUs', memory: '8 GB', bandwidth: '4.00 TB', storage: 'Block Storage', price: '$0.060 / hr' },
-          { vcpus: '8 vCPUs', memory: '16 GB', bandwidth: '5.00 TB', storage: 'Block Storage', price: '$0.120 / hr' },
-          { vcpus: '16 vCPUs', memory: '32 GB', bandwidth: '6.00 TB', storage: 'Block Storage', price: '$0.240 / hr' },
-          { vcpus: '32 vCPUs', memory: '64 GB', bandwidth: '7.00 TB', storage: 'Block Storage', price: '$0.480 / hr' },
-        ],
+        columns: ['vCPUs', 'Memory', 'Bandwidth', 'Storage', timePeriod === 'monthly' ? 'Monthly Price' : timePeriod === 'year' ? 'Yearly Price' : 'Hourly Price'],
+        rows: computeTierData[computeTier].map(item => ({
+          vcpus: item.vcpus,
+          memory: item.memory,
+          bandwidth: item.bandwidth,
+          storage: item.storage,
+          price: formatPriceForTimePeriod(item.baseHourlyPrice)
+        })),
       },
       {
         id: 'optimized-cloud-compute',
@@ -358,7 +401,7 @@ export function PricingPage() {
         ],
       },
     ],
-    []
+    [timePeriod, computeTier]
   );
 
   type CalculatorLineItem = {
@@ -899,6 +942,28 @@ export function PricingPage() {
                       ))
                     ) : activeCatalogItem.columns && activeCatalogItem.rows ? (
                       <div>
+                        {activeCatalogItem.id === 'cloud-compute' && (
+                          <>
+                            {/* Time Period Selection Buttons */}
+                            <div className="flex justify-center mb-6">
+                              <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10">
+                                {(['hour', 'monthly', 'year'] as const).map((period) => (
+                                  <button
+                                    key={period}
+                                    onClick={() => setTimePeriod(period)}
+                                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all capitalize ${
+                                      timePeriod === period 
+                                        ? 'bg-[#00ff88] text-black shadow-lg' 
+                                        : 'text-gray-400 hover:text-white'
+                                    }`}
+                                  >
+                                    {period === 'hour' ? 'Hour' : period === 'monthly' ? 'Monthly' : 'Year'}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          </>
+                        )}
                         <div className="bg-[#050505] border border-white/10 rounded-2xl overflow-hidden">
                           <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
@@ -935,6 +1000,28 @@ export function PricingPage() {
                             </table>
                           </div>
                         </div>
+                        {activeCatalogItem.id === 'cloud-compute' && (
+                          <>
+                            {/* Compute Tier Selection Buttons */}
+                            <div className="flex justify-center mt-6">
+                              <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10">
+                                {(['standard', 'developer', 'high-frequency'] as const).map((tier) => (
+                                  <button
+                                    key={tier}
+                                    onClick={() => setComputeTier(tier)}
+                                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all capitalize ${
+                                      computeTier === tier 
+                                        ? 'bg-[#00ff88] text-black shadow-lg' 
+                                        : 'text-gray-400 hover:text-white'
+                                    }`}
+                                  >
+                                    {tier === 'high-frequency' ? 'High Frequency' : tier}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
                     ) : (
                       <div className="text-sm text-gray-500">No pricing data available.</div>
