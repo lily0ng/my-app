@@ -327,8 +327,8 @@ export function PricingCalculatorPage() {
                           <th className="pb-3 font-medium">Name</th>
                           <th className="pb-3 font-medium">Storage Type</th>
                           <th className="pb-3 font-medium">Size</th>
-                          <th className="pb-3 font-medium text-right">Price Monthly</th>
                           <th className="pb-3 font-medium text-right">Price Hourly</th>
+                          <th className="pb-3 font-medium text-right">Price Monthly</th>
                           <th className="pb-3 font-medium text-center">Select</th>
                         </tr>
                       </thead>
@@ -369,12 +369,12 @@ export function PricingCalculatorPage() {
                             </td>
                             <td className="py-3 px-2 text-right">
                               <span className={selectedStorage.id === plan.id ? "text-[color:var(--accent)]" : ""}>
-                                {plan.monthlyPrice > 0 ? `K ${plan.monthlyPrice.toLocaleString()} /Month` : "-"}
+                                {plan.hourlyPrice > 0 ? `K ${plan.hourlyPrice.toLocaleString()} /Hour` : "-"}
                               </span>
                             </td>
                             <td className="py-3 px-2 text-right">
                               <span className={selectedStorage.id === plan.id ? "text-[color:var(--accent)]" : ""}>
-                                {plan.hourlyPrice > 0 ? `K ${plan.hourlyPrice.toLocaleString()} /Hour` : "-"}
+                                {plan.monthlyPrice > 0 ? `K ${plan.monthlyPrice.toLocaleString()} /Month` : "-"}
                               </span>
                             </td>
                             <td className="py-3 px-2 text-center">
