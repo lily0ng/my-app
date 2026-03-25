@@ -106,7 +106,7 @@ const TutorialPage = () => {
                     <div className="max-w-7xl mx-auto">
                         <section className="pt-40 pb-20 px-6 text-center">
                             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8">
-                                Featured <span className="text-[color:var(--accent)]">Tutorials</span>
+                                Free <span className="text-[color:var(--accent)]">Tutorials</span>
                             </h1>
                             <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">
                                 From beginner basics to advanced techniques, our video tutorials provide comprehensive learning.
