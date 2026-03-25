@@ -22,50 +22,21 @@ import {
   X,
 } from 'lucide-react';
 export function PricingPage() {
-  const [billingPeriod, setBillingPeriod] = useState<'hour' | 'second'>(
-    'second'
-  );
+  const [billingPeriod, setBillingPeriod] = useState<'hour' | 'month'>('hour');
   const [timePeriod, setTimePeriod] = useState<'hour' | 'monthly' | 'year'>('hour');
   const [computeTier, setComputeTier] = useState<'standard' | 'developer' | 'high-frequency'>('standard');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeCatalogSection, setActiveCatalogSection] = useState('vx1');
-  const gpuTasks = [
-  {
-    name: 'Nvidia B200',
-    price: 0.001736
-  },
-  {
-    name: 'Nvidia H200',
-    price: 0.001261
-  },
-  {
-    name: 'Nvidia H100',
-    price: 0.001097
-  },
-  {
-    name: 'Nvidia A100, 80 GB',
-    price: 0.000694
-  },
-  {
-    name: 'Nvidia A100, 40 GB',
-    price: 0.000583
-  },
-  {
-    name: 'Nvidia L40S',
-    price: 0.000542
-  },
-  {
-    name: 'Nvidia A10',
-    price: 0.000306
-  },
-  {
-    name: 'Nvidia L4',
-    price: 0.000222
-  },
-  {
-    name: 'Nvidia T4',
-    price: 0.000164
-  }];
+  // Pricing data from pricingcalculator.tsx (converted to USD for display)
+  const cpuPlansUSD = [
+    { id: "bl1", name: "BL1", vcpu: 1, memory: 4, hourlyPrice: 0.072, monthlyPrice: 52.56 },
+    { id: "bl2", name: "BL2", vcpu: 2, memory: 8, hourlyPrice: 0.145, monthlyPrice: 105.70 },
+    { id: "bl4", name: "BL4", vcpu: 4, memory: 16, hourlyPrice: 0.290, monthlyPrice: 211.70 },
+    { id: "bl8", name: "BL8", vcpu: 8, memory: 32, hourlyPrice: 0.579, monthlyPrice: 422.67 },
+    { id: "bl12", name: "BL12", vcpu: 12, memory: 48, hourlyPrice: 0.869, monthlyPrice: 634.37 },
+    { id: "bl16", name: "BL16", vcpu: 16, memory: 64, hourlyPrice: 1.158, monthlyPrice: 845.34 },
+    { id: "bl24", name: "BL24", vcpu: 24, memory: 96, hourlyPrice: 1.738, monthlyPrice: 1268.87 },
+  ];
 
   const computeTierData = {
     standard: [
@@ -92,13 +63,6 @@ export function PricingPage() {
       { vcpus: '64 vCPUs', memory: '256 GB', bandwidth: '25.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 1.360 },
       { vcpus: '96 vCPUs', memory: '384 GB', bandwidth: '30.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 2.040 },
     ]
-  };
-
-  const formatPrice = (price: number) => {
-    if (billingPeriod === 'hour') {
-      return `$${(price * 3600).toFixed(2)} / hr`;
-    }
-    return `$${price.toFixed(6)} / sec`;
   };
 
   const formatPriceForTimePeriod = (baseHourlyPrice: number) => {
@@ -628,10 +592,9 @@ export function PricingPage() {
                     Per hour
                   </button>
                   <button
-                    onClick={() => setBillingPeriod('second')}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === 'second' ? 'bg-[#00ff88] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}>
-
-                    Per second
+                    onClick={() => setBillingPeriod('month')}
+                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === 'month' ? 'bg-[#00ff88] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}>
+                    Per month
                   </button>
                 </div>
               </div>
@@ -640,46 +603,63 @@ export function PricingPage() {
                 <div className="space-y-4">
                   <div className="border-b border-white/10 pb-2 mb-4">
                     <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">
-                      GPU Tasks
-                    </h3>
-                  </div>
-                  {gpuTasks.map((gpu) =>
-                  <div
-                    key={gpu.name}
-                    className="flex justify-between items-center text-sm hover:bg-white/5 p-2 rounded transition-colors">
-
-                      <span className="text-gray-300 font-medium">
-                        {gpu.name}
-                      </span>
-                      <span className="font-mono text-[#00ff88] font-bold">
-                        {formatPrice(gpu.price)}
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="border-b border-white/10 pb-2 mb-4 mt-8">
-                    <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">
-                      CPU & Memory
+                      Compute Offering
                     </h3>
                   </div>
                   <div className="flex justify-between items-center text-sm p-2">
-                    <span className="text-gray-300 font-medium">
-                      Physical core (2 vCPU)
-                    </span>
-                    <div className="text-right">
-                      <span className="font-mono text-white font-bold">
-                        {billingPeriod === 'hour' ?
-                        '$0.047 / core / hr' :
-                        '$0.0000131 / core / sec'}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center text-sm p-2">
-                    <span className="text-gray-300 font-medium">Memory</span>
+                    <span className="text-gray-300 font-medium">BL1</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' ?
-                      '$0.008 / GiB / hr' :
-                      '$0.00000222 / GiB / sec'}
+                      {billingPeriod === 'hour' 
+                        ? `$${cpuPlansUSD[0].hourlyPrice.toFixed(3)} / hr`
+                        : `$${cpuPlansUSD[0].monthlyPrice.toFixed(2)} / mo`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm p-2">
+                    <span className="text-gray-300 font-medium">BL2</span>
+                    <span className="font-mono text-white font-bold">
+                      {billingPeriod === 'hour' 
+                        ? `$${cpuPlansUSD[1].hourlyPrice.toFixed(3)} / hr`
+                        : `$${cpuPlansUSD[1].monthlyPrice.toFixed(2)} / mo`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm p-2">
+                    <span className="text-gray-300 font-medium">BL4</span>
+                    <span className="font-mono text-white font-bold">
+                      {billingPeriod === 'hour' 
+                        ? `$${cpuPlansUSD[2].hourlyPrice.toFixed(3)} / hr`
+                        : `$${cpuPlansUSD[2].monthlyPrice.toFixed(2)} / mo`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm p-2">
+                    <span className="text-gray-300 font-medium">BL8</span>
+                    <span className="font-mono text-white font-bold">
+                      {billingPeriod === 'hour' 
+                        ? `$${cpuPlansUSD[3].hourlyPrice.toFixed(3)} / hr`
+                        : `$${cpuPlansUSD[3].monthlyPrice.toFixed(2)} / mo`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm p-2">
+                    <span className="text-gray-300 font-medium">BL12</span>
+                    <span className="font-mono text-white font-bold">
+                      {billingPeriod === 'hour' 
+                        ? `$${cpuPlansUSD[4].hourlyPrice.toFixed(3)} / hr`
+                        : `$${cpuPlansUSD[4].monthlyPrice.toFixed(2)} / mo`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm p-2">
+                    <span className="text-gray-300 font-medium">BL16</span>
+                    <span className="font-mono text-white font-bold">
+                      {billingPeriod === 'hour' 
+                        ? `$${cpuPlansUSD[5].hourlyPrice.toFixed(3)} / hr`
+                        : `$${cpuPlansUSD[5].monthlyPrice.toFixed(2)} / mo`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm p-2">
+                    <span className="text-gray-300 font-medium">BL24</span>
+                    <span className="font-mono text-white font-bold">
+                      {billingPeriod === 'hour' 
+                        ? `$${cpuPlansUSD[6].hourlyPrice.toFixed(3)} / hr`
+                        : `$${cpuPlansUSD[6].monthlyPrice.toFixed(2)} / mo`}
                     </span>
                   </div>
                 </div>
