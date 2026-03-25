@@ -47,6 +47,7 @@ import {
 import { PricingCalculatorPage } from './pages/resource/pricingcalculator';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
+import TutorialPage from './pages/resource/TutorialPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -95,6 +96,7 @@ export function App() {
           <Route path="/resources/community" element={<CommunityPage />} />
           <Route path="/resources/careers" element={<CareersPage />} />
           <Route path="/resources/sla" element={<SlaPage />} />
+          <Route path="/resources/tutorial" element={<TutorialPage />} />
           <Route path="/resources/infra-design" element={<InfraDesignPage />} />
           <Route path="/resources/marketplace-apps" element={<MarketplaceAppsPage />} />
           <Route path="/resources/marketplace-apps/:appId" element={<MarketplaceAppDetailsPage />} />
