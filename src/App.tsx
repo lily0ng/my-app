@@ -44,6 +44,7 @@ import {
   SlaPage,
   InfraDesignPage,
 } from './pages/resource/ResourcePages';
+import { PricingCalculatorPage } from './pages/resource/pricingcalculator';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { DarkThemeAccentPalette } from './components/DarkThemeAccentPalette';
 
@@ -99,7 +100,7 @@ export function App() {
           <Route path="/resources/marketplace-apps/:appId" element={<MarketplaceAppDetailsPage />} />
           <Route path="/resources/about" element={<AboutUsPage />} />
           <Route path="/resources/events" element={<EventsPage />} />
-          <Route path="/resources/events/news/:slug" element={<EventNewsDetailPage />} />
+          <Route path="/resources/pricingcalculator" element={<PricingCalculatorPage />} />
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/contact" element={<ContactUsPage />} />

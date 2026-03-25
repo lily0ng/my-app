@@ -20,7 +20,9 @@ import {
   Zap,
   BoxIcon,
   Sun,
-  Moon } from
+  Moon,
+  Calculator,
+} from
 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
@@ -137,6 +139,12 @@ export function Nav() {
   }];
 
   const resourceTools = [
+  {
+    name: 'Pricing Calculator',
+    icon: Calculator,
+    desc: 'Estimate your monthly cloud costs',
+    path: '/resources/pricingcalculator'
+  },
   {
     name: 'Playground',
     icon: Play,
@@ -390,7 +398,7 @@ export function Nav() {
 
             {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden p-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+              className="md:hidden ml-auto p-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
               onClick={() => setIsOpen(!isOpen)}>
 
               {isOpen ? <X size={24} /> : <Menu size={24} />}
