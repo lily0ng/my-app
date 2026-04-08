@@ -185,7 +185,7 @@ export function ContactUsPage() {
             </motion.div>
 
             <motion.div
-              className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-4"
+              className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-4"
               variants={gridContainer}
               initial="hidden"
               whileInView="show"
@@ -270,7 +270,8 @@ export function ContactUsPage() {
                       Call
                     </a>
                     <a
-                      href="/docs"
+                      target='blank'
+                      href="https://docs.1cloudng.com/"
                       className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)] px-4 py-3 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-secondary)] transition-colors"
                     >
                       Docs

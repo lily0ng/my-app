@@ -23,6 +23,11 @@ import {
   Moon,
   Calculator,
   Video,
+  Cloud,
+  Server,
+  HardDrive,
+  Globe,
+  TrendingUp,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
@@ -31,7 +36,7 @@ import {
   getReadNewsSlugs,
   subscribeNewsReadStateChanged,
 } from "../utils/newsReadState";
-import logo from "../assets/images/Logo.png";
+import logo from "../assets/images/newlogo.png";
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -65,7 +70,7 @@ export function Nav() {
   const productItems = [
     {
       name: "Cloud Compute",
-      icon: Cpu,
+      icon: Cloud,
       desc: "Deploy powerful virtual machines in seconds with scalable resources to meet your business needs.",
       path: "/product/inference",
     },
@@ -77,26 +82,32 @@ export function Nav() {
     },
     {
       name: "Load Balancer",
-      icon: Activity,
+      icon: Server,
       desc: "Distribute traffic efficiently across multiple instances to ensure high availability and optimal performance.",
       path: "/product/batch",
     },
     {
       name: "Block Storage",
-      icon: Database,
+      icon: HardDrive,
       desc: "Attach high-performance, scalable storage to your cloud instances for flexible data management.",
       path: "/product/sandboxes",
     },
     {
-      name: "Local Dev Experience",
-      icon: Terminal,
-      desc: "Develop against the cloud as if it were your laptop. Hot reloading included.",
+      name: "DNS Management",
+      icon: Globe,
+      desc: "Easily configure and manage domain name services with fast, secure, and reliable DNS hosting.",
       path: "/product/notebooks",
     },
     {
-      name: "Any GPU, Instantly",
-      icon: Zap,
-      desc: "Access H100s, A100s, and more without quotas or capacity planning.",
+      name: "Auto Scaling",
+      icon: TrendingUp,
+      desc: "Automatically scale your infrastructure based on demand to optimize performance and cost.",
+      path: "/product/core-platform",
+    },
+    {
+      name: "A2 Object Storage",
+      icon: Database,
+      desc: "Store and retrieve unlimited amounts of data with our secure and cost-effective object storage solution.",
       path: "/product/core-platform",
     },
   ];
@@ -142,10 +153,10 @@ export function Nav() {
 
   const resourceTools = [
     {
-      name: 'Tutorial',
+      name: "Tutorial",
       icon: Video,
-      desc: 'Watch video tutorials to learn our platform',
-      path: '/resources/tutorial'
+      desc: "Watch video tutorials to learn our platform",
+      path: "/resources/tutorial",
     },
     {
       name: "Pricing Calculator",
@@ -165,6 +176,7 @@ export function Nav() {
       desc: "Real-time data center + topology overview",
       path: "/resources/infra-design",
     },
+
     {
       name: "Marketplace Apps",
       icon: BoxIcon,
@@ -378,8 +390,16 @@ export function Nav() {
               Contact
             </Link>
 
+            <Link
+              target="blank"
+              to="https://docs.1cloudng.com/"
+              className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
+            >
+              Docs
+            </Link>
+
             {/* Docs Dropdown */}
-            <Dropdown
+            {/* <Dropdown
               title="Docs"
               id="docs"
               activeId={activeDropdown}
@@ -394,7 +414,7 @@ export function Nav() {
                   />
                 ))}
               </div>
-            </Dropdown>
+            </Dropdown> */}
           </div>
 
           {/* Auth Buttons */}
@@ -503,13 +523,13 @@ export function Nav() {
               >
                 Contact
               </Link>
-              <Link
+              {/* <Link
                 to="/docs"
                 onClick={() => handleNavLinkClick("/docs")}
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
               >
                 Docs
-              </Link>
+              </Link> */}
               <div className="pt-4 border-t border-[color:var(--border-color)] flex gap-4">
                 <Link
                   to="/login"
@@ -539,14 +559,15 @@ function Dropdown({
   activeId,
   setActive,
   topBadge,
-  children
-
-
-
-
-
-
-}: {title: string;id: string;activeId: string | null;setActive: (id: string | null) => void;topBadge?: React.ReactNode;children: React.ReactNode;}) {
+  children,
+}: {
+  title: string;
+  id: string;
+  activeId: string | null;
+  setActive: (id: string | null) => void;
+  topBadge?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div
       className="relative h-full flex items-center"
@@ -598,32 +619,41 @@ function Dropdown({
     </div>
   );
 }
-function DropdownItem({
-  item,
-  badge,
-  onNavigate,
-}: {
-  item: any;
-  badge?: React.ReactNode;
-  onNavigate?: (to: string) => void;
-}) {
-  return (
+
+function DropdownItem({ item, badge, onNavigate }) {
+  const isExternal = item.path.startsWith("http");
+
+  return isExternal ? (
+    // External (opens new tab)
+    <a
+      href={item.path}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-start gap-3 p-3 rounded-md hover:bg-[rgba(var(--accent-rgb),0.08)] transition-colors group"
+    >
+      <item.icon size={20} />
+      <div>
+        <div className="font-semibold text-sm flex items-center gap-2">
+          {item.name}
+          {badge}
+        </div>
+        <p className="text-xs mt-1">{item.desc}</p>
+      </div>
+    </a>
+  ) : (
+    // Internal (React Router)
     <Link
       to={item.path}
       onClick={() => onNavigate?.(item.path)}
       className="flex items-start gap-3 p-3 rounded-md hover:bg-[rgba(var(--accent-rgb),0.08)] transition-colors group"
     >
-      <div className="mt-0.5 text-[color:var(--text-tertiary)] group-hover:text-[color:var(--accent)] transition-colors">
-        <item.icon size={20} />
-      </div>
+      <item.icon size={20} />
       <div>
-        <div className="font-semibold text-[color:var(--text-primary)] group-hover:text-[color:var(--accent)] transition-colors text-sm flex items-center gap-2">
-          <span>{item.name}</span>
+        <div className="font-semibold text-sm flex items-center gap-2">
+          {item.name}
           {badge}
         </div>
-        <p className="text-xs text-[color:var(--text-secondary)] mt-1 leading-relaxed">
-          {item.desc}
-        </p>
+        <p className="text-xs mt-1">{item.desc}</p>
       </div>
     </Link>
   );

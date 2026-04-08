@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Nav } from '../components/Nav';
-import { Footer } from '../components/Footer';
+import { useEffect, useMemo, useState } from "react";
+import { Nav } from "../components/Nav";
+import { Footer } from "../components/Footer";
 import {
   Check,
   ArrowRight,
@@ -20,59 +20,220 @@ import {
   Shield,
   Trash2,
   X,
-} from 'lucide-react';
+} from "lucide-react";
 export function PricingPage() {
-  const [billingPeriod, setBillingPeriod] = useState<'hour' | 'month'>('hour');
-  const [timePeriod, setTimePeriod] = useState<'hour' | 'monthly' | 'year'>('hour');
-  const [computeTier, setComputeTier] = useState<'standard' | 'developer' | 'high-frequency'>('standard');
+  const [billingPeriod, setBillingPeriod] = useState<"hour" | "month">("hour");
+  const [timePeriod, setTimePeriod] = useState<"hour" | "monthly" | "year">(
+    "hour",
+  );
+  const [computeTier, setComputeTier] = useState<
+    "standard" | "developer" | "high-frequency"
+  >("standard");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [activeCatalogSection, setActiveCatalogSection] = useState('vx1');
+  const [activeCatalogSection, setActiveCatalogSection] = useState("vx1");
   // Pricing data from pricingcalculator.tsx (converted to USD for display)
   const cpuPlansUSD = [
-    { id: "bl1", name: "BL1", vcpu: 1, memory: 4, hourlyPrice: 0.072, monthlyPrice: 52.56 },
-    { id: "bl2", name: "BL2", vcpu: 2, memory: 8, hourlyPrice: 0.145, monthlyPrice: 105.70 },
-    { id: "bl4", name: "BL4", vcpu: 4, memory: 16, hourlyPrice: 0.290, monthlyPrice: 211.70 },
-    { id: "bl8", name: "BL8", vcpu: 8, memory: 32, hourlyPrice: 0.579, monthlyPrice: 422.67 },
-    { id: "bl12", name: "BL12", vcpu: 12, memory: 48, hourlyPrice: 0.869, monthlyPrice: 634.37 },
-    { id: "bl16", name: "BL16", vcpu: 16, memory: 64, hourlyPrice: 1.158, monthlyPrice: 845.34 },
-    { id: "bl24", name: "BL24", vcpu: 24, memory: 96, hourlyPrice: 1.738, monthlyPrice: 1268.87 },
+    {
+      id: "bl1",
+      name: "BL1",
+      vcpu: 1,
+      memory: 4,
+      hourlyPrice: 0.072,
+      monthlyPrice: 52.56,
+    },
+    {
+      id: "bl2",
+      name: "BL2",
+      vcpu: 2,
+      memory: 8,
+      hourlyPrice: 0.145,
+      monthlyPrice: 105.7,
+    },
+    {
+      id: "bl4",
+      name: "BL4",
+      vcpu: 4,
+      memory: 16,
+      hourlyPrice: 0.29,
+      monthlyPrice: 211.7,
+    },
+    {
+      id: "bl8",
+      name: "BL8",
+      vcpu: 8,
+      memory: 32,
+      hourlyPrice: 0.579,
+      monthlyPrice: 422.67,
+    },
+    {
+      id: "bl12",
+      name: "BL12",
+      vcpu: 12,
+      memory: 48,
+      hourlyPrice: 0.869,
+      monthlyPrice: 634.37,
+    },
+    {
+      id: "bl16",
+      name: "BL16",
+      vcpu: 16,
+      memory: 64,
+      hourlyPrice: 1.158,
+      monthlyPrice: 845.34,
+    },
+    {
+      id: "bl24",
+      name: "BL24",
+      vcpu: 24,
+      memory: 96,
+      hourlyPrice: 1.738,
+      monthlyPrice: 1268.87,
+    },
   ];
 
   const computeTierData = {
     standard: [
-      { vcpus: '1 vCPU', memory: '2 GB', bandwidth: '2.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.015 },
-      { vcpus: '2 vCPUs', memory: '4 GB', bandwidth: '3.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.030 },
-      { vcpus: '4 vCPUs', memory: '8 GB', bandwidth: '4.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.060 },
-      { vcpus: '8 vCPUs', memory: '16 GB', bandwidth: '5.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.120 },
-      { vcpus: '16 vCPUs', memory: '32 GB', bandwidth: '6.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.240 },
-      { vcpus: '32 vCPUs', memory: '64 GB', bandwidth: '7.00 TB', storage: 'Block Storage', baseHourlyPrice: 0.480 },
+      {
+        vcpus: "1 vCPU",
+        memory: "2 GB",
+        bandwidth: "2.00 TB",
+        storage: "Block Storage",
+        baseHourlyPrice: 0.015,
+      },
+      {
+        vcpus: "2 vCPUs",
+        memory: "4 GB",
+        bandwidth: "3.00 TB",
+        storage: "Block Storage",
+        baseHourlyPrice: 0.03,
+      },
+      {
+        vcpus: "4 vCPUs",
+        memory: "8 GB",
+        bandwidth: "4.00 TB",
+        storage: "Block Storage",
+        baseHourlyPrice: 0.06,
+      },
+      {
+        vcpus: "8 vCPUs",
+        memory: "16 GB",
+        bandwidth: "5.00 TB",
+        storage: "Block Storage",
+        baseHourlyPrice: 0.12,
+      },
+      {
+        vcpus: "16 vCPUs",
+        memory: "32 GB",
+        bandwidth: "6.00 TB",
+        storage: "Block Storage",
+        baseHourlyPrice: 0.24,
+      },
+      {
+        vcpus: "32 vCPUs",
+        memory: "64 GB",
+        bandwidth: "7.00 TB",
+        storage: "Block Storage",
+        baseHourlyPrice: 0.48,
+      },
     ],
     developer: [
-      { vcpus: '2 vCPUs', memory: '8 GB', bandwidth: '4.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.045 },
-      { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '6.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.090 },
-      { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '8.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.180 },
-      { vcpus: '16 vCPUs', memory: '64 GB', bandwidth: '10.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.360 },
-      { vcpus: '32 vCPUs', memory: '128 GB', bandwidth: '12.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.720 },
-      { vcpus: '64 vCPUs', memory: '256 GB', bandwidth: '15.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 1.440 },
+      {
+        vcpus: "2 vCPUs",
+        memory: "8 GB",
+        bandwidth: "4.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.045,
+      },
+      {
+        vcpus: "4 vCPUs",
+        memory: "16 GB",
+        bandwidth: "6.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.09,
+      },
+      {
+        vcpus: "8 vCPUs",
+        memory: "32 GB",
+        bandwidth: "8.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.18,
+      },
+      {
+        vcpus: "16 vCPUs",
+        memory: "64 GB",
+        bandwidth: "10.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.36,
+      },
+      {
+        vcpus: "32 vCPUs",
+        memory: "128 GB",
+        bandwidth: "12.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.72,
+      },
+      {
+        vcpus: "64 vCPUs",
+        memory: "256 GB",
+        bandwidth: "15.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 1.44,
+      },
     ],
-    'high-frequency': [
-      { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '8.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.085 },
-      { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '12.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.170 },
-      { vcpus: '16 vCPUs', memory: '64 GB', bandwidth: '16.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.340 },
-      { vcpus: '32 vCPUs', memory: '128 GB', bandwidth: '20.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 0.680 },
-      { vcpus: '64 vCPUs', memory: '256 GB', bandwidth: '25.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 1.360 },
-      { vcpus: '96 vCPUs', memory: '384 GB', bandwidth: '30.00 TB', storage: 'NVMe SSD', baseHourlyPrice: 2.040 },
-    ]
+    "high-frequency": [
+      {
+        vcpus: "4 vCPUs",
+        memory: "16 GB",
+        bandwidth: "8.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.085,
+      },
+      {
+        vcpus: "8 vCPUs",
+        memory: "32 GB",
+        bandwidth: "12.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.17,
+      },
+      {
+        vcpus: "16 vCPUs",
+        memory: "64 GB",
+        bandwidth: "16.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.34,
+      },
+      {
+        vcpus: "32 vCPUs",
+        memory: "128 GB",
+        bandwidth: "20.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 0.68,
+      },
+      {
+        vcpus: "64 vCPUs",
+        memory: "256 GB",
+        bandwidth: "25.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 1.36,
+      },
+      {
+        vcpus: "96 vCPUs",
+        memory: "384 GB",
+        bandwidth: "30.00 TB",
+        storage: "NVMe SSD",
+        baseHourlyPrice: 2.04,
+      },
+    ],
   };
 
   const formatPriceForTimePeriod = (baseHourlyPrice: number) => {
     switch (timePeriod) {
-      case 'hour':
+      case "hour":
         return `$${baseHourlyPrice.toFixed(3)} / hr`;
-      case 'monthly':
+      case "monthly":
         const monthlyPrice = baseHourlyPrice * 730; // Average hours per month
         return `$${monthlyPrice.toFixed(0)} / mo`;
-      case 'year':
+      case "year":
         const yearlyPrice = baseHourlyPrice * 730 * 12;
         return `$${(yearlyPrice / 1000).toFixed(1)}k / yr`;
       default:
@@ -104,268 +265,648 @@ export function PricingPage() {
   const catalogItems: CatalogItem[] = useMemo(
     () => [
       {
-        id: 'vx1',
-        title: 'VX1™',
-        description: 'VMs optimized for affordable core infrastructure workloads.',
+        id: "Extra CPU Optimized",
+        title: "Extra CPU Optimized",
+        description:
+          "VMs optimized for affordable core infrastructure workloads.",
         Icon: Server,
-        heroTitle: 'VX1™',
+        heroTitle: "Extra CPU Optimized",
         heroDescription: [
-          'VX1 plans boast up to 82% better performance per dollar compared to leading cost efficiency-optimized compute plans.',
-          'VX1 instances support fast storage and networking with dedicated CPU resources and support for features such as virtualization and instant provisioning.',
-          'VX1 instances are billed on actual hours used each month and are not capped at 672 hours.',
+          "Experience ultra-fast NVMe SSD storage with the flexibility to choose the exact size you need. Scale effortlessly and enjoy high performance, low latency, and maximum efficiency for your workloads.",
         ],
-        useCases: 'cloud-native and enterprise workloads.',
         groups: [
           {
-            title: 'General Purpose',
-            description:
-              'These virtual machines offer a typical balance of CPU and RAM resources suitable for common workloads.',
+            title: "Pay as you go",
             columns: [
-              { key: 'vcpus', label: 'vCPUs' },
-              { key: 'memory', label: 'Memory' },
-              { key: 'bandwidth', label: 'Bandwidth' },
-              { key: 'storage', label: 'Storage' },
-              { key: 'price', label: 'Hourly Price' },
+              { key: "extra_cpu", label: "Extra CPU Optimized" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "hour", label: "MMK/Hour" },
+              { key: "month", label: "MMK/Month" },
             ],
             rows: [
-              { vcpus: '2 vCPUs', memory: '8 GB', bandwidth: '5.00 TB', storage: 'Block Storage', price: '$0.060 / hr' },
-              { vcpus: '4 vCPUs', memory: '16 GB', bandwidth: '6.00 TB', storage: 'Block Storage', price: '$0.120 / hr' },
-              { vcpus: '8 vCPUs', memory: '32 GB', bandwidth: '7.00 TB', storage: 'Block Storage', price: '$0.240 / hr' },
-              { vcpus: '16 vCPUs', memory: '64 GB', bandwidth: '8.00 TB', storage: 'Block Storage', price: '$0.480 / hr' },
-              { vcpus: '32 vCPUs', memory: '128 GB', bandwidth: '9.00 TB', storage: 'Block Storage', price: '$0.960 / hr' },
-              { vcpus: '48 vCPUs', memory: '192 GB', bandwidth: '9.00 TB', storage: 'Block Storage', price: '$1.440 / hr' },
-              { vcpus: '64 vCPUs', memory: '256 GB', bandwidth: '10.00 TB', storage: 'Block Storage', price: '$1.920 / hr' },
-              { vcpus: '96 vCPUs', memory: '384 GB', bandwidth: '10.00 TB', storage: 'Block Storage', price: '$2.880 / hr' },
+              {
+                extra_cpu: "eCO1",
+                vcpu: "1",
+                ram: "1",
+                hour: "24",
+                month: "17,812",
+              },
+              {
+                extra_cpu: "eCO2",
+                vcpu: "2",
+                ram: "2",
+                hour: "49",
+                month: "35,624",
+              },
+              {
+                extra_cpu: "eCO4",
+                vcpu: "4",
+                ram: "4",
+                hour: "98",
+                month: "71,248",
+              },
+              {
+                extra_cpu: "eCO8",
+                vcpu: "8",
+                ram: "8",
+                hour: "195",
+                month: "142,496",
+              },
+              {
+                extra_cpu: "eCO12",
+                vcpu: "12",
+                ram: "12",
+                hour: "293",
+                month: "213,744",
+              },
+
+              {
+                extra_cpu: "eCO16",
+                vcpu: "16",
+                ram: "16",
+                hour: "390",
+                month: "284,992",
+              },
+              {
+                extra_cpu: "eCO24",
+                vcpu: "24",
+                ram: "24",
+                hour: "586",
+                month: "427,488",
+              },
             ],
           },
           {
-            title: 'Memory Optimized',
-            description:
-              'Higher RAM per core for memory-heavy workloads such as caching, analytics, and in-memory databases.',
+            title: "Reserved Instances",
             columns: [
-              { key: 'vcpus', label: 'vCPUs' },
-              { key: 'memory', label: 'Memory' },
-              { key: 'bandwidth', label: 'Bandwidth' },
-              { key: 'storage', label: 'Storage' },
-              { key: 'price', label: 'Hourly Price' },
+              { key: "extra_cpu", label: "Extra CPU Optimized" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "reserved", label: "Reserved 1 Year" },
             ],
             rows: [
-              { vcpus: '2 vCPUs', memory: '16 GB', bandwidth: '5.00 TB', storage: '120 GB NVMe', price: '$0.076 / hr' },
-              { vcpus: '4 vCPUs', memory: '32 GB', bandwidth: '6.00 TB', storage: '240 GB NVMe', price: '$0.153 / hr' },
-              { vcpus: '8 vCPUs', memory: '64 GB', bandwidth: '7.00 TB', storage: '480 GB NVMe', price: '$0.306 / hr' },
-              { vcpus: '16 vCPUs', memory: '128 GB', bandwidth: '8.00 TB', storage: '960 GB NVMe', price: '$0.612 / hr' },
-              { vcpus: '32 vCPUs', memory: '256 GB', bandwidth: '9.00 TB', storage: '1920 GB NVMe', price: '$1.233 / hr' },
-              { vcpus: '48 vCPUs', memory: '384 GB', bandwidth: '9.00 TB', storage: '2880 GB NVMe', price: '$1.835 / hr' },
+              {
+                extra_cpu: "eCO1",
+                vcpu: "1",
+                ram: "1",
+                reserved: "178,120",
+              },
+              {
+                extra_cpu: "eCO2",
+                vcpu: "2",
+                ram: "2",
+                reserved: "356,240",
+              },
+              {
+                extra_cpu: "eCO4",
+                vcpu: "4",
+                ram: "4",
+                reserved: "712,480",
+              },
+              {
+                extra_cpu: "eCO8",
+                vcpu: "8",
+                ram: "8",
+                reserved: "1,424,960",
+              },
+              {
+                extra_cpu: "eCO12",
+                vcpu: "12",
+                ram: "12",
+                reserved: "1,424,960",
+              },
+              {
+                extra_cpu: "eCO16",
+                vcpu: "16",
+                ram: "16",
+                reserved: "2,849,920",
+              },
+              {
+                extra_cpu: "eCO24",
+                vcpu: "24",
+                ram: "24",
+                reserved: "4,274,880",
+              },
             ],
           },
         ],
       },
       {
-        id: 'cloud-compute',
-        title: 'Cloud Compute',
-        description: 'Easy-to-use, affordable VMs for many common workloads.',
+        id: "CPU Optimized",
+        title: "CPU Optimized",
+        description: "Easy-to-use, affordable VMs for many common workloads.",
         Icon: Server,
-        heroTitle: 'Cloud Compute',
+        heroTitle: "CPU Optimized",
         heroDescription: [
-          'General purpose compute for web apps, APIs, CI/CD runners, and background tasks.',
-          'Choose a size that fits your workload and scale as needed.',
+          "Experience ultra-fast NVMe SSD storage with the flexibility to choose the exact size you need. Scale effortlessly and enjoy high performance, low latency, and maximum efficiency for your workloads.",
         ],
-        useCases: 'web apps, microservices, and internal tools.',
-        columns: ['vCPUs', 'Memory', 'Bandwidth', 'Storage', timePeriod === 'monthly' ? 'Monthly Price' : timePeriod === 'year' ? 'Yearly Price' : 'Hourly Price'],
-        rows: computeTierData[computeTier].map(item => ({
+        groups: [
+          {
+            title: "Pay as you go",
+            columns: [
+              { key: "cpu", label: "CPU Optimized" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "hour", label: "MMK/Hour" },
+              { key: "month", label: "MMK/Month" },
+            ],
+            rows: [
+              {
+                cpu: "CO1",
+                vcpu: "1",
+                ram: "2",
+                hour: "40",
+                month: "29,492",
+              },
+              {
+                cpu: "CO2",
+                vcpu: "2",
+                ram: "4",
+                hour: "81",
+                month: "58,984",
+              },
+              {
+                cpu: "CO4",
+                vcpu: "4",
+                ram: "8",
+                hour: "162",
+                month: "117,968",
+              },
+              {
+                cpu: "CO8",
+                vcpu: "8",
+                ram: "16",
+                hour: "323",
+                month: "235,936",
+              },
+              {
+                cpu: "CO12",
+                vcpu: "12",
+                ram: "24",
+                hour: "485",
+                month: "353,904",
+              },
+              {
+                cpu: "CO16",
+                vcpu: "16",
+                ram: "32",
+                hour: "646",
+                month: "471,872",
+              },
+              {
+                cpu: "CO24",
+                vcpu: "24",
+                ram: "48",
+                hour: "970",
+                month: "707,808",
+              },
+            ],
+          },
+          {
+            title: "Reserved Instances",
+            columns: [
+              { key: "cpu", label: "CPU Optimized" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "reserved", label: "Reserved 1 Year" },
+            ],
+            rows: [
+              {
+                cpu: "CO1",
+                vcpu: "1",
+                ram: "2",
+                reserved: "294,920",
+              },
+              {
+                cpu: "CO2",
+                vcpu: "2",
+                ram: "4",
+                reserved: "589,840",
+              },
+              {
+                cpu: "CO4",
+                vcpu: "4",
+                ram: "8",
+                reserved: "1,179,680",
+              },
+              {
+                cpu: "CO8",
+                vcpu: "8",
+                ram: "16",
+                reserved: "2,359,360",
+              },
+              {
+                cpu: "CO12",
+                vcpu: "12",
+                ram: "24",
+                reserved: "3,539,040",
+              },
+              {
+                cpu: "CO16",
+                vcpu: "16",
+                ram: "32",
+                reserved: "4,718,720",
+              },
+              {
+                cpu: "CO24",
+                vcpu: "24",
+                ram: "48",
+                reserved: "7,078,080",
+              },
+            ],
+          },
+        ],
+        rows: computeTierData[computeTier].map((item) => ({
           vcpus: item.vcpus,
           memory: item.memory,
           bandwidth: item.bandwidth,
           storage: item.storage,
-          price: formatPriceForTimePeriod(item.baseHourlyPrice)
+          price: formatPriceForTimePeriod(item.baseHourlyPrice),
         })),
       },
       {
-        id: 'optimized-cloud-compute',
-        title: 'Optimized Cloud Compute',
-        description: 'No noisy neighbors on powerful VMs with built-in NVMe SSD.',
+        id: "Balance",
+        title: "Balance",
+        description:
+          "No noisy neighbors on powerful VMs with built-in NVMe SSD.",
         Icon: Cpu,
-        heroTitle: 'Optimized Cloud Compute',
+        heroTitle: "Balance",
         heroDescription: [
-          'Compute optimized instances designed for consistent CPU performance.',
-          'Ideal for build pipelines, compilers, ETL, and latency-sensitive services.',
+          "Experience ultra-fast NVMe SSD storage with the flexibility to choose the exact size you need. Scale effortlessly and enjoy high performance, low latency, and maximum efficiency for your workloads.",
         ],
-        useCases: 'batch jobs, build pipelines, and high-CPU services.',
-        columns: ['vCPUs', 'Memory', 'NVMe', 'Bandwidth', 'Hourly Price'],
-        rows: [
-          { vcpus: '4 vCPUs', memory: '8 GB', nvme: '160 GB', bandwidth: '6.00 TB', price: '$0.070 / hr' },
-          { vcpus: '8 vCPUs', memory: '16 GB', nvme: '320 GB', bandwidth: '8.00 TB', price: '$0.140 / hr' },
-          { vcpus: '16 vCPUs', memory: '32 GB', nvme: '640 GB', bandwidth: '10.00 TB', price: '$0.280 / hr' },
-          { vcpus: '32 vCPUs', memory: '64 GB', nvme: '1280 GB', bandwidth: '10.00 TB', price: '$0.560 / hr' },
+        groups: [
+          {
+            title: "Pay as you go",
+            columns: [
+              { key: "balance", label: "Balance" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "hour", label: "MMK/Hour" },
+              { key: "month", label: "MMK/Month" },
+            ],
+            rows: [
+              {
+                balance: "BL1",
+                vcpu: "1",
+                ram: "4",
+                hour: "72",
+                month: "52,852",
+              },
+              {
+                balance: "BL2",
+                vcpu: "2",
+                ram: "8",
+                hour: "145",
+                month: "58,984",
+              },
+              {
+                balance: "BL4",
+                vcpu: "4",
+                ram: "16",
+                hour: "290",
+                month: "211,408",
+              },
+              {
+                balance: "BL8",
+                vcpu: "8",
+                ram: "32",
+                hour: "579",
+                month: "422,816",
+              },
+              {
+                balance: "BL12",
+                vcpu: "12",
+                ram: "48",
+                hour: "869",
+                month: "634,224",
+              },
+              {
+                balance: "BL16",
+                vcpu: "16",
+                ram: "64",
+                hour: "1,158",
+                month: "845,632",
+              },
+              {
+                balance: "BL24",
+                vcpu: "24",
+                ram: "96",
+                hour: "1,738",
+                month: "1,268,448",
+              },
+            ],
+          },
+          {
+            title: "Reserved Instances",
+            columns: [
+              { key: "balance", label: "Balance" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "reserved", label: "Reserved 1 Year" },
+            ],
+            rows: [
+              {
+                balance: "BL1",
+                vcpu: "1",
+                ram: "4",
+                reserved: "528,520",
+              },
+              {
+                balance: "BL2",
+                vcpu: "2",
+                ram: "8",
+                reserved: "1,057,040",
+              },
+              {
+                balance: "BL4",
+                vcpu: "4",
+                ram: "16",
+                reserved: "2,114,080",
+              },
+              {
+                balance: "BL8",
+                vcpu: "8",
+                ram: "32",
+                reserved: "4,228,160",
+              },
+              {
+                balance: "BL12",
+                vcpu: "12",
+                ram: "48",
+                reserved: "6,342,240",
+              },
+              {
+                balance: "BL16",
+                vcpu: "16",
+                ram: "64",
+                reserved: "8,456,320",
+              },
+              {
+                balance: "BL24",
+                vcpu: "24",
+                ram: "96",
+                reserved: "12,684,480",
+              },
+            ],
+          },
         ],
       },
       {
-        id: 'cloud-gpu',
-        title: 'Cloud GPU',
-        description: 'VMs with affordable, virtualized NVIDIA GPUs.',
+        id: "Memory Dense",
+        title: "Memory Dense",
+        description: "VMs with affordable, virtualized NVIDIA GPUs.",
         Icon: Shield,
-        heroTitle: 'Cloud GPU',
+        heroTitle: "Memory Dense",
         heroDescription: [
-          'Provision GPUs for training, fine-tuning, and production inference.',
-          'Pick cost-effective instances for experimentation or scale up for throughput.',
+          "Experience ultra-fast NVMe SSD storage with the flexibility to choose the exact size you need. Scale effortlessly and enjoy high performance, low latency, and maximum efficiency for your workloads",
         ],
-        useCases: 'training, inference, and batch rendering.',
-        columns: ['GPU', 'vCPUs', 'Memory', 'Storage', 'Hourly Price'],
-        rows: [
-          { gpu: 'T4', vcpus: '8 vCPUs', memory: '32 GB', storage: 'NVMe', price: '$0.65 / hr' },
-          { gpu: 'L4', vcpus: '16 vCPUs', memory: '64 GB', storage: 'NVMe', price: '$0.95 / hr' },
-          { gpu: 'A10', vcpus: '24 vCPUs', memory: '96 GB', storage: 'NVMe', price: '$1.35 / hr' },
-          { gpu: 'A100', vcpus: '32 vCPUs', memory: '192 GB', storage: 'NVMe', price: '$3.20 / hr' },
-          { gpu: 'H100', vcpus: '48 vCPUs', memory: '384 GB', storage: 'NVMe', price: '$5.90 / hr' },
+
+        groups: [
+          {
+            title: "Pay as you go",
+            columns: [
+              { key: "memory", label: "Memory Dense" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "hour", label: "MMK/Hour" },
+              { key: "month", label: "MMK/Month" },
+            ],
+            rows: [
+              {
+                memory: "MD1",
+                vcpu: "1",
+                ram: "6",
+                hour: "104",
+                month: "76,212",
+              },
+              {
+                memory: "MD2",
+                vcpu: "2",
+                ram: "12",
+                hour: "209",
+                month: "152,424",
+              },
+              {
+                memory: "MD4",
+                vcpu: "4",
+                ram: "24",
+                hour: "418",
+                month: "304,848",
+              },
+              {
+                memory: "MD8",
+                vcpu: "8",
+                ram: "48",
+                hour: "835",
+                month: "609,696",
+              },
+              {
+                memory: "MD12",
+                vcpu: "12",
+                ram: "72",
+                hour: "1,253",
+                month: "914,544",
+              },
+              {
+                memory: "MD16",
+                vcpu: "16",
+                ram: "96",
+                hour: "1,670",
+                month: "1,219,392",
+              },
+              {
+                memory: "MD24",
+                vcpu: "24",
+                ram: "114",
+                hour: "2,506",
+                month: "1,829,088",
+              },
+            ],
+          },
+          {
+            title: "Reserved Instances",
+            columns: [
+              { key: "memory", label: "Memory Dense" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "reserved", label: "Reserved 1 Year" },
+            ],
+            rows: [
+              {
+                memory: "MD1",
+                vcpu: "1",
+                ram: "6",
+                reserved: "762,120",
+              },
+              {
+                memory: "MD2",
+                vcpu: "2",
+                ram: "12",
+                reserved: "1,524,240",
+              },
+              {
+                memory: "MD4",
+                vcpu: "4",
+                ram: "24",
+                reserved: "3,048,480",
+              },
+              {
+                memory: "MD8",
+                vcpu: "8",
+                ram: "48",
+                reserved: "6,056,960",
+              },
+              {
+                memory: "MD12",
+                vcpu: "12",
+                ram: "72",
+                reserved: "9,145,440",
+              },
+              {
+                memory: "MD16",
+                vcpu: "16",
+                ram: "96",
+                reserved: "12,193,920",
+              },
+              {
+                memory: "MD24",
+                vcpu: "24",
+                ram: "144",
+                reserved: "18,290,880",
+              },
+            ],
+          },
         ],
       },
       {
-        id: 'bare-metal',
-        title: 'Bare Metal',
-        description: 'Single-tenant dedicated servers.',
+        id: "Extra Memory Dense",
+        title: "Extra Memory Dense",
+        description: "Single-tenant dedicated servers.",
         Icon: Server,
-        heroTitle: 'Bare Metal',
+        heroTitle: "Extra Memory Dense",
         heroDescription: [
-          'Dedicated servers for maximum performance, isolation, and compliance requirements.',
-          'Run your own hypervisor, storage stack, or specialized networking on dedicated hardware.',
+          "Experience ultra-fast NVMe SSD storage with the flexibility to choose the exact size you need. Scale effortlessly and enjoy high performance, low latency, and maximum efficiency for your workloads.",
         ],
-        useCases: 'compliance, storage systems, and custom networking.',
-        columns: ['CPU', 'Memory', 'Storage', 'Network', 'Monthly Price'],
-        rows: [
-          { cpu: '12 cores', memory: '64 GB', storage: '2× 960 GB NVMe', network: '10 Gbps', price: '$199 / mo' },
-          { cpu: '24 cores', memory: '128 GB', storage: '2× 1.92 TB NVMe', network: '10 Gbps', price: '$349 / mo' },
-          { cpu: '48 cores', memory: '256 GB', storage: '2× 3.84 TB NVMe', network: '25 Gbps', price: '$699 / mo' },
-        ],
-      },
-      {
-        id: 'kubernetes-engine',
-        title: 'Kubernetes Engine',
-        description: 'Managed Kubernetes clusters.',
-        Icon: Layers,
-        heroTitle: 'Kubernetes Engine',
-        heroDescription: [
-          'Provision production-ready Kubernetes clusters with a managed control plane.',
-          'Attach compute plans from the catalog and scale nodes as demand grows.',
-        ],
-        useCases: 'container platforms and multi-service deployments.',
-        columns: ['Tier', 'Control plane', 'Included features', 'Monthly Price'],
-        rows: [
-          { tier: 'Standard', controlplane: 'Managed', features: 'Upgrades, RBAC, API access', price: '$0 / mo' },
-          { tier: 'Pro', controlplane: 'HA Managed', features: 'Multi-zone, autoscaling', price: '$99 / mo' },
-          { tier: 'Enterprise', controlplane: 'Custom', features: 'Dedicated support + compliance', price: 'Contact sales' },
-        ],
-      },
-      {
-        id: 'databases',
-        title: 'Databases',
-        description: 'Databases that just work right out of the box.',
-        Icon: Database,
-        heroTitle: 'Databases',
-        heroDescription: [
-          'Managed Postgres and Redis designed for reliable backups, monitoring, and upgrades.',
-          'Start small and scale without re-architecting your platform.',
-        ],
-        useCases: 'production data stores and caching layers.',
-        columns: ['Plan', 'Storage', 'Backups', 'HA', 'Monthly Price'],
-        rows: [
-          { plan: 'Starter', storage: '20 GB', backups: 'Daily', ha: '—', price: '$15 / mo' },
-          { plan: 'Standard', storage: '100 GB', backups: 'Hourly', ha: 'Optional', price: '$59 / mo' },
-          { plan: 'Pro', storage: '500 GB', backups: 'Continuous', ha: 'Included', price: '$199 / mo' },
-          { plan: 'Enterprise', storage: 'Custom', backups: 'Custom', ha: 'Included', price: 'Contact sales' },
-        ],
-      },
-      {
-        id: 'block-storage',
-        title: 'Block Storage',
-        description: 'Network-attached volumes for persistent workloads.',
-        Icon: HardDrive,
-        heroTitle: 'Block Storage',
-        heroDescription: [
-          'Attach durable volumes to instances for predictable performance and simple expansion.',
-          'Ideal for databases, stateful services, and shared storage needs.',
-        ],
-        useCases: 'databases, queues, and persistent workloads.',
-        columns: ['Tier', 'IOPS', 'Use case', 'Price'],
-        rows: [
-          { tier: 'Standard', iops: '3k', use: 'General workloads', price: '$0.10 / GB-mo' },
-          { tier: 'Performance', iops: '10k', use: 'Databases + queues', price: '$0.17 / GB-mo' },
-          { tier: 'Extreme', iops: '30k', use: 'Latency-sensitive', price: '$0.25 / GB-mo' },
-        ],
-      },
-      {
-        id: 'object-storage',
-        title: 'Object Storage',
-        description: 'S3-compatible asset storage.',
-        Icon: Boxes,
-        heroTitle: 'Object Storage',
-        heroDescription: [
-          'Store and serve large datasets, media, logs, and backups with S3-compatible APIs.',
-          'Designed for durability and throughput with simple pricing.',
-        ],
-        useCases: 'backups, datasets, and static assets.',
-        columns: ['Metric', 'Included', 'Price'],
-        rows: [
-          { metric: 'Storage', included: '—', price: '$0.02 / GB-mo' },
-          { metric: 'Requests', included: '1M / mo', price: '$0.40 / 1M' },
-          { metric: 'Egress', included: '1 TB / mo', price: '$0.01 / GB' },
-        ],
-      },
-      {
-        id: 'cdn',
-        title: 'CDN',
-        description: 'Advanced CDN with push and pull zones.',
-        Icon: Globe,
-        heroTitle: 'CDN',
-        heroDescription: [
-          'Deliver content globally with caching, TLS, and simple purge controls.',
-          'Reduce latency for static assets and streaming workloads.',
-        ],
-        useCases: 'static websites, media, and API caching.',
-        columns: ['Metric', 'Included', 'Price'],
-        rows: [
-          { metric: 'Requests', included: '1M / mo', price: '$0.30 / 1M' },
-          { metric: 'Egress', included: '1 TB / mo', price: '$0.01 / GB' },
-          { metric: 'Rules', included: 'Basic', price: 'Included' },
-        ],
-      },
-      {
-        id: 'load-balancers',
-        title: 'Load Balancers',
-        description: 'Network load balancing service.',
-        Icon: Network,
-        heroTitle: 'Load Balancers',
-        heroDescription: [
-          'Distribute traffic across services with health checks, TLS termination, and flexible routing.',
-          'Deploy with your compute plans and scale as demand grows.',
-        ],
-        useCases: 'high availability and traffic routing.',
-        columns: ['Tier', 'Health checks', 'TLS', 'Monthly Price'],
-        rows: [
-          { tier: 'Standard', healthchecks: 'Included', tls: 'Included', price: '$10 / mo' },
-          { tier: 'Advanced', healthchecks: 'Custom', tls: 'Included', price: '$25 / mo' },
-          { tier: 'Enterprise', healthchecks: 'Custom', tls: 'Custom', price: 'Contact sales' },
-        ],
-      },
-      {
-        id: 'add-on-services',
-        title: 'Add-on Services',
-        description: 'Additional product offerings.',
-        Icon: Plus,
-        heroTitle: 'Add-on Services',
-        heroDescription: [
-          'Add capabilities like enhanced support, compliance controls, and enterprise integrations.',
-          'Bundle add-ons per environment or across your organization.',
-        ],
-        useCases: 'security, compliance, and support.',
-        columns: ['Add-on', 'What you get', 'Price'],
-        rows: [
-          { addon: 'Advanced support', what: 'Priority response + guidance', price: 'Contact sales' },
-          { addon: 'Compliance pack', what: 'Controls + reporting', price: 'Contact sales' },
-          { addon: 'Enterprise SSO', what: 'SAML, SCIM, policy controls', price: 'Contact sales' },
+        groups: [
+          {
+            title: "Pay as you go",
+            columns: [
+              { key: "memory_dense", label: "Extra Memory Dense" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "hour", label: "MMK/Hour" },
+              { key: "month", label: "MMK/Month" },
+            ],
+            rows: [
+              {
+                memory_dense: "eMD1",
+                vcpu: "1",
+                ram: "8",
+                hour: "136",
+                month: "99,572",
+              },
+              {
+                memory: "eMD2",
+                vcpu: "2",
+                ram: "16",
+                hour: "273",
+                month: "199,144",
+              },
+              {
+                memory: "eMD4",
+                vcpu: "4",
+                ram: "32",
+                hour: "546",
+                month: "398,288",
+              },
+              {
+                memory: "eMD8",
+                vcpu: "8",
+                ram: "64",
+                hour: "1,091",
+                month: "796,576",
+              },
+              {
+                memory: "eMD12",
+                vcpu: "12",
+                ram: "96",
+                hour: "1,637",
+                month: "1,194,864",
+              },
+              {
+                memory: "eMD16",
+                vcpu: "16",
+                ram: "128",
+                hour: "2,182",
+                month: "1,593,152",
+              },
+              {
+                memory: "eMD24",
+                vcpu: "24",
+                ram: "192",
+                hour: "3,274",
+                month: "2,389,728",
+              },
+            ],
+          },
+          {
+            title: "Reserved Instances",
+            columns: [
+              { key: "memory_dense", label: "Extra Memory Dense" },
+              { key: "vcpu", label: "vCPU (cores)" },
+              { key: "ram", label: "Ram (GiB)" },
+              { key: "reserved", label: "Reserved 1 Year" },
+            ],
+            rows: [
+              {
+                memory_dense: "eMD1",
+                vcpu: "1",
+                ram: "8",
+                reserved: "995,720",
+              },
+              {
+                memory_dense: "eMD2",
+                vcpu: "2",
+                ram: "16",
+                reserved: "1,991,440",
+              },
+              {
+                memory_dense: "eMD4",
+                vcpu: "4",
+                ram: "32",
+                reserved: "3,982,880",
+              },
+              {
+                memory_dense: "eMD8",
+                vcpu: "8",
+                ram: "64",
+                reserved: "7,965,760",
+              },
+              {
+                memory_dense: "eMD12",
+                vcpu: "12",
+                ram: "96",
+                reserved: "11,948,640",
+              },
+              {
+                memory_dense: "eMD16",
+                vcpu: "16",
+                ram: "128",
+                reserved: "15,931,520",
+              },
+              {
+                memory_dense: "eMD24",
+                vcpu: "24",
+                ram: "192",
+                reserved: "23,897,280",
+              },
+            ],
+          },
         ],
       },
     ],
-    [timePeriod, computeTier]
+    [timePeriod, computeTier],
   );
 
   type CalculatorLineItem = {
@@ -393,95 +934,212 @@ export function PricingPage() {
   const calculatorTemplates: CalculatorServiceTemplate[] = useMemo(
     () => [
       {
-        id: 'compute',
-        name: 'Cloud Compute',
-        description: 'General purpose VMs for web apps, APIs, and background jobs.',
+        id: "compute",
+        name: "Cloud Compute",
+        description:
+          "General purpose VMs for web apps, APIs, and background jobs.",
         Icon: Server,
         items: [
-          { key: 'vcpuHours', label: 'vCPU-hours', unit: 'hours', monthlyRate: 0.015, defaultQuantity: 720 },
-          { key: 'memoryGiBHours', label: 'Memory GiB-hours', unit: 'GiB-hours', monthlyRate: 0.0025, defaultQuantity: 720 },
-          { key: 'egressGB', label: 'Data egress', unit: 'GB', monthlyRate: 0.01, defaultQuantity: 100 },
+          {
+            key: "vcpuHours",
+            label: "vCPU-hours",
+            unit: "hours",
+            monthlyRate: 0.015,
+            defaultQuantity: 720,
+          },
+          {
+            key: "memoryGiBHours",
+            label: "Memory GiB-hours",
+            unit: "GiB-hours",
+            monthlyRate: 0.0025,
+            defaultQuantity: 720,
+          },
+          {
+            key: "egressGB",
+            label: "Data egress",
+            unit: "GB",
+            monthlyRate: 0.01,
+            defaultQuantity: 100,
+          },
         ],
       },
       {
-        id: 'gpu',
-        name: 'Cloud GPU',
-        description: 'On-demand GPUs for training, fine-tuning, and inference.',
+        id: "gpu",
+        name: "Cloud GPU",
+        description: "On-demand GPUs for training, fine-tuning, and inference.",
         Icon: Shield,
         items: [
-          { key: 'gpuHours', label: 'GPU-hours', unit: 'hours', monthlyRate: 1.1, defaultQuantity: 40 },
-          { key: 'storageGB', label: 'Local NVMe', unit: 'GB', monthlyRate: 0.12, defaultQuantity: 200 },
+          {
+            key: "gpuHours",
+            label: "GPU-hours",
+            unit: "hours",
+            monthlyRate: 1.1,
+            defaultQuantity: 40,
+          },
+          {
+            key: "storageGB",
+            label: "Local NVMe",
+            unit: "GB",
+            monthlyRate: 0.12,
+            defaultQuantity: 200,
+          },
         ],
       },
       {
-        id: 'databases',
-        name: 'Managed Databases',
-        description: 'Managed Postgres/Redis with backups and monitoring.',
+        id: "databases",
+        name: "Managed Databases",
+        description: "Managed Postgres/Redis with backups and monitoring.",
         Icon: Database,
         items: [
-          { key: 'dbHours', label: 'Database runtime', unit: 'hours', monthlyRate: 0.06, defaultQuantity: 720 },
-          { key: 'dbStorageGB', label: 'Storage', unit: 'GB', monthlyRate: 0.12, defaultQuantity: 100 },
-          { key: 'backupGB', label: 'Backups', unit: 'GB', monthlyRate: 0.04, defaultQuantity: 50 },
+          {
+            key: "dbHours",
+            label: "Database runtime",
+            unit: "hours",
+            monthlyRate: 0.06,
+            defaultQuantity: 720,
+          },
+          {
+            key: "dbStorageGB",
+            label: "Storage",
+            unit: "GB",
+            monthlyRate: 0.12,
+            defaultQuantity: 100,
+          },
+          {
+            key: "backupGB",
+            label: "Backups",
+            unit: "GB",
+            monthlyRate: 0.04,
+            defaultQuantity: 50,
+          },
         ],
       },
       {
-        id: 'blockStorage',
-        name: 'Block Storage',
-        description: 'Persistent volumes for stateful services and databases.',
+        id: "blockStorage",
+        name: "Block Storage",
+        description: "Persistent volumes for stateful services and databases.",
         Icon: HardDrive,
         items: [
-          { key: 'volumeGB', label: 'Provisioned storage', unit: 'GB', monthlyRate: 0.10, defaultQuantity: 200 },
-          { key: 'snapshotsGB', label: 'Snapshots', unit: 'GB', monthlyRate: 0.05, defaultQuantity: 50 },
+          {
+            key: "volumeGB",
+            label: "Provisioned storage",
+            unit: "GB",
+            monthlyRate: 0.1,
+            defaultQuantity: 200,
+          },
+          {
+            key: "snapshotsGB",
+            label: "Snapshots",
+            unit: "GB",
+            monthlyRate: 0.05,
+            defaultQuantity: 50,
+          },
         ],
       },
       {
-        id: 'objectStorage',
-        name: 'Object Storage',
-        description: 'S3-compatible storage for assets, logs, and datasets.',
+        id: "objectStorage",
+        name: "Object Storage",
+        description: "S3-compatible storage for assets, logs, and datasets.",
         Icon: Boxes,
         items: [
-          { key: 'storageGB', label: 'Storage', unit: 'GB', monthlyRate: 0.02, defaultQuantity: 500 },
-          { key: 'requestsM', label: 'Requests', unit: 'million', monthlyRate: 0.40, defaultQuantity: 2 },
-          { key: 'egressGB', label: 'Egress', unit: 'GB', monthlyRate: 0.01, defaultQuantity: 100 },
+          {
+            key: "storageGB",
+            label: "Storage",
+            unit: "GB",
+            monthlyRate: 0.02,
+            defaultQuantity: 500,
+          },
+          {
+            key: "requestsM",
+            label: "Requests",
+            unit: "million",
+            monthlyRate: 0.4,
+            defaultQuantity: 2,
+          },
+          {
+            key: "egressGB",
+            label: "Egress",
+            unit: "GB",
+            monthlyRate: 0.01,
+            defaultQuantity: 100,
+          },
         ],
       },
       {
-        id: 'cdn',
-        name: 'CDN',
-        description: 'Content delivery with caching and TLS.',
+        id: "cdn",
+        name: "CDN",
+        description: "Content delivery with caching and TLS.",
         Icon: Globe,
         items: [
-          { key: 'egressGB', label: 'Egress', unit: 'GB', monthlyRate: 0.01, defaultQuantity: 250 },
-          { key: 'requestsM', label: 'Requests', unit: 'million', monthlyRate: 0.30, defaultQuantity: 5 },
+          {
+            key: "egressGB",
+            label: "Egress",
+            unit: "GB",
+            monthlyRate: 0.01,
+            defaultQuantity: 250,
+          },
+          {
+            key: "requestsM",
+            label: "Requests",
+            unit: "million",
+            monthlyRate: 0.3,
+            defaultQuantity: 5,
+          },
         ],
       },
       {
-        id: 'kubernetes',
-        name: 'Kubernetes Engine',
-        description: 'Managed Kubernetes control plane + nodes from compute.',
+        id: "kubernetes",
+        name: "Kubernetes Engine",
+        description: "Managed Kubernetes control plane + nodes from compute.",
         Icon: Layers,
         items: [
-          { key: 'clusters', label: 'Clusters', unit: 'count', monthlyRate: 0, defaultQuantity: 1 },
-          { key: 'nodes', label: 'Worker nodes', unit: 'count', monthlyRate: 12, defaultQuantity: 3 },
+          {
+            key: "clusters",
+            label: "Clusters",
+            unit: "count",
+            monthlyRate: 0,
+            defaultQuantity: 1,
+          },
+          {
+            key: "nodes",
+            label: "Worker nodes",
+            unit: "count",
+            monthlyRate: 12,
+            defaultQuantity: 3,
+          },
         ],
       },
       {
-        id: 'loadBalancers',
-        name: 'Load Balancers',
-        description: 'Traffic distribution with health checks and TLS.',
+        id: "loadBalancers",
+        name: "Load Balancers",
+        description: "Traffic distribution with health checks and TLS.",
         Icon: Network,
         items: [
-          { key: 'lbs', label: 'Load balancers', unit: 'count', monthlyRate: 10, defaultQuantity: 1 },
-          { key: 'processedGB', label: 'Processed data', unit: 'GB', monthlyRate: 0.008, defaultQuantity: 300 },
+          {
+            key: "lbs",
+            label: "Load balancers",
+            unit: "count",
+            monthlyRate: 10,
+            defaultQuantity: 1,
+          },
+          {
+            key: "processedGB",
+            label: "Processed data",
+            unit: "GB",
+            monthlyRate: 0.008,
+            defaultQuantity: 300,
+          },
         ],
       },
     ],
-    []
+    [],
   );
 
-  const [calculatorQuery, setCalculatorQuery] = useState('');
+  const [calculatorQuery, setCalculatorQuery] = useState("");
   const [calculatorPickerOpen, setCalculatorPickerOpen] = useState(false);
-  const [calculatorServices, setCalculatorServices] = useState<CalculatorSelectedService[]>([]);
+  const [calculatorServices, setCalculatorServices] = useState<
+    CalculatorSelectedService[]
+  >([]);
 
   const addCalculatorService = (templateId: string) => {
     const template = calculatorTemplates.find((t) => t.id === templateId);
@@ -493,34 +1151,54 @@ export function PricingPage() {
       quantities[i.key] = i.defaultQuantity;
     });
 
-    setCalculatorServices((prev) => [...prev, { instanceId, templateId, quantities }]);
+    setCalculatorServices((prev) => [
+      ...prev,
+      { instanceId, templateId, quantities },
+    ]);
     setCalculatorPickerOpen(false);
-    setCalculatorQuery('');
+    setCalculatorQuery("");
     setCatalogHash(templateId);
   };
 
   const removeCalculatorService = (instanceId: string) => {
-    setCalculatorServices((prev) => prev.filter((s) => s.instanceId !== instanceId));
+    setCalculatorServices((prev) =>
+      prev.filter((s) => s.instanceId !== instanceId),
+    );
   };
 
-  const updateCalculatorQuantity = (instanceId: string, key: string, value: number) => {
+  const updateCalculatorQuantity = (
+    instanceId: string,
+    key: string,
+    value: number,
+  ) => {
     setCalculatorServices((prev) =>
       prev.map((s) =>
         s.instanceId === instanceId
-          ? { ...s, quantities: { ...s.quantities, [key]: Number.isFinite(value) ? value : 0 } }
-          : s
-      )
+          ? {
+              ...s,
+              quantities: {
+                ...s.quantities,
+                [key]: Number.isFinite(value) ? value : 0,
+              },
+            }
+          : s,
+      ),
     );
   };
 
   const formatMoney = (value: number) => {
-    return value.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+    return value.toLocaleString(undefined, {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2,
+    });
   };
 
   const calculatorEstimate = useMemo(() => {
     const serviceBreakdown = calculatorServices.map((svc) => {
       const template = calculatorTemplates.find((t) => t.id === svc.templateId);
-      if (!template) return { instanceId: svc.instanceId, name: svc.templateId, total: 0 };
+      if (!template)
+        return { instanceId: svc.instanceId, name: svc.templateId, total: 0 };
 
       const total = template.items.reduce((sum, item) => {
         const qty = svc.quantities[item.key] ?? 0;
@@ -535,11 +1213,11 @@ export function PricingPage() {
   }, [calculatorServices, calculatorTemplates]);
 
   const setCatalogHash = (id: string) => {
-    window.history.replaceState(null, '', `#${id}`);
+    window.history.replaceState(null, "", `#${id}`);
   };
 
   useEffect(() => {
-    const hash = window.location.hash?.replace('#', '');
+    const hash = window.location.hash?.replace("#", "");
     if (!hash) return;
 
     const exists = catalogItems.some((item) => item.id === hash);
@@ -549,7 +1227,10 @@ export function PricingPage() {
   }, [catalogItems]);
 
   const activeCatalogItem = useMemo(() => {
-    return catalogItems.find((item) => item.id === activeCatalogSection) ?? catalogItems[0];
+    return (
+      catalogItems.find((item) => item.id === activeCatalogSection) ??
+      catalogItems[0]
+    );
   }, [activeCatalogSection, catalogItems]);
   return (
     <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
@@ -586,14 +1267,15 @@ export function PricingPage() {
                 <h2 className="text-2xl font-bold">Compute costs</h2>
                 <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10">
                   <button
-                    onClick={() => setBillingPeriod('hour')}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === 'hour' ? 'bg-[#00ff88] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}>
-
+                    onClick={() => setBillingPeriod("hour")}
+                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "hour" ? "bg-[#00ff88] text-black shadow-lg" : "text-gray-400 hover:text-white"}`}
+                  >
                     Per hour
                   </button>
                   <button
-                    onClick={() => setBillingPeriod('month')}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === 'month' ? 'bg-[#00ff88] text-black shadow-lg' : 'text-gray-400 hover:text-white'}`}>
+                    onClick={() => setBillingPeriod("month")}
+                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "month" ? "bg-[#00ff88] text-black shadow-lg" : "text-gray-400 hover:text-white"}`}
+                  >
                     Per month
                   </button>
                 </div>
@@ -609,7 +1291,7 @@ export function PricingPage() {
                   <div className="flex justify-between items-center text-sm p-2">
                     <span className="text-gray-300 font-medium">BL1</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' 
+                      {billingPeriod === "hour"
                         ? `$${cpuPlansUSD[0].hourlyPrice.toFixed(3)} / hr`
                         : `$${cpuPlansUSD[0].monthlyPrice.toFixed(2)} / mo`}
                     </span>
@@ -617,7 +1299,7 @@ export function PricingPage() {
                   <div className="flex justify-between items-center text-sm p-2">
                     <span className="text-gray-300 font-medium">BL2</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' 
+                      {billingPeriod === "hour"
                         ? `$${cpuPlansUSD[1].hourlyPrice.toFixed(3)} / hr`
                         : `$${cpuPlansUSD[1].monthlyPrice.toFixed(2)} / mo`}
                     </span>
@@ -625,7 +1307,7 @@ export function PricingPage() {
                   <div className="flex justify-between items-center text-sm p-2">
                     <span className="text-gray-300 font-medium">BL4</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' 
+                      {billingPeriod === "hour"
                         ? `$${cpuPlansUSD[2].hourlyPrice.toFixed(3)} / hr`
                         : `$${cpuPlansUSD[2].monthlyPrice.toFixed(2)} / mo`}
                     </span>
@@ -633,7 +1315,7 @@ export function PricingPage() {
                   <div className="flex justify-between items-center text-sm p-2">
                     <span className="text-gray-300 font-medium">BL8</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' 
+                      {billingPeriod === "hour"
                         ? `$${cpuPlansUSD[3].hourlyPrice.toFixed(3)} / hr`
                         : `$${cpuPlansUSD[3].monthlyPrice.toFixed(2)} / mo`}
                     </span>
@@ -641,7 +1323,7 @@ export function PricingPage() {
                   <div className="flex justify-between items-center text-sm p-2">
                     <span className="text-gray-300 font-medium">BL12</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' 
+                      {billingPeriod === "hour"
                         ? `$${cpuPlansUSD[4].hourlyPrice.toFixed(3)} / hr`
                         : `$${cpuPlansUSD[4].monthlyPrice.toFixed(2)} / mo`}
                     </span>
@@ -649,7 +1331,7 @@ export function PricingPage() {
                   <div className="flex justify-between items-center text-sm p-2">
                     <span className="text-gray-300 font-medium">BL16</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' 
+                      {billingPeriod === "hour"
                         ? `$${cpuPlansUSD[5].hourlyPrice.toFixed(3)} / hr`
                         : `$${cpuPlansUSD[5].monthlyPrice.toFixed(2)} / mo`}
                     </span>
@@ -657,7 +1339,7 @@ export function PricingPage() {
                   <div className="flex justify-between items-center text-sm p-2">
                     <span className="text-gray-300 font-medium">BL24</span>
                     <span className="font-mono text-white font-bold">
-                      {billingPeriod === 'hour' 
+                      {billingPeriod === "hour"
                         ? `$${cpuPlansUSD[6].hourlyPrice.toFixed(3)} / hr`
                         : `$${cpuPlansUSD[6].monthlyPrice.toFixed(2)} / mo`}
                     </span>
@@ -691,23 +1373,23 @@ export function PricingPage() {
                 </button>
                 <ul className="space-y-4">
                   {[
-                  '$30 / month free credits',
-                  '3 workspace seats included',
-                  '100 containers + 10 GPU concurrency',
-                  'Crons and web endpoints (limited)',
-                  'Real-time metrics and logs',
-                  'Region selection'].
-                  map((item) =>
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm text-gray-300">
-
+                    "$30 / month free credits",
+                    "3 workspace seats included",
+                    "100 containers + 10 GPU concurrency",
+                    "Crons and web endpoints (limited)",
+                    "Real-time metrics and logs",
+                    "Region selection",
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 text-sm text-gray-300"
+                    >
                       <div className="mt-0.5 rounded-full bg-[color:var(--accent)] p-0.5 shrink-0">
                         <Check size={12} className="text-white" />
                       </div>
                       {item}
                     </li>
-                  )}
+                  ))}
                 </ul>
               </div>
 
@@ -730,24 +1412,24 @@ export function PricingPage() {
                 </button>
                 <ul className="space-y-4">
                   {[
-                  '$100 / month free credits',
-                  'Unlimited seats',
-                  '1000 containers + 50 GPU concurrency',
-                  'Unlimited crons and web endpoints',
-                  'Custom domains',
-                  'Static IP proxy',
-                  'Deployment rollbacks'].
-                  map((item) =>
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm text-gray-300">
-
+                    "$100 / month free credits",
+                    "Unlimited seats",
+                    "1000 containers + 50 GPU concurrency",
+                    "Unlimited crons and web endpoints",
+                    "Custom domains",
+                    "Static IP proxy",
+                    "Deployment rollbacks",
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 text-sm text-gray-300"
+                    >
                       <div className="mt-0.5 rounded-full bg-[color:var(--accent)] p-0.5 shrink-0">
                         <Check size={12} className="text-white" />
                       </div>
                       {item}
                     </li>
-                  )}
+                  ))}
                 </ul>
               </div>
 
@@ -768,23 +1450,23 @@ export function PricingPage() {
                 </button>
                 <ul className="space-y-4">
                   {[
-                  'Volume-based discounts',
-                  'Unlimited seats',
-                  'Higher GPU concurrency',
-                  'Embedded ML engineering services',
-                  'Support via private Slack',
-                  'Audit logs, Okta SSO, and HIPAA'].
-                  map((item) =>
-                  <li
-                    key={item}
-                    className="flex items-start gap-3 text-sm text-gray-300">
-
+                    "Volume-based discounts",
+                    "Unlimited seats",
+                    "Higher GPU concurrency",
+                    "Embedded ML engineering services",
+                    "Support via private Slack",
+                    "Audit logs, Okta SSO, and HIPAA",
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 text-sm text-gray-300"
+                    >
                       <div className="mt-0.5 rounded-full bg-[color:var(--accent)] p-0.5 shrink-0">
                         <Check size={12} className="text-white" />
                       </div>
                       {item}
                     </li>
-                  )}
+                  ))}
                 </ul>
               </div>
             </div>
@@ -796,7 +1478,8 @@ export function PricingPage() {
               <div>
                 <h2 className="text-4xl font-bold">Pricing catalog</h2>
                 <p className="mt-2 text-gray-400 max-w-2xl">
-                  Explore product categories and pricing details. Select any item on the left to view pricing.
+                  Explore product categories and pricing details. Select any
+                  item on the left to view pricing.
                 </p>
               </div>
             </div>
@@ -813,26 +1496,27 @@ export function PricingPage() {
                       }}
                       className={`w-full text-left p-4 rounded-2xl border transition-colors flex items-start gap-3 ${
                         activeCatalogSection === item.id
-                          ? 'border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]'
-                          : 'border-white/10 bg-[#0a0a0a] hover:border-[rgba(var(--accent-rgb),0.35)]'
+                          ? "border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]"
+                          : "border-white/10 bg-[#0a0a0a] hover:border-[rgba(var(--accent-rgb),0.35)]"
                       }`}
                     >
                       <div
                         className={`mt-0.5 h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${
                           activeCatalogSection === item.id
-                            ? 'border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.12)]'
-                            : 'border-white/10 bg-[#111]'
+                            ? "border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.12)]"
+                            : "border-white/10 bg-[#111]"
                         }`}
                       >
                         <item.Icon
                           size={18}
                           className={
                             activeCatalogSection === item.id
-                              ? 'text-[color:var(--accent)]'
-                              : 'text-gray-400'
+                              ? "text-[color:var(--accent)]"
+                              : "text-gray-400"
                           }
                         />
                       </div>
+
                       <div className="min-w-0">
                         <div className="font-bold truncate">{item.title}</div>
                         <div className="text-xs text-gray-500 mt-1 line-clamp-2">
@@ -848,55 +1532,82 @@ export function PricingPage() {
                 <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl">
                   <div className="flex items-start gap-4">
                     <div className="h-12 w-12 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
-                      <activeCatalogItem.Icon size={20} className="text-[color:var(--accent)]" />
+                      <activeCatalogItem.Icon
+                        size={20}
+                        className="text-[color:var(--accent)]"
+                      />
                     </div>
                     <div className="min-w-0">
                       <h3 className="text-3xl md:text-4xl font-bold tracking-tight">
                         {activeCatalogItem.heroTitle ?? activeCatalogItem.title}
                       </h3>
                       <div className="mt-4 space-y-3 text-sm md:text-base text-gray-400 leading-relaxed">
-                        {(activeCatalogItem.heroDescription ?? [activeCatalogItem.description]).map((p) => (
+                        {(
+                          activeCatalogItem.heroDescription ?? [
+                            activeCatalogItem.description,
+                          ]
+                        ).map((p) => (
                           <p key={p}>{p}</p>
                         ))}
                       </div>
                       {activeCatalogItem.useCases && (
                         <div className="mt-4 text-sm text-gray-400">
-                          <span className="font-bold text-gray-300">Use cases:</span>{' '}
+                          <span className="font-bold text-gray-300">
+                            Use cases:
+                          </span>{" "}
                           {activeCatalogItem.useCases}
                         </div>
                       )}
                     </div>
-                    {activeCatalogItem.id === 'cloud-compute' && (
+                    {activeCatalogItem.id === "cloud-compute" && (
                       <div className="ml-auto shrink-0 flex flex-col items-end gap-2">
                         <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
-                          {(['hour', 'monthly', 'year'] as const).map((period) => (
-                            <div key={period} className="relative flex items-stretch">
-                              <button
-                                onClick={() => setTimePeriod(period)}
-                                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
-                                  timePeriod === period
-                                    ? 'bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]'
-                                    : 'text-gray-300 hover:text-white'
-                                }`}
+                          {(["hour", "monthly", "year"] as const).map(
+                            (period) => (
+                              <div
+                                key={period}
+                                className="relative flex items-stretch"
                               >
-                                {period === 'hour' ? 'Hours' : period === 'monthly' ? 'Monthly' : 'Year'}
-                              </button>
-                            </div>
-                          ))}
+                                <button
+                                  onClick={() => setTimePeriod(period)}
+                                  className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                                    timePeriod === period
+                                      ? "bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
+                                      : "text-gray-300 hover:text-white"
+                                  }`}
+                                >
+                                  {period === "hour"
+                                    ? "Hours"
+                                    : period === "monthly"
+                                      ? "Monthly"
+                                      : "Year"}
+                                </button>
+                              </div>
+                            ),
+                          )}
                         </div>
 
                         <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
-                          {(['standard', 'developer', 'high-frequency'] as const).map((tier) => (
-                            <div key={tier} className="relative flex items-stretch">
+                          {(
+                            ["standard", "developer", "high-frequency"] as const
+                          ).map((tier) => (
+                            <div
+                              key={tier}
+                              className="relative flex items-stretch"
+                            >
                               <button
                                 onClick={() => setComputeTier(tier)}
                                 className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
                                   computeTier === tier
-                                    ? 'bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]'
-                                    : 'text-gray-300 hover:text-white'
+                                    ? "bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
+                                    : "text-gray-300 hover:text-white"
                                 }`}
                               >
-                                {tier === 'high-frequency' ? 'High Frequency' : tier === 'developer' ? 'Developer' : 'Standard'}
+                                {tier === "high-frequency"
+                                  ? "High Frequency"
+                                  : tier === "developer"
+                                    ? "Developer"
+                                    : "Standard"}
                               </button>
                             </div>
                           ))}
@@ -905,17 +1616,35 @@ export function PricingPage() {
                     )}
                   </div>
 
+                  <div className="mt-8 inline-flex items-center justify-center p-4 bg-[color:var(--accent)] text-white text-center">
+                    <span className="text-sm sm:text-lg font-bold">
+                      NVMe SSD
+                    </span>
+                    <div className="w-px h-8 bg-secondary mx-3" />
+                    <span className="text-xl" />
+                    <span className="text-sm sm:text-lg font-bold">
+                      292 MMK/GB/Month
+                    </span>
+                  </div>
                   <div className="mt-10 space-y-10">
-                    {Array.isArray(activeCatalogItem.groups) && activeCatalogItem.groups.length > 0 ? (
+                    {Array.isArray(activeCatalogItem.groups) &&
+                    activeCatalogItem.groups.length > 0 ? (
                       activeCatalogItem.groups.map((group) => (
                         <div key={group.title}>
                           <div className="flex items-start gap-3 mb-4">
                             <div className="h-8 w-8 rounded-lg border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
-                              <activeCatalogItem.Icon size={16} className="text-[color:var(--accent)]" />
+                              <activeCatalogItem.Icon
+                                size={16}
+                                className="text-[color:var(--accent)]"
+                              />
                             </div>
                             <div className="min-w-0">
-                              <div className="text-xl font-bold">{group.title}</div>
-                              <div className="mt-1 text-sm text-gray-400">{group.description}</div>
+                              <div className="text-xl font-bold">
+                                {group.title}
+                              </div>
+                              <div className="mt-1 text-sm text-gray-400">
+                                {group.description}
+                              </div>
                             </div>
                           </div>
 
@@ -936,17 +1665,20 @@ export function PricingPage() {
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
                                   {group.rows.map((row, idx) => (
-                                    <tr key={idx} className="hover:bg-white/5 transition-colors">
+                                    <tr
+                                      key={idx}
+                                      className="hover:bg-white/5 transition-colors"
+                                    >
                                       {group.columns.map((c, i) => (
                                         <td
                                           key={c.key}
                                           className={
                                             i === group.columns.length - 1
-                                              ? 'py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap'
-                                              : 'py-4 px-4 text-gray-300 whitespace-nowrap'
+                                              ? "py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap"
+                                              : "py-4 px-4 text-gray-300 whitespace-nowrap"
                                           }
                                         >
-                                          {row[c.key] ?? ''}
+                                          {row[c.key] ?? ""}
                                         </td>
                                       ))}
                                     </tr>
@@ -975,29 +1707,39 @@ export function PricingPage() {
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-white/5">
-                                {activeCatalogItem.rows.map((row: Record<string, string>, idx: number) => (
-                                  <tr key={idx} className="hover:bg-white/5 transition-colors">
-                                    {Object.values(row).map((val, i) => (
-                                      <td
-                                        key={i}
-                                        className={
-                                          i === Object.values(row).length - 1
-                                            ? 'py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap'
-                                            : 'py-4 px-4 text-gray-300 whitespace-nowrap'
-                                        }
-                                      >
-                                        {val}
-                                      </td>
-                                    ))}
-                                  </tr>
-                                ))}
+                                {activeCatalogItem.rows.map(
+                                  (
+                                    row: Record<string, string>,
+                                    idx: number,
+                                  ) => (
+                                    <tr
+                                      key={idx}
+                                      className="hover:bg-white/5 transition-colors"
+                                    >
+                                      {Object.values(row).map((val, i) => (
+                                        <td
+                                          key={i}
+                                          className={
+                                            i === Object.values(row).length - 1
+                                              ? "py-4 px-4 font-mono text-[color:var(--accent)] font-bold whitespace-nowrap"
+                                              : "py-4 px-4 text-gray-300 whitespace-nowrap"
+                                          }
+                                        >
+                                          {val}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ),
+                                )}
                               </tbody>
                             </table>
                           </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="text-sm text-gray-500">No pricing data available.</div>
+                      <div className="text-sm text-gray-500">
+                        No pricing data available.
+                      </div>
                     )}
                   </div>
                 </div>
@@ -1011,12 +1753,18 @@ export function PricingPage() {
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
                 <div>
                   <div className="inline-flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                    <Calculator size={16} className="text-[color:var(--accent)]" />
+                    <Calculator
+                      size={16}
+                      className="text-[color:var(--accent)]"
+                    />
                     Pricing Calculator
                   </div>
-                  <h2 className="mt-3 text-4xl font-bold">Build your estimate</h2>
+                  <h2 className="mt-3 text-4xl font-bold">
+                    Build your estimate
+                  </h2>
                   <p className="mt-2 text-gray-400 max-w-2xl">
-                    Add services, customize usage, and get an instant monthly estimate across your stack.
+                    Add services, customize usage, and get an instant monthly
+                    estimate across your stack.
                   </p>
                 </div>
 
@@ -1042,9 +1790,12 @@ export function PricingPage() {
                 <div className="lg:col-span-8">
                   {calculatorServices.length === 0 ? (
                     <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-10 text-center">
-                      <div className="text-2xl font-bold">Start an estimate</div>
+                      <div className="text-2xl font-bold">
+                        Start an estimate
+                      </div>
                       <p className="mt-2 text-gray-400">
-                        Add one or more services and customize the usage to see monthly totals.
+                        Add one or more services and customize the usage to see
+                        monthly totals.
                       </p>
                       <button
                         onClick={() => setCalculatorPickerOpen(true)}
@@ -1057,12 +1808,17 @@ export function PricingPage() {
                   ) : (
                     <div className="space-y-4">
                       {calculatorServices.map((svc) => {
-                        const template = calculatorTemplates.find((t) => t.id === svc.templateId);
+                        const template = calculatorTemplates.find(
+                          (t) => t.id === svc.templateId,
+                        );
                         if (!template) return null;
-                        const serviceTotal = template.items.reduce((sum, item) => {
-                          const qty = svc.quantities[item.key] ?? 0;
-                          return sum + qty * item.monthlyRate;
-                        }, 0);
+                        const serviceTotal = template.items.reduce(
+                          (sum, item) => {
+                            const qty = svc.quantities[item.key] ?? 0;
+                            return sum + qty * item.monthlyRate;
+                          },
+                          0,
+                        );
 
                         return (
                           <div
@@ -1072,23 +1828,34 @@ export function PricingPage() {
                             <div className="flex items-start justify-between gap-4">
                               <div className="flex items-start gap-3 min-w-0">
                                 <div className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
-                                  <template.Icon size={18} className="text-[color:var(--accent)]" />
+                                  <template.Icon
+                                    size={18}
+                                    className="text-[color:var(--accent)]"
+                                  />
                                 </div>
                                 <div className="min-w-0">
-                                  <div className="text-xl font-bold truncate">{template.name}</div>
-                                  <div className="mt-1 text-sm text-gray-400">{template.description}</div>
+                                  <div className="text-xl font-bold truncate">
+                                    {template.name}
+                                  </div>
+                                  <div className="mt-1 text-sm text-gray-400">
+                                    {template.description}
+                                  </div>
                                 </div>
                               </div>
 
                               <div className="flex items-center gap-3 shrink-0">
                                 <div className="text-right">
-                                  <div className="text-xs text-gray-500">Monthly subtotal</div>
+                                  <div className="text-xs text-gray-500">
+                                    Monthly subtotal
+                                  </div>
                                   <div className="text-lg font-bold text-[color:var(--accent)]">
                                     {formatMoney(serviceTotal)}
                                   </div>
                                 </div>
                                 <button
-                                  onClick={() => removeCalculatorService(svc.instanceId)}
+                                  onClick={() =>
+                                    removeCalculatorService(svc.instanceId)
+                                  }
                                   className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] hover:bg-white/5 transition-colors flex items-center justify-center"
                                 >
                                   <Trash2 size={16} className="text-gray-400" />
@@ -1104,15 +1871,23 @@ export function PricingPage() {
                                 >
                                   <div className="flex items-start justify-between gap-3">
                                     <div className="min-w-0">
-                                      <div className="font-bold truncate">{item.label}</div>
+                                      <div className="font-bold truncate">
+                                        {item.label}
+                                      </div>
                                       <div className="mt-1 text-xs text-gray-500">
-                                        {formatMoney(item.monthlyRate)} / {item.unit}
+                                        {formatMoney(item.monthlyRate)} /{" "}
+                                        {item.unit}
                                       </div>
                                     </div>
                                     <div className="text-right">
-                                      <div className="text-xs text-gray-500">Estimated</div>
+                                      <div className="text-xs text-gray-500">
+                                        Estimated
+                                      </div>
                                       <div className="font-mono text-sm text-white">
-                                        {formatMoney((svc.quantities[item.key] ?? 0) * item.monthlyRate)}
+                                        {formatMoney(
+                                          (svc.quantities[item.key] ?? 0) *
+                                            item.monthlyRate,
+                                        )}
                                       </div>
                                     </div>
                                   </div>
@@ -1126,7 +1901,7 @@ export function PricingPage() {
                                         updateCalculatorQuantity(
                                           svc.instanceId,
                                           item.key,
-                                          Number(e.target.value)
+                                          Number(e.target.value),
                                         )
                                       }
                                       className="w-full px-4 py-2.5 rounded-xl bg-[#0a0a0a] border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-[rgba(var(--accent-rgb),0.45)]"
@@ -1155,7 +1930,8 @@ export function PricingPage() {
                         {formatMoney(calculatorEstimate.total)}
                       </div>
                       <div className="mt-2 text-xs text-gray-500">
-                        Totals are estimates for planning purposes and may vary by region and configuration.
+                        Totals are estimates for planning purposes and may vary
+                        by region and configuration.
                       </div>
                     </div>
 
@@ -1166,8 +1942,13 @@ export function PricingPage() {
                         </div>
                         <div className="space-y-3">
                           {calculatorEstimate.serviceBreakdown.map((s) => (
-                            <div key={s.instanceId} className="flex items-center justify-between gap-3">
-                              <div className="text-sm text-gray-300 truncate">{s.name}</div>
+                            <div
+                              key={s.instanceId}
+                              className="flex items-center justify-between gap-3"
+                            >
+                              <div className="text-sm text-gray-300 truncate">
+                                {s.name}
+                              </div>
                               <div className="font-mono text-sm text-[color:var(--accent)] font-bold whitespace-nowrap">
                                 {formatMoney(s.total)}
                               </div>
@@ -1191,7 +1972,8 @@ export function PricingPage() {
                       <div className="min-w-0">
                         <div className="text-xl font-bold">Add a service</div>
                         <div className="text-sm text-gray-400">
-                          Search and select services to include in your estimate.
+                          Search and select services to include in your
+                          estimate.
                         </div>
                       </div>
                       <button
@@ -1204,7 +1986,10 @@ export function PricingPage() {
 
                     <div className="p-6">
                       <div className="relative">
-                        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                        <Search
+                          size={18}
+                          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                        />
                         <input
                           value={calculatorQuery}
                           onChange={(e) => setCalculatorQuery(e.target.value)}
@@ -1232,10 +2017,15 @@ export function PricingPage() {
                             >
                               <div className="flex items-start gap-3">
                                 <div className="h-10 w-10 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center shrink-0">
-                                  <t.Icon size={18} className="text-[color:var(--accent)]" />
+                                  <t.Icon
+                                    size={18}
+                                    className="text-[color:var(--accent)]"
+                                  />
                                 </div>
                                 <div className="min-w-0">
-                                  <div className="font-bold truncate">{t.name}</div>
+                                  <div className="font-bold truncate">
+                                    {t.name}
+                                  </div>
                                   <div className="mt-1 text-xs text-gray-500 line-clamp-2">
                                     {t.description}
                                   </div>
@@ -1276,44 +2066,44 @@ export function PricingPage() {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {[
-                  {
-                    feat: 'Monthly Credits',
-                    s: '$30',
-                    t: '$100',
-                    e: 'Custom'
-                  },
-                  {
-                    feat: 'Concurrency Limit',
-                    s: '100',
-                    t: '1000',
-                    e: 'Unlimited'
-                  },
-                  {
-                    feat: 'GPU Limit',
-                    s: '10',
-                    t: '50',
-                    e: 'Custom'
-                  },
-                  {
-                    feat: 'Seats',
-                    s: '3',
-                    t: 'Unlimited',
-                    e: 'Unlimited'
-                  },
-                  {
-                    feat: 'SSO',
-                    s: '-',
-                    t: '-',
-                    e: 'Included'
-                  },
-                  {
-                    feat: 'Support',
-                    s: 'Community',
-                    t: 'Standard',
-                    e: 'Dedicated Slack'
-                  }].
-                  map((row, i) =>
-                  <tr key={i} className="hover:bg-white/5 transition-colors">
+                    {
+                      feat: "Monthly Credits",
+                      s: "$30",
+                      t: "$100",
+                      e: "Custom",
+                    },
+                    {
+                      feat: "Concurrency Limit",
+                      s: "100",
+                      t: "1000",
+                      e: "Unlimited",
+                    },
+                    {
+                      feat: "GPU Limit",
+                      s: "10",
+                      t: "50",
+                      e: "Custom",
+                    },
+                    {
+                      feat: "Seats",
+                      s: "3",
+                      t: "Unlimited",
+                      e: "Unlimited",
+                    },
+                    {
+                      feat: "SSO",
+                      s: "-",
+                      t: "-",
+                      e: "Included",
+                    },
+                    {
+                      feat: "Support",
+                      s: "Community",
+                      t: "Standard",
+                      e: "Dedicated Slack",
+                    },
+                  ].map((row, i) => (
+                    <tr key={i} className="hover:bg-white/5 transition-colors">
                       <td className="py-6 px-4 font-bold text-white">
                         {row.feat}
                       </td>
@@ -1325,7 +2115,7 @@ export function PricingPage() {
                         {row.e}
                       </td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -1336,45 +2126,45 @@ export function PricingPage() {
             <h2 className="text-4xl font-bold mb-12 text-center">FAQ</h2>
             <div className="max-w-3xl mx-auto space-y-4">
               {[
-              {
-                q: 'Are there any hidden fees?',
-                a: 'No. You only pay for the compute resources you use. There are no seat fees or platform fees.'
-              },
-              {
-                q: 'Do you offer startup credits?',
-                a: 'Yes, we have a startup program. Apply to get up to $5,000 in credits.'
-              },
-              {
-                q: 'How does billing work?',
-                a: 'We bill monthly based on your usage in the previous month. You can set spending limits to avoid surprises.'
-              },
-              {
-                q: 'Can I pay with invoice?',
-                a: 'Yes, Team and Enterprise plans support invoicing.'
-              }].
-              map((faq, i) =>
-              <div
-                key={i}
-                className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden">
-
+                {
+                  q: "Are there any hidden fees?",
+                  a: "No. You only pay for the compute resources you use. There are no seat fees or platform fees.",
+                },
+                {
+                  q: "Do you offer startup credits?",
+                  a: "Yes, we have a startup program. Apply to get up to $5,000 in credits.",
+                },
+                {
+                  q: "How does billing work?",
+                  a: "We bill monthly based on your usage in the previous month. You can set spending limits to avoid surprises.",
+                },
+                {
+                  q: "Can I pay with invoice?",
+                  a: "Yes, Team and Enterprise plans support invoicing.",
+                },
+              ].map((faq, i) => (
+                <div
+                  key={i}
+                  className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden"
+                >
                   <button
-                  className="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-
+                    className="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
                     <span className="font-medium text-lg">{faq.q}</span>
-                    {openFaq === i ?
-                  <ChevronUp size={20} className="text-gray-500" /> :
-
-                  <ChevronDown size={20} className="text-gray-500" />
-                  }
+                    {openFaq === i ? (
+                      <ChevronUp size={20} className="text-gray-500" />
+                    ) : (
+                      <ChevronDown size={20} className="text-gray-500" />
+                    )}
                   </button>
-                  {openFaq === i &&
-                <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                  {openFaq === i && (
+                    <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
                       {faq.a}
                     </div>
-                }
+                  )}
                 </div>
-              )}
+              ))}
             </div>
           </section>
 
@@ -1395,6 +2185,6 @@ export function PricingPage() {
         </div>
       </main>
       <Footer />
-    </div>);
-
+    </div>
+  );
 }

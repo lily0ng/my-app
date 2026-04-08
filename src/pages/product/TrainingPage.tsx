@@ -137,7 +137,7 @@ export function TrainingPage() {
                         <rect x={n.x + 18} y="408" width="214" height="40" rx="12" fill="url(#kubeCyan)" stroke="rgba(var(--accent-rgb),0.20)" strokeWidth="2" />
                         <text x={n.x + 125} y="434" fontSize="16" fontWeight="700" textAnchor="middle" fill="rgba(var(--accent-rgb),0.95)">Kubernetes Proxy</text>
 
-                        <text x={n.labelX} y="498" fontSize="18" fontWeight="600" textAnchor="middle" fill="var(--text-secondary)">Linux Server</text>
+                        <text x={n.labelX} y="480" fontSize="18" fontWeight="600" textAnchor="middle" fill="var(--text-secondary)">Linux Server</text>
                       </g>
                     ))}
 

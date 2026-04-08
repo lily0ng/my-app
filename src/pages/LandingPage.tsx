@@ -1,4 +1,10 @@
-import { forwardRef, useLayoutEffect, useRef, useState, type RefObject } from "react";
+import {
+  forwardRef,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import { Nav } from "../components/Nav";
 import { Footer } from "../components/Footer";
 import { useTheme } from "../contexts/ThemeContext";
@@ -28,6 +34,14 @@ import {
   Users,
   Shield,
   Layers,
+  Cloud,
+  Server,
+  HardDrive,
+  TrendingUp,
+  ShieldCheck,
+  DollarSign,
+  ShieldPlus,
+  User,
 } from "lucide-react";
 
 const ConnectivityCircle = forwardRef<
@@ -255,16 +269,19 @@ export function LandingPage() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[rgba(var(--accent-rgb),0.12)] via-[rgba(0,0,0,0)] to-[rgba(0,0,0,0)] pointer-events-none transition-colors duration-300" />
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle,_rgba(var(--accent-rgb),0.22)_1px,transparent_1px)] [background-size:44px_44px] [background-position:0_0] pointer-events-none" />
 
-          <div className="max-w-3xl mx-auto relative z-10">
+          <div className="mx-auto relative z-10">
             <h1 className="text-5xl md:text-6xl font-semibold tracking-tight mb-6 leading-[1.05]">
-              AI infrastructure that
+              One Cloud Next-Gen
               <br />
-              developers <span className="text-[var(--accent)]">love</span>
+              <span className="text-[var(--accent)]">
+                Powerful Scalable Local
+              </span>
             </h1>
-            <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 leading-relaxed">
-              Run inference, training, and batch processing with sub-second cold
-              starts, instant autoscaling, and a developer experience that feels
-              local.
+            <p className="text-base md:text-lg text-[var(--text-secondary)] mx-auto mb-8 leading-relaxed">
+              Deploy powerful cloud instances with ultra-fast NVMe SSD storage
+              and flexible pay-as-you-go pricing.
+              <br />
+              Powered by One Cloud Next-Gen — with 99.95% uptime.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3">
               <button className="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors shadow-[0_0_22px_rgba(var(--accent-rgb),0.16)]">
@@ -296,7 +313,7 @@ export function LandingPage() {
             </div>
           </div>
         </section>
-                
+
         <section className="relative px-6 py-3 bg-[color:var(--bg-secondary)] border-y border-[var(--border-color)] overflow-hidden">
           <div className="pointer-events-none absolute inset-0 opacity-40">
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(var(--accent-rgb),0.06),transparent)]" />
@@ -362,42 +379,109 @@ export function LandingPage() {
                 Why Choose Us?
               </h2>
               <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                Built for modern teams who need speed, reliability, and
-                real-time visibility — without the ops burden.
+                Discover the key reasons why businesses trust us for their cloud
+                solutions.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  icon: Zap,
-                  title: "Instant autoscaling",
-                  desc: "Scale from zero to peak traffic automatically — no pre-provisioning, no guesswork.",
+                  icon: (
+                    <svg
+                      className="w-12 h-12 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  ),
+                  title: "Affordable Pricing",
+                  description:
+                    "Flexible and transparent pricing with local currency (MMK).",
                 },
                 {
-                  icon: Shield,
-                  title: "Secure by default",
-                  desc: "Strong isolation boundaries and best-practice controls for production workloads.",
+                  icon: (
+                    <svg
+                      className="w-12 h-12 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
+                    </svg>
+                  ),
+                  title: "High-Speed & Low Latency",
+                  description:
+                    "Optimized servers for fast performance and minimal delays.",
                 },
                 {
-                  icon: Globe,
-                  title: "Global performance",
-                  desc: "Low-latency networking designed for real-time inference and data movement.",
+                  icon: (
+                    <svg
+                      className="w-12 h-12 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                      />
+                    </svg>
+                  ),
+                  title: "Easy-to-Use Interface",
+                  description: "Simple cloud management for all skill levels.",
                 },
                 {
-                  icon: Lock,
-                  title: "Predictable costs",
-                  desc: "Pay for what you use and track usage clearly — with no hidden overhead.",
+                  icon: (
+                    <svg
+                      className="w-12 h-12 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
+                      />
+                    </svg>
+                  ),
+                  title: "Marketplace Integration",
+                  description: "Sell & deploy cloud-based solutions instantly.",
                 },
                 {
-                  icon: Cpu,
-                  title: "GPU access on demand",
-                  desc: "Run H100/A100-class compute when you need it — without capacity planning.",
-                },
-                {
-                  icon: Layers,
-                  title: "Real-time visibility",
-                  desc: "See what is running, what changed, and what to fix next — instantly.",
+                  icon: (
+                    <svg
+                      className="w-12 h-12 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  ),
+                  title: "24/7 Local Support",
+                  description: "Round-the-clock monitoring and local support.",
                 },
               ].map((item, i) => (
                 <motion.div
@@ -422,14 +506,15 @@ export function LandingPage() {
                   </div>
 
                   <div className="relative">
-                    <div className="w-14 h-14 rounded-xl bg-[#111] border border-white/10 flex items-center justify-center mb-6 text-[#00ff88] group-hover:scale-110 transition-transform shadow-inner">
-                      <item.icon size={28} />
+                    <div className="w-14 h-14 rounded-xl bg-[#111] flex items-center justify-center mb-6 text-[#00ff88] group-hover:scale-110 transition-transform shadow-inner">
+                      {item.icon}
                     </div>
+                    
                     <h3 className="text-2xl font-bold mb-3 text-white">
                       {item.title}
                     </h3>
                     <p className="text-gray-400 leading-relaxed text-lg">
-                      {item.desc}
+                      {item.description}
                     </p>
                   </div>
                 </motion.div>
@@ -445,42 +530,42 @@ export function LandingPage() {
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 Featured Products
               </h2>
-              <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">
+              {/* <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">
                 From prototype to production, Modal provides the primitives to
                 build scalable AI applications.
-              </p>
+              </p> */}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  icon: Zap,
+                  icon: Cloud,
                   title: "Cloud Compute",
                   desc: "Deploy powerful virtual machines in seconds with scalable resources to meet your business needs.",
                 },
                 {
-                  icon: Globe,
+                  icon: Layers,
                   title: "Kubernetes",
                   desc: "Automate deployment, scaling, and management of containerized applications with our fully managed Kubernetes service.",
                 },
                 {
-                  icon: Lock,
+                  icon: Server,
                   title: "Load Balancer",
                   desc: "Distribute traffic efficiently across multiple instances to ensure high availability and optimal performance.",
                 },
                 {
-                  icon: Database,
+                  icon: HardDrive,
                   title: "Block Storage",
                   desc: "Attach high-performance, scalable storage to your cloud instances for flexible data management.",
                 },
                 {
-                  icon: Terminal,
-                  title: "Local Dev Experience",
-                  desc: "Develop against the cloud as if it were your laptop. Hot reloading included.",
+                  icon: Globe,
+                  title: "DNS Management",
+                  desc: "Easily configure and manage domain name services with fast, secure, and reliable DNS hosting.",
                 },
                 {
-                  icon: Cpu,
-                  title: "Any GPU, Instantly",
-                  desc: "Access H100s, A100s, and more without quotas or capacity planning.",
+                  icon: TrendingUp,
+                  title: "Auto Scaling",
+                  desc: "Automatically scale your infrastructure based on demand to optimize performance and cost.",
                 },
               ].map((feature, i) => (
                 <div
@@ -510,37 +595,112 @@ export function LandingPage() {
                 Service Reliability – Built for Uptime
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
                 {
-                  icon: Zap,
+                  icon: (
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      />
+                    </svg>
+                  ),
                   title: "Fully Redundant Architecture",
-                  desc: "Our cloud is designed with multiple failover mechanisms, ensuring no single point of failure.",
+                  description:
+                    "Our cloud is designed with multiple failover mechanisms, ensuring no single point of failure.",
                 },
                 {
-                  icon: Globe,
+                  icon: (
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 12h3l2-4 2 8 2-4 2 4 2-4 2 8 2-4h3"
+                      />
+                    </svg>
+                  ),
                   title: "High Availability Design",
-                  desc: "Our cloud infrastructure is engineered for 24/7 reliability, ensuring seamless operations even during peak demand. We guarantee 99.95% uptime, minimizing disruptions and keeping your business online.",
+                  description: (
+                    <>
+                      Our cloud infrastructure is{" "}
+                      <span className="font-bold">
+                        engineered for 24/7 reliability
+                      </span>
+                      , ensuring seamless operations even during peak demand. We
+                      guarantee <span className="font-bold">99.95% uptime</span>
+                      , minimizing disruptions and keeping your business online.
+                    </>
+                  ),
                 },
                 {
-                  icon: Lock,
+                  icon: (
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4"
+                      />
+                    </svg>
+                  ),
                   title: "Offsite Backup & Data Protection",
-                  desc: "Your critical data is securely backed up at an offsite location, minimizing risks and ensuring fast recovery.",
+                  description:
+                    "Your critical data is securely backed up at an offsite location, minimizing risks and ensuring fast recovery.",
                 },
                 {
-                  icon: Database,
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="feather feather-search w-8 h-8 text-white"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                  ),
                   title: "Seamless Connectivity with Multi-Uplinks",
-                  desc: "Multiple network uplinks provide high-speed, uninterrupted sconnectivity for optimal performance.",
-                },
-                {
-                  icon: Terminal,
-                  title: "Local Dev Experience",
-                  desc: "Develop against the cloud as if it were your laptop. Hot reloading included.",
-                },
-                {
-                  icon: Cpu,
-                  title: "Any GPU, Instantly",
-                  desc: "Access H100s, A100s, and more without quotas or capacity planning.",
+                  description:
+                    "Multiple network uplinks provide high-speed, uninterrupted sconnectivity for optimal performance.",
                 },
               ].map((feature, i) => (
                 <div
@@ -548,13 +708,13 @@ export function LandingPage() {
                   className="p-8 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-[#00ff88]/50 transition-all duration-300 group hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="w-14 h-14 rounded-xl bg-[#111] flex items-center justify-center mb-6 text-[#00ff88] group-hover:scale-110 transition-transform shadow-inner">
-                    <feature.icon size={28} />
+                    {feature.icon}
                   </div>
                   <h3 className="text-2xl font-bold mb-4 text-white">
                     {feature.title}
                   </h3>
                   <p className="text-gray-400 leading-relaxed text-lg">
-                    {feature.desc}
+                    {feature.description}
                   </p>
                 </div>
               ))}
@@ -672,7 +832,8 @@ export function LandingPage() {
                   className="relative w-full h-[460px] sm:h-[500px] md:h-[560px] lg:h-[620px]"
                   ref={connectivityContainerRef}
                 >
-                  {connectivityCanvasSize.w > 0 && connectivityCanvasSize.h > 0 ? (
+                  {connectivityCanvasSize.w > 0 &&
+                  connectivityCanvasSize.h > 0 ? (
                     <svg
                       className="pointer-events-none absolute inset-0 h-full w-full z-10"
                       aria-hidden="true"
@@ -719,7 +880,9 @@ export function LandingPage() {
                       </defs>
 
                       {connectivityEdges.map((e, idx) => {
-                        const from = connectivityNodes.find((n) => n.id === e.from);
+                        const from = connectivityNodes.find(
+                          (n) => n.id === e.from,
+                        );
                         const to = connectivityNodes.find((n) => n.id === e.to);
                         if (!from || !to) return null;
 
@@ -738,9 +901,11 @@ export function LandingPage() {
                         const ny = dx / len;
                         const dir = dx === 0 ? 1 : Math.sign(dx);
 
-                        const isLocalAsToIaas = e.from === "local-as" && e.to === "iaas";
+                        const isLocalAsToIaas =
+                          e.from === "local-as" && e.to === "iaas";
                         const curvature =
-                          isLocalAsToIaas || (e.from === "internet" && e.to === "hti")
+                          isLocalAsToIaas ||
+                          (e.from === "internet" && e.to === "hti")
                             ? 0
                             : e.from === "local-as" || e.to === "local-as"
                               ? 0.22
@@ -788,9 +953,15 @@ export function LandingPage() {
                               strokeDasharray={dashArray}
                               vectorEffect="non-scaling-stroke"
                               markerEnd="url(#cng-connectivity-arrow)"
-                              filter={theme === "dark" ? "url(#cng-connectivity-glow)" : undefined}
+                              filter={
+                                theme === "dark"
+                                  ? "url(#cng-connectivity-glow)"
+                                  : undefined
+                              }
                               style={{
-                                animationName: isLocalAsToIaas ? "cng-beam-rev" : "cng-beam",
+                                animationName: isLocalAsToIaas
+                                  ? "cng-beam-rev"
+                                  : "cng-beam",
                                 animationDuration: `${duration}s`,
                                 animationTimingFunction: "linear",
                                 animationIterationCount: "infinite",
@@ -964,13 +1135,18 @@ export function LandingPage() {
                               )}
                             </ConnectivityCircle>
 
-                            {nodeKind !== "provider" && nodeKind !== "internet" ? (
+                            {nodeKind !== "provider" &&
+                            nodeKind !== "internet" ? (
                               <div className="mt-3 text-center">
-                                <div className={`text-sm font-bold leading-tight ${nodeLabelClass}`}>
+                                <div
+                                  className={`text-sm font-bold leading-tight ${nodeLabelClass}`}
+                                >
                                   {n.label}
                                 </div>
                                 {n.sublabel ? (
-                                  <div className={`text-xs font-semibold ${nodeSublabelClass}`}>
+                                  <div
+                                    className={`text-xs font-semibold ${nodeSublabelClass}`}
+                                  >
                                     {n.sublabel}
                                   </div>
                                 ) : null}
@@ -1047,16 +1223,16 @@ export function LandingPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Industries We Serve
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            {/* <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               This isn add more content
-            </p>
+            </p> */}
           </div>
           <div className="max-w-5xl mx-auto relative">
             <div className="absolute inset-0 bg-gradient-to-b from-[#00ff88]/5 to-transparent rounded-3xl -z-10" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
               <div className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 text-center">
                 <div className="w-16 h-16 mx-auto bg-[#111] rounded-full flex items-center justify-center mb-6 text-[#00ff88]">
-                  <Layers size={32} />
+                  <DollarSign size={32} />
                 </div>
                 <h3 className="text-xl font-bold mb-4">Financial Services</h3>
                 <p className="text-gray-400">
@@ -1066,7 +1242,7 @@ export function LandingPage() {
               </div>
               <div className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 text-center relative top-12">
                 <div className="w-16 h-16 mx-auto bg-[#111] rounded-full flex items-center justify-center mb-6 text-[#00ff88]">
-                  <Database size={32} />
+                  <ShieldPlus size={32} />
                 </div>
                 <h3 className="text-xl font-bold mb-4">
                   Healthcare & Life Sciences
@@ -1078,7 +1254,7 @@ export function LandingPage() {
               </div>
               <div className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 text-center">
                 <div className="w-16 h-16 mx-auto bg-[#111] rounded-full flex items-center justify-center mb-6 text-[#00ff88]">
-                  <Shield size={32} />
+                  <User size={32} />
                 </div>
                 <h3 className="text-xl font-bold mb-4">E-Commerce & Retail</h3>
                 <p className="text-gray-400">
@@ -1093,7 +1269,22 @@ export function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
               <div className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 text-center">
                 <div className="w-16 h-16 mx-auto bg-[#111] rounded-full flex items-center justify-center mb-6 text-[#00ff88]">
-                  <Layers size={32} />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-8 h-8"
+                  >
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <circle cx="15.5" cy="8.5" r="1.5" />
+                    <path d="M12 12v4" />
+                    <path d="M10 14h4" />
+                  </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-4">
                   Gaming & Entertainment
@@ -1105,7 +1296,18 @@ export function LandingPage() {
               </div>
               <div className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 text-center relative top-12">
                 <div className="w-16 h-16 mx-auto bg-[#111] rounded-full flex items-center justify-center mb-6 text-[#00ff88]">
-                  <Database size={32} />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-8 h-8"
+                  >
+                    <path d="M20 7h-4V5l-2-2h-4L8 5v2H4c-1.1 0-2 .9-2 2v5c0 .75.4 1.38 1 1.73V19c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-3.28c.59-.35 1-.99 1-1.72V9c0-1.1-.9-2-2-2zM8 5h8v2H8V5z" />
+                  </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-4">
                   Manufacturing & Logistics
@@ -1117,7 +1319,18 @@ export function LandingPage() {
               </div>
               <div className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 text-center">
                 <div className="w-16 h-16 mx-auto bg-[#111] rounded-full flex items-center justify-center mb-6 text-[#00ff88]">
-                  <Shield size={32} />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-8 h-8"
+                  >
+                    <path d="M22 9.24l-10-5.72-10 5.72 10 5.74 10-5.74zM12 19v-6" />
+                  </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-4">
                   Education & E-Learning

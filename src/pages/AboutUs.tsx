@@ -14,6 +14,7 @@ import {
 'lucide-react';
 import { Nav } from '../components/Nav';
 import { Footer } from '../components/Footer';
+import TeamStructureSVG from '../components/TeamStructure';
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -288,7 +289,7 @@ export function AboutUsPage() {
           </div>
         </section>
 
-        <section
+        {/* <section
           className="relative overflow-hidden py-24 px-6 bg-[rgba(var(--team-rgb),0.06)]"
           style={{ ['--team-rgb' as any]: '56,189,248' }}
         >
@@ -436,7 +437,10 @@ export function AboutUsPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
+
+        <TeamStructureSVG/>
+
 
         <section className="py-28 px-6 text-center">
           <div className="max-w-4xl mx-auto">
