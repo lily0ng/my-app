@@ -441,7 +441,8 @@ export function ContactUsPage() {
                       </div>
                       <button
                         type="submit"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--accent)] text-white text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--accent)] text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors"
+                        style={{color: 'white'}}
                       >
                         Send
                         <Send size={16} />
@@ -490,7 +491,8 @@ export function ContactUsPage() {
                 <div className="flex gap-3">
                   <a
                     href="mailto:sales@1cloudng.com"
-                    className="inline-flex items-center justify-center px-5 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                    className="inline-flex items-center justify-center px-5 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                    style={{color: 'white'}}
                   >
                     Email Sales
                   </a>

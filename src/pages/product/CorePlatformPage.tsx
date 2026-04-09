@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Nav } from '../../components/Nav';
-import { Footer } from '../../components/Footer';
+import { useState } from "react";
+import { Nav } from "../../components/Nav";
+import { Footer } from "../../components/Footer";
 import {
   Cpu,
   Zap,
@@ -11,8 +11,9 @@ import {
   Database,
   CheckCircle,
   Play,
-  ArrowRight } from
-'lucide-react';
+  ArrowRight,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 export function CorePlatformPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   return (
@@ -27,19 +28,26 @@ export function CorePlatformPage() {
                 Accelerators
               </div>
               <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-                Any GPU, <br />{' '}
+                Any GPU, <br />{" "}
                 <span className="text-[#00ff88]">Instantly</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mb-12 font-light leading-relaxed">
-                Access H100s, A100s, and more without quotas or capacity planning.
+                Access H100s, A100s, and more without quotas or capacity
+                planning.
               </p>
               <div className="flex gap-6">
-                <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
+                <button
+                  className="px-10 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]"
+                  style={{ color: "white" }}
+                >
                   Browse GPUs
                 </button>
-                <button className="px-10 py-5 rounded-full border border-white/20 text-white font-medium text-xl hover:bg-white/5 transition-all hover:scale-105">
-                  View pricing
-                </button>
+
+                <Link to="/pricing">
+                  <button className="px-9 py-4 rounded-full border border-[color:var(--border-color)] text-[var(--text-primary)] font-medium text-lg hover:bg-black/5 dark:hover:bg-white/5 transition-all hover:scale-[1.02]">
+                    View pricing
+                  </button>
+                </Link>
               </div>
             </div>
 
@@ -47,28 +55,28 @@ export function CorePlatformPage() {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {
-                    name: 'H100',
-                    memory: '80 GB',
-                    desc: 'Best for foundation models and training.',
-                    price: '$/hr',
+                    name: "H100",
+                    memory: "80 GB",
+                    desc: "Best for foundation models and training.",
+                    price: "$/hr",
                   },
                   {
-                    name: 'A100',
-                    memory: '80 GB',
-                    desc: 'Great for LLM fine-tuning and research.',
-                    price: '$/hr',
+                    name: "A100",
+                    memory: "80 GB",
+                    desc: "Great for LLM fine-tuning and research.",
+                    price: "$/hr",
                   },
                   {
-                    name: 'L40S',
-                    memory: '48 GB',
-                    desc: 'Ideal for image/video and mixed workloads.',
-                    price: '$/hr',
+                    name: "L40S",
+                    memory: "48 GB",
+                    desc: "Ideal for image/video and mixed workloads.",
+                    price: "$/hr",
                   },
                   {
-                    name: 'A10G',
-                    memory: '24 GB',
-                    desc: 'Cost-effective for inference and apps.',
-                    price: '$/hr',
+                    name: "A10G",
+                    memory: "24 GB",
+                    desc: "Cost-effective for inference and apps.",
+                    price: "$/hr",
                   },
                 ].map((g) => (
                   <div
@@ -79,9 +87,13 @@ export function CorePlatformPage() {
                       <div>
                         <div className="flex items-center gap-2">
                           <Cpu size={18} className="text-[#00ff88]" />
-                          <div className="text-lg font-bold text-white">{g.name}</div>
+                          <div className="text-lg font-bold text-white">
+                            {g.name}
+                          </div>
                         </div>
-                        <div className="mt-2 text-sm text-gray-400 leading-relaxed">{g.desc}</div>
+                        <div className="mt-2 text-sm text-gray-400 leading-relaxed">
+                          {g.desc}
+                        </div>
                       </div>
                       <div className="shrink-0 inline-flex items-center rounded-full bg-[#00ff88]/10 text-[#00ff88] px-2.5 py-1 text-xs font-semibold">
                         {g.memory}
@@ -89,7 +101,9 @@ export function CorePlatformPage() {
                     </div>
                     <div className="mt-4 flex items-center justify-between text-xs">
                       <span className="text-gray-500">On-demand</span>
-                      <span className="text-[#00ff88] font-mono">{g.price}</span>
+                      <span className="text-[#00ff88] font-mono">
+                        {g.price}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -101,7 +115,6 @@ export function CorePlatformPage() {
             </div>
           </div>
         </section>
-
 
         {/* Architecture Diagram */}
         <section className="py-32 px-6 bg-[#050505]">
@@ -181,38 +194,38 @@ export function CorePlatformPage() {
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {[
-                  {
-                    feat: 'Cold Start',
-                    modal: '< 500ms',
-                    aws: '~5-10s (GPU)',
-                    k8s: 'Minutes'
-                  },
-                  {
-                    feat: 'GPU Support',
-                    modal: 'Any (H100, A100...)',
-                    aws: 'Limited',
-                    k8s: 'Manual Config'
-                  },
-                  {
-                    feat: 'Max Runtime',
-                    modal: 'Unlimited',
-                    aws: '15 mins',
-                    k8s: 'Unlimited'
-                  },
-                  {
-                    feat: 'Developer Exp',
-                    modal: 'Python Code',
-                    aws: 'Zip files / Console',
-                    k8s: 'YAML Hell'
-                  },
-                  {
-                    feat: 'Concurrency',
-                    modal: '10k+ Containers',
-                    aws: 'Quota Limited',
-                    k8s: 'Cluster Limited'
-                  }].
-                  map((row, i) =>
-                  <tr key={i} className="hover:bg-white/5 transition-colors">
+                    {
+                      feat: "Cold Start",
+                      modal: "< 500ms",
+                      aws: "~5-10s (GPU)",
+                      k8s: "Minutes",
+                    },
+                    {
+                      feat: "GPU Support",
+                      modal: "Any (H100, A100...)",
+                      aws: "Limited",
+                      k8s: "Manual Config",
+                    },
+                    {
+                      feat: "Max Runtime",
+                      modal: "Unlimited",
+                      aws: "15 mins",
+                      k8s: "Unlimited",
+                    },
+                    {
+                      feat: "Developer Exp",
+                      modal: "Python Code",
+                      aws: "Zip files / Console",
+                      k8s: "YAML Hell",
+                    },
+                    {
+                      feat: "Concurrency",
+                      modal: "10k+ Containers",
+                      aws: "Quota Limited",
+                      k8s: "Cluster Limited",
+                    },
+                  ].map((row, i) => (
+                    <tr key={i} className="hover:bg-white/5 transition-colors">
                       <td className="py-6 px-4 font-bold text-white">
                         {row.feat}
                       </td>
@@ -222,7 +235,7 @@ export function CorePlatformPage() {
                       <td className="py-6 px-4 text-gray-400">{row.aws}</td>
                       <td className="py-6 px-4 text-gray-400">{row.k8s}</td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -242,16 +255,16 @@ export function CorePlatformPage() {
               </p>
               <ul className="space-y-6">
                 {[
-                'gVisor Sandboxing: Kernel-level isolation for every container',
-                'SOC 2 Type II Compliant',
-                'End-to-end Encryption for all data in transit and at rest',
-                'Granular RBAC and SSO integration'].
-                map((item, i) =>
-                <li key={i} className="flex items-start gap-4">
+                  "gVisor Sandboxing: Kernel-level isolation for every container",
+                  "SOC 2 Type II Compliant",
+                  "End-to-end Encryption for all data in transit and at rest",
+                  "Granular RBAC and SSO integration",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-4">
                     <CheckCircle className="text-[#00ff88] mt-1 shrink-0" />
                     <span className="text-gray-300 text-lg">{item}</span>
                   </li>
-                )}
+                ))}
               </ul>
               <div className="flex gap-6 mt-10">
                 <div className="h-16 w-16 bg-[#111] rounded border border-white/10 flex items-center justify-center text-xs font-bold text-gray-500">
@@ -307,7 +320,8 @@ export function CorePlatformPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               <Play
                 size={64}
-                className="text-white fill-white opacity-80 group-hover:scale-110 transition-transform relative z-10" />
+                className="text-white fill-white opacity-80 group-hover:scale-110 transition-transform relative z-10"
+              />
 
               <div className="absolute bottom-8 left-8 text-left z-10">
                 <h3 className="text-2xl font-bold mb-2">
@@ -327,31 +341,31 @@ export function CorePlatformPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
-              {
-                label: 'Uptime SLA',
-                value: '99.99%',
-                desc: 'Guaranteed reliability'
-              },
-              {
-                label: 'Global Regions',
-                value: '12+',
-                desc: 'Low latency worldwide'
-              },
-              {
-                label: 'Daily Jobs',
-                value: '1M+',
-                desc: 'Processed successfully'
-              },
-              {
-                label: 'Data Processed',
-                value: 'PB+',
-                desc: 'Monthly throughput'
-              }].
-              map((stat, i) =>
-              <div
-                key={i}
-                className="p-8 rounded-2xl bg-[#0a0a0a] border border-white/10 text-center hover:border-[#00ff88]/30 transition-colors">
-
+                {
+                  label: "Uptime SLA",
+                  value: "99.99%",
+                  desc: "Guaranteed reliability",
+                },
+                {
+                  label: "Global Regions",
+                  value: "12+",
+                  desc: "Low latency worldwide",
+                },
+                {
+                  label: "Daily Jobs",
+                  value: "1M+",
+                  desc: "Processed successfully",
+                },
+                {
+                  label: "Data Processed",
+                  value: "PB+",
+                  desc: "Monthly throughput",
+                },
+              ].map((stat, i) => (
+                <div
+                  key={i}
+                  className="p-8 rounded-2xl bg-[#0a0a0a] border border-white/10 text-center hover:border-[#00ff88]/30 transition-colors"
+                >
                   <div className="text-5xl font-bold text-white mb-4">
                     {stat.value}
                   </div>
@@ -360,7 +374,7 @@ export function CorePlatformPage() {
                   </div>
                   <div className="text-gray-500 text-sm">{stat.desc}</div>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>
@@ -377,33 +391,33 @@ export function CorePlatformPage() {
             </div>
             <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
               {[
-              {
-                title: 'Auto-Healing',
-                desc: 'Failed containers are automatically replaced instantly.'
-              },
-              {
-                title: 'Multi-AZ',
-                desc: 'Workloads are spread across availability zones for redundancy.'
-              },
-              {
-                title: 'Data Durability',
-                desc: 'Volumes are replicated 3x for 99.999999999% durability.'
-              },
-              {
-                title: 'Traffic Shifting',
-                desc: 'Seamlessly route traffic away from unhealthy regions.'
-              }].
-              map((item, i) =>
-              <div
-                key={i}
-                className="p-6 rounded-xl bg-[#111] border border-white/5">
-
+                {
+                  title: "Auto-Healing",
+                  desc: "Failed containers are automatically replaced instantly.",
+                },
+                {
+                  title: "Multi-AZ",
+                  desc: "Workloads are spread across availability zones for redundancy.",
+                },
+                {
+                  title: "Data Durability",
+                  desc: "Volumes are replicated 3x for 99.999999999% durability.",
+                },
+                {
+                  title: "Traffic Shifting",
+                  desc: "Seamlessly route traffic away from unhealthy regions.",
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="p-6 rounded-xl bg-[#111] border border-white/5"
+                >
                   <h3 className="text-xl font-bold mb-2 text-white">
                     {item.title}
                   </h3>
                   <p className="text-gray-400">{item.desc}</p>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>
@@ -453,49 +467,49 @@ export function CorePlatformPage() {
             <h2 className="text-4xl font-bold mb-16 text-center">FAQ</h2>
             <div className="space-y-4">
               {[
-              {
-                q: 'Where is the data stored?',
-                a: 'Data is stored in our secure, distributed file system with encryption at rest. We use top-tier cloud providers for physical infrastructure.'
-              },
-              {
-                q: 'Are you SOC 2 compliant?',
-                a: 'Yes, Modal is SOC 2 Type II compliant. We undergo regular third-party audits.'
-              },
-              {
-                q: 'Can I peer with my VPC?',
-                a: 'Yes, Enterprise plans support VPC peering to securely connect to your existing data sources.'
-              },
-              {
-                q: 'How do you handle secrets?',
-                a: 'We have a built-in Secrets manager that encrypts sensitive environment variables and injects them securely into containers.'
-              },
-              {
-                q: 'What is the SLA?',
-                a: 'We offer a 99.99% uptime SLA for Enterprise customers, with financial credits for any downtime.'
-              }].
-              map((faq, i) =>
-              <div
-                key={i}
-                className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden">
-
+                {
+                  q: "Where is the data stored?",
+                  a: "Data is stored in our secure, distributed file system with encryption at rest. We use top-tier cloud providers for physical infrastructure.",
+                },
+                {
+                  q: "Are you SOC 2 compliant?",
+                  a: "Yes, Modal is SOC 2 Type II compliant. We undergo regular third-party audits.",
+                },
+                {
+                  q: "Can I peer with my VPC?",
+                  a: "Yes, Enterprise plans support VPC peering to securely connect to your existing data sources.",
+                },
+                {
+                  q: "How do you handle secrets?",
+                  a: "We have a built-in Secrets manager that encrypts sensitive environment variables and injects them securely into containers.",
+                },
+                {
+                  q: "What is the SLA?",
+                  a: "We offer a 99.99% uptime SLA for Enterprise customers, with financial credits for any downtime.",
+                },
+              ].map((faq, i) => (
+                <div
+                  key={i}
+                  className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden"
+                >
                   <button
-                  className="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-
+                    className="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
                     <span className="font-medium text-lg">{faq.q}</span>
-                    {openFaq === i ?
-                  <ChevronUp size={20} className="text-gray-500" /> :
-
-                  <ChevronDown size={20} className="text-gray-500" />
-                  }
+                    {openFaq === i ? (
+                      <ChevronUp size={20} className="text-gray-500" />
+                    ) : (
+                      <ChevronDown size={20} className="text-gray-500" />
+                    )}
                   </button>
-                  {openFaq === i &&
-                <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                  {openFaq === i && (
+                    <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
                       {faq.a}
                     </div>
-                }
+                  )}
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>
@@ -509,13 +523,19 @@ export function CorePlatformPage() {
             <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
               Stop managing servers. Start shipping code.
             </p>
-            <button className="px-12 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
-              Contact Sales
-            </button>
+
+            <Link to="/contact">
+              <button
+                className="px-12 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]"
+                style={{ color: "white" }}
+              >
+                Contact Sales
+              </button>
+            </Link>
           </div>
         </section>
       </main>
       <Footer />
-    </div>);
-
+    </div>
+  );
 }

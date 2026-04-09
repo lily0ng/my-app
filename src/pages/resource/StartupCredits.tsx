@@ -97,9 +97,10 @@ export function StartupCreditsPage() {
                   onClick={() => setTier(t.key)}
                   className={
                     tier === t.key
-                      ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white'
+                      ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold'
                       : 'rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]'
                   }
+                  style={tier === t.key ? { color: 'white' } : undefined}
                 >
                   {t.label}
                 </button>
@@ -234,7 +235,7 @@ export function StartupCreditsPage() {
                 { t: 'Share results + next steps', d: 'We’ll help you pick a path to production.' },
               ].map((s, idx) => (
                 <div key={s.t} className="relative pl-10">
-                  <div className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--accent)] text-xs font-bold text-white">
+                  <div className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--accent)] text-xs font-bold" style={{color: 'white'}}>
                     {idx + 1}
                   </div>
                   <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-5 py-4">
@@ -305,7 +306,8 @@ export function StartupCreditsPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 to="/resources/startup-credits"
-                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-white"
+                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold"
+                style={{ color: 'white' }}
               >
                 Apply for Credits
                 <ArrowRight size={18} />

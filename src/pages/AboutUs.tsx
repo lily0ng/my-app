@@ -102,7 +102,8 @@ export function AboutUsPage() {
                 <div className="flex flex-wrap gap-3 mt-8">
                   <Link
                     to="/contact"
-                    className="px-6 py-3 rounded-full bg-[#00ff88] text-black font-bold hover:bg-[#00cc6a] transition-colors"
+                    className="px-6 py-3 rounded-full bg-[#00ff88] font-bold hover:bg-[#00cc6a] transition-colors"
+                    style={{color: 'white'}}
                   >
                     Talk to us
                   </Link>
@@ -461,7 +462,8 @@ export function AboutUsPage() {
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <Link
                     to="/signup"
-                    className="px-7 py-3 rounded-full bg-[#00ff88] text-black font-bold hover:bg-[#00cc6a] transition-colors"
+                    className="px-7 py-3 rounded-full bg-[#00ff88] font-bold hover:bg-[#00cc6a] transition-colors"
+                    style={{color: 'white'}}
                   >
                     Create an account
                   </Link>

@@ -253,7 +253,8 @@ export function EventsPage() {
                 <div className="mt-8 flex flex-col sm:flex-row gap-3">
                   <a
                     href="#events"
-                    className="px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                    className="px-7 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                    style={{color: 'white'}}
                   >
                     Browse events <ArrowRight size={18} />
                   </a>
@@ -611,7 +612,7 @@ export function EventsPage() {
                       placeholder="Enter your email"
                       className="flex-1 bg-[color:var(--bg-primary)] border border-[color:var(--border-color)] rounded-full px-6 py-3 focus:outline-none focus:border-[color:var(--accent)] text-[color:var(--text-primary)]"
                     />
-                    <button className="px-8 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors">
+                    <button className="px-8 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:opacity-95 transition-colors" style={{color: 'white'}}>
                       Subscribe
                     </button>
                   </div>
@@ -741,7 +742,8 @@ export function EventsPage() {
                         <button
                           type="button"
                           onClick={() => setDetailsOpen(true)}
-                          className="px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                          className="px-7 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                          style={{color: 'white'}}
                         >
                           View details <ArrowRight size={18} />
                         </button>
@@ -958,7 +960,8 @@ export function EventsPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   to="/contact"
-                  className="px-7 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                  className="px-7 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:opacity-95 transition-colors inline-flex items-center justify-center gap-2"
+                  style={{color: 'white'}}
                 >
                   Propose an event <ArrowRight size={18} />
                 </Link>

@@ -399,7 +399,8 @@ export function GpuGlossaryPage() {
           </div>
           <Link
             to="/resources/llm-engine-advisor"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold transition-transform hover:-translate-y-0.5"
+            style={{color: 'white'}}
           >
             Start Advisor
             <ArrowRight size={18} />

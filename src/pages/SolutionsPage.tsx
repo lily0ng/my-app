@@ -218,7 +218,7 @@ export function SolutionsPage() {
                   while improving reliability."
                 </p>
                 <div className="flex gap-4">
-                  <button className="px-8 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:opacity-95 transition-colors">
+                  <button className="px-8 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:opacity-95 transition-colors" style={{ color: 'white' }}>
                     Read the story
                   </button>
                   <button className="px-8 py-3 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] font-bold hover:bg-[color:var(--bg-tertiary)] transition-colors">
@@ -391,7 +391,7 @@ export function SolutionsPage() {
             <p className="text-xl text-[color:var(--text-secondary)] mb-12 max-w-2xl mx-auto">
               Ready to scale? Let's discuss your infrastructure needs.
             </p>
-            <button className="px-12 py-5 rounded-full bg-[color:var(--accent)] text-white font-bold text-xl hover:opacity-95 transition-all hover:scale-105 shadow-[0_0_30px_rgba(var(--accent-rgb),0.25)]">
+            <button className="px-12 py-5 rounded-full bg-[color:var(--accent)] font-bold text-xl hover:opacity-95 transition-all hover:scale-105 shadow-[0_0_30px_rgba(var(--accent-rgb),0.25)]" style={{ color: 'white' }}>
               Talk to an Expert
             </button>
           </div>

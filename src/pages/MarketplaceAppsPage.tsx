@@ -686,7 +686,7 @@ export function MarketplaceAppsPage() {
                 </div>
 
                 <div className="mt-3 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[color:var(--accent)] text-white text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors">
+                  <button className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[color:var(--accent)] text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors" style={{color: 'white'}}>
                     Deploy now
                     <Rocket size={16} />
                   </button>
@@ -722,7 +722,7 @@ export function MarketplaceAppsPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-2">
-                <button className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--accent)] text-white text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors">
+                <button className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[color:var(--accent)] text-sm font-semibold hover:bg-[color:var(--accent-hover)] transition-colors" style={{color: 'white'}}>
                   Deploy in 1 Click
                   <Rocket size={16} />
                 </button>

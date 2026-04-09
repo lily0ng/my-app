@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
+import { Link } from 'react-router-dom';
 
 export function LlmInferencePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -108,7 +109,8 @@ export function LlmInferencePage() {
                   <div className="mt-8 flex flex-wrap gap-3">
                     <button
                       type="button"
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                      style={{ color: 'white' }}
                     >
                       Deploy endpoint
                       <ArrowRight size={18} />
@@ -424,17 +426,21 @@ export function LlmInferencePage() {
               <div className="mt-6 flex justify-center gap-3 flex-wrap">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                  style={{ color: 'white' }}
                 >
                   Create deployment
                   <ArrowRight size={18} />
                 </button>
-                <button
+                
+                <Link to='/contact'>
+                  <button
                   type="button"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
                 >
                   Talk to sales
                 </button>
+                </Link>
               </div>
             </div>
           </div>

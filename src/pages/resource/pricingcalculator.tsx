@@ -216,9 +216,10 @@ export function PricingCalculatorPage() {
                 onClick={() => setBillingPeriod(period as BillingPeriod)}
                 className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
                   billingPeriod === period
-                    ? "bg-[color:var(--accent)] text-white shadow-sm"
+                    ? "bg-[color:var(--accent)] shadow-sm"
                     : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
                 }`}
+                style={billingPeriod === period ? { color: 'white' } : undefined}
               >
                 {period.charAt(0).toUpperCase() + period.slice(1)}
               </button>
@@ -282,8 +283,10 @@ export function PricingCalculatorPage() {
                           </td>
                           <td className="py-3 px-2 text-center">
                             {selectedCPU.id === plan.id && (
-                              <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[color:var(--accent)]">
-                                <Check size={14} className="text-white" />
+                              <div 
+                              className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[color:var(--accent)]"
+                              >
+                                <Check size={14} style={{color: 'white'}}/>
                               </div>
                             )}
                           </td>
@@ -311,7 +314,7 @@ export function PricingCalculatorPage() {
                           className="peer sr-only"
                         />
                         <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                          <Check size={12} className="text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200" />
+                          <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
                         </div>
                       </div>
                       <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">Include storage</span>
@@ -380,7 +383,7 @@ export function PricingCalculatorPage() {
                             <td className="py-3 px-2 text-center">
                               {selectedStorage.id === plan.id && (
                                 <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[color:var(--accent)]">
-                                  <Check size={14} className="text-white" />
+                                  <Check size={14} style={{color: 'white'}} />
                                 </div>
                               )}
                             </td>
@@ -415,7 +418,7 @@ export function PricingCalculatorPage() {
                           className="peer sr-only"
                         />
                         <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                          <Check size={12} className="text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200" />
+                          <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
                         </div>
                       </div>
                       <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">Include network</span>
@@ -451,7 +454,7 @@ export function PricingCalculatorPage() {
                           </div>
                           {selectedNetwork.id === option.id && (
                             <div className="w-5 h-5 rounded-full bg-[color:var(--accent)] flex items-center justify-center">
-                              <Check size={12} className="text-white" />
+                              <Check size={12} style={{color: 'white'}} />
                             </div>
                           )}
                         </div>
@@ -485,7 +488,7 @@ export function PricingCalculatorPage() {
                         className="peer sr-only"
                       />
                       <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                        <Check size={12} className="text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200" />
+                        <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
                       </div>
                     </div>
                     <div>
@@ -515,7 +518,7 @@ export function PricingCalculatorPage() {
                           className="peer sr-only"
                         />
                         <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                          <Check size={12} className="text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200" />
+                          <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
                         </div>
                       </div>
                       <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">Include backup</span>
@@ -543,7 +546,7 @@ export function PricingCalculatorPage() {
                           <span className="font-medium">{option.name}</span>
                           {selectedBackup.id === option.id && (
                             <div className="w-5 h-5 rounded-full bg-[color:var(--accent)] flex items-center justify-center">
-                              <Check size={12} className="text-white" />
+                              <Check size={12} style={{color: 'white'}} />
                             </div>
                           )}
                         </div>
@@ -615,7 +618,8 @@ export function PricingCalculatorPage() {
                   <div className="mt-6 pt-4 border-t border-[color:var(--border-color)]">
                     <button 
                       onClick={() => setShowReview(true)}
-                      className="w-full py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:bg-[color:var(--accent-hover)] transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-3 rounded-full bg-[color:var(--accent)] font-bold hover:bg-[color:var(--accent-hover)] transition-colors flex items-center justify-center gap-2"
+                      style={{color: 'white'}}
                     >
                       Review & Deploy
                       <ArrowRight size={16} />

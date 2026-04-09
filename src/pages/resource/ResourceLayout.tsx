@@ -27,7 +27,7 @@ export function ResourceLayout({
   title: string;
   subtitle: string;
   icon: IconType;
-  primaryCta: Cta;
+  primaryCta?: Cta;
   secondaryCta: Cta;
   aside?: React.ReactNode;
   asideClassName?: string;
@@ -63,19 +63,33 @@ export function ResourceLayout({
                   <p className="mt-5 text-base md:text-lg text-[color:var(--text-secondary)] leading-relaxed">{subtitle}</p>
 
                   <div className="mt-8 flex flex-wrap gap-3">
-                    <Link
-                      to={primaryCta.to}
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
-                    >
-                      {primaryCta.label}
-                      <ArrowRight size={18} />
-                    </Link>
-                    <Link
-                      to={secondaryCta.to}
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
-                    >
-                      {secondaryCta.label}
-                    </Link>
+                    {primaryCta && (
+                      <Link
+                        to={primaryCta.to}
+                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                        style={{ color: 'white' }}
+                      >
+                        {primaryCta.label}
+                        <ArrowRight size={18} />
+                      </Link>
+                    )}
+                    {secondaryCta.to.startsWith('http') ? (
+                      <a
+                        href={secondaryCta.to}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+                      >
+                        {secondaryCta.label}
+                      </a>
+                    ) : (
+                      <Link
+                        to={secondaryCta.to}
+                        className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+                      >
+                        {secondaryCta.label}
+                      </Link>
+                    )}
                   </div>
                 </div>
 

@@ -22,7 +22,7 @@ export function PlaygroundPage() {
       subtitle="Spin up quick experiments, share links, and validate ideas before you commit to a full project structure."
       icon={Play}
       primaryCta={{ label: 'Open Playground', to: '/resources/playground' }}
-      secondaryCta={{ label: 'Browse Docs', to: '/docs' }}
+      secondaryCta={{ label: 'Browse Docs', to: 'https://docs.1cloudng.com/' }}
     >
       <motion.section
         variants={sectionReveal}
@@ -222,7 +222,8 @@ print(run("Summarize the logs"))`}
           </div>
           <Link
             to="/resources/llm-engine-advisor"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold transition-transform hover:-translate-y-0.5"
+            style={{color: 'white'}}
           >
             Open LLM Engine Advisor
             <ArrowRight size={18} />

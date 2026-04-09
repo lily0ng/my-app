@@ -383,19 +383,19 @@ export function Nav() {
             </Link>
 
             <Link
-              to="/contact"
-              onClick={() => handleNavLinkClick("/contact")}
-              className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
-            >
-              Contact
-            </Link>
-
-            <Link
               target="blank"
               to="https://docs.1cloudng.com/"
               className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
             >
               Docs
+            </Link>
+
+            <Link
+              to="/contact"
+              onClick={() => handleNavLinkClick("/contact")}
+              className="px-4 py-2 text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
+            >
+              Contact
             </Link>
 
             {/* Docs Dropdown */}
@@ -435,21 +435,24 @@ export function Nav() {
               )}
             </button>
 
-            <Link
-              to="/login"
+            <a
+              target="blank"
+              href="https://portal.1cloudng.com/login"
               onClick={() => handleNavLinkClick("/login")}
               className="text-sm font-medium text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
             >
               Log In
-            </Link>
-            <Link
-              to="/signup"
+            </a>
+            <a
+              target="blank"
+              href="https://portal.1cloudng.com/register"
               onClick={() => handleNavLinkClick("/signup")}
-              className="px-3 py-1.5 rounded-full bg-[color:var(--accent)] text-white text-sm font-semibold transition-colors flex items-center gap-1 hover:bg-[color:var(--accent-hover)]"
+              className="px-3 py-1.5 rounded-full bg-[color:var(--accent)] text-sm font-semibold transition-colors flex items-center gap-1 hover:bg-[color:var(--accent-hover)]"
+              style={{ color: 'white' }}
             >
               Sign Up
               <ArrowUpRight size={16} />
-            </Link>
+            </a>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -538,10 +541,12 @@ export function Nav() {
                 >
                   Log In
                 </Link>
+             
                 <Link
                   to="/signup"
                   onClick={() => handleNavLinkClick("/signup")}
-                  className="flex-1 py-2 rounded bg-[color:var(--accent)] text-white font-bold text-center"
+                  className="flex-1 py-2 rounded bg-[color:var(--accent)] font-bold text-center"
+                  style={{ color: 'white' }}
                 >
                   Sign Up
                 </Link>

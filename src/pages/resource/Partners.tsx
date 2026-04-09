@@ -277,7 +277,8 @@ export function PartnersPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-white"
+                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold"
+                style={{color: 'white'}}
               >
                 Reach out
                 <ArrowRight size={18} />

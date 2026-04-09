@@ -284,12 +284,20 @@ export function LandingPage() {
               Powered by One Cloud Next-Gen — with 99.95% uptime.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <button className="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors shadow-[0_0_22px_rgba(var(--accent-rgb),0.16)]">
-                Get Started
-              </button>
-              <button className="px-6 py-2.5 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-sm hover:bg-[rgba(var(--accent-rgb),0.06)] transition-colors">
-                Contact Us
-              </button>
+              <a target="blank" href="https://portal.1cloudng.com/register">
+                <button
+                  className="px-6 py-2.5 rounded-full bg-[var(--accent)] font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors shadow-[0_0_22px_rgba(var(--accent-rgb),0.16)]"
+                  style={{ color: "white" }}
+                >
+                  Get Started
+                </button>
+              </a>
+
+              <Link to="/contact">
+                <button className="px-6 py-2.5 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-sm hover:bg-[rgba(var(--accent-rgb),0.06)] transition-colors">
+                  Contact Us
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -509,7 +517,7 @@ export function LandingPage() {
                     <div className="w-14 h-14 rounded-xl bg-[#111] flex items-center justify-center mb-6 text-[#00ff88] group-hover:scale-110 transition-transform shadow-inner">
                       {item.icon}
                     </div>
-                    
+
                     <h3 className="text-2xl font-bold mb-3 text-white">
                       {item.title}
                     </h3>
@@ -1743,12 +1751,20 @@ export function LandingPage() {
               Get $30/mo in free credits to start.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_40px_rgba(0,255,136,0.4)]">
-                Sign Up for Free
-              </button>
-              <button className="px-10 py-5 rounded-full border border-white/20 text-white font-medium text-xl hover:bg-white/5 transition-all hover:scale-105">
-                Read Documentation
-              </button>
+              <a href="https://portal.1cloudng.com/register" target="blank">
+                <button
+                  className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_40px_rgba(0,255,136,0.4)]"
+                  style={{ color: "white" }}
+                >
+                  Sign Up for Free
+                </button>
+              </a>
+
+              <a href="https://docs.1cloudng.com/" target="blank">
+                <button className="px-9 py-4 rounded-full border border-[color:var(--border-color)] text-[var(--text-primary)] font-medium text-lg hover:bg-black/5 dark:hover:bg-white/5 transition-all hover:scale-[1.02]">
+                  Read Documentation
+                </button>
+              </a>
             </div>
           </div>
         </section>

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Nav } from '../../components/Nav';
-import { Footer } from '../../components/Footer';
+import { useState } from "react";
+import { Nav } from "../../components/Nav";
+import { Footer } from "../../components/Footer";
 import {
   Shield,
   Code,
@@ -10,8 +10,8 @@ import {
   ChevronUp,
   Play,
   Activity,
-  CheckCircle } from
-'lucide-react';
+  CheckCircle,
+} from "lucide-react";
 export function SandboxesPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   return (
@@ -26,18 +26,26 @@ export function SandboxesPage() {
               Block Storage
             </div>
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-              High-performance <br /> <span className="text-[#00ff88]">Block Storage</span>
+              High-performance <br />{" "}
+              <span className="text-[#00ff88]">Block Storage</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
-              Attach high-performance, scalable storage to your cloud instances for flexible data management.
+              Attach high-performance, scalable storage to your cloud instances
+              for flexible data management.
             </p>
             <div className="flex justify-center gap-6">
-              <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
+              <button
+                className="px-10 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]"
+                style={{ color: "white" }}
+              >
                 Create Volume
               </button>
-              <button className="px-10 py-5 rounded-full border border-white/20 text-white font-medium text-xl hover:bg-white/5 transition-all hover:scale-105">
-                View Docs
-              </button>
+
+              <a href="https://docs.1cloudng.com/" target="blank">
+                <button className="px-10 py-5 rounded-full border border-[color:var(--border-color)] text-[var(--text-primary)] font-medium text-xl hover:bg-black/5 dark:hover:bg-white/5 transition-all hover:scale-105">
+                  View Docs
+                </button>
+              </a>
             </div>
           </div>
         </section>
@@ -46,36 +54,37 @@ export function SandboxesPage() {
         <section className="py-32 px-6 bg-[#050505]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
-            {
-              icon: Shield,
-              title: 'Durable by default',
-              desc: 'Store data reliably with replication options and predictable performance characteristics.'
-            },
-            {
-              icon: Code,
-              title: 'Fast attach & detach',
-              desc: 'Attach storage to instances in seconds and move volumes between workloads as needed.'
-            },
-            {
-              icon: Lock,
-              title: 'Encryption & access control',
-              desc: 'Protect data with encryption at rest and least-privilege access controls.'
-            }].
-            map((f, i) =>
-            <div
-              key={i}
-              className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-[#00ff88]/50 transition-all duration-300 group hover:-translate-y-2">
-
+              {
+                icon: Shield,
+                title: "Durable by default",
+                desc: "Store data reliably with replication options and predictable performance characteristics.",
+              },
+              {
+                icon: Code,
+                title: "Fast attach & detach",
+                desc: "Attach storage to instances in seconds and move volumes between workloads as needed.",
+              },
+              {
+                icon: Lock,
+                title: "Encryption & access control",
+                desc: "Protect data with encryption at rest and least-privilege access controls.",
+              },
+            ].map((f, i) => (
+              <div
+                key={i}
+                className="p-10 rounded-2xl bg-[#0a0a0a] border border-white/10 hover:border-[#00ff88]/50 transition-all duration-300 group hover:-translate-y-2"
+              >
                 <f.icon
-                className="text-[#00ff88] mb-6 group-hover:scale-110 transition-transform"
-                size={40} />
+                  className="text-[#00ff88] mb-6 group-hover:scale-110 transition-transform"
+                  size={40}
+                />
 
                 <h3 className="text-2xl font-bold mb-4">{f.title}</h3>
                 <p className="text-gray-400 text-lg leading-relaxed">
                   {f.desc}
                 </p>
               </div>
-            )}
+            ))}
           </div>
         </section>
 
@@ -91,14 +100,18 @@ export function SandboxesPage() {
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto shadow-2xl">
               <div className="flex gap-4 mb-6">
                 <div className="flex-1 bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-gray-400 font-mono text-sm">
-                  echo "writing to volume" {'>'} /mnt/volume/hello.txt
+                  echo "writing to volume" {">"} /mnt/volume/hello.txt
                 </div>
-                <button className="bg-[#00ff88] text-black font-bold px-6 py-3 rounded-lg hover:bg-[#00cc6a] transition-colors">
+                <button
+                  className="bg-[#00ff88] font-bold px-6 py-3 rounded-lg hover:bg-[#00cc6a] transition-colors"
+                  style={{ color: "white" }}
+                >
                   Execute
                 </button>
               </div>
               <div className="bg-[#111] rounded-lg p-6 min-h-[150px] text-gray-300 font-mono text-sm leading-relaxed">
-                <span className="text-[#00ff88]">root@instance:~#</span> ls -la /mnt/volume
+                <span className="text-[#00ff88]">root@instance:~#</span> ls -la
+                /mnt/volume
                 <br />
                 hello.txt
               </div>
@@ -112,11 +125,13 @@ export function SandboxesPage() {
             <div>
               <h2 className="text-4xl font-bold mb-6">Attach storage safely</h2>
               <p className="text-xl text-gray-400 mb-8 leading-relaxed">
-                Attach high-performance storage to your instances so data lives beyond a single machine lifecycle.
+                Attach high-performance storage to your instances so data lives
+                beyond a single machine lifecycle.
               </p>
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-gray-300">
-                  <CheckCircle className="text-[#00ff88]" /> Snapshot and restore
+                  <CheckCircle className="text-[#00ff88]" /> Snapshot and
+                  restore
                 </li>
                 <li className="flex items-center gap-3 text-gray-300">
                   <CheckCircle className="text-[#00ff88]" /> Encryption at rest
@@ -129,12 +144,23 @@ export function SandboxesPage() {
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 font-mono text-sm shadow-2xl">
               <pre className="text-gray-300">
                 <code>
-                  volume = BlockVolume.create(name=<span className="text-yellow-300">"data"</span>){'\n'}
-                  instance = Instance.create({'\n'}
-                  {'    '}image=<span className="text-yellow-300">"debian-slim"</span>,{'\n'}
-                  {'    '}mounts=[{'{'}<span className="text-yellow-300">"source"</span>: volume, <span className="text-yellow-300">"target"</span>: <span className="text-yellow-300">"/mnt/volume"</span>{'}'}],{'\n'}
-                  ){'\n\n'}
-                  instance.exec(<span className="text-yellow-300">"bash"</span>, <span className="text-yellow-300">"-lc"</span>, <span className="text-yellow-300">"echo hello {'>'} /mnt/volume/hello.txt"</span>)
+                  volume = BlockVolume.create(name=
+                  <span className="text-yellow-300">"data"</span>){"\n"}
+                  instance = Instance.create({"\n"}
+                  {"    "}image=
+                  <span className="text-yellow-300">"debian-slim"</span>,{"\n"}
+                  {"    "}mounts=[{"{"}
+                  <span className="text-yellow-300">"source"</span>: volume,{" "}
+                  <span className="text-yellow-300">"target"</span>:{" "}
+                  <span className="text-yellow-300">"/mnt/volume"</span>
+                  {"}"}],{"\n"}){"\n\n"}
+                  instance.exec(<span className="text-yellow-300">
+                    "bash"
+                  </span>, <span className="text-yellow-300">"-lc"</span>,{" "}
+                  <span className="text-yellow-300">
+                    "echo hello {">"} /mnt/volume/hello.txt"
+                  </span>
+                  )
                 </code>
               </pre>
             </div>
@@ -153,7 +179,9 @@ export function SandboxesPage() {
                       <Code size={22} />
                     </div>
                   </div>
-                  <div className="mt-4 font-bold text-center leading-tight">Application</div>
+                  <div className="mt-4 font-bold text-center leading-tight">
+                    Application
+                  </div>
                   <div className="mt-2 text-sm text-gray-400 text-center leading-relaxed">
                     Your workload writes state to attached storage.
                   </div>
@@ -172,7 +200,9 @@ export function SandboxesPage() {
                       <Database size={22} />
                     </div>
                   </div>
-                  <div className="mt-4 font-bold text-center leading-tight text-[#00ff88]">Block Storage Volume</div>
+                  <div className="mt-4 font-bold text-center leading-tight text-[#00ff88]">
+                    Block Storage Volume
+                  </div>
                   <div className="mt-3 flex items-center justify-center gap-2">
                     <span className="inline-flex items-center gap-1 rounded-full border border-[#00ff88]/25 bg-[#00ff88]/10 px-3 py-1 text-xs font-semibold text-[#00ff88]">
                       <Lock size={14} /> Encryption at rest
@@ -196,7 +226,9 @@ export function SandboxesPage() {
                       <Shield size={22} />
                     </div>
                   </div>
-                  <div className="mt-4 font-bold text-center leading-tight">Storage backend</div>
+                  <div className="mt-4 font-bold text-center leading-tight">
+                    Storage backend
+                  </div>
                   <div className="mt-2 text-sm text-gray-400 text-center leading-relaxed">
                     Durable replication and snapshotting behind the scenes.
                   </div>
@@ -213,9 +245,7 @@ export function SandboxesPage() {
             <h2 className="text-4xl font-bold mb-20 text-center">Built for</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-colors">
-                <h3 className="text-2xl font-bold mb-4">
-                  Databases
-                </h3>
+                <h3 className="text-2xl font-bold mb-4">Databases</h3>
                 <p className="text-gray-400 text-lg">
                   Persist application state with low-latency reads and writes.
                 </p>
@@ -229,7 +259,8 @@ export function SandboxesPage() {
               <div className="p-10 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#00ff88] transition-colors">
                 <h3 className="text-2xl font-bold mb-4">Auto-grading</h3>
                 <p className="text-gray-400 text-lg">
-                  Store datasets, artifacts, and results with consistent throughput.
+                  Store datasets, artifacts, and results with consistent
+                  throughput.
                 </p>
               </div>
             </div>
@@ -261,15 +292,15 @@ export function SandboxesPage() {
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-16">Run any language</h2>
             <div className="flex flex-wrap justify-center gap-12 md:gap-20 opacity-70">
-              {['Python', 'Node.js', 'Go', 'Rust', 'C++', 'Java', 'Ruby'].map(
-                (name) =>
-                <div
-                  key={name}
-                  className="text-2xl font-bold text-gray-400 hover:text-white transition-colors cursor-default">
-
+              {["Python", "Node.js", "Go", "Rust", "C++", "Java", "Ruby"].map(
+                (name) => (
+                  <div
+                    key={name}
+                    className="text-2xl font-bold text-gray-400 hover:text-white transition-colors cursor-default"
+                  >
                     {name}
                   </div>
-
+                ),
               )}
             </div>
           </div>
@@ -320,7 +351,8 @@ export function SandboxesPage() {
                 </label>
                 <input
                   type="range"
-                  className="w-full h-2 bg-[#111] rounded-lg appearance-none cursor-pointer accent-[#00ff88]" />
+                  className="w-full h-2 bg-[#111] rounded-lg appearance-none cursor-pointer accent-[#00ff88]"
+                />
 
                 <div className="text-right text-[#00ff88] font-bold mt-2">
                   1,000,000
@@ -342,41 +374,41 @@ export function SandboxesPage() {
             <h2 className="text-4xl font-bold mb-16 text-center">FAQ</h2>
             <div className="space-y-4">
               {[
-              {
-                q: 'How durable is Block Storage?',
-                a: 'Volumes are designed for durability with replication and snapshotting options for safety.'
-              },
-              {
-                q: 'Can I install packages?',
-                a: 'Yes—install dependencies on your instances and use attached volumes to persist data across restarts.'
-              },
-              {
-                q: 'Is performance consistent?',
-                a: 'Block Storage is built for consistent throughput and low latency for common workloads.'
-              },
-              {
-                q: 'Can I access the internet?',
-                a: 'Yes, you can configure networking and access control policies around your instances and storage.'
-              }].
-              map((faq, i) =>
-              <div
-                key={i}
-                className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden hover:border-white/20 transition-colors">
-
+                {
+                  q: "How durable is Block Storage?",
+                  a: "Volumes are designed for durability with replication and snapshotting options for safety.",
+                },
+                {
+                  q: "Can I install packages?",
+                  a: "Yes—install dependencies on your instances and use attached volumes to persist data across restarts.",
+                },
+                {
+                  q: "Is performance consistent?",
+                  a: "Block Storage is built for consistent throughput and low latency for common workloads.",
+                },
+                {
+                  q: "Can I access the internet?",
+                  a: "Yes, you can configure networking and access control policies around your instances and storage.",
+                },
+              ].map((faq, i) => (
+                <div
+                  key={i}
+                  className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden hover:border-white/20 transition-colors"
+                >
                   <button
-                  className="w-full flex justify-between items-center p-6 text-left"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-
+                    className="w-full flex justify-between items-center p-6 text-left"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
                     <span className="font-medium text-lg">{faq.q}</span>
-                    {openFaq === i ?
-                  <ChevronUp size={20} className="text-[#00ff88]" /> :
-
-                  <ChevronDown size={20} className="text-gray-500" />
-                  }
+                    {openFaq === i ? (
+                      <ChevronUp size={20} className="text-[#00ff88]" />
+                    ) : (
+                      <ChevronDown size={20} className="text-gray-500" />
+                    )}
                   </button>
                   <div
-                  className={`grid transition-all duration-300 ease-in-out ${openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-
+                    className={`grid transition-all duration-300 ease-in-out ${openFaq === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                  >
                     <div className="overflow-hidden">
                       <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
                         {faq.a}
@@ -384,7 +416,7 @@ export function SandboxesPage() {
                     </div>
                   </div>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>
@@ -396,13 +428,16 @@ export function SandboxesPage() {
             <p className="text-2xl text-gray-400 mb-12 font-light">
               Run untrusted code with confidence.
             </p>
-            <button className="px-10 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.4)]">
+            <button
+              className="px-10 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.4)]"
+              style={{ color: "white" }}
+            >
               Start Building
             </button>
           </div>
         </section>
       </main>
       <Footer />
-    </div>);
-
+    </div>
+  );
 }

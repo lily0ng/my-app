@@ -121,9 +121,10 @@ export function LlmEngineAdvisorPage() {
                 onClick={() => setEngine(t.key)}
                 className={
                   engine === t.key
-                    ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white'
+                    ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold'
                     : 'rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]'
                 }
+                style={engine === t.key ? { color: 'white' } : undefined}
               >
                 {t.label}
               </button>
@@ -266,7 +267,8 @@ export function LlmEngineAdvisorPage() {
             <div className="mt-6">
               <Link
                 to="/resources/startup-credits"
-                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-white"
+                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold"
+                style={{color: 'white'}}
               >
                 See Startup Credits
                 <ArrowRight size={18} />

@@ -132,9 +132,10 @@ export function CareersPage() {
                   onClick={() => setTrack(t.key)}
                   className={
                     track === t.key
-                      ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white'
+                      ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold'
                       : 'rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]'
                   }
+                  style={track === t.key ? { color: 'white' } : undefined}
                 >
                   {t.label}
                 </button>
@@ -147,9 +148,10 @@ export function CareersPage() {
                 onClick={() => setViewMode('grid')}
                 className={
                   viewMode === 'grid'
-                    ? 'inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold text-white'
+                    ? 'inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold'
                     : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold text-[color:var(--text-primary)]'
                 }
+                style={viewMode === 'grid' ? { color: 'white' } : undefined}
               >
                 <LayoutGrid size={14} />
                 Grid
@@ -159,9 +161,10 @@ export function CareersPage() {
                 onClick={() => setViewMode('list')}
                 className={
                   viewMode === 'list'
-                    ? 'inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold text-white'
+                    ? 'inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-3 py-2 text-xs font-semibold'
                     : 'inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold text-[color:var(--text-primary)]'
                 }
+                style={viewMode === 'list' ? { color: 'white' } : undefined}
               >
                 <List size={14} />
                 List
@@ -221,7 +224,8 @@ export function CareersPage() {
                       </button>
                       <Link
                         to="/contact"
-                        className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-semibold text-white"
+                        className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-semibold"
+                        style={{ color: 'white' }}
                       >
                         Apply
                         <ArrowRight size={14} />
@@ -258,7 +262,8 @@ export function CareersPage() {
                           <div className="mt-5 flex flex-wrap gap-3">
                             <Link
                               to="/contact"
-                              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold text-white"
+                              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-3 text-sm font-semibold"
+                              style={{ color: 'white' }}
                             >
                               Apply now
                               <ArrowRight size={16} />
@@ -350,7 +355,7 @@ export function CareersPage() {
               { t: 'Offer', d: 'Decide together and move quickly.' },
             ].map((s, idx) => (
               <div key={s.t} className={idx === 0 ? 'relative pl-10' : 'relative mt-4 pl-10'}>
-                <div className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--accent)] text-xs font-bold text-white">
+                <div className="absolute left-0 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--accent)] text-xs font-bold" style={{ color: 'white' }}>
                   {idx + 1}
                 </div>
                 <div className="rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-5 py-4">
@@ -425,7 +430,8 @@ export function CareersPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-white"
+                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold"
+                style={{ color: 'white' }}
               >
                 Contact Us
                 <ArrowRight size={18} />

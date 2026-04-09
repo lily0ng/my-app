@@ -86,7 +86,8 @@ export function SlaPage() {
       <div className="mt-6 grid gap-3">
         <a
           href={pdfUrl}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-5 py-2.5 text-sm font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+          style={{color: 'white'}}
           download
         >
           Download PDF
@@ -159,7 +160,8 @@ export function SlaPage() {
               <a
                 href={activeFile.url}
                 download={activeFile.downloadName}
-                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.18)] transition-transform hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-4 py-2 text-xs font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.18)] transition-transform hover:-translate-y-0.5"
+                style={{color: 'white'}}
               >
                 Download
                 <Download size={14} />
@@ -289,7 +291,8 @@ export function SlaPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                style={{color: 'white'}}
               >
                 Contact Sales
                 <ArrowRight size={18} />

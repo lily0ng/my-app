@@ -17,7 +17,7 @@ import mptLogo from "../../assets/images/mpt.png";
 import htiLogo from "../../assets/images/Horizon-Logo.png";
 import atomLogo from "../../assets/images/Atom.png";
 import mmixLogo from "../../assets/images/mmix-b.png";
-import oneCngLogo from "../../assets/images/1clodung.png";
+import oneCngLogo from "../../assets/images/newlogo.png";
 import globalNetLogo from "../../assets/images/GlobalNet.svg";
 import ayarnetLogo from "../../assets/images/AyarNet.png";
 
@@ -149,7 +149,8 @@ export function InfraDesignPage() {
           <div className="mt-6">
             <Link
               to="/contact"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+              style={{color: 'white'}}
             >
               Talk to an architect
               <ArrowRight size={18} />
@@ -3945,7 +3946,8 @@ export function InfraDesignPage() {
             </div>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold transition-transform hover:-translate-y-0.5"
+              style={{color: 'white'}}
             >
               Request a review
               <ArrowRight size={18} />

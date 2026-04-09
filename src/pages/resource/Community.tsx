@@ -131,7 +131,8 @@ export function CommunityPage() {
           </div>
           <Link
             to="/resources/events"
-            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-white"
+            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold"
+            style={{ color: 'white' }}
           >
             Browse events
             <ArrowRight size={18} />
@@ -190,9 +191,10 @@ export function CommunityPage() {
                 onClick={() => setChannel(t.key)}
                 className={
                   channel === t.key
-                    ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold text-white'
+                    ? 'rounded-full bg-[color:var(--accent)] px-4 py-2 text-sm font-semibold'
                     : 'rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-4 py-2 text-sm font-semibold text-[color:var(--text-primary)] hover:bg-[color:var(--bg-tertiary)]'
                 }
+                style={channel === t.key ? { color: 'white' } : undefined}
               >
                 {t.label}
               </button>
@@ -264,7 +266,8 @@ export function CommunityPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 to="/resources/careers"
-                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-white"
+                className="inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold"
+                style={{color: 'white'}}
               >
                 See Careers
                 <ArrowRight size={18} />

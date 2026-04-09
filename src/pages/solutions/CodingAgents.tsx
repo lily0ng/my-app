@@ -102,7 +102,8 @@ export function CodingAgentsPage() {
                   <div className="mt-8 flex flex-wrap gap-3">
                     <button
                       type="button"
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                      style={{ color: 'white' }}
                     >
                       Launch sandbox
                       <ArrowRight size={18} />
@@ -403,7 +404,8 @@ export function CodingAgentsPage() {
               <div className="mt-6 flex justify-center gap-3 flex-wrap">
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold text-white shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
+                  style={{ color: 'white' }}
                 >
                   Start sandbox
                   <ArrowRight size={18} />

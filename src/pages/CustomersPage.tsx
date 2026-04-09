@@ -8,17 +8,19 @@ import {
   ChevronDown,
   ChevronUp,
   Play,
-  ArrowRight } from
-'lucide-react';
+  ArrowRight
+} from
+  'lucide-react';
+import { Link } from 'react-router-dom';
 
 function hexToRgba(hex: string, alpha: number) {
   const normalized = hex.replace('#', '').trim();
   const full =
     normalized.length === 3
       ? normalized
-          .split('')
-          .map((c) => c + c)
-          .join('')
+        .split('')
+        .map((c) => c + c)
+        .join('')
       : normalized;
   if (full.length !== 6) return `rgba(168,85,247,${alpha})`;
   const r = Number.parseInt(full.slice(0, 2), 16);
@@ -202,26 +204,26 @@ export function CustomersPage() {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
               {[
-              'Ramp',
-              'Substack',
-              'Scale',
-              'Vercel',
-              'Replit',
-              'Perplexity',
-              'Descript',
-              'Runway',
-              'Pika',
-              'Suno',
-              'Cursor',
-              'Linear'].
-              map((name) =>
-              <div
-                key={name}
-                className="h-20 bg-[#111] rounded-xl flex items-center justify-center text-xl font-bold text-gray-500 hover:text-white hover:bg-[#1a1a1a] transition-all cursor-default">
+                'Ramp',
+                'Substack',
+                'Scale',
+                'Vercel',
+                'Replit',
+                'Perplexity',
+                'Descript',
+                'Runway',
+                'Pika',
+                'Suno',
+                'Cursor',
+                'Linear'].
+                map((name) =>
+                  <div
+                    key={name}
+                    className="h-20 bg-[#111] rounded-xl flex items-center justify-center text-xl font-bold text-gray-500 hover:text-white hover:bg-[#1a1a1a] transition-all cursor-default">
 
-                  {name}
-                </div>
-              )}
+                    {name}
+                  </div>
+                )}
             </div>
           </div>
         </section>
@@ -482,75 +484,75 @@ export function CustomersPage() {
             </h2>
             <div className="space-y-24">
               {[
-              {
-                company: 'Ramp',
-                title: 'Scaling OCR to Millions',
-                desc: 'How Ramp built a zero-ops document processing pipeline that scales to millions of receipts daily.',
-                stat: '60% Cost Reduction'
-              },
-              {
-                company: 'Substack',
-                title: 'Personalized Recommendations',
-                desc: 'Delivering custom reading recommendations to millions of users with low-latency inference.',
-                stat: '10x Faster Deployments'
-              },
-              {
-                company: 'Scale AI',
-                title: 'Generative Media Pipeline',
-                desc: 'Processing petabytes of image and video data for generative AI model training.',
-                stat: 'Zero Ops Headcount'
-              }].
-              map((study, i) =>
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center group"
-              >
-
-                  <div
-                  className={`order-2 ${i % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
-
-                    <div className="text-[#00ff88] font-bold mb-4 uppercase tracking-wider">
-                      {study.company}
-                    </div>
-                    <h3 className="text-4xl font-bold mb-6">{study.title}</h3>
-                    <p className="text-xl text-gray-400 mb-8 leading-relaxed">
-                      {study.desc}
-                    </p>
-                    <div className="flex items-center gap-8 mb-8">
-                      <div>
-                        <div className="text-3xl font-bold text-white mb-1">
-                          {study.stat}
-                        </div>
-                        <div className="text-sm text-gray-500">Key Result</div>
-                      </div>
-                    </div>
-                    <motion.button
-                      whileHover={{ x: 3 }}
-                      transition={{ duration: 0.18, ease: 'easeOut' }}
-                      className="text-[#00ff88] font-bold flex items-center gap-2 hover:gap-3 transition-all"
-                    >
-                      Read Case Study <ArrowRight size={20} />
-                    </motion.button>
-                  </div>
+                {
+                  company: 'Ramp',
+                  title: 'Scaling OCR to Millions',
+                  desc: 'How Ramp built a zero-ops document processing pipeline that scales to millions of receipts daily.',
+                  stat: '60% Cost Reduction'
+                },
+                {
+                  company: 'Substack',
+                  title: 'Personalized Recommendations',
+                  desc: 'Delivering custom reading recommendations to millions of users with low-latency inference.',
+                  stat: '10x Faster Deployments'
+                },
+                {
+                  company: 'Scale AI',
+                  title: 'Generative Media Pipeline',
+                  desc: 'Processing petabytes of image and video data for generative AI model training.',
+                  stat: 'Zero Ops Headcount'
+                }].
+                map((study, i) =>
                   <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.22, ease: 'easeOut' }}
-                    className={`order-1 ${i % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} aspect-video bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden relative group-hover:border-[#00ff88]/50 transition-colors`}
+                    key={i}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center group"
                   >
 
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88]/10 to-transparent opacity-50" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-4xl font-bold text-white opacity-20">
+                    <div
+                      className={`order-2 ${i % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}>
+
+                      <div className="text-[#00ff88] font-bold mb-4 uppercase tracking-wider">
                         {study.company}
-                      </span>
+                      </div>
+                      <h3 className="text-4xl font-bold mb-6">{study.title}</h3>
+                      <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+                        {study.desc}
+                      </p>
+                      <div className="flex items-center gap-8 mb-8">
+                        <div>
+                          <div className="text-3xl font-bold text-white mb-1">
+                            {study.stat}
+                          </div>
+                          <div className="text-sm text-gray-500">Key Result</div>
+                        </div>
+                      </div>
+                      <motion.button
+                        whileHover={{ x: 3 }}
+                        transition={{ duration: 0.18, ease: 'easeOut' }}
+                        className="text-[#00ff88] font-bold flex items-center gap-2 hover:gap-3 transition-all"
+                      >
+                        Read Case Study <ArrowRight size={20} />
+                      </motion.button>
                     </div>
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.22, ease: 'easeOut' }}
+                      className={`order-1 ${i % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} aspect-video bg-[#0a0a0a] rounded-2xl border border-white/10 overflow-hidden relative group-hover:border-[#00ff88]/50 transition-colors`}
+                    >
+
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88]/10 to-transparent opacity-50" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-4xl font-bold text-white opacity-20">
+                          {study.company}
+                        </span>
+                      </div>
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              )}
+                )}
             </div>
           </div>
         </section>
@@ -563,14 +565,14 @@ export function CustomersPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[1, 2, 3].map((i) =>
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.05 }}
-                className="group cursor-pointer"
-              >
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.25 }}
+                  transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.05 }}
+                  className="group cursor-pointer"
+                >
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2, ease: 'easeOut' }}
@@ -578,8 +580,8 @@ export function CustomersPage() {
                   >
                     <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors" />
                     <Play
-                    size={48}
-                    className="text-white relative z-10 group-hover:scale-110 transition-transform" />
+                      size={48}
+                      className="text-white relative z-10 group-hover:scale-110 transition-transform" />
 
                   </motion.div>
                   <div className="flex items-center gap-3 mb-2">
@@ -664,39 +666,39 @@ export function CustomersPage() {
               </p>
               <ul className="space-y-4">
                 {[
-                {
-                  label: 'Generative AI',
-                  pct: '40%'
-                },
-                {
-                  label: 'Fintech',
-                  pct: '25%'
-                },
-                {
-                  label: 'Healthcare & Bio',
-                  pct: '20%'
-                },
-                {
-                  label: 'Media & Entertainment',
-                  pct: '15%'
-                }].
-                map((item, i) =>
-                <div key={i}>
-                    <div className="flex justify-between text-sm font-bold mb-2">
-                      <span>{item.label}</span>
-                      <span>{item.pct}</span>
-                    </div>
-                    <div className="w-full bg-[#111] h-2 rounded-full overflow-hidden">
-                      <motion.div
-                        className="bg-[#00ff88] h-full"
-                        initial={{ width: 0 }}
-                        animate={industryInView ? { width: item.pct } : {}}
-                        transition={{ duration: 0.8, ease: 'easeOut', delay: 0.08 + i * 0.08 }}
-                      />
+                  {
+                    label: 'Generative AI',
+                    pct: '40%'
+                  },
+                  {
+                    label: 'Fintech',
+                    pct: '25%'
+                  },
+                  {
+                    label: 'Healthcare & Bio',
+                    pct: '20%'
+                  },
+                  {
+                    label: 'Media & Entertainment',
+                    pct: '15%'
+                  }].
+                  map((item, i) =>
+                    <div key={i}>
+                      <div className="flex justify-between text-sm font-bold mb-2">
+                        <span>{item.label}</span>
+                        <span>{item.pct}</span>
+                      </div>
+                      <div className="w-full bg-[#111] h-2 rounded-full overflow-hidden">
+                        <motion.div
+                          className="bg-[#00ff88] h-full"
+                          initial={{ width: 0 }}
+                          animate={industryInView ? { width: item.pct } : {}}
+                          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.08 + i * 0.08 }}
+                        />
 
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </ul>
             </div>
             <motion.div
@@ -723,41 +725,41 @@ export function CustomersPage() {
             <h2 className="text-4xl font-bold mb-16 text-center">FAQ</h2>
             <div className="space-y-4">
               {[
-              {
-                q: 'Can I read detailed case studies?',
-                a: 'Yes, check out our blog for deep dives into how customers architect their systems on Modal.'
-              },
-              {
-                q: 'Do you sign BAAs?',
-                a: 'Yes, we sign BAAs for Enterprise customers in healthcare and life sciences.'
-              },
-              {
-                q: 'How do you handle data privacy?',
-                a: 'We are SOC 2 Type II compliant and encrypt all data at rest and in transit.'
-              }].
-              map((faq, i) =>
-              <div
-                key={i}
-                className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden">
+                {
+                  q: 'Can I read detailed case studies?',
+                  a: 'Yes, check out our blog for deep dives into how customers architect their systems on Modal.'
+                },
+                {
+                  q: 'Do you sign BAAs?',
+                  a: 'Yes, we sign BAAs for Enterprise customers in healthcare and life sciences.'
+                },
+                {
+                  q: 'How do you handle data privacy?',
+                  a: 'We are SOC 2 Type II compliant and encrypt all data at rest and in transit.'
+                }].
+                map((faq, i) =>
+                  <div
+                    key={i}
+                    className="border border-white/10 rounded-xl bg-[#0a0a0a] overflow-hidden">
 
-                  <button
-                  className="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                    <button
+                      className="w-full flex justify-between items-center p-6 text-left hover:bg-white/5 transition-colors"
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}>
 
-                    <span className="font-medium text-lg">{faq.q}</span>
-                    {openFaq === i ?
-                  <ChevronUp size={20} className="text-gray-500" /> :
+                      <span className="font-medium text-lg">{faq.q}</span>
+                      {openFaq === i ?
+                        <ChevronUp size={20} className="text-gray-500" /> :
 
-                  <ChevronDown size={20} className="text-gray-500" />
-                  }
-                  </button>
-                  {openFaq === i &&
-                <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
-                      {faq.a}
-                    </div>
-                }
-                </div>
-              )}
+                        <ChevronDown size={20} className="text-gray-500" />
+                      }
+                    </button>
+                    {openFaq === i &&
+                      <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                        {faq.a}
+                      </div>
+                    }
+                  </div>
+                )}
             </div>
           </div>
         </section>
@@ -772,9 +774,12 @@ export function CustomersPage() {
               Start building on the infrastructure chosen by the world's best
               engineering teams.
             </p>
-            <button className="px-12 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
-              Contact Sales
-            </button>
+
+            <Link to='/contact'>
+              <button className="px-12 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]" style={{ color: 'white' }}>
+                Contact Sales
+              </button>
+            </Link>
           </div>
         </section>
       </main>

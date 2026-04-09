@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Nav } from '../../components/Nav';
-import { Footer } from '../../components/Footer';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Nav } from "../../components/Nav";
+import { Footer } from "../../components/Footer";
 import {
   Database,
   Video,
@@ -18,25 +18,25 @@ import {
   AppWindow,
   ArrowLeftRight,
   Cpu,
-} from 'lucide-react';
+} from "lucide-react";
 export function BatchPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const heroCards = [
     {
       icon: Database,
-      title: 'Database-aware routing',
-      desc: 'Route reads/writes intelligently and keep your data path resilient under load.',
+      title: "Database-aware routing",
+      desc: "Route reads/writes intelligently and keep your data path resilient under load.",
     },
     {
       icon: Layers,
-      title: 'Layer 7 traffic policy',
-      desc: 'Weighted splits, sticky sessions, and path-based routing for production services.',
+      title: "Layer 7 traffic policy",
+      desc: "Weighted splits, sticky sessions, and path-based routing for production services.",
     },
     {
       icon: Activity,
-      title: 'Health checks + failover',
-      desc: 'Automatic target draining, retries, and fast recovery when instances degrade.',
+      title: "Health checks + failover",
+      desc: "Automatic target draining, retries, and fast recovery when instances degrade.",
     },
   ];
 
@@ -52,19 +52,26 @@ export function BatchPage() {
               Load Balancer
             </div>
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[1.1]">
-              Reliable <br />{' '}
+              Reliable <br />{" "}
               <span className="text-[var(--accent)]">Load Balancing</span>
             </h1>
             <p className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto mb-10 font-light leading-relaxed">
-              Distribute traffic efficiently across multiple instances to ensure high availability and optimal performance.
+              Distribute traffic efficiently across multiple instances to ensure
+              high availability and optimal performance.
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
-              <button className="px-9 py-4 rounded-full bg-[var(--accent)] text-white font-bold text-lg hover:bg-[var(--accent-hover)] transition-all hover:scale-[1.02] shadow-[0_18px_60px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.45)]">
+              <button
+                className="px-9 py-4 rounded-full bg-[var(--accent)] font-bold text-lg hover:bg-[var(--accent-hover)] transition-all hover:scale-[1.02] shadow-[0_18px_60px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.45)]"
+                style={{ color: "white" }}
+              >
                 Create Load Balancer
               </button>
-              <button className="px-9 py-4 rounded-full border border-[color:var(--border-color)] text-[var(--text-primary)] font-medium text-lg hover:bg-black/5 dark:hover:bg-white/5 transition-all hover:scale-[1.02]">
-                View Docs
-              </button>
+
+              <a href="https://docs.1cloudng.com/docs/Load%20Balancer/" target="blank">
+                <button className="px-9 py-4 rounded-full border border-[color:var(--border-color)] text-[var(--text-primary)] font-medium text-lg hover:bg-black/5 dark:hover:bg-white/5 transition-all hover:scale-[1.02]">
+                  View Docs
+                </button>
+              </a>
             </div>
 
             <div className="mt-12 max-w-6xl mx-auto bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] ring-1 ring-black/5 dark:ring-white/10 rounded-2xl p-10 md:p-12 relative overflow-hidden">
@@ -87,15 +94,18 @@ export function BatchPage() {
                       markerHeight="5"
                       orient="auto"
                     >
-                      <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(var(--accent-rgb),0.55)" />
+                      <path
+                        d="M 0 0 L 10 5 L 0 10 z"
+                        fill="rgba(var(--accent-rgb),0.55)"
+                      />
                     </marker>
                   </defs>
 
                   {[
-                    { d: 'M 26 18 C 36 18, 42 18, 50 30', label: 'REQUEST 1' },
-                    { d: 'M 26 24 C 38 24, 44 24, 50 30', label: 'REQUEST 2' },
-                    { d: 'M 26 36 C 38 36, 44 36, 50 30', label: 'REQUEST 3' },
-                    { d: 'M 26 42 C 36 42, 42 42, 50 30', label: 'REQUEST 4' },
+                    { d: "M 26 18 C 36 18, 42 18, 50 30", label: "REQUEST 1" },
+                    { d: "M 26 24 C 38 24, 44 24, 50 30", label: "REQUEST 2" },
+                    { d: "M 26 36 C 38 36, 44 36, 50 30", label: "REQUEST 3" },
+                    { d: "M 26 42 C 36 42, 42 42, 50 30", label: "REQUEST 4" },
                   ].map((p, idx) => (
                     <g key={`in-${idx}`}>
                       <path
@@ -112,13 +122,21 @@ export function BatchPage() {
                         strokeWidth="1.3"
                         strokeLinecap="round"
                         strokeDasharray="1 10"
-                        style={{ animation: `lbHeroDash 2.6s linear infinite`, animationDelay: `${idx * 0.22}s` }}
+                        style={{
+                          animation: `lbHeroDash 2.6s linear infinite`,
+                          animationDelay: `${idx * 0.22}s`,
+                        }}
                       />
                       <text
                         x={34}
-                        y={idx === 0 ? 14 : idx === 1 ? 20 : idx === 2 ? 48 : 54}
+                        y={
+                          idx === 0 ? 14 : idx === 1 ? 20 : idx === 2 ? 48 : 54
+                        }
                         fontSize="3.2"
-                        style={{ fill: 'var(--text-tertiary)', letterSpacing: '0.06em' }}
+                        style={{
+                          fill: "var(--text-tertiary)",
+                          letterSpacing: "0.06em",
+                        }}
                       >
                         {p.label}
                       </text>
@@ -126,9 +144,9 @@ export function BatchPage() {
                   ))}
 
                   {[
-                    { d: 'M 70 22 C 78 22, 86 22, 94 18', label: 'REQUEST 1' },
-                    { d: 'M 70 30 C 80 30, 88 30, 94 30', label: 'REQUEST 2' },
-                    { d: 'M 70 38 C 78 38, 86 38, 94 42', label: 'REQUEST 3' },
+                    { d: "M 70 22 C 78 22, 86 22, 94 18", label: "REQUEST 1" },
+                    { d: "M 70 30 C 80 30, 88 30, 94 30", label: "REQUEST 2" },
+                    { d: "M 70 38 C 78 38, 86 38, 94 42", label: "REQUEST 3" },
                   ].map((p, idx) => (
                     <g key={`out-${idx}`}>
                       <path
@@ -147,13 +165,19 @@ export function BatchPage() {
                         strokeLinecap="round"
                         strokeDasharray="1 10"
                         markerEnd="url(#lb-hero-arrow)"
-                        style={{ animation: `lbHeroDash 2.6s linear infinite`, animationDelay: `${0.4 + idx * 0.22}s` }}
+                        style={{
+                          animation: `lbHeroDash 2.6s linear infinite`,
+                          animationDelay: `${0.4 + idx * 0.22}s`,
+                        }}
                       />
                       <text
                         x={78}
                         y={idx === 0 ? 18 : idx === 1 ? 26 : 44}
                         fontSize="3.2"
-                        style={{ fill: 'var(--text-tertiary)', letterSpacing: '0.06em' }}
+                        style={{
+                          fill: "var(--text-tertiary)",
+                          letterSpacing: "0.06em",
+                        }}
                       >
                         {p.label}
                       </text>
@@ -168,7 +192,9 @@ export function BatchPage() {
                     </div>
                     <div className="text-left">
                       <div className="font-bold">End Users</div>
-                      <div className="text-xs text-[var(--text-tertiary)] mt-1">Clients & devices</div>
+                      <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                        Clients & devices
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -180,17 +206,24 @@ export function BatchPage() {
                     </div>
                     <div className="text-left">
                       <div className="font-bold">Load Balancer</div>
-                      <div className="text-xs text-[var(--text-tertiary)] mt-1">Routes to healthy targets</div>
+                      <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                        Routes to healthy targets
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="absolute right-[2%] top-1/2 -translate-y-1/2">
                   <div className="rounded-2xl bg-black/5 dark:bg-white/5 ring-1 ring-black/5 dark:ring-white/10 px-6 py-5">
-                    <div className="text-xs font-bold text-[var(--text-tertiary)] tracking-wider">APPLICATION</div>
+                    <div className="text-xs font-bold text-[var(--text-tertiary)] tracking-wider">
+                      APPLICATION
+                    </div>
                     <div className="mt-4 grid gap-3">
-                      {['Server 01', 'Server 02', 'Server 03'].map((name) => (
-                        <div key={name} className="flex items-center gap-3 rounded-xl bg-[rgba(255,255,255,0.74)] dark:bg-[rgba(0,0,0,0.35)] ring-1 ring-black/10 dark:ring-white/10 px-4 py-3">
+                      {["Server 01", "Server 02", "Server 03"].map((name) => (
+                        <div
+                          key={name}
+                          className="flex items-center gap-3 rounded-xl bg-[rgba(255,255,255,0.74)] dark:bg-[rgba(0,0,0,0.35)] ring-1 ring-black/10 dark:ring-white/10 px-4 py-3"
+                        >
                           <Server size={18} className="text-[var(--accent)]" />
                           <div className="font-semibold">{name}</div>
                         </div>
@@ -212,8 +245,12 @@ export function BatchPage() {
                       <c.icon size={22} className="text-[var(--accent)]" />
                     </div>
                     <div>
-                      <div className="text-base font-bold text-[var(--text-primary)]">{c.title}</div>
-                      <div className="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">{c.desc}</div>
+                      <div className="text-base font-bold text-[var(--text-primary)]">
+                        {c.title}
+                      </div>
+                      <div className="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">
+                        {c.desc}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -225,9 +262,7 @@ export function BatchPage() {
         {/* 2. Code Example */}
         <section className="py-32 px-6 bg-[color:var(--bg-tertiary)]">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-12">
-              Routing made simple
-            </h2>
+            <h2 className="text-4xl font-bold mb-12">Routing made simple</h2>
             <div className="bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] rounded-2xl ring-1 ring-black/5 dark:ring-white/10 p-8 text-left font-mono text-sm shadow-[0_18px_60px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.45)] relative">
               <div className="absolute top-0 right-0 p-4">
                 <div className="flex gap-2">
@@ -261,7 +296,8 @@ lb.deploy()`}</code>
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold">Load Balancing</h2>
             <p className="mt-4 text-[var(--text-secondary)] text-lg max-w-3xl mx-auto">
-              Compare static vs dynamic load balancing and how each approach routes traffic to servers.
+              Compare static vs dynamic load balancing and how each approach
+              routes traffic to servers.
             </p>
 
             <div className="mt-12 space-y-6">
@@ -271,15 +307,20 @@ lb.deploy()`}</code>
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, ease: 'easeOut' }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
                 className="rounded-3xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] ring-1 ring-black/5 dark:ring-white/10 p-8 md:p-10 overflow-hidden"
               >
                 <div className="flex items-end justify-between gap-6 flex-wrap">
                   <div className="text-left">
-                    <div className="text-sm font-bold tracking-wide text-[rgba(var(--accent-rgb),0.95)]">STATIC LOAD BALANCING</div>
-                    <div className="mt-2 text-2xl md:text-3xl font-bold">Rules-based routing</div>
+                    <div className="text-sm font-bold tracking-wide text-[rgba(var(--accent-rgb),0.95)]">
+                      STATIC LOAD BALANCING
+                    </div>
+                    <div className="mt-2 text-2xl md:text-3xl font-bold">
+                      Rules-based routing
+                    </div>
                     <div className="mt-3 text-[var(--text-secondary)] max-w-xl">
-                      Uses predefined rules (round‑robin, weights) without reacting to live server load.
+                      Uses predefined rules (round‑robin, weights) without
+                      reacting to live server load.
                     </div>
                   </div>
                 </div>
@@ -292,13 +333,24 @@ lb.deploy()`}</code>
                       </div>
                       <div>
                         <div className="font-bold">Web application</div>
-                        <div className="text-xs text-[var(--text-tertiary)] mt-1">Sends requests</div>
+                        <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                          Sends requests
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="hidden md:flex items-center justify-center" aria-hidden="true">
-                    <ArrowLeftRight size={26} className="text-[rgba(var(--accent-rgb),0.65)]" style={{ animation: 'lbArrowPulse 1.8s ease-in-out infinite' }} />
+                  <div
+                    className="hidden md:flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <ArrowLeftRight
+                      size={26}
+                      className="text-[rgba(var(--accent-rgb),0.65)]"
+                      style={{
+                        animation: "lbArrowPulse 1.8s ease-in-out infinite",
+                      }}
+                    />
                   </div>
 
                   <div className="rounded-2xl bg-[rgba(255,255,255,0.74)] dark:bg-[rgba(0,0,0,0.35)] ring-1 ring-black/10 dark:ring-white/10 p-5 text-center">
@@ -308,25 +360,45 @@ lb.deploy()`}</code>
                       </div>
                       <div className="text-left">
                         <div className="font-bold">Hardware load balancer</div>
-                        <div className="text-xs text-[var(--text-tertiary)] mt-1">Static algorithm / rules</div>
+                        <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                          Static algorithm / rules
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="hidden md:flex items-center justify-center" aria-hidden="true">
-                    <ArrowLeftRight size={26} className="text-[rgba(var(--accent-rgb),0.65)]" style={{ animation: 'lbArrowPulse 1.8s ease-in-out infinite', animationDelay: '0.25s' }} />
+                  <div
+                    className="hidden md:flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <ArrowLeftRight
+                      size={26}
+                      className="text-[rgba(var(--accent-rgb),0.65)]"
+                      style={{
+                        animation: "lbArrowPulse 1.8s ease-in-out infinite",
+                        animationDelay: "0.25s",
+                      }}
+                    />
                   </div>
 
                   <div className="rounded-2xl bg-black/5 dark:bg-white/5 ring-1 ring-black/5 dark:ring-white/10 p-5 text-left">
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <div className="font-bold">Web servers</div>
-                        <div className="text-xs text-[var(--text-tertiary)] mt-1">Targets</div>
+                        <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                          Targets
+                        </div>
                       </div>
                       <div className="grid gap-2">
                         {[0, 1, 2].map((i) => (
-                          <div key={i} className="w-16 h-8 rounded-xl bg-[rgba(255,255,255,0.72)] dark:bg-[rgba(0,0,0,0.32)] ring-1 ring-black/10 dark:ring-white/10 flex items-center justify-center">
-                            <Server size={16} className="text-[rgba(var(--accent-rgb),0.85)]" />
+                          <div
+                            key={i}
+                            className="w-16 h-8 rounded-xl bg-[rgba(255,255,255,0.72)] dark:bg-[rgba(0,0,0,0.32)] ring-1 ring-black/10 dark:ring-white/10 flex items-center justify-center"
+                          >
+                            <Server
+                              size={16}
+                              className="text-[rgba(var(--accent-rgb),0.85)]"
+                            />
                           </div>
                         ))}
                       </div>
@@ -339,15 +411,20 @@ lb.deploy()`}</code>
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+                transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
                 className="rounded-3xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] ring-1 ring-black/5 dark:ring-white/10 p-8 md:p-10 overflow-hidden"
               >
                 <div className="flex items-end justify-between gap-6 flex-wrap">
                   <div className="text-left">
-                    <div className="text-sm font-bold tracking-wide text-[rgba(var(--accent-rgb),0.95)]">DYNAMIC LOAD BALANCING</div>
-                    <div className="mt-2 text-2xl md:text-3xl font-bold">Adapts to live traffic</div>
+                    <div className="text-sm font-bold tracking-wide text-[rgba(var(--accent-rgb),0.95)]">
+                      DYNAMIC LOAD BALANCING
+                    </div>
+                    <div className="mt-2 text-2xl md:text-3xl font-bold">
+                      Adapts to live traffic
+                    </div>
                     <div className="mt-3 text-[var(--text-secondary)] max-w-xl">
-                      Routes based on health + load signals to keep latency stable and prevent overload.
+                      Routes based on health + load signals to keep latency
+                      stable and prevent overload.
                     </div>
                   </div>
                 </div>
@@ -365,7 +442,7 @@ lb.deploy()`}</code>
                       stroke="rgba(var(--accent-rgb),0.28)"
                       strokeWidth="1.2"
                       strokeDasharray="4 8"
-                      style={{ animation: 'lbDashMove 3.2s linear infinite' }}
+                      style={{ animation: "lbDashMove 3.2s linear infinite" }}
                     />
                   </svg>
 
@@ -373,17 +450,31 @@ lb.deploy()`}</code>
                     <div className="rounded-2xl bg-black/5 dark:bg-white/5 ring-1 ring-black/5 dark:ring-white/10 p-5 text-left">
                       <div className="flex items-center gap-3">
                         <div className="w-11 h-11 rounded-xl bg-[rgba(var(--accent-rgb),0.10)] ring-1 ring-[rgba(var(--accent-rgb),0.18)] flex items-center justify-center">
-                          <AppWindow size={22} className="text-[var(--accent)]" />
+                          <AppWindow
+                            size={22}
+                            className="text-[var(--accent)]"
+                          />
                         </div>
                         <div>
                           <div className="font-bold">Web application</div>
-                          <div className="text-xs text-[var(--text-tertiary)] mt-1">Sends requests</div>
+                          <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                            Sends requests
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="hidden md:flex items-center justify-center" aria-hidden="true">
-                      <ArrowLeftRight size={26} className="text-[rgba(var(--accent-rgb),0.65)]" style={{ animation: 'lbArrowPulse 1.8s ease-in-out infinite' }} />
+                    <div
+                      className="hidden md:flex items-center justify-center"
+                      aria-hidden="true"
+                    >
+                      <ArrowLeftRight
+                        size={26}
+                        className="text-[rgba(var(--accent-rgb),0.65)]"
+                        style={{
+                          animation: "lbArrowPulse 1.8s ease-in-out infinite",
+                        }}
+                      />
                     </div>
 
                     <div className="rounded-2xl bg-[rgba(255,255,255,0.74)] dark:bg-[rgba(0,0,0,0.35)] ring-1 ring-black/10 dark:ring-white/10 p-5 text-center">
@@ -392,26 +483,48 @@ lb.deploy()`}</code>
                           <Cpu size={20} className="text-[var(--accent)]" />
                         </div>
                         <div className="text-left">
-                          <div className="font-bold">Software load balancer</div>
-                          <div className="text-xs text-[var(--text-tertiary)] mt-1">Dynamic algorithm</div>
+                          <div className="font-bold">
+                            Software load balancer
+                          </div>
+                          <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                            Dynamic algorithm
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="hidden md:flex items-center justify-center" aria-hidden="true">
-                      <ArrowLeftRight size={26} className="text-[rgba(var(--accent-rgb),0.65)]" style={{ animation: 'lbArrowPulse 1.8s ease-in-out infinite', animationDelay: '0.25s' }} />
+                    <div
+                      className="hidden md:flex items-center justify-center"
+                      aria-hidden="true"
+                    >
+                      <ArrowLeftRight
+                        size={26}
+                        className="text-[rgba(var(--accent-rgb),0.65)]"
+                        style={{
+                          animation: "lbArrowPulse 1.8s ease-in-out infinite",
+                          animationDelay: "0.25s",
+                        }}
+                      />
                     </div>
 
                     <div className="rounded-2xl bg-black/5 dark:bg-white/5 ring-1 ring-black/5 dark:ring-white/10 p-5 text-left">
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <div className="font-bold">Web servers</div>
-                          <div className="text-xs text-[var(--text-tertiary)] mt-1">Targets</div>
+                          <div className="text-xs text-[var(--text-tertiary)] mt-1">
+                            Targets
+                          </div>
                         </div>
                         <div className="grid gap-2">
                           {[0, 1, 2].map((i) => (
-                            <div key={i} className="w-16 h-8 rounded-xl bg-[rgba(255,255,255,0.72)] dark:bg-[rgba(0,0,0,0.32)] ring-1 ring-black/10 dark:ring-white/10 flex items-center justify-center">
-                              <Server size={16} className="text-[rgba(var(--accent-rgb),0.85)]" />
+                            <div
+                              key={i}
+                              className="w-16 h-8 rounded-xl bg-[rgba(255,255,255,0.72)] dark:bg-[rgba(0,0,0,0.32)] ring-1 ring-black/10 dark:ring-white/10 flex items-center justify-center"
+                            >
+                              <Server
+                                size={16}
+                                className="text-[rgba(var(--accent-rgb),0.85)]"
+                              />
                             </div>
                           ))}
                         </div>
@@ -432,26 +545,26 @@ lb.deploy()`}</code>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {[
-              {
-                icon: Video,
-                title: 'Web apps & APIs',
-                desc: 'Distribute HTTP traffic across multiple instances and regions.'
-              },
-              {
-                icon: Database,
-                title: 'High availability',
-                desc: 'Route around failures with health checks and automatic failover.'
-              },
-              {
-                icon: FileText,
-                title: 'Traffic spikes',
-                desc: 'Smooth bursty traffic during launches, incidents, and campaigns.'
-              }].
-              map((uc, i) =>
-              <div
-                key={i}
-                className="p-8 rounded-2xl ring-1 ring-black/5 dark:ring-white/10 bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] hover:ring-[rgba(var(--accent-rgb),0.25)] transition-colors group">
-
+                {
+                  icon: Video,
+                  title: "Web apps & APIs",
+                  desc: "Distribute HTTP traffic across multiple instances and regions.",
+                },
+                {
+                  icon: Database,
+                  title: "High availability",
+                  desc: "Route around failures with health checks and automatic failover.",
+                },
+                {
+                  icon: FileText,
+                  title: "Traffic spikes",
+                  desc: "Smooth bursty traffic during launches, incidents, and campaigns.",
+                },
+              ].map((uc, i) => (
+                <div
+                  key={i}
+                  className="p-8 rounded-2xl ring-1 ring-black/5 dark:ring-white/10 bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] hover:ring-[rgba(var(--accent-rgb),0.25)] transition-colors group"
+                >
                   <div className="w-12 h-12 rounded-2xl bg-[rgba(var(--accent-rgb),0.10)] ring-1 ring-[rgba(var(--accent-rgb),0.18)] flex items-center justify-center mb-6">
                     <uc.icon
                       className="text-[var(--accent)] group-hover:scale-110 transition-transform"
@@ -464,7 +577,7 @@ lb.deploy()`}</code>
                     {uc.desc}
                   </p>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>
@@ -473,19 +586,25 @@ lb.deploy()`}</code>
         <section className="py-32 px-6 border-y border-[color:var(--border-color)]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             <div>
-              <div className="text-5xl font-bold text-[var(--text-primary)] mb-4">10k+</div>
+              <div className="text-5xl font-bold text-[var(--text-primary)] mb-4">
+                10k+
+              </div>
               <div className="text-[var(--text-secondary)] uppercase tracking-wider font-medium">
                 Concurrent Containers
               </div>
             </div>
             <div>
-              <div className="text-5xl font-bold text-[var(--text-primary)] mb-4">99.9%</div>
+              <div className="text-5xl font-bold text-[var(--text-primary)] mb-4">
+                99.9%
+              </div>
               <div className="text-[var(--text-secondary)] uppercase tracking-wider font-medium">
                 Success Rate
               </div>
             </div>
             <div>
-              <div className="text-5xl font-bold text-[var(--text-primary)] mb-4">&lt; 1s</div>
+              <div className="text-5xl font-bold text-[var(--text-primary)] mb-4">
+                &lt; 1s
+              </div>
               <div className="text-[var(--text-secondary)] uppercase tracking-wider font-medium">
                 Scheduling Overhead
               </div>
@@ -506,7 +625,8 @@ lb.deploy()`}</code>
                 </label>
                 <input
                   type="range"
-                  className="w-full h-2 bg-black/5 dark:bg-white/5 rounded-lg appearance-none cursor-pointer accent-[var(--accent)]" />
+                  className="w-full h-2 bg-black/5 dark:bg-white/5 rounded-lg appearance-none cursor-pointer accent-[var(--accent)]"
+                />
 
                 <div className="text-right text-[var(--accent)] font-bold mt-2">
                   5,000
@@ -514,8 +634,12 @@ lb.deploy()`}</code>
               </div>
               <div className="grid grid-cols-2 gap-8 pt-8 border-t border-[color:var(--border-color)]">
                 <div className="text-center">
-                  <div className="text-[var(--text-secondary)] mb-2">Traditional LBs</div>
-                  <div className="text-3xl font-bold text-[var(--text-primary)]">$12,500</div>
+                  <div className="text-[var(--text-secondary)] mb-2">
+                    Traditional LBs
+                  </div>
+                  <div className="text-3xl font-bold text-[var(--text-primary)]">
+                    $12,500
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-[var(--text-secondary)] mb-2">Modal</div>
@@ -553,15 +677,15 @@ lb.deploy()`}</code>
               Connects with your data
             </h2>
             <div className="flex flex-wrap justify-center gap-12 md:gap-20 opacity-70">
-              {['S3', 'GCS', 'Snowflake', 'Postgres', 'Kafka', 'Redis'].map(
-                (name) =>
-                <div
-                  key={name}
-                  className="text-2xl font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-default">
-
+              {["S3", "GCS", "Snowflake", "Postgres", "Kafka", "Redis"].map(
+                (name) => (
+                  <div
+                    key={name}
+                    className="text-2xl font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-default"
+                  >
                     {name}
                   </div>
-
+                ),
               )}
             </div>
           </div>
@@ -574,12 +698,18 @@ lb.deploy()`}</code>
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
               whileHover={{ y: -4 }}
               className="relative"
             >
-              <div aria-hidden="true" className="absolute inset-0 rounded-2xl bg-[rgba(var(--accent-rgb),0.06)] dark:bg-[rgba(var(--accent-rgb),0.10)] translate-x-[10px] translate-y-[10px]" />
-              <div aria-hidden="true" className="absolute inset-0 rounded-2xl bg-black/5 dark:bg-white/5 translate-x-[5px] translate-y-[5px]" />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 rounded-2xl bg-[rgba(var(--accent-rgb),0.06)] dark:bg-[rgba(var(--accent-rgb),0.10)] translate-x-[10px] translate-y-[10px]"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 rounded-2xl bg-black/5 dark:bg-white/5 translate-x-[5px] translate-y-[5px]"
+              />
               <div className="relative rounded-2xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] ring-1 ring-black/5 dark:ring-white/10 p-8 md:p-10 shadow-[0_18px_60px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.45)] overflow-hidden">
                 <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(var(--accent-rgb),0.16),transparent_60%)]" />
                 <div className="relative">
@@ -587,7 +717,9 @@ lb.deploy()`}</code>
                     <div className="w-11 h-11 rounded-xl bg-[rgba(var(--accent-rgb),0.10)] ring-1 ring-[rgba(var(--accent-rgb),0.18)] flex items-center justify-center">
                       <Activity size={22} className="text-[var(--accent)]" />
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold">Full observability</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold">
+                      Full observability
+                    </h2>
                   </div>
                   <p className="text-lg md:text-xl text-[var(--text-secondary)] mt-6">
                     Track requests, latency, and error rates in real-time. Debug
@@ -595,13 +727,16 @@ lb.deploy()`}</code>
                   </p>
                   <ul className="space-y-4 mt-8">
                     <li className="flex items-center gap-3 text-[var(--text-secondary)]">
-                      <Activity className="text-[var(--accent)]" /> Target health dashboard
+                      <Activity className="text-[var(--accent)]" /> Target
+                      health dashboard
                     </li>
                     <li className="flex items-center gap-3 text-[var(--text-secondary)]">
-                      <Activity className="text-[var(--accent)]" /> Request tracing
+                      <Activity className="text-[var(--accent)]" /> Request
+                      tracing
                     </li>
                     <li className="flex items-center gap-3 text-[var(--text-secondary)]">
-                      <Activity className="text-[var(--accent)]" /> Latency and error graphs
+                      <Activity className="text-[var(--accent)]" /> Latency and
+                      error graphs
                     </li>
                   </ul>
                 </div>
@@ -612,31 +747,40 @@ lb.deploy()`}</code>
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.06 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 }}
               whileHover={{ y: -4 }}
               className="relative"
             >
-              <div aria-hidden="true" className="absolute inset-0 rounded-2xl bg-[rgba(var(--accent-rgb),0.06)] dark:bg-[rgba(var(--accent-rgb),0.10)] -translate-x-[10px] translate-y-[10px]" />
-              <div aria-hidden="true" className="absolute inset-0 rounded-2xl bg-black/5 dark:bg-white/5 -translate-x-[5px] translate-y-[5px]" />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 rounded-2xl bg-[rgba(var(--accent-rgb),0.06)] dark:bg-[rgba(var(--accent-rgb),0.10)] -translate-x-[10px] translate-y-[10px]"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 rounded-2xl bg-black/5 dark:bg-white/5 -translate-x-[5px] translate-y-[5px]"
+              />
               <div className="relative bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] ring-1 ring-black/5 dark:ring-white/10 rounded-2xl p-8 shadow-[0_18px_60px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.45)] overflow-hidden">
                 <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_80%_20%,rgba(var(--accent-rgb),0.14),transparent_60%)]" />
                 <div className="relative space-y-4">
-                  {[1, 2, 3, 4].map((i) =>
-                  <div
-                    key={i}
-                    className="flex justify-between items-center p-4 bg-black/5 dark:bg-white/5 rounded-lg ring-1 ring-black/5 dark:ring-white/10">
-
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="flex justify-between items-center p-4 bg-black/5 dark:bg-white/5 rounded-lg ring-1 ring-black/5 dark:ring-white/10"
+                    >
                       <div className="flex items-center gap-4">
                         <div
-                      className={`w-2 h-2 rounded-full ${i === 2 ? 'bg-red-500' : 'bg-[var(--accent)]'}`} />
+                          className={`w-2 h-2 rounded-full ${i === 2 ? "bg-red-500" : "bg-[var(--accent)]"}`}
+                        />
 
-                        <span className="font-mono text-sm">target_{1000 + i}</span>
+                        <span className="font-mono text-sm">
+                          target_{1000 + i}
+                        </span>
                       </div>
                       <span className="text-[var(--text-tertiary)] text-sm">
-                        {i === 2 ? 'Failed' : 'Running'}
+                        {i === 2 ? "Failed" : "Running"}
                       </span>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -649,7 +793,10 @@ lb.deploy()`}</code>
             <h2 className="text-3xl font-bold mb-12">Traffic controls</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="p-8 bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
-                <Clock className="mx-auto mb-6 text-[var(--accent)]" size={32} />
+                <Clock
+                  className="mx-auto mb-6 text-[var(--accent)]"
+                  size={32}
+                />
                 <h3 className="text-xl font-bold mb-4">Health checks</h3>
                 <p className="text-[var(--text-secondary)]">
                   Automatically route only to healthy instances.
@@ -663,7 +810,10 @@ lb.deploy()`}</code>
                 </p>
               </div>
               <div className="p-8 bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
-                <Layers className="mx-auto mb-6 text-[var(--accent)]" size={32} />
+                <Layers
+                  className="mx-auto mb-6 text-[var(--accent)]"
+                  size={32}
+                />
                 <h3 className="text-xl font-bold mb-4">Sticky sessions</h3>
                 <p className="text-[var(--text-secondary)]">
                   Keep stateful users pinned to the same backend when needed.
@@ -679,41 +829,44 @@ lb.deploy()`}</code>
             <h2 className="text-4xl font-bold mb-16 text-center">FAQ</h2>
             <div className="space-y-4">
               {[
-              {
-                q: 'Is there a limit to concurrency?',
-                a: 'Soft limits exist but can be raised. We regularly run jobs with 10k+ containers.'
-              },
-              {
-                q: 'How do I handle failures?',
-                a: 'Modal automatically retries failed tasks. You can configure retry policies.'
-              },
-              {
-                q: 'Can I access the internet?',
-                a: 'Yes, all containers have full internet access.'
-              },
-              {
-                q: 'What happens if a worker dies?',
-                a: 'The task is automatically rescheduled on a healthy worker.'
-              }].
-              map((faq, i) =>
-              <div
-                key={i}
-                className="ring-1 ring-black/5 dark:ring-white/10 rounded-xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] overflow-hidden hover:ring-[rgba(var(--accent-rgb),0.22)] transition-colors">
-
+                {
+                  q: "Is there a limit to concurrency?",
+                  a: "Soft limits exist but can be raised. We regularly run jobs with 10k+ containers.",
+                },
+                {
+                  q: "How do I handle failures?",
+                  a: "Modal automatically retries failed tasks. You can configure retry policies.",
+                },
+                {
+                  q: "Can I access the internet?",
+                  a: "Yes, all containers have full internet access.",
+                },
+                {
+                  q: "What happens if a worker dies?",
+                  a: "The task is automatically rescheduled on a healthy worker.",
+                },
+              ].map((faq, i) => (
+                <div
+                  key={i}
+                  className="ring-1 ring-black/5 dark:ring-white/10 rounded-xl bg-[rgba(255,255,255,0.70)] dark:bg-[rgba(255,255,255,0.04)] overflow-hidden hover:ring-[rgba(var(--accent-rgb),0.22)] transition-colors"
+                >
                   <button
-                  className="w-full flex justify-between items-center p-6 text-left"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-
+                    className="w-full flex justify-between items-center p-6 text-left"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
                     <span className="font-medium text-lg">{faq.q}</span>
-                    {openFaq === i ?
-                  <ChevronUp size={20} className="text-[var(--accent)]" /> :
-
-                  <ChevronDown size={20} className="text-[var(--text-tertiary)]" />
-                  }
+                    {openFaq === i ? (
+                      <ChevronUp size={20} className="text-[var(--accent)]" />
+                    ) : (
+                      <ChevronDown
+                        size={20}
+                        className="text-[var(--text-tertiary)]"
+                      />
+                    )}
                   </button>
                   <div
-                  className={`grid transition-all duration-300 ease-in-out ${openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-
+                    className={`grid transition-all duration-300 ease-in-out ${openFaq === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                  >
                     <div className="overflow-hidden">
                       <div className="px-6 pb-6 text-[var(--text-secondary)] leading-relaxed border-t border-[color:var(--border-color)] pt-4">
                         {faq.a}
@@ -721,7 +874,7 @@ lb.deploy()`}</code>
                     </div>
                   </div>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>
@@ -733,13 +886,16 @@ lb.deploy()`}</code>
             <p className="text-2xl text-[var(--text-secondary)] mb-12 font-light">
               Process millions of items in minutes, not days.
             </p>
-            <button className="px-10 py-5 rounded-full bg-[var(--accent)] text-white font-bold text-xl hover:bg-[var(--accent-hover)] transition-all hover:scale-[1.02] shadow-[0_18px_60px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.45)]">
+            <button
+              className="px-10 py-5 rounded-full bg-[var(--accent)] font-bold text-xl hover:bg-[var(--accent-hover)] transition-all hover:scale-[1.02] shadow-[0_18px_60px_rgba(0,0,0,0.10)] dark:shadow-[0_18px_60px_rgba(0,0,0,0.45)]"
+              style={{ color: "white" }}
+            >
               Create Load Balancer
             </button>
           </div>
         </section>
       </main>
       <Footer />
-    </div>);
-
+    </div>
+  );
 }

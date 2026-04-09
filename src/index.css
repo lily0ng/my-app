@@ -129,7 +129,6 @@ html.light .selection\:text-black:selection {
 
 /* Nav component light theme */
 html.light nav {
-  background-color: var(--bg-tertiary) !important;
   border-bottom-color: var(--border-color) !important;
 }
 

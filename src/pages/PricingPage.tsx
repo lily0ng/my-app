@@ -1175,12 +1175,12 @@ export function PricingPage() {
       prev.map((s) =>
         s.instanceId === instanceId
           ? {
-              ...s,
-              quantities: {
-                ...s.quantities,
-                [key]: Number.isFinite(value) ? value : 0,
-              },
-            }
+            ...s,
+            quantities: {
+              ...s.quantities,
+              [key]: Number.isFinite(value) ? value : 0,
+            },
+          }
           : s,
       ),
     );
@@ -1252,7 +1252,10 @@ export function PricingPage() {
                 the CPU cycle.
               </p>
               <div className="flex gap-4">
-                <button className="px-8 py-4 rounded-full bg-[#00ff88] text-black font-bold hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
+                <button
+                  className="px-8 py-4 rounded-full bg-[#00ff88] font-bold hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]"
+                  style={{ color: 'white' }}
+                >
                   Get Started
                 </button>
                 <button className="px-8 py-4 rounded-full border border-white/20 text-white font-bold hover:bg-white/5 transition-colors">
@@ -1268,13 +1271,15 @@ export function PricingPage() {
                 <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10">
                   <button
                     onClick={() => setBillingPeriod("hour")}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "hour" ? "bg-[#00ff88] text-black shadow-lg" : "text-gray-400 hover:text-white"}`}
+                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "hour" ? "bg-[#00ff88] shadow-lg" : "text-gray-400 hover:text-white"}`}
+                    style={billingPeriod === "hour" ? { color: 'white' } : undefined}
                   >
                     Per hour
                   </button>
                   <button
                     onClick={() => setBillingPeriod("month")}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "month" ? "bg-[#00ff88] text-black shadow-lg" : "text-gray-400 hover:text-white"}`}
+                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "month" ? "bg-[#00ff88] shadow-lg" : "text-gray-400 hover:text-white"}`}
+                    style={billingPeriod === "month" ? { color: 'white' } : undefined}
                   >
                     Per month
                   </button>
@@ -1368,7 +1373,7 @@ export function PricingPage() {
                   Built for small teams and independent developers looking to
                   level up.
                 </p>
-                <button className="w-full py-4 rounded-full bg-[color:var(--accent)] text-white font-bold text-sm mb-8 hover:bg-[color:var(--accent-hover)] transition-colors shadow-[0_0_18px_rgba(var(--accent-rgb),0.14)]">
+                <button className="w-full py-4 rounded-full bg-[color:var(--accent)] font-bold text-sm mb-8 hover:bg-[color:var(--accent-hover)] transition-colors shadow-[0_0_18px_rgba(var(--accent-rgb),0.14)]" style={{ color: 'white' }}>
                   Get started with $30 / month free credit
                 </button>
                 <ul className="space-y-4">
@@ -1494,18 +1499,16 @@ export function PricingPage() {
                         setActiveCatalogSection(item.id);
                         setCatalogHash(item.id);
                       }}
-                      className={`w-full text-left p-4 rounded-2xl border transition-colors flex items-start gap-3 ${
-                        activeCatalogSection === item.id
-                          ? "border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]"
-                          : "border-white/10 bg-[#0a0a0a] hover:border-[rgba(var(--accent-rgb),0.35)]"
-                      }`}
+                      className={`w-full text-left p-4 rounded-2xl border transition-colors flex items-start gap-3 ${activeCatalogSection === item.id
+                        ? "border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]"
+                        : "border-white/10 bg-[#0a0a0a] hover:border-[rgba(var(--accent-rgb),0.35)]"
+                        }`}
                     >
                       <div
-                        className={`mt-0.5 h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${
-                          activeCatalogSection === item.id
-                            ? "border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.12)]"
-                            : "border-white/10 bg-[#111]"
-                        }`}
+                        className={`mt-0.5 h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${activeCatalogSection === item.id
+                          ? "border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.12)]"
+                          : "border-white/10 bg-[#111]"
+                          }`}
                       >
                         <item.Icon
                           size={18}
@@ -1570,11 +1573,11 @@ export function PricingPage() {
                               >
                                 <button
                                   onClick={() => setTimePeriod(period)}
-                                  className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
-                                    timePeriod === period
-                                      ? "bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
-                                      : "text-gray-300 hover:text-white"
-                                  }`}
+                                  className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${timePeriod === period
+                                    ? "bg-[#3f60c7] shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
+                                    : "text-gray-300 hover:text-white"
+                                    }`}
+                                  style={timePeriod === period ? { color: 'white' } : undefined}
                                 >
                                   {period === "hour"
                                     ? "Hours"
@@ -1597,11 +1600,11 @@ export function PricingPage() {
                             >
                               <button
                                 onClick={() => setComputeTier(tier)}
-                                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
-                                  computeTier === tier
-                                    ? "bg-[#3f60c7] text-black shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
-                                    : "text-gray-300 hover:text-white"
-                                }`}
+                                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${computeTier === tier
+                                  ? "bg-[#3f60c7] shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
+                                  : "text-gray-300 hover:text-white"
+                                  }`}
+                                style={computeTier === tier ? { color: 'white' } : undefined}
                               >
                                 {tier === "high-frequency"
                                   ? "High Frequency"
@@ -1616,7 +1619,7 @@ export function PricingPage() {
                     )}
                   </div>
 
-                  <div className="mt-8 inline-flex items-center justify-center p-4 bg-[color:var(--accent)] text-white text-center">
+                  <div className="mt-8 inline-flex items-center justify-center p-4 bg-[color:var(--accent)] text-center" style={{ color: 'white' }}>
                     <span className="text-sm sm:text-lg font-bold">
                       NVMe SSD
                     </span>
@@ -1628,7 +1631,7 @@ export function PricingPage() {
                   </div>
                   <div className="mt-10 space-y-10">
                     {Array.isArray(activeCatalogItem.groups) &&
-                    activeCatalogItem.groups.length > 0 ? (
+                      activeCatalogItem.groups.length > 0 ? (
                       activeCatalogItem.groups.map((group) => (
                         <div key={group.title}>
                           <div className="flex items-start gap-3 mb-4">
@@ -1771,7 +1774,8 @@ export function PricingPage() {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => setCalculatorPickerOpen(true)}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                    style={{ color: 'white' }}
                   >
                     <Plus size={18} />
                     Add service
@@ -1799,7 +1803,8 @@ export function PricingPage() {
                       </p>
                       <button
                         onClick={() => setCalculatorPickerOpen(true)}
-                        className="mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[color:var(--accent)] text-white font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                        className="mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[color:var(--accent)] font-bold hover:bg-[color:var(--accent-hover)] transition-colors"
+                        style={{ color: 'white' }}
                       >
                         <Plus size={18} />
                         Add your first service
@@ -1886,7 +1891,7 @@ export function PricingPage() {
                                       <div className="font-mono text-sm text-white">
                                         {formatMoney(
                                           (svc.quantities[item.key] ?? 0) *
-                                            item.monthlyRate,
+                                          item.monthlyRate,
                                         )}
                                       </div>
                                     </div>
@@ -2177,9 +2182,12 @@ export function PricingPage() {
               <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
                 Join thousands of developers building the future of AI on Modal.
               </p>
-              <button className="px-12 py-5 rounded-full bg-[#00ff88] text-black font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]">
-                Sign Up Now
-              </button>
+
+              <a href="https://portal.1cloudng.com/register" target="blank">
+                <button className="px-12 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]" style={{ color: 'white' }}>
+                  Sign Up Now
+                </button>
+              </a>
             </div>
           </section>
         </div>
