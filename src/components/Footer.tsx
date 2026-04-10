@@ -1,117 +1,117 @@
 import { Link } from 'react-router-dom';
 import { Twitter, Github, Linkedin, Slack } from 'lucide-react';
-import logo from '../assets/images/Logo.png';
+import logo from '../assets/images/newlogo.png';
 export function Footer() {
   const links = {
     product: [
-    {
-      name: 'Inference',
-      path: '/product/inference'
-    },
-    {
-      name: 'Training',
-      path: '/product/training'
-    },
-    {
-      name: 'Batch',
-      path: '/product/batch'
-    },
-    {
-      name: 'Sandboxes',
-      path: '/product/sandboxes'
-    },
-    {
-      name: 'Notebooks',
-      path: '/product/notebooks'
-    },
-    {
-      name: 'Core Platform',
-      path: '/product/core-platform'
-    }],
+      {
+        name: 'Cloud Compute',
+        path: '/product/inference'
+      },
+      {
+        name: 'Kubernetes',
+        path: '/product/training'
+      },
+      {
+        name: 'Load Balancer',
+        path: '/product/batch'
+      },
+      {
+        name: 'Block Storage',
+        path: '/product/sandboxes'
+      },
+      {
+        name: 'DNS Management',
+        path: '/product/notebooks'
+      },
+      {
+        name: 'Auto Scaling',
+        path: '/product/core-platform'
+      }],
 
     solutions: [
-    {
-      name: 'Audio Transcription',
-      path: '/solutions'
-    },
-    {
-      name: 'LLM Inference',
-      path: '/solutions'
-    },
-    {
-      name: 'Coding Agents',
-      path: '/solutions'
-    },
-    {
-      name: 'Computational Bio',
-      path: '/solutions'
-    },
-    {
-      name: 'Image Generation',
-      path: '/solutions'
-    }],
+      {
+        name: 'Audio Transcription',
+        path: '/solutions'
+      },
+      {
+        name: 'LLM Inference',
+        path: '/solutions'
+      },
+      {
+        name: 'Coding Agents',
+        path: '/solutions'
+      },
+      {
+        name: 'Computational Bio',
+        path: '/solutions'
+      },
+      {
+        name: 'Image Generation',
+        path: '/solutions'
+      }],
 
     resources: [
-    {
-      name: 'Docs',
-      path: '/docs'
-    },
-    {
-      name: 'Blog',
-      path: '/resources'
-    },
-    {
-      name: 'Playground',
-      path: '/resources'
-    },
-    {
-      name: 'GPU Glossary',
-      path: '/resources'
-    },
-    {
-      name: 'Event & News',
-      path: '/resources/events'
-    },
-    {
-      name: 'Slack Community',
-      path: '/resources'
-    }],
+      {
+        name: 'Docs',
+        path: 'https://docs.1cloudng.com/'
+      },
+      {
+        name: 'Blog',
+        path: '/resources'
+      },
+      {
+        name: 'Playground',
+        path: '/resources/playground'
+      },
+      {
+        name: 'GPU Glossary',
+        path: '/resources/gpu-glossary'
+      },
+      {
+        name: 'Event & News',
+        path: '/resources/events'
+      },
+      {
+        name: 'Slack Community',
+        path: '/resources/community'
+      }],
 
     company: [
-    {
-      name: 'About',
-      path: '/resources/about'
-    },
-    {
-      name: 'Careers',
-      path: '/resources'
-    },
-    {
-      name: 'Customers',
-      path: '/customers'
-    },
-    {
-      name: 'Pricing',
-      path: '/pricing'
-    },
-    {
-      name: 'Contact',
-      path: '/contact'
-    }],
+      {
+        name: 'About',
+        path: '/resources/about'
+      },
+      {
+        name: 'Careers',
+        path: '/resources/careers'
+      },
+      {
+        name: 'Customers',
+        path: '/customers'
+      },
+      {
+        name: 'Pricing',
+        path: '/pricing'
+      },
+      {
+        name: 'Contact',
+        path: '/contact'
+      }],
 
     legal: [
-    {
-      name: 'Privacy',
-      path: '/resources'
-    },
-    {
-      name: 'Terms',
-      path: '/resources'
-    },
-    {
-      name: 'Security',
-      path: '/resources'
-    }]
+      {
+        name: 'Privacy',
+        path: '/resources'
+      },
+      {
+        name: 'Terms',
+        path: '/resources'
+      },
+      {
+        name: 'Security',
+        path: '/resources'
+      }]
 
   };
   return (
@@ -124,10 +124,10 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {links.product.map((link) =>
-              <li key={link.name}>
+                <li key={link.name}>
                   <Link
-                  to={link.path}
-                  className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
+                    to={link.path}
+                    className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
 
                     {link.name}
                   </Link>
@@ -141,10 +141,10 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {links.solutions.map((link) =>
-              <li key={link.name}>
+                <li key={link.name}>
                   <Link
-                  to={link.path}
-                  className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
+                    to={link.path}
+                    className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
 
                     {link.name}
                   </Link>
@@ -158,15 +158,27 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {links.resources.map((link) =>
-              <li key={link.name}>
-                  <Link
-                  to={link.path}
-                  className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
-
-                    {link.name}
-                  </Link>
+                <li key={link.name}>
+                  {link.path.startsWith('http') ? (
+                    <a
+                      href={link.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.path}
+                      className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               )}
+
             </ul>
           </div>
           <div>
@@ -175,10 +187,10 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {links.company.map((link) =>
-              <li key={link.name}>
+                <li key={link.name}>
                   <Link
-                  to={link.path}
-                  className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
+                    to={link.path}
+                    className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
 
                     {link.name}
                   </Link>
@@ -192,10 +204,10 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               {links.legal.map((link) =>
-              <li key={link.name}>
+                <li key={link.name}>
                   <Link
-                  to={link.path}
-                  className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
+                    to={link.path}
+                    className="text-sm text-gray-400 hover:text-[#00ff88] transition-colors">
 
                     {link.name}
                   </Link>
@@ -214,7 +226,7 @@ export function Footer() {
               loading="lazy"
             />
             <span className="text-sm text-gray-500">
-              © 2024 Modal Labs, Inc.
+              © {new Date().getFullYear()} One Cloud Next Generation
             </span>
           </div>
           <div className="flex items-center gap-6">
