@@ -15,7 +15,7 @@ import {
 export function SandboxesPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   return (
-    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans">
+    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden">
       <Nav />
       <main>
         {/* 1. Hero */}

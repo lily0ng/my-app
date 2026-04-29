@@ -123,7 +123,7 @@ export function SlaPage() {
       subtitle="Preview the agreement, download the PDF version, and get answers to common SLA questions."
       icon={FileText}
       primaryCta={{ label: 'Contact Sales', to: '/contact' }}
-      secondaryCta={{ label: 'Back to Resources', to: '/resources' }}
+      secondaryCta={{ label: 'Back to Pricing', to: '/pricing' }}
       aside={heroAside}
       asideClassName="w-full max-w-md"
     >

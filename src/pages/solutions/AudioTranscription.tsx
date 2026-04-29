@@ -104,7 +104,7 @@ export function AudioTranscriptionPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black font-sans">
+    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black">
       <Nav />
       <main>
         <section className="pt-32 pb-16 px-6">

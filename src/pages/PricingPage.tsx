@@ -374,7 +374,7 @@ export function PricingPage() {
                 extra_cpu: "eCO12",
                 vcpu: "12",
                 ram: "12",
-                reserved: "1,424,960",
+                reserved: "2,137,440",
               },
               {
                 extra_cpu: "eCO16",
@@ -558,7 +558,7 @@ export function PricingPage() {
                 vcpu: "2",
                 ram: "8",
                 hour: "145",
-                month: "58,984",
+                month: "105,704",
               },
               {
                 balance: "BL4",
@@ -1175,12 +1175,12 @@ export function PricingPage() {
       prev.map((s) =>
         s.instanceId === instanceId
           ? {
-            ...s,
-            quantities: {
-              ...s.quantities,
-              [key]: Number.isFinite(value) ? value : 0,
-            },
-          }
+              ...s,
+              quantities: {
+                ...s.quantities,
+                [key]: Number.isFinite(value) ? value : 0,
+              },
+            }
           : s,
       ),
     );
@@ -1233,7 +1233,7 @@ export function PricingPage() {
     );
   }, [activeCatalogSection, catalogItems]);
   return (
-    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
+    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden selection:bg-[#00ff88] selection:text-black">
       <Nav />
 
       <main className="pt-40 pb-32 px-6">
@@ -1254,11 +1254,11 @@ export function PricingPage() {
               <div className="flex gap-4">
                 <button
                   className="px-8 py-4 rounded-full bg-[#00ff88] font-bold hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]"
-                  style={{ color: 'white' }}
+                  style={{ color: "white" }}
                 >
                   Get Started
                 </button>
-                <button className="px-8 py-4 rounded-full border border-white/20 text-white font-bold hover:bg-white/5 transition-colors">
+                <button className="px-8 py-4 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-bold text-sm hover:bg-[rgba(var(--accent-rgb),0.06)] transition-colors">
                   Contact Us
                 </button>
               </div>
@@ -1271,15 +1271,15 @@ export function PricingPage() {
                 <div className="bg-[#1a1a1a] rounded-full p-1 flex items-center border border-white/10">
                   <button
                     onClick={() => setBillingPeriod("hour")}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "hour" ? "bg-[#00ff88] shadow-lg" : "text-gray-400 hover:text-white"}`}
-                    style={billingPeriod === "hour" ? { color: 'white' } : undefined}
+                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "hour" ? "bg-[#00ff88] shadow-lg" : ""}`}
+                    style={{ color: "white" }}
                   >
                     Per hour
                   </button>
                   <button
                     onClick={() => setBillingPeriod("month")}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "month" ? "bg-[#00ff88] shadow-lg" : "text-gray-400 hover:text-white"}`}
-                    style={billingPeriod === "month" ? { color: 'white' } : undefined}
+                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingPeriod === "month" ? "bg-[#00ff88] shadow-lg" : ""}`}
+                    style={{ color: "white" }}
                   >
                     Per month
                   </button>
@@ -1373,7 +1373,10 @@ export function PricingPage() {
                   Built for small teams and independent developers looking to
                   level up.
                 </p>
-                <button className="w-full py-4 rounded-full bg-[color:var(--accent)] font-bold text-sm mb-8 hover:bg-[color:var(--accent-hover)] transition-colors shadow-[0_0_18px_rgba(var(--accent-rgb),0.14)]" style={{ color: 'white' }}>
+                <button
+                  className="w-full py-4 rounded-full bg-[color:var(--accent)] font-bold text-sm mb-8 hover:bg-[color:var(--accent-hover)] transition-colors shadow-[0_0_18px_rgba(var(--accent-rgb),0.14)]"
+                  style={{ color: "white" }}
+                >
                   Get started with $30 / month free credit
                 </button>
                 <ul className="space-y-4">
@@ -1499,16 +1502,18 @@ export function PricingPage() {
                         setActiveCatalogSection(item.id);
                         setCatalogHash(item.id);
                       }}
-                      className={`w-full text-left p-4 rounded-2xl border transition-colors flex items-start gap-3 ${activeCatalogSection === item.id
-                        ? "border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]"
-                        : "border-white/10 bg-[#0a0a0a] hover:border-[rgba(var(--accent-rgb),0.35)]"
-                        }`}
+                      className={`w-full text-left p-4 rounded-2xl border transition-colors flex items-start gap-3 ${
+                        activeCatalogSection === item.id
+                          ? "border-[rgba(var(--accent-rgb),0.55)] bg-[rgba(var(--accent-rgb),0.10)]"
+                          : "border-white/10 bg-[#0a0a0a] hover:border-[rgba(var(--accent-rgb),0.35)]"
+                      }`}
                     >
                       <div
-                        className={`mt-0.5 h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${activeCatalogSection === item.id
-                          ? "border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.12)]"
-                          : "border-white/10 bg-[#111]"
-                          }`}
+                        className={`mt-0.5 h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${
+                          activeCatalogSection === item.id
+                            ? "border-[rgba(var(--accent-rgb),0.45)] bg-[rgba(var(--accent-rgb),0.12)]"
+                            : "border-white/10 bg-[#111]"
+                        }`}
                       >
                         <item.Icon
                           size={18}
@@ -1573,11 +1578,16 @@ export function PricingPage() {
                               >
                                 <button
                                   onClick={() => setTimePeriod(period)}
-                                  className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${timePeriod === period
-                                    ? "bg-[#3f60c7] shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
-                                    : "text-gray-300 hover:text-white"
-                                    }`}
-                                  style={timePeriod === period ? { color: 'white' } : undefined}
+                                  className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                                    timePeriod === period
+                                      ? "bg-[#3f60c7] shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
+                                      : "text-gray-300 hover:text-white"
+                                  }`}
+                                  style={
+                                    timePeriod === period
+                                      ? { color: "white" }
+                                      : undefined
+                                  }
                                 >
                                   {period === "hour"
                                     ? "Hours"
@@ -1600,11 +1610,16 @@ export function PricingPage() {
                             >
                               <button
                                 onClick={() => setComputeTier(tier)}
-                                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${computeTier === tier
-                                  ? "bg-[#3f60c7] shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
-                                  : "text-gray-300 hover:text-white"
-                                  }`}
-                                style={computeTier === tier ? { color: 'white' } : undefined}
+                                className={`px-5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                                  computeTier === tier
+                                    ? "bg-[#3f60c7] shadow-[0_8px_20px_rgba(63,96,199,0.35)]"
+                                    : "text-gray-300 hover:text-white"
+                                }`}
+                                style={
+                                  computeTier === tier
+                                    ? { color: "white" }
+                                    : undefined
+                                }
                               >
                                 {tier === "high-frequency"
                                   ? "High Frequency"
@@ -1619,7 +1634,10 @@ export function PricingPage() {
                     )}
                   </div>
 
-                  <div className="mt-8 inline-flex items-center justify-center p-4 bg-[color:var(--accent)] text-center" style={{ color: 'white' }}>
+                  <div
+                    className="mt-8 inline-flex items-center justify-center p-4 bg-[color:var(--accent)] text-center"
+                    style={{ color: "white" }}
+                  >
                     <span className="text-sm sm:text-lg font-bold">
                       NVMe SSD
                     </span>
@@ -1631,7 +1649,7 @@ export function PricingPage() {
                   </div>
                   <div className="mt-10 space-y-10">
                     {Array.isArray(activeCatalogItem.groups) &&
-                      activeCatalogItem.groups.length > 0 ? (
+                    activeCatalogItem.groups.length > 0 ? (
                       activeCatalogItem.groups.map((group) => (
                         <div key={group.title}>
                           <div className="flex items-start gap-3 mb-4">
@@ -1751,7 +1769,7 @@ export function PricingPage() {
           </section>
 
           {/* Cost Calculator */}
-          <section className="py-32 px-6 bg-[#050505] -mx-6 mb-32">
+          {/* <section className="py-32 px-6 bg-[#050505] -mx-6 mb-32">
             <div className="max-w-7xl mx-auto">
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
                 <div>
@@ -2044,7 +2062,7 @@ export function PricingPage() {
                 </div>
               )}
             </div>
-          </section>
+          </section> */}
 
           {/* Comparison Table */}
           <section className="mb-32">
@@ -2184,7 +2202,10 @@ export function PricingPage() {
               </p>
 
               <a href="https://portal.1cloudng.com/register" target="blank">
-                <button className="px-12 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]" style={{ color: 'white' }}>
+                <button
+                  className="px-12 py-5 rounded-full bg-[#00ff88] font-bold text-xl hover:bg-[#00cc6a] transition-all hover:scale-105 shadow-[0_0_30px_rgba(0,255,136,0.3)]"
+                  style={{ color: "white" }}
+                >
                   Sign Up Now
                 </button>
               </a>

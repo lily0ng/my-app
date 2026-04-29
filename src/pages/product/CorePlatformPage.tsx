@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 export function CorePlatformPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   return (
-    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
+    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden selection:bg-[#00ff88] selection:text-black">
       <Nav />
       <main>
         <section className="pt-32 pb-20 px-6 relative overflow-hidden">

@@ -40,6 +40,7 @@ import logo from "../assets/images/newlogo.png";
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
   const [hasUnreadNews, setHasUnreadNews] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { pathname } = useLocation();
@@ -72,43 +73,43 @@ export function Nav() {
       name: "Cloud Compute",
       icon: Cloud,
       desc: "Deploy powerful virtual machines in seconds with scalable resources to meet your business needs.",
-      path: "/product/inference",
+      path: "/product/cloudcompute",
     },
     {
       name: "Kubernetes",
       icon: Layers,
       desc: "Automate deployment, scaling, and management of containerized applications with our fully managed Kubernetes service.",
-      path: "/product/training",
+      path: "/product/kubernetes",
     },
     {
       name: "Load Balancer",
       icon: Server,
       desc: "Distribute traffic efficiently across multiple instances to ensure high availability and optimal performance.",
-      path: "/product/batch",
+      path: "/product/loadbalancer",
     },
     {
       name: "Block Storage",
       icon: HardDrive,
       desc: "Attach high-performance, scalable storage to your cloud instances for flexible data management.",
-      path: "/product/sandboxes",
+      path: "/product/blockstorage",
     },
     {
       name: "DNS Management",
       icon: Globe,
       desc: "Easily configure and manage domain name services with fast, secure, and reliable DNS hosting.",
-      path: "/product/notebooks",
+      path: "/product/dnsmanagement",
     },
     {
       name: "Auto Scaling",
       icon: TrendingUp,
       desc: "Automatically scale your infrastructure based on demand to optimize performance and cost.",
-      path: "/product/core-platform",
+      path: "/",
     },
     {
       name: "A2 Object Storage",
       icon: Database,
       desc: "Store and retrieve unlimited amounts of data with our secure and cost-effective object storage solution.",
-      path: "/product/core-platform",
+      path: "/product/a2object",
     },
   ];
 
@@ -374,6 +375,7 @@ export function Nav() {
             >
               Customers
             </Link>
+
             <Link
               to="/pricing"
               onClick={() => handleNavLinkClick("/pricing")}
@@ -481,30 +483,116 @@ export function Nav() {
               opacity: 0,
               y: -6,
             }}
-            className="md:hidden mt-2 overflow-hidden rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)]/90 backdrop-blur-xl shadow-[0_14px_40px_rgba(0,0,0,0.18)] transition-colors duration-300"
+            className="md:hidden mt-2 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)]/90 backdrop-blur-xl shadow-[0_14px_40px_rgba(0,0,0,0.18)] transition-colors duration-300"
           >
             <div className="px-6 py-4 space-y-4">
-              <Link
-                to="/product/inference"
-                onClick={() => handleNavLinkClick("/product/inference")}
-                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
-              >
-                Product
-              </Link>
-              <Link
-                to="/solutions"
-                onClick={() => handleNavLinkClick("/solutions")}
-                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
-              >
-                Solutions
-              </Link>
-              <Link
-                to="/resources"
-                onClick={() => handleNavLinkClick("/resources")}
-                className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
-              >
-                Resources
-              </Link>
+              {/* Mobile Product Dropdown */}
+              <div>
+                <button
+                  onClick={() => setMobileDropdown(mobileDropdown === 'product' ? null : 'product')}
+                  className="w-full flex items-center justify-between py-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                >
+                  Product
+                  <ChevronDown size={16} className={`transition-transform duration-200 ${mobileDropdown === 'product' ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {mobileDropdown === 'product' && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="pl-4 mt-2 space-y-2 overflow-hidden max-h-60 overflow-y-auto"
+                    >
+                      {productItems.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.path}
+                          onClick={() => {
+                            handleNavLinkClick(item.path);
+                            setMobileDropdown(null);
+                          }}
+                          className="block py-1 text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Mobile Solutions Dropdown */}
+              <div>
+                <button
+                  onClick={() => setMobileDropdown(mobileDropdown === 'solutions' ? null : 'solutions')}
+                  className="w-full flex items-center justify-between py-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                >
+                  Solutions
+                  <ChevronDown size={16} className={`transition-transform duration-200 ${mobileDropdown === 'solutions' ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {mobileDropdown === 'solutions' && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="pl-4 mt-2 space-y-2 overflow-hidden max-h-60 overflow-y-auto"
+                    >
+                      {solutionItems.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.path}
+                          onClick={() => {
+                            handleNavLinkClick(item.path);
+                            setMobileDropdown(null);
+                          }}
+                          className="block py-1 text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Mobile Resources Dropdown */}
+              <div>
+                <button
+                  onClick={() => setMobileDropdown(mobileDropdown === 'resources' ? null : 'resources')}
+                  className="w-full flex items-center justify-between py-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                >
+                  Resources
+                  <ChevronDown size={16} className={`transition-transform duration-200 ${mobileDropdown === 'resources' ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {mobileDropdown === 'resources' && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="pl-4 mt-2 space-y-2 overflow-hidden max-h-60 overflow-y-auto"
+                    >
+                      {resourceItems.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.path}
+                          onClick={() => {
+                            handleNavLinkClick(item.path);
+                            setMobileDropdown(null);
+                          }}
+                          className="block py-1 text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               <Link
                 to="/customers"
                 onClick={() => handleNavLinkClick("/customers")}

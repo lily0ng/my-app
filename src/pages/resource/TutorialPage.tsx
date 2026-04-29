@@ -118,7 +118,7 @@ const TutorialPage = () => {
     featuredVideos.find((v) => v.id === selectedVideo) || featuredVideos[0];
 
   return (
-    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
+    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden selection:bg-[#00ff88] selection:text-black">
       <Nav />
 
       <main>

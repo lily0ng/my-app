@@ -72,12 +72,12 @@ export function App() {
           <Route path="/signup" element={<SignupPage />} />
 
           {/* Product Routes */}
-          <Route path="/product/inference" element={<InferencePage />} />
-          <Route path="/product/training" element={<TrainingPage />} />
-          <Route path="/product/batch" element={<BatchPage />} />
-          <Route path="/product/sandboxes" element={<SandboxesPage />} />
-          <Route path="/product/notebooks" element={<NotebooksPage />} />
-          <Route path="/product/core-platform" element={<CorePlatformPage />} />
+          <Route path="/product/cloudcompute" element={<InferencePage />} />
+          <Route path="/product/kubernetes" element={<TrainingPage />} />
+          <Route path="/product/loadbalancer" element={<BatchPage />} />
+          <Route path="/product/blockstorage" element={<SandboxesPage />} />
+          <Route path="/product/dnsmanagement" element={<NotebooksPage />} />
+          <Route path="/product/a2object" element={<CorePlatformPage />} />
 
           {/* Main Routes */}
           <Route path="/solutions" element={<SolutionsPage />} />

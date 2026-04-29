@@ -250,7 +250,7 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[var(--accent)] selection:text-black font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-[var(--accent)] selection:text-black transition-colors duration-300">
       <Nav />
 
       <main>
@@ -283,21 +283,24 @@ export function LandingPage() {
               <br />
               Powered by One Cloud Next-Gen — with 99.95% uptime.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
               <a target="blank" href="https://portal.1cloudng.com/register">
                 <button
-                  className="px-6 py-2.5 rounded-full bg-[var(--accent)] font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors shadow-[0_0_22px_rgba(var(--accent-rgb),0.16)]"
+                  type="button"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--accent)] px-7 py-3 font-semibold shadow-[0_18px_50px_rgba(var(--accent-rgb),0.22)] transition-transform hover:-translate-y-0.5"
                   style={{ color: "white" }}
                 >
-                  Get Started
+                   Get Started
                 </button>
               </a>
-
-              <Link to="/contact">
-                <button className="px-6 py-2.5 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-sm hover:bg-[rgba(var(--accent-rgb),0.06)] transition-colors">
+              
+                <Link
+                  to='/contact'
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
+                >
                   Contact Us
-                </button>
-              </Link>
+                </Link>
+            
             </div>
           </div>
 

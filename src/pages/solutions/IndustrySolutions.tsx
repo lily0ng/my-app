@@ -175,7 +175,7 @@ export function IndustrySolutionsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black font-sans">
+    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black">
       <Nav />
       <main>
         {/* 1. Hero */}
@@ -639,7 +639,7 @@ export function IndustrySolutionsPage() {
                   <ArrowRight size={18} />
                 </Link>
                 <Link
-                  to="/resources"
+                  to=""
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-primary)] px-7 py-3 font-semibold text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--bg-tertiary)]"
                 >
                   View templates

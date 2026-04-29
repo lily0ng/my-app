@@ -185,7 +185,7 @@ export function CustomersPage() {
 
   const marqueeItems = [...shoutouts, ...shoutouts];
   return (
-    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
+    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden selection:bg-[#00ff88] selection:text-black">
       <Nav />
 
       <main>

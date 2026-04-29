@@ -574,7 +574,7 @@ export function MarketplaceAppsPage() {
   }, [apps, category, hideDuplicates, query]);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
       <Nav />
 
       <main className="pt-32 pb-24 px-6">

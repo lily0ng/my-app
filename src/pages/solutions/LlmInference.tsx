@@ -75,7 +75,7 @@ export function LlmInferencePage() {
   );
 
   return (
-    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black font-sans">
+    <div className="min-h-screen bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] selection:bg-[color:var(--accent)] selection:text-black">
       <Nav />
       <main>
         {/* 1. Hero */}

@@ -77,7 +77,7 @@ export function CommunityPage() {
             title: 'Share examples',
             desc: 'Post snippets and learn from others’ deployments.',
             icon: Boxes,
-            to: '/docs/examples/',
+            to: 'https://docs.1cloudng.com',
             cta: 'Examples',
           },
           {
@@ -226,7 +226,7 @@ export function CommunityPage() {
               { t: 'Playground links', d: 'Share a runnable version of what you’re testing.', icon: Play, to: '/resources/playground' },
               { t: 'Partner templates', d: 'Explore integrations people actually use.', icon: Handshake, to: '/resources/partners' },
               { t: 'Engine advisor', d: 'Pick a runtime based on your latency/throughput goals.', icon: Zap, to: '/resources/llm-engine-advisor' },
-              { t: 'Docs examples', d: 'Copy-pasteable snippets for common workflows.', icon: Code2, to: '/docs/examples/' },
+              { t: 'Docs', d: 'Copy-pasteable snippets for common workflows.', icon: Code2, to: 'https://docs.1cloudng.com/' },
             ].map((x) => (
               <motion.div key={x.t} variants={sectionReveal}>
                 <Link

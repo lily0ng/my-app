@@ -6,49 +6,49 @@ export function Footer() {
     product: [
       {
         name: 'Cloud Compute',
-        path: '/product/inference'
+        path: '/product/cloudcompute'
       },
       {
         name: 'Kubernetes',
-        path: '/product/training'
+        path: '/product/kubernetes'
       },
       {
         name: 'Load Balancer',
-        path: '/product/batch'
+        path: '/product/loadbalancer'
       },
       {
         name: 'Block Storage',
-        path: '/product/sandboxes'
+        path: '/product/blockstorage'
       },
       {
         name: 'DNS Management',
-        path: '/product/notebooks'
+        path: '/product/dnsmanagement'
       },
       {
         name: 'Auto Scaling',
-        path: '/product/core-platform'
+        path: '/'
       }],
 
     solutions: [
       {
         name: 'Audio Transcription',
-        path: '/solutions'
+        path: '/solutions/audio-transcription'
       },
       {
         name: 'LLM Inference',
-        path: '/solutions'
+        path: '/solutions/llm-inference'
       },
       {
         name: 'Coding Agents',
-        path: '/solutions'
+        path: '/solutions/coding-agents'
       },
       {
         name: 'Computational Bio',
-        path: '/solutions'
+        path: '/solutions/computational-bio'
       },
       {
         name: 'Image Generation',
-        path: '/solutions'
+        path: '/solutions/image-generation'
       }],
 
     resources: [
@@ -57,8 +57,8 @@ export function Footer() {
         path: 'https://docs.1cloudng.com/'
       },
       {
-        name: 'Blog',
-        path: '/resources'
+        name: 'Tutorial',
+        path: '/resources/tutorial'
       },
       {
         name: 'Playground',
@@ -102,15 +102,15 @@ export function Footer() {
     legal: [
       {
         name: 'Privacy',
-        path: '/resources'
+        path: '/'
       },
       {
         name: 'Terms',
-        path: '/resources'
+        path: '/'
       },
       {
         name: 'Security',
-        path: '/resources'
+        path: '/'
       }]
 
   };
@@ -226,7 +226,7 @@ export function Footer() {
               loading="lazy"
             />
             <span className="text-sm text-gray-500">
-              © {new Date().getFullYear()} One Cloud Next Generation
+              © {new Date().getFullYear()} One Cloud Next-Gen
             </span>
           </div>
           <div className="flex items-center gap-6">

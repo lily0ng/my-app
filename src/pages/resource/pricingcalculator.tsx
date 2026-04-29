@@ -59,38 +59,170 @@ type BackupOption = {
 
 // CPU Plans data from screenshot
 const cpuPlans: CPUPlan[] = [
-  { id: "bl1", name: "BL1", vcpu: 1, memory: 4, hourlyPrice: 72, monthlyPrice: 52560 },
-  { id: "bl2", name: "BL2", vcpu: 2, memory: 8, hourlyPrice: 145, monthlyPrice: 105704 },
-  { id: "bl4", name: "BL4", vcpu: 4, memory: 16, hourlyPrice: 290, monthlyPrice: 211700 },
-  { id: "bl8", name: "BL8", vcpu: 8, memory: 32, hourlyPrice: 579, monthlyPrice: 422670 },
-  { id: "bl12", name: "BL12", vcpu: 12, memory: 48, hourlyPrice: 869, monthlyPrice: 634370 },
-  { id: "bl16", name: "BL16", vcpu: 16, memory: 64, hourlyPrice: 1158, monthlyPrice: 845340 },
-  { id: "bl24", name: "BL24", vcpu: 24, memory: 96, hourlyPrice: 1738, monthlyPrice: 1268870 },
+  {
+    id: "bl1",
+    name: "BL1",
+    vcpu: 1,
+    memory: 4,
+    hourlyPrice: 72,
+    monthlyPrice: 52560,
+  },
+  {
+    id: "bl2",
+    name: "BL2",
+    vcpu: 2,
+    memory: 8,
+    hourlyPrice: 145,
+    monthlyPrice: 105704,
+  },
+  {
+    id: "bl4",
+    name: "BL4",
+    vcpu: 4,
+    memory: 16,
+    hourlyPrice: 290,
+    monthlyPrice: 211700,
+  },
+  {
+    id: "bl8",
+    name: "BL8",
+    vcpu: 8,
+    memory: 32,
+    hourlyPrice: 579,
+    monthlyPrice: 422670,
+  },
+  {
+    id: "bl12",
+    name: "BL12",
+    vcpu: 12,
+    memory: 48,
+    hourlyPrice: 869,
+    monthlyPrice: 634370,
+  },
+  {
+    id: "bl16",
+    name: "BL16",
+    vcpu: 16,
+    memory: 64,
+    hourlyPrice: 1158,
+    monthlyPrice: 845340,
+  },
+  {
+    id: "bl24",
+    name: "BL24",
+    vcpu: 24,
+    memory: 96,
+    hourlyPrice: 1738,
+    monthlyPrice: 1268870,
+  },
 ];
 
 // Storage plans from screenshot
 const storagePlans: StoragePlan[] = [
-  { id: "custom", name: "BS1.nvme", type: "NVMe", sizeGB: 0, monthlyPrice: 0, hourlyPrice: 0 },
-  { id: "nano", name: "I/O-Nano", type: "NVMe", sizeGB: 50, monthlyPrice: 14600, hourlyPrice: 20 },
-  { id: "micro", name: "I/O-Micro", type: "NVMe", sizeGB: 100, monthlyPrice: 29200, hourlyPrice: 40 },
-  { id: "2xmicro", name: "I/O-2xMicro", type: "NVMe", sizeGB: 250, monthlyPrice: 73000, hourlyPrice: 100 },
-  { id: "4xmicro", name: "I/O-4xMicro", type: "NVMe", sizeGB: 500, monthlyPrice: 146000, hourlyPrice: 200 },
-  { id: "large", name: "I/O-Large", type: "NVMe", sizeGB: 1000, monthlyPrice: 292000, hourlyPrice: 400 },
+  {
+    id: "custom",
+    name: "BS1.nvme",
+    type: "NVMe",
+    sizeGB: 0,
+    monthlyPrice: 0,
+    hourlyPrice: 0,
+  },
+  {
+    id: "nano",
+    name: "I/O-Nano",
+    type: "NVMe",
+    sizeGB: 50,
+    monthlyPrice: 14600,
+    hourlyPrice: 20,
+  },
+  {
+    id: "micro",
+    name: "I/O-Micro",
+    type: "NVMe",
+    sizeGB: 100,
+    monthlyPrice: 29200,
+    hourlyPrice: 40,
+  },
+  {
+    id: "2xmicro",
+    name: "I/O-2xMicro",
+    type: "NVMe",
+    sizeGB: 250,
+    monthlyPrice: 73000,
+    hourlyPrice: 100,
+  },
+  {
+    id: "4xmicro",
+    name: "I/O-4xMicro",
+    type: "NVMe",
+    sizeGB: 500,
+    monthlyPrice: 146000,
+    hourlyPrice: 200,
+  },
+  {
+    id: "large",
+    name: "I/O-Large",
+    type: "NVMe",
+    sizeGB: 1000,
+    monthlyPrice: 292000,
+    hourlyPrice: 400,
+  },
 ];
 
 // Network options from screenshot
 const networkOptions: NetworkOption[] = [
-  { id: "isolated", name: "Isolated Network", description: "A simple, pre-configured network that includes built-in cloud firewall protection, port forwarding, and remote access VPNs for easy external connectivity.", monthlyPrice: 0 },
-  { id: "vpc", name: "VPC Network", description: "An advanced network option offering full control over traffic routing, VPN gateways, site-to-site VPN connections, and traffic segregation for enhanced security.", monthlyPrice: 9900 },
-  { id: "l2", name: "L2 Network", description: "Create a default L2 Network under selected region.", monthlyPrice: 4900 },
+  {
+    id: "isolated",
+    name: "Isolated Network",
+    description:
+      "A simple, pre-configured network that includes built-in cloud firewall protection, port forwarding, and remote access VPNs for easy external connectivity.",
+    monthlyPrice: 0,
+  },
+  {
+    id: "vpc",
+    name: "VPC Network",
+    description:
+      "An advanced network option offering full control over traffic routing, VPN gateways, site-to-site VPN connections, and traffic segregation for enhanced security.",
+    monthlyPrice: 9900,
+  },
+  {
+    id: "l2",
+    name: "L2 Network",
+    description: "Create a default L2 Network under selected region.",
+    monthlyPrice: 4900,
+  },
 ];
 
 // Backup options from screenshot
 const backupOptions: BackupOption[] = [
-  { id: "daily", name: "Daily", retention: "Each backup is kept for 7 days", description: "Daily automatic backups with 7-day retention", multiplier: 0.15 },
-  { id: "weekly", name: "Weekly", retention: "Each backup is kept for 7 weeks", description: "Weekly automatic backups with 7-week retention", multiplier: 0.08 },
-  { id: "monthly", name: "Monthly", retention: "Each backup is kept for 7 months", description: "Monthly automatic backups with 7-month retention", multiplier: 0.03 },
-  { id: "disabled", name: "Disable Backups", retention: "", description: "You risk losing all your data", multiplier: 0 },
+  {
+    id: "daily",
+    name: "Daily",
+    retention: "Each backup is kept for 7 days",
+    description: "Daily automatic backups with 7-day retention",
+    multiplier: 0.15,
+  },
+  {
+    id: "weekly",
+    name: "Weekly",
+    retention: "Each backup is kept for 7 weeks",
+    description: "Weekly automatic backups with 7-week retention",
+    multiplier: 0.08,
+  },
+  {
+    id: "monthly",
+    name: "Monthly",
+    retention: "Each backup is kept for 7 months",
+    description: "Monthly automatic backups with 7-month retention",
+    multiplier: 0.03,
+  },
+  {
+    id: "disabled",
+    name: "Disable Backups",
+    retention: "",
+    description: "You risk losing all your data",
+    multiplier: 0,
+  },
 ];
 
 const formatCurrency = (value: number, currency: string = "K") => {
@@ -115,9 +247,15 @@ export function PricingCalculatorPage() {
   // Selections
   const [selectedCPU, setSelectedCPU] = useState<CPUPlan>(cpuPlans[0]);
   const [customStorageSize, setCustomStorageSize] = useState<number>(0);
-  const [selectedStorage, setSelectedStorage] = useState<StoragePlan>(storagePlans[2]);
-  const [selectedNetwork, setSelectedNetwork] = useState<NetworkOption>(networkOptions[0]);
-  const [selectedBackup, setSelectedBackup] = useState<BackupOption>(backupOptions[3]);
+  const [selectedStorage, setSelectedStorage] = useState<StoragePlan>(
+    storagePlans[2],
+  );
+  const [selectedNetwork, setSelectedNetwork] = useState<NetworkOption>(
+    networkOptions[0],
+  );
+  const [selectedBackup, setSelectedBackup] = useState<BackupOption>(
+    backupOptions[3],
+  );
 
   // Review modal
   const [showReview, setShowReview] = useState(false);
@@ -140,17 +278,27 @@ export function PricingCalculatorPage() {
     }
 
     const networkMonthly = includeNetwork ? selectedNetwork.monthlyPrice : 0;
-    const networkHourly = includeNetwork ? Math.round(selectedNetwork.monthlyPrice / 730) : 0;
+    const networkHourly = includeNetwork
+      ? Math.round(selectedNetwork.monthlyPrice / 730)
+      : 0;
 
     const publicIPMonthly = includePublicIP ? 6570 : 0;
     const publicIPHourly = includePublicIP ? 9 : 0;
 
     const backupBaseMonthly = cpuMonthly + storageMonthly;
-    const backupMonthly = includeBackup ? Math.round(backupBaseMonthly * selectedBackup.multiplier) : 0;
+    const backupMonthly = includeBackup
+      ? Math.round(backupBaseMonthly * selectedBackup.multiplier)
+      : 0;
     const backupHourly = includeBackup ? Math.round(backupMonthly / 730) : 0;
 
-    const subtotalMonthly = cpuMonthly + storageMonthly + networkMonthly + publicIPMonthly + backupMonthly;
-    const subtotalHourly = cpuHourly + storageHourly + networkHourly + publicIPHourly + backupHourly;
+    const subtotalMonthly =
+      cpuMonthly +
+      storageMonthly +
+      networkMonthly +
+      publicIPMonthly +
+      backupMonthly;
+    const subtotalHourly =
+      cpuHourly + storageHourly + networkHourly + publicIPHourly + backupHourly;
 
     const taxMonthly = Math.round(subtotalMonthly * 0.05);
     const taxHourly = Math.round(subtotalHourly * 0.05);
@@ -161,15 +309,36 @@ export function PricingCalculatorPage() {
 
     return {
       cpu: { monthly: cpuMonthly, hourly: cpuHourly },
-      storage: { monthly: storageMonthly, hourly: storageHourly, size: selectedStorage.id === "custom" ? customStorageSize : selectedStorage.sizeGB },
+      storage: {
+        monthly: storageMonthly,
+        hourly: storageHourly,
+        size:
+          selectedStorage.id === "custom"
+            ? customStorageSize
+            : selectedStorage.sizeGB,
+      },
       network: { monthly: networkMonthly, hourly: networkHourly },
       publicIP: { monthly: publicIPMonthly, hourly: publicIPHourly },
       backup: { monthly: backupMonthly, hourly: backupHourly },
       subtotal: { monthly: subtotalMonthly, hourly: subtotalHourly },
       tax: { monthly: taxMonthly, hourly: taxHourly },
-      total: { monthly: totalMonthly, hourly: totalHourly, yearly: totalYearly },
+      total: {
+        monthly: totalMonthly,
+        hourly: totalHourly,
+        yearly: totalYearly,
+      },
     };
-  }, [selectedCPU, selectedStorage, customStorageSize, selectedNetwork, selectedBackup, includeStorage, includeNetwork, includeBackup, includePublicIP]);
+  }, [
+    selectedCPU,
+    selectedStorage,
+    customStorageSize,
+    selectedNetwork,
+    selectedBackup,
+    includeStorage,
+    includeNetwork,
+    includeBackup,
+    includePublicIP,
+  ]);
 
   const getDisplayPrice = () => {
     switch (billingPeriod) {
@@ -185,7 +354,7 @@ export function PricingCalculatorPage() {
   const displayPrice = getDisplayPrice();
 
   return (
-    <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] overflow-hidden font-sans">
+    <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[color:var(--text-primary)] overflow-hidden">
       <Nav />
 
       <main className="pt-32 pb-20 px-6">
@@ -204,7 +373,9 @@ export function PricingCalculatorPage() {
               Build your cloud estimate
             </h1>
             <p className="text-lg text-[color:var(--text-secondary)] max-w-2xl">
-              Choose a plan based on the amount of CPU, memory, and storage required for your project. The cost will adjust according to the resources you select.
+              Choose a plan based on the amount of CPU, memory, and storage
+              required for your project. The cost will adjust according to the
+              resources you select.
             </p>
           </div>
 
@@ -219,7 +390,9 @@ export function PricingCalculatorPage() {
                     ? "bg-[color:var(--accent)] shadow-sm"
                     : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
                 }`}
-                style={billingPeriod === period ? { color: 'white' } : undefined}
+                style={
+                  billingPeriod === period ? { color: "white" } : undefined
+                }
               >
                 {period.charAt(0).toUpperCase() + period.slice(1)}
               </button>
@@ -230,7 +403,6 @@ export function PricingCalculatorPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left Column - Configuration */}
             <div className="lg:col-span-8 space-y-6">
-              
               {/* Compute Offering Section */}
               <section className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-6">
@@ -248,8 +420,12 @@ export function PricingCalculatorPage() {
                         <th className="pb-3 font-medium">Name</th>
                         <th className="pb-3 font-medium">vCPU</th>
                         <th className="pb-3 font-medium">Memory RAM</th>
-                        <th className="pb-3 font-medium text-right">Price Hourly</th>
-                        <th className="pb-3 font-medium text-right">Price Monthly</th>
+                        <th className="pb-3 font-medium text-right">
+                          Price Hourly
+                        </th>
+                        <th className="pb-3 font-medium text-right">
+                          Price Monthly
+                        </th>
                         <th className="pb-3 font-medium text-center">Select</th>
                       </tr>
                     </thead>
@@ -265,28 +441,44 @@ export function PricingCalculatorPage() {
                           }`}
                         >
                           <td className="py-3 px-2">
-                            <span className={selectedCPU.id === plan.id ? "text-[color:var(--accent)] font-medium" : "font-medium"}>
+                            <span
+                              className={
+                                selectedCPU.id === plan.id
+                                  ? "text-[color:var(--accent)] font-medium"
+                                  : "font-medium"
+                              }
+                            >
                               {plan.name}
                             </span>
                           </td>
                           <td className="py-3 px-2">{plan.vcpu} vCPU</td>
                           <td className="py-3 px-2">{plan.memory}.0 GB</td>
                           <td className="py-3 px-2 text-right">
-                            <span className={selectedCPU.id === plan.id ? "text-[color:var(--accent)]" : ""}>
+                            <span
+                              className={
+                                selectedCPU.id === plan.id
+                                  ? "text-[color:var(--accent)]"
+                                  : ""
+                              }
+                            >
                               K {plan.hourlyPrice.toLocaleString()} /Hour
                             </span>
                           </td>
                           <td className="py-3 px-2 text-right">
-                            <span className={selectedCPU.id === plan.id ? "text-[color:var(--accent)] font-medium" : ""}>
+                            <span
+                              className={
+                                selectedCPU.id === plan.id
+                                  ? "text-[color:var(--accent)] font-medium"
+                                  : ""
+                              }
+                            >
                               K {plan.monthlyPrice.toLocaleString()} /Month
                             </span>
                           </td>
                           <td className="py-3 px-2 text-center">
                             {selectedCPU.id === plan.id && (
-                              <div 
-                              className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[color:var(--accent)]"
-                              >
-                                <Check size={14} style={{color: 'white'}}/>
+                              <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[color:var(--accent)]">
+                                <Check size={14} style={{ color: "white" }} />
                               </div>
                             )}
                           </td>
@@ -301,7 +493,10 @@ export function PricingCalculatorPage() {
               <section className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
-                    <HardDrive size={24} className="text-[color:var(--accent)]" />
+                    <HardDrive
+                      size={24}
+                      className="text-[color:var(--accent)]"
+                    />
                     <h2 className="text-xl font-bold">Disk Offering</h2>
                   </div>
                   <div className="flex items-center gap-2">
@@ -314,10 +509,16 @@ export function PricingCalculatorPage() {
                           className="peer sr-only"
                         />
                         <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                          <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
+                          <Check
+                            size={12}
+                            className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                            style={{ color: "white" }}
+                          />
                         </div>
                       </div>
-                      <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">Include storage</span>
+                      <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">
+                        Include storage
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -330,9 +531,15 @@ export function PricingCalculatorPage() {
                           <th className="pb-3 font-medium">Name</th>
                           <th className="pb-3 font-medium">Storage Type</th>
                           <th className="pb-3 font-medium">Size</th>
-                          <th className="pb-3 font-medium text-right">Price Hourly</th>
-                          <th className="pb-3 font-medium text-right">Price Monthly</th>
-                          <th className="pb-3 font-medium text-center">Select</th>
+                          <th className="pb-3 font-medium text-right">
+                            Price Hourly
+                          </th>
+                          <th className="pb-3 font-medium text-right">
+                            Price Monthly
+                          </th>
+                          <th className="pb-3 font-medium text-center">
+                            Select
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -347,7 +554,13 @@ export function PricingCalculatorPage() {
                             }`}
                           >
                             <td className="py-3 px-2">
-                              <span className={selectedStorage.id === plan.id ? "text-[color:var(--accent)] font-medium" : "font-medium"}>
+                              <span
+                                className={
+                                  selectedStorage.id === plan.id
+                                    ? "text-[color:var(--accent)] font-medium"
+                                    : "font-medium"
+                                }
+                              >
                                 {plan.name}
                               </span>
                             </td>
@@ -358,7 +571,9 @@ export function PricingCalculatorPage() {
                                   type="number"
                                   value={customStorageSize}
                                   onChange={(e) => {
-                                    setCustomStorageSize(Number(e.target.value));
+                                    setCustomStorageSize(
+                                      Number(e.target.value),
+                                    );
                                     setSelectedStorage(plan);
                                   }}
                                   onClick={(e) => e.stopPropagation()}
@@ -368,22 +583,42 @@ export function PricingCalculatorPage() {
                               ) : (
                                 `${plan.sizeGB}.0 GB`
                               )}
-                              {plan.id === "custom" && <span className="ml-2 text-sm text-[color:var(--text-secondary)]">GB</span>}
+                              {plan.id === "custom" && (
+                                <span className="ml-2 text-sm text-[color:var(--text-secondary)]">
+                                  GB
+                                </span>
+                              )}
                             </td>
                             <td className="py-3 px-2 text-right">
-                              <span className={selectedStorage.id === plan.id ? "text-[color:var(--accent)]" : ""}>
-                                {plan.hourlyPrice > 0 ? `K ${plan.hourlyPrice.toLocaleString()} /Hour` : "-"}
+                              <span
+                                className={
+                                  selectedStorage.id === plan.id
+                                    ? "text-[color:var(--accent)]"
+                                    : ""
+                                }
+                              >
+                                {plan.hourlyPrice > 0
+                                  ? `K ${plan.hourlyPrice.toLocaleString()} /Hour`
+                                  : "-"}
                               </span>
                             </td>
                             <td className="py-3 px-2 text-right">
-                              <span className={selectedStorage.id === plan.id ? "text-[color:var(--accent)]" : ""}>
-                                {plan.monthlyPrice > 0 ? `K ${plan.monthlyPrice.toLocaleString()} /Month` : "-"}
+                              <span
+                                className={
+                                  selectedStorage.id === plan.id
+                                    ? "text-[color:var(--accent)]"
+                                    : ""
+                                }
+                              >
+                                {plan.monthlyPrice > 0
+                                  ? `K ${plan.monthlyPrice.toLocaleString()} /Month`
+                                  : "-"}
                               </span>
                             </td>
                             <td className="py-3 px-2 text-center">
                               {selectedStorage.id === plan.id && (
                                 <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[color:var(--accent)]">
-                                  <Check size={14} style={{color: 'white'}} />
+                                  <Check size={14} style={{ color: "white" }} />
                                 </div>
                               )}
                             </td>
@@ -418,16 +653,24 @@ export function PricingCalculatorPage() {
                           className="peer sr-only"
                         />
                         <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                          <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
+                          <Check
+                            size={12}
+                            className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                            style={{ color: "white" }}
+                          />
                         </div>
                       </div>
-                      <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">Include network</span>
+                      <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">
+                        Include network
+                      </span>
                     </label>
                   </div>
                 </div>
 
                 <p className="text-sm text-[color:var(--text-secondary)] mb-4">
-                  Set up or choose a network for your server. This can be an isolated private network, or you can create an elastic network to connect multiple regions.
+                  Set up or choose a network for your server. This can be an
+                  isolated private network, or you can create an elastic network
+                  to connect multiple regions.
                 </p>
 
                 <div className="bg-[color:var(--bg-tertiary)] rounded-xl p-3 mb-4 flex items-center gap-2">
@@ -454,7 +697,7 @@ export function PricingCalculatorPage() {
                           </div>
                           {selectedNetwork.id === option.id && (
                             <div className="w-5 h-5 rounded-full bg-[color:var(--accent)] flex items-center justify-center">
-                              <Check size={12} style={{color: 'white'}} />
+                              <Check size={12} style={{ color: "white" }} />
                             </div>
                           )}
                         </div>
@@ -488,11 +731,17 @@ export function PricingCalculatorPage() {
                         className="peer sr-only"
                       />
                       <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                        <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
+                        <Check
+                          size={12}
+                          className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                          style={{ color: "white" }}
+                        />
                       </div>
                     </div>
                     <div>
-                      <span className="font-medium group-hover:text-[color:var(--text-primary)] transition-colors">Include Public IP</span>
+                      <span className="font-medium group-hover:text-[color:var(--text-primary)] transition-colors">
+                        Include Public IP
+                      </span>
                       <p className="text-xs text-[color:var(--text-secondary)]">
                         Adds K 9/Hour (K 6,570/Month) for public IP allocation
                       </p>
@@ -505,7 +754,10 @@ export function PricingCalculatorPage() {
               <section className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <Database size={24} className="text-[color:var(--accent)]" />
+                    <Database
+                      size={24}
+                      className="text-[color:var(--accent)]"
+                    />
                     <h2 className="text-xl font-bold">Automatic Backups</h2>
                   </div>
                   <div className="flex items-center gap-2">
@@ -518,16 +770,24 @@ export function PricingCalculatorPage() {
                           className="peer sr-only"
                         />
                         <div className="w-5 h-5 rounded bg-[color:var(--bg-tertiary)] border-2 border-[color:var(--border-color)] peer-checked:bg-[color:var(--accent)] peer-checked:border-[color:var(--accent)] transition-all duration-200 flex items-center justify-center">
-                          <Check size={12} className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200" style={{color: 'white'}} />
+                          <Check
+                            size={12}
+                            className="opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                            style={{ color: "white" }}
+                          />
                         </div>
                       </div>
-                      <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">Include backup</span>
+                      <span className="text-sm text-[color:var(--text-secondary)] group-hover:text-[color:var(--text-primary)] transition-colors">
+                        Include backup
+                      </span>
                     </label>
                   </div>
                 </div>
 
                 <p className="text-sm text-[color:var(--text-secondary)] mb-4">
-                  Ensure your data is safe with automatic backups, providing peace of mind in case of accidental deletion, hardware failure, or other unexpected issues.
+                  Ensure your data is safe with automatic backups, providing
+                  peace of mind in case of accidental deletion, hardware
+                  failure, or other unexpected issues.
                 </p>
 
                 {includeBackup && (
@@ -546,7 +806,7 @@ export function PricingCalculatorPage() {
                           <span className="font-medium">{option.name}</span>
                           {selectedBackup.id === option.id && (
                             <div className="w-5 h-5 rounded-full bg-[color:var(--accent)] flex items-center justify-center">
-                              <Check size={12} style={{color: 'white'}} />
+                              <Check size={12} style={{ color: "white" }} />
                             </div>
                           )}
                         </div>
@@ -584,7 +844,10 @@ export function PricingCalculatorPage() {
                 {/* Total Estimate Card */}
                 <div className="bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <Sparkles size={16} className="text-[color:var(--accent)]" />
+                    <Sparkles
+                      size={16}
+                      className="text-[color:var(--accent)]"
+                    />
                     <div className="text-sm font-bold text-[color:var(--text-tertiary)] uppercase tracking-wider">
                       {billingPeriod} Estimate
                     </div>
@@ -596,30 +859,43 @@ export function PricingCalculatorPage() {
                     {displayPrice.label}
                   </div>
                   <div className="mt-3 text-xs text-[color:var(--text-tertiary)]">
-                    Totals are estimates for planning purposes and may vary by region and configuration.
+                    Totals are estimates for planning purposes and may vary by
+                    region and configuration.
                   </div>
-                  
+
                   {/* Billing period subtotals */}
                   <div className="mt-4 pt-4 border-t border-[color:var(--border-color)] space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-[color:var(--text-secondary)]">Hourly:</span>
-                      <span className="font-mono">K {estimate.total.hourly.toLocaleString()}</span>
+                      <span className="text-[color:var(--text-secondary)]">
+                        Hourly:
+                      </span>
+                      <span className="font-mono">
+                        K {estimate.total.hourly.toLocaleString()}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-[color:var(--text-secondary)]">Monthly:</span>
-                      <span className="font-mono">K {estimate.total.monthly.toLocaleString()}</span>
+                      <span className="text-[color:var(--text-secondary)]">
+                        Monthly:
+                      </span>
+                      <span className="font-mono">
+                        K {estimate.total.monthly.toLocaleString()}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-[color:var(--text-secondary)]">Yearly:</span>
-                      <span className="font-mono">K {estimate.total.yearly.toLocaleString()}</span>
+                      <span className="text-[color:var(--text-secondary)]">
+                        Yearly:
+                      </span>
+                      <span className="font-mono">
+                        K {estimate.total.yearly.toLocaleString()}
+                      </span>
                     </div>
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-[color:var(--border-color)]">
-                    <button 
+                    <button
                       onClick={() => setShowReview(true)}
                       className="w-full py-3 rounded-full bg-[color:var(--accent)] font-bold hover:bg-[color:var(--accent-hover)] transition-colors flex items-center justify-center gap-2"
-                      style={{color: 'white'}}
+                      style={{ color: "white" }}
                     >
                       Review & Deploy
                       <ArrowRight size={16} />
@@ -635,7 +911,8 @@ export function PricingCalculatorPage() {
                   <div className="space-y-3">
                     <div className="flex items-center justify-between gap-3">
                       <div className="text-sm text-[color:var(--text-secondary)]">
-                        {selectedCPU.name} ({selectedCPU.vcpu} vCPU, {selectedCPU.memory}GB RAM)
+                        {selectedCPU.name} ({selectedCPU.vcpu} vCPU,{" "}
+                        {selectedCPU.memory}GB RAM)
                       </div>
                       <div className="font-mono text-sm text-[color:var(--accent)] font-bold">
                         K {estimate.cpu.monthly.toLocaleString()}
@@ -647,7 +924,9 @@ export function PricingCalculatorPage() {
                           {selectedStorage.name} ({estimate.storage.size}GB)
                         </div>
                         <div className="font-mono text-sm text-[color:var(--accent)] font-bold">
-                          {estimate.storage.monthly > 0 ? `K ${estimate.storage.monthly.toLocaleString()}` : "-"}
+                          {estimate.storage.monthly > 0
+                            ? `K ${estimate.storage.monthly.toLocaleString()}`
+                            : "-"}
                         </div>
                       </div>
                     )}
@@ -657,13 +936,17 @@ export function PricingCalculatorPage() {
                           {selectedNetwork.name}
                         </div>
                         <div className="font-mono text-sm text-[color:var(--accent)] font-bold">
-                          {estimate.network.monthly > 0 ? `K ${estimate.network.monthly.toLocaleString()}` : "-"}
+                          {estimate.network.monthly > 0
+                            ? `K ${estimate.network.monthly.toLocaleString()}`
+                            : "-"}
                         </div>
                       </div>
                     )}
                     {includePublicIP && (
                       <div className="flex items-center justify-between gap-3">
-                        <div className="text-sm text-[color:var(--text-secondary)]">Public IP</div>
+                        <div className="text-sm text-[color:var(--text-secondary)]">
+                          Public IP
+                        </div>
                         <div className="font-mono text-sm text-[color:var(--accent)] font-bold">
                           K {estimate.publicIP.monthly.toLocaleString()}
                         </div>
@@ -681,13 +964,17 @@ export function PricingCalculatorPage() {
                     )}
                     <div className="pt-3 border-t border-[color:var(--border-color)]">
                       <div className="flex items-center justify-between gap-3">
-                        <div className="text-sm text-[color:var(--text-secondary)]">Subtotal</div>
+                        <div className="text-sm text-[color:var(--text-secondary)]">
+                          Subtotal
+                        </div>
                         <div className="font-mono text-sm font-bold">
                           K {estimate.subtotal.monthly.toLocaleString()}
                         </div>
                       </div>
                       <div className="flex items-center justify-between gap-3 mt-2">
-                        <div className="text-sm text-[color:var(--text-secondary)]">Tax (5%)</div>
+                        <div className="text-sm text-[color:var(--text-secondary)]">
+                          Tax (5%)
+                        </div>
                         <div className="font-mono text-sm">
                           +K {estimate.tax.monthly.toLocaleString()}
                         </div>
@@ -699,13 +986,17 @@ export function PricingCalculatorPage() {
                 {/* Info Card */}
                 <div className="bg-[color:var(--bg-tertiary)] border border-[color:var(--border-color)] rounded-2xl p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <HelpCircle size={16} className="text-[color:var(--accent)]" />
+                    <HelpCircle
+                      size={16}
+                      className="text-[color:var(--accent)]"
+                    />
                     <div className="text-sm font-bold text-[color:var(--text-primary)]">
                       Need help?
                     </div>
                   </div>
                   <p className="text-xs text-[color:var(--text-secondary)] leading-relaxed">
-                    Contact our sales team for custom pricing, volume discounts, or enterprise requirements.
+                    Contact our sales team for custom pricing, volume discounts,
+                    or enterprise requirements.
                   </p>
                 </div>
               </div>
@@ -717,7 +1008,10 @@ export function PricingCalculatorPage() {
       {/* Review & Deploy Modal */}
       {showReview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setShowReview(false)} />
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setShowReview(false)}
+          />
           <div className="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] rounded-2xl shadow-2xl">
             <div className="sticky top-0 bg-[color:var(--bg-secondary)] border-b border-[color:var(--border-color)] p-6 flex items-center justify-between">
               <h2 className="text-2xl font-bold">Review & Deploy</h2>
@@ -735,13 +1029,17 @@ export function PricingCalculatorPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-[color:var(--bg-tertiary)] text-[color:var(--text-secondary)]">
-                      <th className="text-left p-3 font-medium rounded-tl-lg">Title</th>
+                      <th className="text-left p-3 font-medium rounded-tl-lg">
+                        Title
+                      </th>
                       <th className="text-left p-3 font-medium">From</th>
                       <th className="text-left p-3 font-medium">To</th>
                       <th className="text-right p-3 font-medium">Price</th>
                       <th className="text-right p-3 font-medium">Discount</th>
                       <th className="text-right p-3 font-medium">OTC</th>
-                      <th className="text-right p-3 font-medium rounded-tr-lg">Total</th>
+                      <th className="text-right p-3 font-medium rounded-tr-lg">
+                        Total
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[color:var(--border-color)]">
@@ -750,19 +1048,36 @@ export function PricingCalculatorPage() {
                       <td className="p-3">
                         <div className="font-medium">{selectedCPU.name}</div>
                         <div className="text-xs text-[color:var(--text-tertiary)]">
-                          {selectedCPU.vcpu} Core, {selectedCPU.memory} GB Memory
+                          {selectedCPU.vcpu} Core, {selectedCPU.memory} GB
+                          Memory
                         </div>
                       </td>
                       <td className="p-3 text-[color:var(--text-secondary)]">
-                        {new Date().toLocaleDateString("en-GB")} {new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                        {new Date().toLocaleDateString("en-GB")}{" "}
+                        {new Date().toLocaleTimeString("en-GB", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </td>
                       <td className="p-3 text-[color:var(--text-secondary)]">
-                        {new Date(Date.now() + 60 * 60 * 1000).toLocaleDateString("en-GB")} {new Date(Date.now() + 60 * 60 * 1000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                        {new Date(
+                          Date.now() + 60 * 60 * 1000,
+                        ).toLocaleDateString("en-GB")}{" "}
+                        {new Date(
+                          Date.now() + 60 * 60 * 1000,
+                        ).toLocaleTimeString("en-GB", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </td>
-                      <td className="p-3 text-right">K {estimate.cpu.hourly.toLocaleString()}</td>
+                      <td className="p-3 text-right">
+                        K {estimate.cpu.hourly.toLocaleString()}
+                      </td>
                       <td className="p-3 text-right">K 0</td>
                       <td className="p-3 text-right">K 0</td>
-                      <td className="p-3 text-right font-medium">K {estimate.cpu.hourly.toLocaleString()}</td>
+                      <td className="p-3 text-right font-medium">
+                        K {estimate.cpu.hourly.toLocaleString()}
+                      </td>
                     </tr>
 
                     {/* Public IP Row */}
@@ -772,15 +1087,31 @@ export function PricingCalculatorPage() {
                           <div className="font-medium">Public IP</div>
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date().toLocaleDateString("en-GB")} {new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date().toLocaleDateString("en-GB")}{" "}
+                          {new Date().toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date(Date.now() + 60 * 60 * 1000).toLocaleDateString("en-GB")} {new Date(Date.now() + 60 * 60 * 1000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleDateString("en-GB")}{" "}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
-                        <td className="p-3 text-right">K {estimate.publicIP.hourly.toLocaleString()}</td>
+                        <td className="p-3 text-right">
+                          K {estimate.publicIP.hourly.toLocaleString()}
+                        </td>
                         <td className="p-3 text-right">K 0</td>
                         <td className="p-3 text-right">K 0</td>
-                        <td className="p-3 text-right font-medium">K {estimate.publicIP.hourly.toLocaleString()}</td>
+                        <td className="p-3 text-right font-medium">
+                          K {estimate.publicIP.hourly.toLocaleString()}
+                        </td>
                       </tr>
                     )}
 
@@ -794,15 +1125,31 @@ export function PricingCalculatorPage() {
                           </div>
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date().toLocaleDateString("en-GB")} {new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date().toLocaleDateString("en-GB")}{" "}
+                          {new Date().toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date(Date.now() + 60 * 60 * 1000).toLocaleDateString("en-GB")} {new Date(Date.now() + 60 * 60 * 1000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleDateString("en-GB")}{" "}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
-                        <td className="p-3 text-right">K {estimate.storage.hourly.toLocaleString()}</td>
+                        <td className="p-3 text-right">
+                          K {estimate.storage.hourly.toLocaleString()}
+                        </td>
                         <td className="p-3 text-right">K 0</td>
                         <td className="p-3 text-right">K 0</td>
-                        <td className="p-3 text-right font-medium">K {estimate.storage.hourly.toLocaleString()}</td>
+                        <td className="p-3 text-right font-medium">
+                          K {estimate.storage.hourly.toLocaleString()}
+                        </td>
                       </tr>
                     )}
 
@@ -810,18 +1157,42 @@ export function PricingCalculatorPage() {
                     {includeNetwork && selectedNetwork.monthlyPrice > 0 && (
                       <tr>
                         <td className="p-3">
-                          <div className="font-medium">{selectedNetwork.name}</div>
+                          <div className="font-medium">
+                            {selectedNetwork.name}
+                          </div>
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date().toLocaleDateString("en-GB")} {new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date().toLocaleDateString("en-GB")}{" "}
+                          {new Date().toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date(Date.now() + 60 * 60 * 1000).toLocaleDateString("en-GB")} {new Date(Date.now() + 60 * 60 * 1000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleDateString("en-GB")}{" "}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
-                        <td className="p-3 text-right">K {Math.round(selectedNetwork.monthlyPrice / 730).toLocaleString()}</td>
+                        <td className="p-3 text-right">
+                          K{" "}
+                          {Math.round(
+                            selectedNetwork.monthlyPrice / 730,
+                          ).toLocaleString()}
+                        </td>
                         <td className="p-3 text-right">K 0</td>
                         <td className="p-3 text-right">K 0</td>
-                        <td className="p-3 text-right font-medium">K {Math.round(selectedNetwork.monthlyPrice / 730).toLocaleString()}</td>
+                        <td className="p-3 text-right font-medium">
+                          K{" "}
+                          {Math.round(
+                            selectedNetwork.monthlyPrice / 730,
+                          ).toLocaleString()}
+                        </td>
                       </tr>
                     )}
 
@@ -829,42 +1200,88 @@ export function PricingCalculatorPage() {
                     {includeBackup && estimate.backup.hourly > 0 && (
                       <tr>
                         <td className="p-3">
-                          <div className="font-medium">{selectedBackup.name} Backup</div>
+                          <div className="font-medium">
+                            {selectedBackup.name} Backup
+                          </div>
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date().toLocaleDateString("en-GB")} {new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date().toLocaleDateString("en-GB")}{" "}
+                          {new Date().toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
                         <td className="p-3 text-[color:var(--text-secondary)]">
-                          {new Date(Date.now() + 60 * 60 * 1000).toLocaleDateString("en-GB")} {new Date(Date.now() + 60 * 60 * 1000).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleDateString("en-GB")}{" "}
+                          {new Date(
+                            Date.now() + 60 * 60 * 1000,
+                          ).toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </td>
-                        <td className="p-3 text-right">K {estimate.backup.hourly.toLocaleString()}</td>
+                        <td className="p-3 text-right">
+                          K {estimate.backup.hourly.toLocaleString()}
+                        </td>
                         <td className="p-3 text-right">K 0</td>
                         <td className="p-3 text-right">K 0</td>
-                        <td className="p-3 text-right font-medium">K {estimate.backup.hourly.toLocaleString()}</td>
+                        <td className="p-3 text-right font-medium">
+                          K {estimate.backup.hourly.toLocaleString()}
+                        </td>
                       </tr>
                     )}
 
                     {/* Totals */}
                     <tr className="bg-[color:var(--bg-tertiary)] font-medium">
-                      <td className="p-3 rounded-bl-lg" colSpan={6}>Sub Amount</td>
-                      <td className="p-3 text-right rounded-br-lg">K {estimate.subtotal.hourly.toLocaleString()}</td>
+                      <td className="p-3 rounded-bl-lg" colSpan={6}>
+                        Sub Amount
+                      </td>
+                      <td className="p-3 text-right rounded-br-lg">
+                        K {estimate.subtotal.hourly.toLocaleString()}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="p-3 text-[color:var(--text-secondary)]" colSpan={6}>Tax (Commercial Tax 5%)</td>
-                      <td className="p-3 text-right">+ K {estimate.tax.hourly.toLocaleString()}</td>
+                      <td
+                        className="p-3 text-[color:var(--text-secondary)]"
+                        colSpan={6}
+                      >
+                        Tax (Commercial Tax 5%)
+                      </td>
+                      <td className="p-3 text-right">
+                        + K {estimate.tax.hourly.toLocaleString()}
+                      </td>
                     </tr>
                     <tr className="font-bold text-[color:var(--accent)]">
-                      <td className="p-3" colSpan={6}>Net Payable</td>
-                      <td className="p-3 text-right">K {(estimate.subtotal.hourly + estimate.tax.hourly).toLocaleString()}</td>
+                      <td className="p-3" colSpan={6}>
+                        Net Payable
+                      </td>
+                      <td className="p-3 text-right">
+                        K{" "}
+                        {(
+                          estimate.subtotal.hourly + estimate.tax.hourly
+                        ).toLocaleString()}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="p-3 text-[color:var(--text-secondary)]" colSpan={6}>Free Credits Usage</td>
+                      <td
+                        className="p-3 text-[color:var(--text-secondary)]"
+                        colSpan={6}
+                      >
+                        Free Credits Usage
+                      </td>
                       <td className="p-3 text-right text-[color:var(--accent)]">
-                        - K {(estimate.subtotal.hourly + estimate.tax.hourly).toLocaleString()}
+                        - K{" "}
+                        {(
+                          estimate.subtotal.hourly + estimate.tax.hourly
+                        ).toLocaleString()}
                       </td>
                     </tr>
                     <tr className="font-bold text-lg">
-                      <td className="p-3 rounded-bl-lg" colSpan={6}>Payable</td>
+                      <td className="p-3 rounded-bl-lg" colSpan={6}>
+                        Payable
+                      </td>
                       <td className="p-3 text-right rounded-br-lg">K 0</td>
                     </tr>
                   </tbody>
@@ -873,7 +1290,10 @@ export function PricingCalculatorPage() {
 
               {/* Deploy Button */}
               <div className="mt-6 pt-6 border-t border-[color:var(--border-color)]">
-                <button className="w-full py-4 rounded-full bg-[color:var(--accent)] text-white font-bold hover:bg-[color:var(--accent-hover)] transition-colors">
+                <button
+                  className="w-full py-3 rounded-full bg-[color:var(--accent)] font-bold hover:bg-[color:var(--accent-hover)] transition-colors flex items-center justify-center gap-2"
+                  style={{ color: "white" }}
+                >
                   Deploy Now
                 </button>
               </div>
@@ -886,4 +1306,3 @@ export function PricingCalculatorPage() {
     </div>
   );
 }
-

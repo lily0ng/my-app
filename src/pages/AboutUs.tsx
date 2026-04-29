@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
 import {
   ArrowRight,
   Bell,
@@ -10,11 +10,11 @@ import {
   Shield,
   Sparkles,
   Timer,
-  Users } from
-'lucide-react';
-import { Nav } from '../components/Nav';
-import { Footer } from '../components/Footer';
-import TeamStructureSVG from '../components/TeamStructure';
+  Users,
+} from "lucide-react";
+import { Nav } from "../components/Nav";
+import { Footer } from "../components/Footer";
+import TeamStructureSVG from "../components/TeamStructure";
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -50,9 +50,9 @@ export function AboutUsPage() {
         top: clamp(Math.random() * 100, 6, 94),
         left: clamp(Math.random() * 100, 4, 96),
         size: clamp(Math.random() * 3 + 1.5, 1.5, 4.2),
-        delay: Math.random() * 2.4
+        delay: Math.random() * 2.4,
       })),
-    []
+    [],
   );
 
   const metricsRef = useRef<HTMLDivElement | null>(null);
@@ -66,11 +66,11 @@ export function AboutUsPage() {
 
   const sectionVariant = {
     hidden: { opacity: 0, y: 18 },
-    show: { opacity: 1, y: 0 }
+    show: { opacity: 1, y: 0 },
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
+    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden selection:bg-[#00ff88] selection:text-black">
       <Nav />
 
       <main>
@@ -84,7 +84,7 @@ export function AboutUsPage() {
               variants={sectionVariant}
               initial="hidden"
               animate="show"
-              transition={{ duration: 0.6, ease: 'easeOut' }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start"
             >
               <div>
@@ -96,37 +96,52 @@ export function AboutUsPage() {
                   Built for teams that ship in real-time
                 </h1>
                 <p className="text-gray-400 text-lg mt-5 leading-relaxed max-w-xl">
-                  Our mission is to help builders move from idea to production with infrastructure that feels instantaneous, observable, and reliable.
+                  Our mission is to help builders move from idea to production
+                  with infrastructure that feels instantaneous, observable, and
+                  reliable.
                 </p>
 
                 <div className="flex flex-wrap gap-3 mt-8">
                   <Link
                     to="/contact"
                     className="px-6 py-3 rounded-full bg-[#00ff88] font-bold hover:bg-[#00cc6a] transition-colors"
-                    style={{color: 'white'}}
+                    style={{ color: "white" }}
                   >
                     Talk to us
                   </Link>
                   <Link
-                    to="/resources"
-                    className="px-6 py-3 rounded-full border border-white/20 text-white font-bold hover:bg-white/5 transition-colors inline-flex items-center gap-2"
+                    to=""
+                    className="px-6 py-2.5 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-medium text-sm hover:bg-[rgba(var(--accent-rgb),0.06)] inline-flex items-center gap-2 transition-colors"
                   >
-                    Explore resources <ArrowRight size={18} />
+                    Explore <ArrowRight size={18} />
                   </Link>
                 </div>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-[#0a0a0a] overflow-hidden relative">
                 <div className="p-8">
-                  <div className="text-sm font-bold text-[#00ff88] tracking-wider">OUR FOCUS</div>
-                  <div className="text-2xl font-bold mt-3">Real-time collaboration, predictable infra</div>
+                  <div className="text-sm font-bold text-[#00ff88] tracking-wider">
+                    OUR FOCUS
+                  </div>
+                  <div className="text-2xl font-bold mt-3">
+                    Real-time collaboration, predictable infra
+                  </div>
                   <p className="text-gray-400 mt-3 leading-relaxed">
-                    We design systems that make teams feel connected — with live visibility into what is running, what changed, and what matters next.
+                    We design systems that make teams feel connected — with live
+                    visibility into what is running, what changed, and what
+                    matters next.
                   </p>
                 </div>
                 <div className="border-t border-white/10 p-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {[{ label: 'Latency', value: '< 50ms' }, { label: 'Reliability', value: '99.9%' }, { label: 'Visibility', value: 'Live' }].map((s) => (
-                    <div key={s.label} className="rounded-xl border border-white/10 bg-[#111] p-4">
+                  {[
+                    { label: "Latency", value: "< 50ms" },
+                    { label: "Reliability", value: "99.9%" },
+                    { label: "Visibility", value: "Live" },
+                  ].map((s) => (
+                    <div
+                      key={s.label}
+                      className="rounded-xl border border-white/10 bg-[#111] p-4"
+                    >
                       <div className="text-xs text-gray-500">{s.label}</div>
                       <div className="text-lg font-bold mt-1">{s.value}</div>
                     </div>
@@ -144,33 +159,39 @@ export function AboutUsPage() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.55, ease: 'easeOut' }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
               className="grid grid-cols-1 md:grid-cols-3 gap-8"
             >
-              {[{
-                icon: Timer,
-                title: 'Instant feedback',
-                desc: 'See changes immediately with live status, logs, and health signals.'
-              }, {
-                icon: Bell,
-                title: 'Always in sync',
-                desc: 'Stay aligned across teams with consistent workflows and shared context.'
-              }, {
-                icon: Users,
-                title: 'Built for humans',
-                desc: 'A clean experience that reduces cognitive load and improves velocity.'
-              }].map((c) => (
+              {[
+                {
+                  icon: Timer,
+                  title: "Instant feedback",
+                  desc: "See changes immediately with live status, logs, and health signals.",
+                },
+                {
+                  icon: Bell,
+                  title: "Always in sync",
+                  desc: "Stay aligned across teams with consistent workflows and shared context.",
+                },
+                {
+                  icon: Users,
+                  title: "Built for humans",
+                  desc: "A clean experience that reduces cognitive load and improves velocity.",
+                },
+              ].map((c) => (
                 <motion.div
                   key={c.title}
                   whileHover={{ y: -4 }}
-                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
                   className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-8"
                 >
                   <div className="w-11 h-11 rounded-xl border border-white/10 bg-[#111] flex items-center justify-center">
                     <c.icon size={18} className="text-[#00ff88]" />
                   </div>
                   <div className="text-xl font-bold mt-5">{c.title}</div>
-                  <div className="text-gray-400 mt-2 leading-relaxed">{c.desc}</div>
+                  <div className="text-gray-400 mt-2 leading-relaxed">
+                    {c.desc}
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -185,35 +206,43 @@ export function AboutUsPage() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.55, ease: 'easeOut' }}
+                transition={{ duration: 0.55, ease: "easeOut" }}
               >
                 <h2 className="text-4xl font-bold">Where we are headed</h2>
                 <p className="text-gray-400 text-lg mt-4 leading-relaxed">
-                  We are building a platform where infrastructure decisions become invisible, and teams can focus on what they are creating.
+                  We are building a platform where infrastructure decisions
+                  become invisible, and teams can focus on what they are
+                  creating.
                 </p>
 
                 <div className="mt-10 space-y-4">
-                  {[{
-                    date: '2024',
-                    title: 'Core platform maturity',
-                    desc: 'Solid foundations for predictable deployments.'
-                  }, {
-                    date: '2025',
-                    title: 'Real-time team workflows',
-                    desc: 'Live status, collaboration primitives, and smarter feedback loops.'
-                  }, {
-                    date: 'Next',
-                    title: 'Autonomous operations',
-                    desc: 'Systems that self-heal and surface what matters.'
-                  }].map((t) => (
+                  {[
+                    {
+                      date: "2024",
+                      title: "Core platform maturity",
+                      desc: "Solid foundations for predictable deployments.",
+                    },
+                    {
+                      date: "2025",
+                      title: "Real-time team workflows",
+                      desc: "Live status, collaboration primitives, and smarter feedback loops.",
+                    },
+                    {
+                      date: "Next",
+                      title: "Autonomous operations",
+                      desc: "Systems that self-heal and surface what matters.",
+                    },
+                  ].map((t) => (
                     <motion.div
                       key={t.title}
                       whileHover={{ x: 6 }}
-                      transition={{ duration: 0.18, ease: 'easeOut' }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
                       className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 flex gap-4"
                     >
                       <div className="w-16 shrink-0">
-                        <div className="text-sm font-bold text-[#00ff88]">{t.date}</div>
+                        <div className="text-sm font-bold text-[#00ff88]">
+                          {t.date}
+                        </div>
                       </div>
                       <div>
                         <div className="font-bold text-lg">{t.title}</div>
@@ -230,12 +259,16 @@ export function AboutUsPage() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.55, ease: 'easeOut', delay: 0.05 }}
+                transition={{ duration: 0.55, ease: "easeOut", delay: 0.05 }}
                 className="rounded-2xl border border-white/10 bg-[#0a0a0a] overflow-hidden"
               >
                 <div className="p-8 border-b border-white/10">
-                  <div className="text-sm font-bold text-[#00ff88] tracking-wider">LIVE METRICS</div>
-                  <div className="text-2xl font-bold mt-3">Real-time connection</div>
+                  <div className="text-sm font-bold text-[#00ff88] tracking-wider">
+                    LIVE METRICS
+                  </div>
+                  <div className="text-2xl font-bold mt-3">
+                    Real-time connection
+                  </div>
                   <div className="text-gray-400 mt-2">
                     A small preview of the kind of visibility we optimize for.
                   </div>
@@ -252,35 +285,51 @@ export function AboutUsPage() {
                           left: `${d.left}%`,
                           width: d.size,
                           height: d.size,
-                          opacity: 0.18
+                          opacity: 0.18,
                         }}
                         animate={{ opacity: [0.1, 0.45, 0.12] }}
-                        transition={{ duration: 2.8, repeat: Infinity, delay: d.delay, ease: 'easeInOut' }}
+                        transition={{
+                          duration: 2.8,
+                          repeat: Infinity,
+                          delay: d.delay,
+                          ease: "easeInOut",
+                        }}
                       />
                     ))}
                   </div>
 
-                  {[{
-                    icon: Cloud,
-                    label: 'Uptime',
-                    value: `${uptime}.9%`
-                  }, {
-                    icon: Network,
-                    label: 'Latency',
-                    value: `${latency}ms`
-                  }, {
-                    icon: Users,
-                    label: 'Active',
-                    value: `${active}`
-                  }].map((m) => (
-                    <div key={m.label} className="rounded-2xl border border-white/10 bg-[#111] p-6 relative overflow-hidden">
+                  {[
+                    {
+                      icon: Cloud,
+                      label: "Uptime",
+                      value: `${uptime}.9%`,
+                    },
+                    {
+                      icon: Network,
+                      label: "Latency",
+                      value: `${latency}ms`,
+                    },
+                    {
+                      icon: Users,
+                      label: "Active",
+                      value: `${active}`,
+                    },
+                  ].map((m) => (
+                    <div
+                      key={m.label}
+                      className="rounded-2xl border border-white/10 bg-[#111] p-6 relative overflow-hidden"
+                    >
                       <div className="absolute inset-0 bg-gradient-to-br from-[#00ff88]/10 to-transparent opacity-60" />
                       <div className="relative">
                         <div className="w-10 h-10 rounded-xl border border-white/10 bg-[#0a0a0a] flex items-center justify-center">
                           <m.icon size={18} className="text-[#00ff88]" />
                         </div>
-                        <div className="text-xs text-gray-500 mt-4">{m.label}</div>
-                        <div className="text-2xl font-bold mt-1 tabular-nums">{m.value}</div>
+                        <div className="text-xs text-gray-500 mt-4">
+                          {m.label}
+                        </div>
+                        <div className="text-2xl font-bold mt-1 tabular-nums">
+                          {m.value}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -440,8 +489,7 @@ export function AboutUsPage() {
           </div>
         </section> */}
 
-        <TeamStructureSVG/>
-
+        <TeamStructureSVG />
 
         <section className="py-28 px-6 text-center">
           <div className="max-w-4xl mx-auto">
@@ -450,28 +498,31 @@ export function AboutUsPage() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.55, ease: 'easeOut' }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
               className="rounded-3xl border border-white/10 bg-[#0a0a0a] p-10 md:p-14 relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-[#00ff88]/8 to-transparent" />
               <div className="relative">
-                <h2 className="text-4xl font-bold">Ready to connect your team?</h2>
+                <h2 className="text-4xl font-bold">
+                  Ready to connect your team?
+                </h2>
                 <p className="text-gray-400 text-lg mt-4">
                   Explore resources, reach out, or start building now.
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
-                  <Link
-                    to="/signup"
+                  <a
+                    target="blank"
+                    href="https://portal.1cloudng.com/register"
                     className="px-7 py-3 rounded-full bg-[#00ff88] font-bold hover:bg-[#00cc6a] transition-colors"
-                    style={{color: 'white'}}
+                    style={{ color: "white" }}
                   >
                     Create an account
-                  </Link>
+                  </a>
                   <Link
-                    to="/resources"
-                    className="px-7 py-3 rounded-full border border-white/20 text-white font-bold hover:bg-white/5 transition-colors"
+                    to="/pricing"
+                    className="px-6 py-2.5 rounded-full border border-[var(--border-color)] text-[var(--text-primary)] font-bold hover:bg-[rgba(var(--accent-rgb),0.06)] transition-colors"
                   >
-                    Browse resources
+                    Browse pricing
                   </Link>
                 </div>
               </div>
@@ -494,7 +545,7 @@ function TeamNode({
   desc,
   tooltipSide,
   hovered,
-  setHovered
+  setHovered,
 }: {
   className: string;
   title: string;
@@ -502,14 +553,14 @@ function TeamNode({
   accentRgb: string;
   id: string;
   desc: string;
-  tooltipSide: 'left' | 'right';
+  tooltipSide: "left" | "right";
   hovered: boolean;
   setHovered: (id: string | null) => void;
 }) {
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      transition={{ duration: 0.18, ease: 'easeOut' }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
       className={className}
     >
       <div
@@ -526,10 +577,18 @@ function TeamNode({
         >
           <div className="relative">
             <motion.div
-              animate={{ opacity: hovered ? [0.30, 0.75, 0.30] : [0.18, 0.45, 0.18] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              animate={{
+                opacity: hovered ? [0.3, 0.75, 0.3] : [0.18, 0.45, 0.18],
+              }}
+              transition={{
+                duration: 2.4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
               className="absolute -inset-4 rounded-full"
-              style={{ background: `radial-gradient(circle, rgba(${accentRgb},0.24), transparent 62%)` }}
+              style={{
+                background: `radial-gradient(circle, rgba(${accentRgb},0.24), transparent 62%)`,
+              }}
             />
             <div
               className={
@@ -542,8 +601,12 @@ function TeamNode({
           </div>
 
           <div className="text-center mt-3">
-            <div className="text-sm font-bold text-[var(--text-primary)] leading-tight">{title}</div>
-            <div className="text-xs text-[var(--text-tertiary)] mt-1">Connected</div>
+            <div className="text-sm font-bold text-[var(--text-primary)] leading-tight">
+              {title}
+            </div>
+            <div className="text-xs text-[var(--text-tertiary)] mt-1">
+              Connected
+            </div>
           </div>
         </button>
 
@@ -552,18 +615,24 @@ function TeamNode({
             initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
-            transition={{ duration: 0.16, ease: 'easeOut' }}
+            transition={{ duration: 0.16, ease: "easeOut" }}
             className={
               "absolute top-1/2 -translate-y-1/2 w-[260px] rounded-2xl bg-[rgba(255,255,255,0.90)] dark:bg-[rgba(0,0,0,0.55)] ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-md px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_18px_55px_rgba(0,0,0,0.45)] z-20 " +
-              (tooltipSide === 'left' ? "right-[calc(100%+14px)]" : "left-[calc(100%+14px)]")
+              (tooltipSide === "left"
+                ? "right-[calc(100%+14px)]"
+                : "left-[calc(100%+14px)]")
             }
           >
-            <div className="text-xs font-bold text-[rgba(var(--team-rgb),0.95)]">{title}</div>
-            <div className="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">{desc}</div>
+            <div className="text-xs font-bold text-[rgba(var(--team-rgb),0.95)]">
+              {title}
+            </div>
+            <div className="mt-2 text-sm text-[var(--text-secondary)] leading-relaxed">
+              {desc}
+            </div>
             <div
               className={
                 "absolute top-1/2 h-3 w-3 -translate-y-1/2 rotate-45 bg-[rgba(255,255,255,0.90)] dark:bg-[rgba(0,0,0,0.55)] " +
-                (tooltipSide === 'left' ? "-right-1" : "-left-1")
+                (tooltipSide === "left" ? "-right-1" : "-left-1")
               }
             />
           </motion.div>

@@ -41,7 +41,7 @@ export function BatchPage() {
   ];
 
   return (
-    <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[var(--text-primary)] overflow-hidden font-sans">
+    <div className="relative min-h-screen w-full bg-[color:var(--bg-primary)] text-[var(--text-primary)] overflow-hidden">
       <Nav />
       <main>
         {/* 1. Hero */}

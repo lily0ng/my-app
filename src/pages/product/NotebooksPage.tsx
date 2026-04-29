@@ -355,7 +355,7 @@ export function NotebooksPage() {
     });
   }, [darkAccent, edges, theme]);
   return (
-    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans selection:bg-[#00ff88] selection:text-black">
+    <div className="relative min-h-screen w-full bg-black text-white overflow-hidden selection:bg-[#00ff88] selection:text-black">
       <Nav />
       <main>
         <section className="pt-28 pb-16 px-6 relative overflow-hidden">
