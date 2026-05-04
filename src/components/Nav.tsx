@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
+
 import {
   Menu,
   X,
@@ -29,30 +31,44 @@ import {
   Globe,
   TrendingUp,
 } from "lucide-react";
+
 import { Link, useLocation } from "react-router-dom";
+
 import { useTheme } from "../contexts/ThemeContext";
+
 import { newsPosts } from "../pages/eventNewsData";
+
 import {
   getReadNewsSlugs,
   subscribeNewsReadStateChanged,
 } from "../utils/newsReadState";
+
 import logo from "../assets/images/newlogo.png";
+
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
+
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
   const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
+
   const [hasUnreadNews, setHasUnreadNews] = useState(false);
+
   const { theme, toggleTheme } = useTheme();
+
   const { pathname } = useLocation();
 
   const norm = (p: string) => {
     const base = p.split("#")[0];
+
     return base.endsWith("/") && base !== "/" ? base.slice(0, -1) : base;
   };
 
   const handleNavLinkClick = (to: string) => {
     setIsOpen(false);
+
     setActiveDropdown(null);
+
     if (norm(pathname) === norm(to)) {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
@@ -61,54 +77,85 @@ export function Nav() {
   useEffect(() => {
     const compute = () => {
       const read = new Set(getReadNewsSlugs());
+
       return newsPosts.some((p) => !read.has(p.slug));
     };
 
     const update = () => setHasUnreadNews(compute());
+
     update();
+
     return subscribeNewsReadStateChanged(update);
   }, []);
+
   const productItems = [
     {
       name: "Cloud Compute",
+
       icon: Cloud,
+
       desc: "Deploy powerful virtual machines in seconds with scalable resources to meet your business needs.",
+
       path: "/product/cloudcompute",
     },
+
     {
       name: "Kubernetes",
+
       icon: Layers,
+
       desc: "Automate deployment, scaling, and management of containerized applications with our fully managed Kubernetes service.",
+
       path: "/product/kubernetes",
     },
+
     {
       name: "Load Balancer",
+
       icon: Server,
+
       desc: "Distribute traffic efficiently across multiple instances to ensure high availability and optimal performance.",
+
       path: "/product/loadbalancer",
     },
+
     {
       name: "Block Storage",
+
       icon: HardDrive,
+
       desc: "Attach high-performance, scalable storage to your cloud instances for flexible data management.",
+
       path: "/product/blockstorage",
     },
+
     {
       name: "DNS Management",
+
       icon: Globe,
+
       desc: "Easily configure and manage domain name services with fast, secure, and reliable DNS hosting.",
+
       path: "/product/dnsmanagement",
     },
+
     {
       name: "Auto Scaling",
+
       icon: TrendingUp,
+
       desc: "Automatically scale your infrastructure based on demand to optimize performance and cost.",
+
       path: "/",
     },
+
     {
       name: "A2 Object Storage",
+
       icon: Database,
+
       desc: "Store and retrieve unlimited amounts of data with our secure and cost-effective object storage solution.",
+
       path: "/product/a2object",
     },
   ];
@@ -116,38 +163,61 @@ export function Nav() {
   const solutionItems = [
     {
       name: "Audio Transcription",
+
       icon: Mic,
+
       desc: "Speech to text at scale",
+
       path: "/solutions/audio-transcription",
     },
+
     {
       name: "LLM Inference",
+
       icon: Zap,
+
       desc: "Low-latency inference at scale",
+
       path: "/solutions/llm-inference",
     },
+
     {
       name: "Coding Agents",
+
       icon: Shield,
+
       desc: "Secure code execution",
+
       path: "/solutions/coding-agents",
     },
+
     {
       name: "Computational Bio",
+
       icon: Activity,
+
       desc: "Accelerate scientific workloads",
+
       path: "/solutions/computational-bio",
     },
+
     {
       name: "Image Generation",
+
       icon: ImageIcon,
+
       desc: "High-performance generation",
+
       path: "/solutions/image-generation",
     },
+
     {
       name: "Industry Solutions",
+
       icon: Briefcase,
+
       desc: "Reference architectures by vertical",
+
       path: "/solutions/industry-solutions",
     },
   ];
@@ -155,45 +225,71 @@ export function Nav() {
   const resourceTools = [
     {
       name: "Tutorial",
+
       icon: Video,
+
       desc: "Watch video tutorials to learn our platform",
+
       path: "/resources/tutorial",
     },
+
     {
       name: "Pricing Calculator",
+
       icon: Calculator,
+
       desc: "Estimate your monthly cloud costs",
+
       path: "/resources/pricingcalculator",
     },
+
     {
       name: "Playground",
+
       icon: Play,
+
       desc: "Explore Modal in the browser",
+
       path: "/resources/playground",
     },
+
     {
       name: "Infra Design",
+
       icon: Activity,
+
       desc: "Real-time data center + topology overview",
+
       path: "/resources/infra-design",
     },
 
     {
       name: "Marketplace Apps",
+
       icon: BoxIcon,
+
       desc: "Browse apps and deploy in one click",
+
       path: "/resources/marketplace-apps",
     },
+
     {
       name: "GPU Glossary",
+
       icon: BookOpen,
+
       desc: "A fast guide to GPU concepts",
+
       path: "/resources/gpu-glossary",
     },
+
     {
       name: "LLM Engine Advisor",
+
       icon: Zap,
+
       desc: "Pick the right model",
+
       path: "/resources/llm-engine-advisor",
     },
   ];
@@ -201,32 +297,51 @@ export function Nav() {
   const resourceLinks = [
     {
       name: "SLA",
+
       icon: BookOpen,
+
       desc: "Service reliability commitments",
+
       path: "/resources/sla",
     },
+
     {
       name: "Startup Credits",
+
       icon: Layers,
+
       desc: "Get credits to start building",
+
       path: "/resources/startup-credits",
     },
+
     {
       name: "Event & News",
+
       icon: Activity,
+
       desc: "Events, news, and community updates",
+
       path: "/resources/events",
     },
+
     {
       name: "Partners",
+
       icon: BoxIcon,
+
       desc: "Integrations and ecosystem partners",
+
       path: "/resources/partners",
     },
+
     {
       name: "Slack Community",
+
       icon: Shield,
+
       desc: "Join the developer community",
+
       path: "/resources/community",
     },
   ];
@@ -234,14 +349,21 @@ export function Nav() {
   const companyLinks = [
     {
       name: "About",
+
       icon: Terminal,
+
       desc: "Learn about the team and mission",
+
       path: "/resources/about",
     },
+
     {
       name: "Careers",
+
       icon: Cpu,
+
       desc: "We’re hiring across engineering",
+
       path: "/resources/careers",
     },
   ];
@@ -251,26 +373,41 @@ export function Nav() {
   const docItems = [
     {
       name: "Getting Started",
+
       icon: Play,
+
       desc: "Start building in minutes",
+
       path: "/docs",
     },
+
     {
       name: "API Reference",
+
       icon: Code2,
+
       desc: "Complete API documentation",
+
       path: "/docs/guides/api/",
     },
+
     {
       name: "Examples",
+
       icon: BoxIcon,
+
       desc: "Copy-pasteable code snippets",
+
       path: "/docs/examples/",
     },
+
     {
       name: "Guides",
+
       icon: BookOpen,
+
       desc: "Deep dives into core concepts",
+
       path: "/docs/guides",
     },
   ];
@@ -280,6 +417,7 @@ export function Nav() {
       <div className="mx-auto pointer-events-auto w-full max-w-6xl rounded-full border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)]/80 backdrop-blur-xl shadow-[0_14px_40px_rgba(0,0,0,0.18)]">
         <div className="w-full px-5 h-12 flex items-center gap-6">
           {/* Logo */}
+
           <Link
             to="/"
             className="flex items-center gap-2 group"
@@ -294,8 +432,10 @@ export function Nav() {
           </Link>
 
           {/* Desktop Links */}
+
           <div className="hidden md:flex flex-1 items-center justify-center gap-1 h-full">
             {/* Product Dropdown */}
+
             <Dropdown
               title="Product"
               id="product"
@@ -314,6 +454,7 @@ export function Nav() {
             </Dropdown>
 
             {/* Solutions Dropdown */}
+
             <Dropdown
               title="Solutions"
               id="solutions"
@@ -332,6 +473,7 @@ export function Nav() {
             </Dropdown>
 
             {/* Resources Dropdown */}
+
             <Dropdown
               title="Resources"
               id="resources"
@@ -357,6 +499,7 @@ export function Nav() {
                           <span className="group-hover:hidden">
                             News Updates
                           </span>
+
                           <span className="hidden group-hover:inline">
                             News
                           </span>
@@ -401,27 +544,45 @@ export function Nav() {
             </Link>
 
             {/* Docs Dropdown */}
+
             {/* <Dropdown
+
               title="Docs"
+
               id="docs"
+
               activeId={activeDropdown}
+
               setActive={setActiveDropdown}
+
             >
+
               <div className="w-[500px] p-2 grid grid-cols-2 gap-2">
+
                 {docItems.map((item) => (
+
                   <DropdownItem
+
                     key={item.name}
+
                     item={item}
+
                     onNavigate={handleNavLinkClick}
+
                   />
+
                 ))}
+
               </div>
+
             </Dropdown> */}
           </div>
 
           {/* Auth Buttons */}
+
           <div className="hidden md:flex items-center gap-3 ml-auto">
             {/* Theme Toggle Button */}
+
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full bg-[color:var(--bg-secondary)] hover:bg-[color:var(--bg-secondary)]/80 border border-[color:var(--border-color)] transition-all duration-200 flex items-center justify-center"
@@ -445,12 +606,13 @@ export function Nav() {
             >
               Log In
             </a>
+
             <a
               target="blank"
               href="https://portal.1cloudng.com/register"
               onClick={() => handleNavLinkClick("/signup")}
               className="px-3 py-1.5 rounded-full bg-[color:var(--accent)] text-sm font-semibold transition-colors flex items-center gap-1 hover:bg-[color:var(--accent-hover)]"
-              style={{ color: 'white' }}
+              style={{ color: "white" }}
             >
               Sign Up
               <ArrowUpRight size={16} />
@@ -458,6 +620,7 @@ export function Nav() {
           </div>
 
           {/* Mobile Menu Toggle */}
+
           <button
             className="md:hidden ml-auto p-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
             onClick={() => setIsOpen(!isOpen)}
@@ -468,41 +631,54 @@ export function Nav() {
       </div>
 
       {/* Mobile Menu */}
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{
               opacity: 0,
+
               y: -6,
             }}
             animate={{
               opacity: 1,
+
               y: 0,
             }}
             exit={{
               opacity: 0,
+
               y: -6,
             }}
             className="md:hidden mt-2 rounded-2xl border border-[color:var(--border-color)] bg-[color:var(--bg-tertiary)]/90 backdrop-blur-xl shadow-[0_14px_40px_rgba(0,0,0,0.18)] transition-colors duration-300"
           >
             <div className="px-6 py-4 space-y-4">
               {/* Mobile Product Dropdown */}
+
               <div>
                 <button
-                  onClick={() => setMobileDropdown(mobileDropdown === 'product' ? null : 'product')}
+                  onClick={() =>
+                    setMobileDropdown(
+                      mobileDropdown === "product" ? null : "product",
+                    )
+                  }
                   className="w-full flex items-center justify-between py-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
                 >
                   Product
-                  <ChevronDown size={16} className={`transition-transform duration-200 ${mobileDropdown === 'product' ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform duration-200 ${mobileDropdown === "product" ? "rotate-180" : ""}`}
+                  />
                 </button>
+
                 <AnimatePresence>
-                  {mobileDropdown === 'product' && (
+                  {mobileDropdown === "product" && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
+                      animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="pl-4 mt-2 space-y-2 overflow-hidden max-h-60 overflow-y-auto"
+                      className="pl-4 mt-2 space-y-2 overflow-hidden"
                     >
                       {productItems.map((item) => (
                         <Link
@@ -510,6 +686,7 @@ export function Nav() {
                           to={item.path}
                           onClick={() => {
                             handleNavLinkClick(item.path);
+
                             setMobileDropdown(null);
                           }}
                           className="block py-1 text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -523,22 +700,31 @@ export function Nav() {
               </div>
 
               {/* Mobile Solutions Dropdown */}
+
               <div>
                 <button
-                  onClick={() => setMobileDropdown(mobileDropdown === 'solutions' ? null : 'solutions')}
+                  onClick={() =>
+                    setMobileDropdown(
+                      mobileDropdown === "solutions" ? null : "solutions",
+                    )
+                  }
                   className="w-full flex items-center justify-between py-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
                 >
                   Solutions
-                  <ChevronDown size={16} className={`transition-transform duration-200 ${mobileDropdown === 'solutions' ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform duration-200 ${mobileDropdown === "solutions" ? "rotate-180" : ""}`}
+                  />
                 </button>
+
                 <AnimatePresence>
-                  {mobileDropdown === 'solutions' && (
+                  {mobileDropdown === "solutions" && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
+                      animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="pl-4 mt-2 space-y-2 overflow-hidden max-h-60 overflow-y-auto"
+                      className="pl-4 mt-2 space-y-2 overflow-hidden"
                     >
                       {solutionItems.map((item) => (
                         <Link
@@ -546,6 +732,7 @@ export function Nav() {
                           to={item.path}
                           onClick={() => {
                             handleNavLinkClick(item.path);
+
                             setMobileDropdown(null);
                           }}
                           className="block py-1 text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -559,22 +746,31 @@ export function Nav() {
               </div>
 
               {/* Mobile Resources Dropdown */}
+
               <div>
                 <button
-                  onClick={() => setMobileDropdown(mobileDropdown === 'resources' ? null : 'resources')}
+                  onClick={() =>
+                    setMobileDropdown(
+                      mobileDropdown === "resources" ? null : "resources",
+                    )
+                  }
                   className="w-full flex items-center justify-between py-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
                 >
                   Resources
-                  <ChevronDown size={16} className={`transition-transform duration-200 ${mobileDropdown === 'resources' ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform duration-200 ${mobileDropdown === "resources" ? "rotate-180" : ""}`}
+                  />
                 </button>
+
                 <AnimatePresence>
-                  {mobileDropdown === 'resources' && (
+                  {mobileDropdown === "resources" && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
+                      animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="pl-4 mt-2 space-y-2 overflow-hidden max-h-60 overflow-y-auto"
+                      className="pl-4 mt-2 space-y-2 overflow-hidden"
                     >
                       {resourceItems.map((item) => (
                         <Link
@@ -582,6 +778,7 @@ export function Nav() {
                           to={item.path}
                           onClick={() => {
                             handleNavLinkClick(item.path);
+
                             setMobileDropdown(null);
                           }}
                           className="block py-1 text-sm text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -593,6 +790,7 @@ export function Nav() {
                   )}
                 </AnimatePresence>
               </div>
+
               <Link
                 to="/customers"
                 onClick={() => handleNavLinkClick("/customers")}
@@ -600,6 +798,7 @@ export function Nav() {
               >
                 Customers
               </Link>
+
               <Link
                 to="/pricing"
                 onClick={() => handleNavLinkClick("/pricing")}
@@ -607,6 +806,7 @@ export function Nav() {
               >
                 Pricing
               </Link>
+
               <Link
                 to="/contact"
                 onClick={() => handleNavLinkClick("/contact")}
@@ -614,13 +814,21 @@ export function Nav() {
               >
                 Contact
               </Link>
+
               {/* <Link
+
                 to="/docs"
+
                 onClick={() => handleNavLinkClick("/docs")}
+
                 className="block text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+
               >
+
                 Docs
+
               </Link> */}
+
               <div className="pt-4 border-t border-[color:var(--border-color)] flex gap-4">
                 <Link
                   to="/login"
@@ -629,12 +837,12 @@ export function Nav() {
                 >
                   Log In
                 </Link>
-             
+
                 <Link
                   to="/signup"
                   onClick={() => handleNavLinkClick("/signup")}
                   className="flex-1 py-2 rounded bg-[color:var(--accent)] font-bold text-center"
-                  style={{ color: 'white' }}
+                  style={{ color: "white" }}
                 >
                   Sign Up
                 </Link>
@@ -646,19 +854,30 @@ export function Nav() {
     </nav>
   );
 }
+
 function Dropdown({
   title,
+
   id,
+
   activeId,
+
   setActive,
+
   topBadge,
+
   children,
 }: {
   title: string;
+
   id: string;
+
   activeId: string | null;
+
   setActive: (id: string | null) => void;
+
   topBadge?: React.ReactNode;
+
   children: React.ReactNode;
 }) {
   return (
@@ -677,6 +896,7 @@ function Dropdown({
         className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors ${activeId === id ? "text-[color:var(--text-primary)]" : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"}`}
       >
         {title}
+
         <ChevronDown
           size={14}
           className={`transition-transform duration-200 ${activeId === id ? "rotate-180" : ""}`}
@@ -688,14 +908,17 @@ function Dropdown({
           <motion.div
             initial={{
               opacity: 0,
+
               y: 10,
             }}
             animate={{
               opacity: 1,
+
               y: 0,
             }}
             exit={{
               opacity: 0,
+
               y: 10,
             }}
             transition={{
@@ -718,6 +941,7 @@ function DropdownItem({ item, badge, onNavigate }) {
 
   return isExternal ? (
     // External (opens new tab)
+
     <a
       href={item.path}
       target="_blank"
@@ -725,27 +949,36 @@ function DropdownItem({ item, badge, onNavigate }) {
       className="flex items-start gap-3 p-3 rounded-md hover:bg-[rgba(var(--accent-rgb),0.08)] transition-colors group"
     >
       <item.icon size={20} />
+
       <div>
         <div className="font-semibold text-sm flex items-center gap-2">
           {item.name}
+
           {badge}
         </div>
+
         <p className="text-xs mt-1">{item.desc}</p>
       </div>
     </a>
   ) : (
     // Internal (React Router)
+
     <Link
       to={item.path}
       onClick={() => onNavigate?.(item.path)}
       className="flex items-start gap-3 p-3 rounded-md hover:bg-[rgba(var(--accent-rgb),0.08)] transition-colors group"
     >
-      <item.icon size={20} />
+      <div className="flex-shrink-0 w-5 h-5 flex items-center justify-center">
+        <item.icon size={20} />
+      </div>
+
       <div>
         <div className="font-semibold text-sm flex items-center gap-2">
           {item.name}
+
           {badge}
         </div>
+
         <p className="text-xs mt-1">{item.desc}</p>
       </div>
     </Link>
